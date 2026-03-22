@@ -86,7 +86,7 @@ export function AgentLabels({
             style={{
               position: 'absolute',
               left: screenX,
-              top: screenY - 16,
+              top: screenY - 22,
               transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',

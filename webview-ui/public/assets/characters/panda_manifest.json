@@ -1,0 +1,492 @@
+[
+  {
+    "index": 0,
+    "filename": "char_0.png",
+    "fur": "classic",
+    "accessory": "none",
+    "band": "black"
+  },
+  {
+    "index": 1,
+    "filename": "char_1.png",
+    "fur": "classic",
+    "accessory": "none",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 2,
+    "filename": "char_2.png",
+    "fur": "classic",
+    "accessory": "none",
+    "band": "green_scarf"
+  },
+  {
+    "index": 3,
+    "filename": "char_3.png",
+    "fur": "classic",
+    "accessory": "none",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 4,
+    "filename": "char_4.png",
+    "fur": "classic",
+    "accessory": "none",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 5,
+    "filename": "char_5.png",
+    "fur": "classic",
+    "accessory": "sprout",
+    "band": "black"
+  },
+  {
+    "index": 6,
+    "filename": "char_6.png",
+    "fur": "classic",
+    "accessory": "sprout",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 7,
+    "filename": "char_7.png",
+    "fur": "classic",
+    "accessory": "sprout",
+    "band": "green_scarf"
+  },
+  {
+    "index": 8,
+    "filename": "char_8.png",
+    "fur": "classic",
+    "accessory": "sprout",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 9,
+    "filename": "char_9.png",
+    "fur": "classic",
+    "accessory": "sprout",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 10,
+    "filename": "char_10.png",
+    "fur": "classic",
+    "accessory": "bow_red",
+    "band": "black"
+  },
+  {
+    "index": 11,
+    "filename": "char_11.png",
+    "fur": "classic",
+    "accessory": "bow_red",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 12,
+    "filename": "char_12.png",
+    "fur": "classic",
+    "accessory": "bow_red",
+    "band": "green_scarf"
+  },
+  {
+    "index": 13,
+    "filename": "char_13.png",
+    "fur": "classic",
+    "accessory": "bow_red",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 14,
+    "filename": "char_14.png",
+    "fur": "classic",
+    "accessory": "bow_red",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 15,
+    "filename": "char_15.png",
+    "fur": "classic",
+    "accessory": "bow_blue",
+    "band": "black"
+  },
+  {
+    "index": 16,
+    "filename": "char_16.png",
+    "fur": "classic",
+    "accessory": "bow_blue",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 17,
+    "filename": "char_17.png",
+    "fur": "classic",
+    "accessory": "bow_blue",
+    "band": "green_scarf"
+  },
+  {
+    "index": 18,
+    "filename": "char_18.png",
+    "fur": "classic",
+    "accessory": "bow_blue",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 19,
+    "filename": "char_19.png",
+    "fur": "classic",
+    "accessory": "bow_blue",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 20,
+    "filename": "char_20.png",
+    "fur": "classic",
+    "accessory": "bow_pink",
+    "band": "black"
+  },
+  {
+    "index": 21,
+    "filename": "char_21.png",
+    "fur": "classic",
+    "accessory": "bow_pink",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 22,
+    "filename": "char_22.png",
+    "fur": "classic",
+    "accessory": "bow_pink",
+    "band": "green_scarf"
+  },
+  {
+    "index": 23,
+    "filename": "char_23.png",
+    "fur": "classic",
+    "accessory": "bow_pink",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 24,
+    "filename": "char_24.png",
+    "fur": "classic",
+    "accessory": "bow_pink",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 25,
+    "filename": "char_25.png",
+    "fur": "classic",
+    "accessory": "bow_purple",
+    "band": "black"
+  },
+  {
+    "index": 26,
+    "filename": "char_26.png",
+    "fur": "classic",
+    "accessory": "bow_purple",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 27,
+    "filename": "char_27.png",
+    "fur": "classic",
+    "accessory": "bow_purple",
+    "band": "green_scarf"
+  },
+  {
+    "index": 28,
+    "filename": "char_28.png",
+    "fur": "classic",
+    "accessory": "bow_purple",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 29,
+    "filename": "char_29.png",
+    "fur": "classic",
+    "accessory": "bow_purple",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 30,
+    "filename": "char_30.png",
+    "fur": "classic",
+    "accessory": "bow_gold",
+    "band": "black"
+  },
+  {
+    "index": 31,
+    "filename": "char_31.png",
+    "fur": "classic",
+    "accessory": "bow_gold",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 32,
+    "filename": "char_32.png",
+    "fur": "classic",
+    "accessory": "bow_gold",
+    "band": "green_scarf"
+  },
+  {
+    "index": 33,
+    "filename": "char_33.png",
+    "fur": "classic",
+    "accessory": "bow_gold",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 34,
+    "filename": "char_34.png",
+    "fur": "classic",
+    "accessory": "bow_gold",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 35,
+    "filename": "char_35.png",
+    "fur": "brown",
+    "accessory": "none",
+    "band": "black"
+  },
+  {
+    "index": 36,
+    "filename": "char_36.png",
+    "fur": "brown",
+    "accessory": "none",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 37,
+    "filename": "char_37.png",
+    "fur": "brown",
+    "accessory": "none",
+    "band": "green_scarf"
+  },
+  {
+    "index": 38,
+    "filename": "char_38.png",
+    "fur": "brown",
+    "accessory": "none",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 39,
+    "filename": "char_39.png",
+    "fur": "brown",
+    "accessory": "none",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 40,
+    "filename": "char_40.png",
+    "fur": "brown",
+    "accessory": "sprout",
+    "band": "black"
+  },
+  {
+    "index": 41,
+    "filename": "char_41.png",
+    "fur": "brown",
+    "accessory": "sprout",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 42,
+    "filename": "char_42.png",
+    "fur": "brown",
+    "accessory": "sprout",
+    "band": "green_scarf"
+  },
+  {
+    "index": 43,
+    "filename": "char_43.png",
+    "fur": "brown",
+    "accessory": "sprout",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 44,
+    "filename": "char_44.png",
+    "fur": "brown",
+    "accessory": "sprout",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 45,
+    "filename": "char_45.png",
+    "fur": "brown",
+    "accessory": "bow_red",
+    "band": "black"
+  },
+  {
+    "index": 46,
+    "filename": "char_46.png",
+    "fur": "brown",
+    "accessory": "bow_red",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 47,
+    "filename": "char_47.png",
+    "fur": "brown",
+    "accessory": "bow_red",
+    "band": "green_scarf"
+  },
+  {
+    "index": 48,
+    "filename": "char_48.png",
+    "fur": "brown",
+    "accessory": "bow_red",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 49,
+    "filename": "char_49.png",
+    "fur": "brown",
+    "accessory": "bow_red",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 50,
+    "filename": "char_50.png",
+    "fur": "brown",
+    "accessory": "bow_blue",
+    "band": "black"
+  },
+  {
+    "index": 51,
+    "filename": "char_51.png",
+    "fur": "brown",
+    "accessory": "bow_blue",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 52,
+    "filename": "char_52.png",
+    "fur": "brown",
+    "accessory": "bow_blue",
+    "band": "green_scarf"
+  },
+  {
+    "index": 53,
+    "filename": "char_53.png",
+    "fur": "brown",
+    "accessory": "bow_blue",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 54,
+    "filename": "char_54.png",
+    "fur": "brown",
+    "accessory": "bow_blue",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 55,
+    "filename": "char_55.png",
+    "fur": "brown",
+    "accessory": "bow_pink",
+    "band": "black"
+  },
+  {
+    "index": 56,
+    "filename": "char_56.png",
+    "fur": "brown",
+    "accessory": "bow_pink",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 57,
+    "filename": "char_57.png",
+    "fur": "brown",
+    "accessory": "bow_pink",
+    "band": "green_scarf"
+  },
+  {
+    "index": 58,
+    "filename": "char_58.png",
+    "fur": "brown",
+    "accessory": "bow_pink",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 59,
+    "filename": "char_59.png",
+    "fur": "brown",
+    "accessory": "bow_pink",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 60,
+    "filename": "char_60.png",
+    "fur": "brown",
+    "accessory": "bow_purple",
+    "band": "black"
+  },
+  {
+    "index": 61,
+    "filename": "char_61.png",
+    "fur": "brown",
+    "accessory": "bow_purple",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 62,
+    "filename": "char_62.png",
+    "fur": "brown",
+    "accessory": "bow_purple",
+    "band": "green_scarf"
+  },
+  {
+    "index": 63,
+    "filename": "char_63.png",
+    "fur": "brown",
+    "accessory": "bow_purple",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 64,
+    "filename": "char_64.png",
+    "fur": "brown",
+    "accessory": "bow_purple",
+    "band": "gold_scarf"
+  },
+  {
+    "index": 65,
+    "filename": "char_65.png",
+    "fur": "brown",
+    "accessory": "bow_gold",
+    "band": "black"
+  },
+  {
+    "index": 66,
+    "filename": "char_66.png",
+    "fur": "brown",
+    "accessory": "bow_gold",
+    "band": "blue_scarf"
+  },
+  {
+    "index": 67,
+    "filename": "char_67.png",
+    "fur": "brown",
+    "accessory": "bow_gold",
+    "band": "green_scarf"
+  },
+  {
+    "index": 68,
+    "filename": "char_68.png",
+    "fur": "brown",
+    "accessory": "bow_gold",
+    "band": "purple_scarf"
+  },
+  {
+    "index": 69,
+    "filename": "char_69.png",
+    "fur": "brown",
+    "accessory": "bow_gold",
+    "band": "gold_scarf"
+  }
+]

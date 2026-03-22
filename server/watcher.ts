@@ -7,6 +7,7 @@ import { EventEmitter } from "events";
 const CLAUDE_PROJECTS_DIR = join(homedir(), ".claude", "projects");
 const ACTIVE_THRESHOLD_MS = 600_000; // 10 minutes — Claude can think for 5+ min without writing
 const POLL_INTERVAL_MS = 1000;
+const RESCAN_INTERVAL_MS = 10_000; // re-scan directories every 10s for untracked active files
 
 export interface WatchedFile {
   path: string;
@@ -20,6 +21,7 @@ export class JsonlWatcher extends EventEmitter {
   private files = new Map<string, WatchedFile>();
   private watcher: ReturnType<typeof watch> | null = null;
   private pollInterval: ReturnType<typeof setInterval> | null = null;
+  private lastScanTime = 0;
 
   start(): void {
     this.scanForActiveFiles();
@@ -108,6 +110,12 @@ export class JsonlWatcher extends EventEmitter {
         this.files.delete(path);
         this.emit("fileRemoved", file);
       }
+    }
+
+    // Periodic re-scan for untracked active files (e.g. pre-existing sessions)
+    if (Date.now() - this.lastScanTime > RESCAN_INTERVAL_MS) {
+      this.lastScanTime = Date.now();
+      this.scanForActiveFiles();
     }
   }
 
