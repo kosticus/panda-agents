@@ -120,7 +120,11 @@ export function useExtensionMessages(
         const label = (msg.label as string | undefined) || folderName || 'Subtask'
         if (isSubagent && parentId != null) {
           // Create as sub-agent character (transparent, linked to parent)
-          os.addAgent(id, undefined, undefined, undefined, undefined, label)
+          // Inherit parent's palette/hueShift so they look related
+          const parentCh = os.characters.get(parentId)
+          const palette = parentCh?.palette
+          const hueShift = parentCh?.hueShift
+          os.addAgent(id, palette, hueShift, undefined, undefined, label)
           const ch = os.characters.get(id)
           if (ch) ch.isSubagent = true
           setSubagentCharacters((prev) => {
@@ -156,9 +160,9 @@ export function useExtensionMessages(
           delete next[id]
           return next
         })
-        // Remove all sub-agent characters belonging to this agent
+        // Remove all sub-agent characters belonging to this agent, and the agent itself if it's a sub-agent
         os.removeAllSubagents(id)
-        setSubagentCharacters((prev) => prev.filter((s) => s.parentAgentId !== id))
+        setSubagentCharacters((prev) => prev.filter((s) => s.parentAgentId !== id && s.id !== id))
         os.removeAgent(id)
       } else if (msg.type === 'existingAgents') {
         const incoming = msg.agents as number[]
@@ -196,15 +200,6 @@ export function useExtensionMessages(
         if (status === 'Waiting for your answer') {
           os.showWaitingBubble(id)
         }
-        // Create sub-agent character for Task tool subtasks
-        if (status.startsWith('Subtask:')) {
-          const label = status.slice('Subtask:'.length).trim()
-          const subId = os.addSubagent(id, toolId)
-          setSubagentCharacters((prev) => {
-            if (prev.some((s) => s.id === subId)) return prev
-            return [...prev, { id: subId, parentAgentId: id, parentToolId: toolId, label }]
-          })
-        }
       } else if (msg.type === 'agentToolDone') {
         const id = msg.id as number
         const toolId = msg.toolId as string
@@ -230,9 +225,6 @@ export function useExtensionMessages(
           delete next[id]
           return next
         })
-        // Remove all sub-agent characters belonging to this agent
-        os.removeAllSubagents(id)
-        setSubagentCharacters((prev) => prev.filter((s) => s.parentAgentId !== id))
         os.setAgentTool(id, null)
         os.clearPermissionBubble(id)
       } else if (msg.type === 'agentSelected') {

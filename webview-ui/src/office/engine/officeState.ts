@@ -251,12 +251,13 @@ export class OfficeState {
     const ch = this.characters.get(id)
     if (!ch) return
     if (ch.matrixEffect === 'despawn') return // already despawning
-    // Free seat and clear selection immediately
+    // Free seat and clear selection/hover immediately
     if (ch.seatId) {
       const seat = this.seats.get(ch.seatId)
       if (seat) seat.assigned = false
     }
     if (this.selectedAgentId === id) this.selectedAgentId = null
+    if (this.hoveredAgentId === id) this.hoveredAgentId = null
     if (this.cameraFollowId === id) this.cameraFollowId = null
     // Start despawn animation instead of immediate delete
     ch.matrixEffect = 'despawn'
@@ -451,6 +452,7 @@ export class OfficeState {
     this.subagentIdMap.delete(key)
     this.subagentMeta.delete(id)
     if (this.selectedAgentId === id) this.selectedAgentId = null
+    if (this.hoveredAgentId === id) this.hoveredAgentId = null
     if (this.cameraFollowId === id) this.cameraFollowId = null
   }
 

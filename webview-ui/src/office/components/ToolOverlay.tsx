@@ -111,7 +111,7 @@ export function ToolOverlay({
         const screenY = (deviceOffsetY + (ch.y + sittingOffset - TOOL_OVERLAY_VERTICAL_OFFSET) * zoom) / dpr
 
         // Always show name label; show activity details on hover/select
-        const displayName = ch.folderName || (isSub ? 'Subtask' : `Agent #${id}`)
+        const displayName = isSub ? 'Sub-agent' : (ch.folderName || `Agent #${id}`)
 
         // Check for attention-needed states (always visible, not just on hover)
         const tools = agentTools[id]
@@ -131,10 +131,16 @@ export function ToolOverlay({
           } else if (isWaitingForInput) {
             activityText = 'Waiting for you'
           } else if (childNeedsAttention) {
-            activityText = 'Subtask needs approval'
+            activityText = 'Sub-agent needs approval'
           } else if (isSub) {
-            const sub = subagentCharacters.find((s) => s.id === id)
-            activityText = sub ? sub.label : 'Subtask'
+            // Show tool activity if available, otherwise fall back to label
+            const subActivity = getActivityText(id, agentTools, ch.isActive)
+            if (subActivity !== 'Idle') {
+              activityText = subActivity
+            } else {
+              const sub = subagentCharacters.find((s) => s.id === id)
+              activityText = sub ? sub.label : 'Sub-agent'
+            }
           } else {
             activityText = getActivityText(id, agentTools, ch.isActive)
           }

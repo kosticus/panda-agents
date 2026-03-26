@@ -204,7 +204,7 @@ function sendInitialData(ws: WebSocket): void {
     const hasQuestionTool = [...a.activeToolNames.values()].includes("AskUserQuestion");
     if (a.isWaiting && !hasQuestionTool) {
       ws.send(JSON.stringify({ type: "agentStatus", id: a.id, status: "waiting" }));
-    } else if (a.activeTools.size > 0 && !hasQuestionTool) {
+    } else if (!a.isWaiting && !hasQuestionTool) {
       ws.send(JSON.stringify({ type: "agentStatus", id: a.id, status: "active" }));
     }
 

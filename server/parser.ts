@@ -214,7 +214,10 @@ function handleAssistantMessage(
       }
     }
     if (hasNonExemptTool) {
-      agent.permissionSent = false;
+      if (agent.permissionSent) {
+        agent.permissionSent = false;
+        emit({ type: "agentToolPermissionClear", id: agent.id });
+      }
       startPermissionTimer(agent, emit);
     }
     startIdleTimeout(agent, emit);
@@ -321,9 +324,22 @@ function handleSystemMessage(
       }
     }
 
-    agent.permissionSent = false;
+    if (agent.permissionSent) {
+      agent.permissionSent = false;
+      emit({ type: "agentToolPermissionClear", id: agent.id });
+    }
     agent.hadToolsInTurn = false;
-    if (hasLongRunning) {
+
+    // If the last assistant text ended with a question mark, the agent is waiting for user input
+    // Check this regardless of long-running tools — the agent asked a question either way
+    if (agent.lastAssistantText.endsWith("?")) {
+      agent.isWaiting = true;
+      agent.activity = "waiting";
+      const syntheticToolId = `question-${Date.now()}`;
+      agent.activeTools.set(syntheticToolId, { toolId: syntheticToolId, toolName: "AskUserQuestion", status: "Waiting for your answer" });
+      agent.activeToolNames.set(syntheticToolId, "AskUserQuestion");
+      emit({ type: "agentToolStart", id: agent.id, toolId: syntheticToolId, status: "Waiting for your answer" });
+    } else if (hasLongRunning) {
       // Still active — Agent/Task tools running in background
       agent.isWaiting = false;
       agent.activity = "typing";
@@ -332,14 +348,6 @@ function handleSystemMessage(
       agent.isWaiting = true;
       agent.activity = "waiting";
       emit({ type: "agentStatus", id: agent.id, status: "waiting" });
-
-      // If the last assistant text ended with a question mark, signal explicit waiting
-      if (agent.lastAssistantText.endsWith("?")) {
-        const syntheticToolId = `question-${Date.now()}`;
-        agent.activeTools.set(syntheticToolId, { toolId: syntheticToolId, toolName: "AskUserQuestion", status: "Waiting for your answer" });
-        agent.activeToolNames.set(syntheticToolId, "AskUserQuestion");
-        emit({ type: "agentToolStart", id: agent.id, toolId: syntheticToolId, status: "Waiting for your answer" });
-      }
     }
   }
 }
