@@ -17,3 +17,11 @@ sd-office/
 pixel-agents-current.png
 *.HEIC
 *.MOV
+
+# Sprite iteration/preview artifacts
+webview-ui/public/assets/characters/panda_preview*.png
+webview-ui/public/assets/characters/panda_variants*.png
+webview-ui/public/assets/characters/panda_accessories*.png
+webview-ui/public/assets/characters/panda_anim_check*.png
+webview-ui/public/assets/characters/panda_multiview*.png
+webview-ui/public/assets/characters/panda_spotcheck*.png

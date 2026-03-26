@@ -536,8 +536,9 @@ function generateSheet({ furMap, accType, bowColor, bandChar }) {
   const downWalk1 = pad32([...dnH, ...rc(DN_FACE), ...bandRc(DN_BAND), ...rc(DN_BODY), ...rc(DN_WALK1_LEGS)]);
   const downWalk2 = pad32([...dnH, ...rc(DN_FACE), ...bandRc(DN_BAND), ...rc(DN_BODY), ...rc(DN_LEGS_IDLE)]);
   const downWalk3 = pad32([...dnH, ...rc(DN_FACE), ...bandRc(DN_BAND), ...rc(DN_BODY), ...rc(DN_WALK3_LEGS)]);
+  const dnHType2 = makeHeader(DN_EARS_HEAD, DN_SPROUT, DN_BOW, 2); // +2 for head bob down
   const downType1 = pad32([...dnHType, ...rc(DN_FACE), ...bandRc(DN_BAND), ...rc(DN_TYPE1_BODY)]);
-  const downType2 = downType1; // static seated pose
+  const downType2 = pad32([...dnHType2, ...rc(DN_FACE), ...bandRc(DN_BAND), ...rc(DN_TYPE1_BODY)]); // head dips 1px
   // Sleeping: standing idle + floating "z" (two positions for bobbing)
   const dnSleep = pad32([...dnH, ...rc(DN_FACE_SLEEP), ...bandRc(DN_BAND), ...rc(DN_BODY), ...rc(DN_LEGS_IDLE)]);
   const downRead1 = stampZ(dnSleep, 1, 12);   // Z high
@@ -552,8 +553,9 @@ function generateSheet({ furMap, accType, bowColor, bandChar }) {
   const upWalk1 = pad32([...upH, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_BODY), ...rc(UP_WALK1_LEGS)]);
   const upWalk2 = pad32([...upH, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_BODY), ...rc(UP_LEGS_IDLE)]);
   const upWalk3 = pad32([...upH, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_BODY), ...rc(UP_WALK3_LEGS)]);
+  const upHType2 = makeHeader(UP_EARS_HEAD, UP_SPROUT, UP_BOW, 2);
   const upType1 = pad32([...upHType, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_TYPE_BODY)]);
-  const upType2 = upType1; // static seated pose
+  const upType2 = pad32([...upHType2, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_TYPE_BODY)]);
   const upIdle = pad32([...upH, ...rc(UP_BACK_HEAD), ...bandRc(UP_BAND), ...rc(UP_BODY), ...rc(UP_LEGS_IDLE)]);
   const upRead1 = stampZ(upIdle, 1, 12);
   const upRead2 = stampZ(upIdle, 3, 12);
@@ -568,8 +570,9 @@ function generateSheet({ furMap, accType, bowColor, bandChar }) {
   const rightWalk1 = pad32([...rtH, ...rc(RT_FACE), ...bandRc(RT_BAND), ...rc(RT_BODY), ...rc(RT_WALK1_LEGS)]);
   const rightWalk2 = pad32([...rtH, ...rc(RT_FACE), ...bandRc(RT_BAND), ...rc(RT_BODY), ...rc(RT_LEGS_IDLE)]);
   const rightWalk3 = pad32([...rtH, ...rc(RT_FACE), ...bandRc(RT_BAND), ...rc(RT_BODY), ...rc(RT_WALK3_LEGS)]);
+  const rtHType2 = makeHeader(RT_EAR_HEAD, RT_SPROUT, RT_BOW, 4); // 3+1 for head bob
   const rightType1 = pad32([...rtHType, ...rc(RT_FACE), ...bandRc(RT_BAND), ...rc(RT_TYPE1_BODY)]);
-  const rightType2 = rightType1; // static seated pose
+  const rightType2 = pad32([...rtHType2, ...rc(RT_FACE), ...bandRc(RT_BAND), ...rc(RT_TYPE1_BODY)]);
   const rtSleep = pad32([...rtH, ...rc(RT_FACE_SLEEP), ...bandRc(RT_BAND), ...rc(RT_BODY), ...rc(RT_LEGS_IDLE)]);
   const rightRead1 = stampZ(rtSleep, 1, 12);
   const rightRead2 = stampZ(rtSleep, 3, 12);
