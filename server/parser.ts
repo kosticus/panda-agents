@@ -2,7 +2,7 @@ import * as path from "path";
 import type { TrackedAgent, ServerMessage } from "./types.js";
 
 const READING_TOOLS = new Set(["Read", "Grep", "Glob", "WebFetch", "WebSearch"]);
-const PERMISSION_EXEMPT_TOOLS = new Set(["Task", "AskUserQuestion"]);
+const PERMISSION_EXEMPT_TOOLS = new Set(["Task", "AskUserQuestion", "Agent"]);
 const PERMISSION_TIMER_DELAY_MS = 7000;
 const TEXT_IDLE_DELAY_MS = 5000;
 const TOOL_DONE_DELAY_MS = 300;
@@ -36,7 +36,8 @@ function formatToolStatus(toolName: string, input: Record<string, unknown>): str
       return "Fetching web content";
     case "WebSearch":
       return "Searching the web";
-    case "Task": {
+    case "Task":
+    case "Agent": {
       const desc = typeof input.description === "string" ? input.description : "";
       return desc
         ? `Subtask: ${desc.length > TASK_DESCRIPTION_DISPLAY_MAX_LENGTH ? desc.slice(0, TASK_DESCRIPTION_DISPLAY_MAX_LENGTH) + "\u2026" : desc}`
@@ -77,6 +78,8 @@ function startWaitingTimer(
   );
 }
 
+const LONG_RUNNING_TOOLS = new Set(["Agent", "Task"]);
+
 function startIdleTimeout(
   agent: TrackedAgent,
   emit: (msg: ServerMessage) => void,
@@ -86,6 +89,10 @@ function startIdleTimeout(
     agent.id,
     setTimeout(() => {
       idleTimeoutTimers.delete(agent.id);
+      // Don't go idle while long-running tools (Agent, Task) are still active
+      for (const [, toolName] of agent.activeToolNames) {
+        if (LONG_RUNNING_TOOLS.has(toolName)) return;
+      }
       if (agent.activity !== "idle" && agent.activity !== "waiting") {
         clearAgentActivity(agent, emit);
         agent.isWaiting = true;
@@ -169,6 +176,12 @@ function handleAssistantMessage(
 
   const content = message.content as Array<Record<string, unknown>>;
   if (!Array.isArray(content)) return;
+
+  // Capture last text block for question detection at turn end
+  const textBlocks = content.filter((b) => b.type === "text" && typeof b.text === "string");
+  if (textBlocks.length > 0) {
+    agent.lastAssistantText = (textBlocks[textBlocks.length - 1].text as string).trim();
+  }
 
   const hasToolUse = content.some((b) => b.type === "tool_use");
 
@@ -280,19 +293,54 @@ function handleSystemMessage(
     cancelTimer(agent.id, permissionTimers);
     cancelTimer(agent.id, idleTimeoutTimers);
 
+    // Preserve long-running tools (Agent, Task) that haven't received results yet
+    let hasLongRunning = false;
     if (agent.activeTools.size > 0) {
+      const toKeep = new Map<string, typeof agent.activeTools extends Map<string, infer V> ? V : never>();
+      const toKeepNames = new Map<string, string>();
+      for (const [toolId, tool] of agent.activeTools) {
+        const toolName = agent.activeToolNames.get(toolId);
+        if (toolName && LONG_RUNNING_TOOLS.has(toolName)) {
+          toKeep.set(toolId, tool);
+          toKeepNames.set(toolId, toolName);
+          hasLongRunning = true;
+        } else {
+          emit({ type: "agentToolDone", id: agent.id, toolId });
+        }
+      }
+      // Clear short-lived tools, keep long-running ones
       agent.activeTools.clear();
       agent.activeToolNames.clear();
-      agent.activeSubagentToolIds.clear();
-      agent.activeSubagentToolNames.clear();
-      emit({ type: "agentToolsClear", id: agent.id });
+      for (const [k, v] of toKeep) agent.activeTools.set(k, v);
+      for (const [k, v] of toKeepNames) agent.activeToolNames.set(k, v);
+
+      if (!hasLongRunning) {
+        agent.activeSubagentToolIds.clear();
+        agent.activeSubagentToolNames.clear();
+        emit({ type: "agentToolsClear", id: agent.id });
+      }
     }
 
-    agent.isWaiting = true;
     agent.permissionSent = false;
     agent.hadToolsInTurn = false;
-    agent.activity = "waiting";
-    emit({ type: "agentStatus", id: agent.id, status: "waiting" });
+    if (hasLongRunning) {
+      // Still active — Agent/Task tools running in background
+      agent.isWaiting = false;
+      agent.activity = "typing";
+      emit({ type: "agentStatus", id: agent.id, status: "active" });
+    } else {
+      agent.isWaiting = true;
+      agent.activity = "waiting";
+      emit({ type: "agentStatus", id: agent.id, status: "waiting" });
+
+      // If the last assistant text ended with a question mark, signal explicit waiting
+      if (agent.lastAssistantText.endsWith("?")) {
+        const syntheticToolId = `question-${Date.now()}`;
+        agent.activeTools.set(syntheticToolId, { toolId: syntheticToolId, toolName: "AskUserQuestion", status: "Waiting for your answer" });
+        agent.activeToolNames.set(syntheticToolId, "AskUserQuestion");
+        emit({ type: "agentToolStart", id: agent.id, toolId: syntheticToolId, status: "Waiting for your answer" });
+      }
+    }
   }
 }
 
@@ -317,8 +365,9 @@ function handleProgressMessage(
     return;
   }
 
-  // Only handle subagent progress for Task tools
-  if (agent.activeToolNames.get(parentToolId) !== "Task") return;
+  // Only handle subagent progress for Task and Agent tools
+  const parentToolName = agent.activeToolNames.get(parentToolId);
+  if (parentToolName !== "Task" && parentToolName !== "Agent") return;
 
   const msg = data.message as Record<string, unknown> | undefined;
   if (!msg) return;

@@ -498,6 +498,10 @@ export class OfficeState {
     const ch = this.characters.get(id)
     if (ch) {
       ch.isActive = active
+      if (active && ch.bubbleType === 'waiting') {
+        ch.bubbleType = null
+        ch.bubbleTimer = 0
+      }
       if (!active) {
         // Sentinel -1: signals turn just ended, skip next seat rest timer.
         // Prevents the WALK handler from setting a 2-4 min rest on arrival.
@@ -638,14 +642,8 @@ export class OfficeState {
         updateCharacter(ch, dt, this.walkableTiles, this.seats, this.tileMap, this.blockedTiles)
       )
 
-      // Tick bubble timer for waiting bubbles
-      if (ch.bubbleType === 'waiting') {
-        ch.bubbleTimer -= dt
-        if (ch.bubbleTimer <= 0) {
-          ch.bubbleType = null
-          ch.bubbleTimer = 0
-        }
-      }
+      // Waiting bubbles persist until explicitly cleared (no auto-expire)
+      // Permission bubbles also persist until cleared
     }
     // Remove characters that finished despawn
     for (const id of toDelete) {

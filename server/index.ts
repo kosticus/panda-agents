@@ -77,8 +77,14 @@ const persistedSeats = loadPersistedSeats();
 
 // Express app
 const app = express();
-// Serve production build
-app.use(express.static(join(__dirname, "public")));
+// Serve production build — no cache on HTML so new JS bundles load immediately
+app.use(express.static(join(__dirname, "public"), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith(".html")) {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    }
+  },
+}));
 
 const server = createServer(app);
 
@@ -138,12 +144,14 @@ function sendInitialData(ws: WebSocket): void {
     );
   }
 
-  // Send existing agents with persisted seat metadata
+  // Send existing agents with persisted seat metadata (exclude sub-agents from main list)
   const agentList = Array.from(agents.values());
-  const agentIds = agentList.map((a) => a.id);
+  const mainAgents = agentList.filter((a) => !a.isSubagent);
+  const subAgents = agentList.filter((a) => a.isSubagent);
+  const agentIds = mainAgents.map((a) => a.id);
   const folderNames: Record<number, string> = {};
   const agentMeta: Record<number, { palette?: number; hueShift?: number; seatId?: string }> = {};
-  for (const a of agentList) {
+  for (const a of mainAgents) {
     folderNames[a.id] = a.projectName;
     if (persistedSeats?.[a.id]) {
       const s = persistedSeats[a.id];
@@ -158,6 +166,52 @@ function sendInitialData(ws: WebSocket): void {
   } else {
     // Send null layout to trigger default layout creation in the UI
     ws.send(JSON.stringify({ type: "layoutLoaded", layout: null, version: 0 }));
+  }
+
+  // Send sub-agents as individual agentCreated messages (after layout so client is ready)
+  for (const sub of subAgents) {
+    const parent = sub.parentSessionId ? agents.get(sub.parentSessionId) : null;
+    ws.send(JSON.stringify({
+      type: "agentCreated",
+      id: sub.id,
+      folderName: sub.projectName,
+      isSubagent: true,
+      parentId: parent?.id,
+      label: sub.subagentLabel || undefined,
+    }));
+  }
+
+  // Replay current agent state so the client starts with accurate animations
+  for (const a of [...mainAgents, ...subAgents]) {
+    // Send active tools
+    for (const [toolId, tool] of a.activeTools) {
+      ws.send(JSON.stringify({ type: "agentToolStart", id: a.id, toolId, status: tool.status }));
+
+      // Send sub-agent tools for this parent tool
+      const subTools = a.activeSubagentToolIds.get(toolId);
+      const subNames = a.activeSubagentToolNames.get(toolId);
+      if (subTools && subNames) {
+        for (const subToolId of subTools) {
+          const subName = subNames.get(subToolId) || "";
+          const subStatus = `Using ${subName}`;
+          ws.send(JSON.stringify({ type: "subagentToolStart", id: a.id, parentToolId: toolId, toolId: subToolId, status: subStatus }));
+        }
+      }
+    }
+
+    // Send current status
+    // Skip "waiting" if there's an active question tool — the toolStart already handles it
+    const hasQuestionTool = [...a.activeToolNames.values()].includes("AskUserQuestion");
+    if (a.isWaiting && !hasQuestionTool) {
+      ws.send(JSON.stringify({ type: "agentStatus", id: a.id, status: "waiting" }));
+    } else if (a.activeTools.size > 0 && !hasQuestionTool) {
+      ws.send(JSON.stringify({ type: "agentStatus", id: a.id, status: "active" }));
+    }
+
+    // Send permission state
+    if (a.permissionSent) {
+      ws.send(JSON.stringify({ type: "agentToolPermission", id: a.id }));
+    }
   }
 }
 
@@ -226,11 +280,22 @@ watcher.on("fileAdded", (file: WatchedFile) => {
     permissionSent: false,
     hadToolsInTurn: false,
     lastActivityTime: Date.now(),
+    lastAssistantText: "",
+    isSubagent: file.isSubagent,
+    parentSessionId: file.parentSessionId,
+    subagentLabel: file.subagentLabel,
   };
 
   agents.set(file.sessionId, agent);
-  broadcast({ type: "agentCreated", id: agent.id, folderName: agent.projectName });
-  console.log(`Agent ${agent.id} joined: ${agent.projectName} (${file.sessionId.slice(0, 8)})`);
+  if (file.isSubagent && file.parentSessionId) {
+    const parent = agents.get(file.parentSessionId);
+    const parentId = parent?.id;
+    broadcast({ type: "agentCreated", id: agent.id, folderName: agent.projectName, isSubagent: true, parentId, label: file.subagentLabel || undefined });
+    console.log(`Agent ${agent.id} joined: ${agent.projectName} (subagent of ${parent?.projectName || file.parentSessionId.slice(0, 8)})`);
+  } else {
+    broadcast({ type: "agentCreated", id: agent.id, folderName: agent.projectName });
+    console.log(`Agent ${agent.id} joined: ${agent.projectName} (${file.sessionId.slice(0, 8)})`);
+  }
 });
 
 watcher.on("fileRemoved", (file: WatchedFile) => {

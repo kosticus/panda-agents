@@ -9,6 +9,7 @@ interface ToolOverlayProps {
   officeState: OfficeState
   agents: number[]
   agentTools: Record<number, ToolActivity[]>
+  agentStatuses: Record<number, string>
   subagentCharacters: SubagentCharacter[]
   containerRef: React.RefObject<HTMLDivElement | null>
   zoom: number
@@ -44,6 +45,7 @@ export function ToolOverlay({
   officeState,
   agents,
   agentTools,
+  agentStatuses,
   subagentCharacters,
   containerRef,
   zoom,
@@ -79,6 +81,19 @@ export function ToolOverlay({
   // All character IDs
   const allIds = [...agents, ...subagentCharacters.map((s) => s.id)]
 
+  // Pre-compute which parent agents have sub-agents needing attention
+  const parentsNeedingAttention = new Set<number>()
+  for (const sub of subagentCharacters) {
+    const subCh = officeState.characters.get(sub.id)
+    if (!subCh) continue
+    const subTools = agentTools[sub.id]
+    const subNeedsPermission = subCh.bubbleType === 'permission' || subTools?.some((t) => t.permissionWait && !t.done)
+    const subWaiting = subTools?.some((t) => !t.done && t.status === 'Waiting for your answer') ?? false
+    if (subNeedsPermission || subWaiting) {
+      parentsNeedingAttention.add(sub.parentAgentId)
+    }
+  }
+
   return (
     <>
       {allIds.map((id) => {
@@ -98,28 +113,36 @@ export function ToolOverlay({
         // Always show name label; show activity details on hover/select
         const displayName = ch.folderName || (isSub ? 'Subtask' : `Agent #${id}`)
 
+        // Check for attention-needed states (always visible, not just on hover)
+        const tools = agentTools[id]
+        const subHasPermission = isSub && ch.bubbleType === 'permission'
+        const hasPermission = subHasPermission || tools?.some((t) => t.permissionWait && !t.done)
+        // Only show ! for explicit AskUserQuestion (not normal turn completion)
+        const isWaitingForInput = tools?.some((t) => !t.done && t.status === 'Waiting for your answer') ?? false
+        // Bubble up: parent shows ! if any of its sub-agents need attention
+        const childNeedsAttention = !isSub && parentsNeedingAttention.has(id)
+
         // Get activity text (only needed when showing details)
         let activityText = ''
         let dotColor: string | null = null
         if (showDetails) {
-          const subHasPermission = isSub && ch.bubbleType === 'permission'
-          if (isSub) {
-            if (subHasPermission) {
-              activityText = 'Needs approval'
-            } else {
-              const sub = subagentCharacters.find((s) => s.id === id)
-              activityText = sub ? sub.label : 'Subtask'
-            }
+          if (hasPermission) {
+            activityText = 'Needs approval'
+          } else if (isWaitingForInput) {
+            activityText = 'Waiting for you'
+          } else if (childNeedsAttention) {
+            activityText = 'Subtask needs approval'
+          } else if (isSub) {
+            const sub = subagentCharacters.find((s) => s.id === id)
+            activityText = sub ? sub.label : 'Subtask'
           } else {
             activityText = getActivityText(id, agentTools, ch.isActive)
           }
 
-          const tools = agentTools[id]
-          const hasPermission = subHasPermission || tools?.some((t) => t.permissionWait && !t.done)
           const hasActiveTools = tools?.some((t) => !t.done)
           const isActive = ch.isActive
 
-          if (hasPermission) {
+          if (hasPermission || isWaitingForInput || childNeedsAttention) {
             dotColor = 'var(--pixel-status-permission)'
           } else if (isActive && hasActiveTools) {
             dotColor = 'var(--pixel-status-active)'
@@ -132,7 +155,7 @@ export function ToolOverlay({
             style={{
               position: 'absolute',
               left: screenX,
-              top: screenY - 24,
+              top: screenY - 16,
               transform: 'translateX(-50%)',
               display: 'flex',
               flexDirection: 'column',
@@ -141,7 +164,23 @@ export function ToolOverlay({
               zIndex: isSelected ? 'var(--pixel-overlay-selected-z)' : 'var(--pixel-overlay-z)',
             }}
           >
-            {showDetails ? (
+            {/* Pulsating exclamation — needs attention (own or child's) */}
+            {(hasPermission || isWaitingForInput || childNeedsAttention) && (
+              <span
+                className="pixel-agents-attention-pulse"
+                style={{
+                  fontSize: '28px',
+                  lineHeight: 1,
+                  color: '#ff3333',
+                  fontWeight: 900,
+                  textShadow: '0 0 6px rgba(255,50,50,0.9), 0 0 12px rgba(255,50,50,0.5)',
+                }}
+              >
+                !
+              </span>
+            )}
+            {/* Details panel — only on hover/select */}
+            {showDetails && (
               <div
                 style={{
                   display: 'flex',
@@ -223,25 +262,6 @@ export function ToolOverlay({
                     ×
                   </button>
                 )}
-              </div>
-            ) : (
-              <div
-                style={{
-                  background: 'var(--pixel-bg)',
-                  border: '1px solid var(--pixel-border)',
-                  padding: '1px 6px',
-                  boxShadow: 'var(--pixel-shadow)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: '16px',
-                    color: 'var(--pixel-text-dim)',
-                  }}
-                >
-                  {displayName}
-                </span>
               </div>
             )}
           </div>

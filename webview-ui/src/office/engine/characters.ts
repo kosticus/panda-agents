@@ -14,6 +14,8 @@ import {
   SEAT_REST_MAX_SEC,
 } from '../../constants.js'
 
+const IDLE_FRAME_DURATION_SEC = 1.0 // slow Z bob
+
 /** Tools that show reading animation instead of typing */
 const READING_TOOLS = new Set(['Read', 'Grep', 'Glob', 'WebFetch', 'WebSearch'])
 
@@ -115,8 +117,11 @@ export function updateCharacter(
     }
 
     case CharacterState.IDLE: {
-      // No idle animation — static pose
-      ch.frame = 0
+      // Slow frame cycling for sleeping Z animation
+      if (ch.frameTimer >= IDLE_FRAME_DURATION_SEC) {
+        ch.frameTimer -= IDLE_FRAME_DURATION_SEC
+        ch.frame = (ch.frame + 1) % 2
+      }
       if (ch.seatTimer < 0) ch.seatTimer = 0 // clear turn-end sentinel
       // If became active, pathfind to seat
       if (ch.isActive) {
@@ -279,11 +284,13 @@ export function updateCharacter(
 
 /** Get the correct sprite frame for a character's current state and direction */
 export function getCharacterSprite(ch: Character, sprites: CharacterSprites): SpriteData {
+  // Waiting for approval/input — static standing pose
+  if (ch.bubbleType === 'permission' || ch.bubbleType === 'waiting') {
+    return sprites.walk[ch.dir][0]
+  }
+
   switch (ch.state) {
     case CharacterState.TYPE:
-      if (isReadingTool(ch.currentTool)) {
-        return sprites.reading[ch.dir][ch.frame % 2]
-      }
       return sprites.typing[ch.dir][ch.frame % 2]
     case CharacterState.WALK:
       return sprites.walk[ch.dir][ch.frame % 4]

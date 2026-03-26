@@ -191,6 +191,16 @@ function App() {
           50% { opacity: 0.3; }
         }
         .pixel-agents-pulse { animation: pixel-agents-pulse ${PULSE_ANIMATION_DURATION_SEC}s ease-in-out infinite; }
+        @keyframes pixel-agents-permission-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.15); }
+        }
+        .pixel-agents-permission-pulse { animation: pixel-agents-permission-pulse 1.5s ease-in-out infinite; }
+        @keyframes pixel-agents-attention-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.3; transform: scale(1.3); }
+        }
+        .pixel-agents-attention-pulse { animation: pixel-agents-attention-pulse 1s ease-in-out infinite; }
       `}</style>
 
       <OfficeCanvas
@@ -289,6 +299,7 @@ function App() {
         officeState={officeState}
         agents={agents}
         agentTools={agentTools}
+        agentStatuses={agentStatuses}
         subagentCharacters={subagentCharacters}
         containerRef={containerRef}
         zoom={editor.zoom}

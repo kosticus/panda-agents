@@ -1,5 +1,5 @@
 import { watch } from "chokidar";
-import { statSync, readdirSync, openSync, readSync, closeSync } from "fs";
+import { statSync, readdirSync, readFileSync, openSync, readSync, closeSync, existsSync } from "fs";
 import { join, basename, dirname } from "path";
 import { homedir } from "os";
 import { EventEmitter } from "events";
@@ -15,6 +15,9 @@ export interface WatchedFile {
   projectName: string;
   offset: number;
   lineBuffer: string;
+  isSubagent: boolean;
+  parentSessionId: string | null;
+  subagentLabel: string | null;
 }
 
 export class JsonlWatcher extends EventEmitter {
@@ -52,13 +55,29 @@ export class JsonlWatcher extends EventEmitter {
         if (!dir.isDirectory()) continue;
         const dirPath = join(CLAUDE_PROJECTS_DIR, dir.name);
         try {
-          const files = readdirSync(dirPath);
-          for (const f of files) {
-            if (!f.endsWith(".jsonl")) continue;
-            const filePath = join(dirPath, f);
-            const stat = statSync(filePath);
-            if (Date.now() - stat.mtimeMs < ACTIVE_THRESHOLD_MS) {
-              this.addFile(filePath);
+          const entries = readdirSync(dirPath, { withFileTypes: true });
+          for (const entry of entries) {
+            if (entry.isFile() && entry.name.endsWith(".jsonl")) {
+              const filePath = join(dirPath, entry.name);
+              const stat = statSync(filePath);
+              if (Date.now() - stat.mtimeMs < ACTIVE_THRESHOLD_MS) {
+                this.addFile(filePath);
+              }
+            }
+            // Scan subagents directories inside session dirs
+            if (entry.isDirectory()) {
+              const subagentsDir = join(dirPath, entry.name, "subagents");
+              try {
+                const subFiles = readdirSync(subagentsDir);
+                for (const sf of subFiles) {
+                  if (!sf.endsWith(".jsonl")) continue;
+                  const subPath = join(subagentsDir, sf);
+                  const stat = statSync(subPath);
+                  if (Date.now() - stat.mtimeMs < ACTIVE_THRESHOLD_MS) {
+                    this.addFile(subPath);
+                  }
+                }
+              } catch { /* no subagents dir */ }
             }
           }
         } catch {
@@ -74,10 +93,31 @@ export class JsonlWatcher extends EventEmitter {
     if (this.files.has(filePath)) return;
 
     const sessionId = basename(filePath, ".jsonl");
-    const projectDirName = basename(dirname(filePath));
-    // Extract short project name: "-Users-alice-Documents-myproject-657" -> "657"
-    const parts = projectDirName.split("-").filter(Boolean);
-    const projectName = parts[parts.length - 1] || sessionId.slice(0, 8);
+    const parentDir = basename(dirname(filePath));
+    const isSubagent = parentDir === "subagents";
+
+    let projectName: string;
+    let parentSessionId: string | null = null;
+    let subagentLabel: string | null = null;
+
+    if (isSubagent) {
+      // Path: <projects>/<project>/<parentSessionId>/subagents/<agentId>.jsonl
+      parentSessionId = basename(dirname(dirname(filePath)));
+      // Read description from meta.json
+      const metaPath = filePath.replace(".jsonl", ".meta.json");
+      try {
+        if (existsSync(metaPath)) {
+          const meta = JSON.parse(readFileSync(metaPath, "utf-8"));
+          subagentLabel = meta.description || null;
+        }
+      } catch { /* ignore */ }
+      projectName = subagentLabel || sessionId.slice(0, 8);
+    } else {
+      const projectDirName = basename(dirname(filePath));
+      // Extract short project name: "-Users-alice-Documents-myproject-657" -> "657"
+      const parts = projectDirName.split("-").filter(Boolean);
+      projectName = parts[parts.length - 1] || sessionId.slice(0, 8);
+    }
 
     const file: WatchedFile = {
       path: filePath,
@@ -85,6 +125,9 @@ export class JsonlWatcher extends EventEmitter {
       projectName,
       offset: 0,
       lineBuffer: "",
+      isSubagent,
+      parentSessionId,
+      subagentLabel,
     };
 
     this.files.set(filePath, file);

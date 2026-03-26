@@ -26,12 +26,16 @@ export interface TrackedAgent {
   permissionSent: boolean;
   hadToolsInTurn: boolean;
   lastActivityTime: number;
+  lastAssistantText: string;
+  isSubagent: boolean;
+  parentSessionId: string | null;
+  subagentLabel: string | null;
 }
 
 // Messages sent from server to client via WebSocket
 // Must match the upstream message format expected by useExtensionMessages
 export type ServerMessage =
-  | { type: "agentCreated"; id: number; folderName: string }
+  | { type: "agentCreated"; id: number; folderName: string; isSubagent?: boolean; parentId?: number; label?: string }
   | { type: "agentClosed"; id: number }
   | { type: "existingAgents"; agents: number[]; folderNames: Record<number, string>; agentMeta?: Record<number, { palette?: number; hueShift?: number; seatId?: string }> }
   | { type: "agentToolStart"; id: number; toolId: string; status: string }

@@ -170,10 +170,18 @@ export function renderScene(
       })
     }
 
+    const isSub = ch.isSubagent
     drawables.push({
       zY: charZY,
       draw: (c) => {
-        c.drawImage(cached, drawX, drawY)
+        if (isSub) {
+          c.save()
+          c.globalAlpha = 0.7
+          c.drawImage(cached, drawX, drawY)
+          c.restore()
+        } else {
+          c.drawImage(cached, drawX, drawY)
+        }
       },
     })
   }
@@ -576,8 +584,8 @@ export function renderFrame(
   const hoveredId = selection?.hoveredAgentId ?? null
   renderScene(ctx, allFurniture, characters, offsetX, offsetY, zoom, selectedId, hoveredId)
 
-  // Speech bubbles (always on top of characters)
-  renderBubbles(ctx, characters, offsetX, offsetY, zoom)
+  // Speech bubbles disabled — approval state handled by HTML AgentLabels
+  // renderBubbles(ctx, characters, offsetX, offsetY, zoom)
 
   // Editor overlays
   if (editor) {

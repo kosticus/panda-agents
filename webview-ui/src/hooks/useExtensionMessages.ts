@@ -115,10 +115,25 @@ export function useExtensionMessages(
       } else if (msg.type === 'agentCreated') {
         const id = msg.id as number
         const folderName = msg.folderName as string | undefined
-        setAgents((prev) => (prev.includes(id) ? prev : [...prev, id]))
-        setSelectedAgent(id)
-        os.addAgent(id, undefined, undefined, undefined, undefined, folderName)
-        saveAgentSeats(os)
+        const isSubagent = msg.isSubagent as boolean | undefined
+        const parentId = msg.parentId as number | undefined
+        const label = (msg.label as string | undefined) || folderName || 'Subtask'
+        if (isSubagent && parentId != null) {
+          // Create as sub-agent character (transparent, linked to parent)
+          os.addAgent(id, undefined, undefined, undefined, undefined, label)
+          const ch = os.characters.get(id)
+          if (ch) ch.isSubagent = true
+          setSubagentCharacters((prev) => {
+            if (prev.some((s) => s.id === id)) return prev
+            return [...prev, { id, parentAgentId: parentId, parentToolId: `watcher-${id}`, label }]
+          })
+          setAgents((prev) => (prev.includes(id) ? prev : [...prev, id]))
+        } else {
+          setAgents((prev) => (prev.includes(id) ? prev : [...prev, id]))
+          setSelectedAgent(id)
+          os.addAgent(id, undefined, undefined, undefined, undefined, folderName)
+          saveAgentSeats(os)
+        }
       } else if (msg.type === 'agentClosed') {
         const id = msg.id as number
         setAgents((prev) => prev.filter((a) => a !== id))
@@ -177,6 +192,10 @@ export function useExtensionMessages(
         os.setAgentTool(id, toolName)
         os.setAgentActive(id, true)
         os.clearPermissionBubble(id)
+        // AskUserQuestion — freeze panda and show ! until user responds
+        if (status === 'Waiting for your answer') {
+          os.showWaitingBubble(id)
+        }
         // Create sub-agent character for Task tool subtasks
         if (status.startsWith('Subtask:')) {
           const label = status.slice('Subtask:'.length).trim()
@@ -233,7 +252,6 @@ export function useExtensionMessages(
         })
         os.setAgentActive(id, status === 'active')
         if (status === 'waiting') {
-          os.showWaitingBubble(id)
           playDoneSound()
         }
       } else if (msg.type === 'agentToolPermission') {
@@ -268,6 +286,7 @@ export function useExtensionMessages(
           }
         })
         os.clearPermissionBubble(id)
+        os.setAgentActive(id, true)
         // Also clear permission bubbles on all sub-agent characters of this parent
         for (const [subId, meta] of os.subagentMeta) {
           if (meta.parentAgentId === id) {
