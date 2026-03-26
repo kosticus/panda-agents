@@ -125,7 +125,7 @@ function sendInitialData(ws: WebSocket): void {
 
   // Send wall tiles
   if (wallTiles) {
-    ws.send(JSON.stringify({ type: "wallTilesLoaded", sprites: wallTiles.sprites }));
+    ws.send(JSON.stringify({ type: "wallTilesLoaded", sprites: wallTiles.sprites, variantsPerMask: wallTiles.variantsPerMask }));
   }
 
   // Send floor tiles (optional)

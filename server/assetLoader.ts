@@ -33,6 +33,7 @@ export interface LoadedCharacterSprites {
 
 export interface LoadedWallTiles {
   sprites: string[][][];
+  variantsPerMask: number;
 }
 
 export interface LoadedFloorTiles {
@@ -170,9 +171,14 @@ export function loadWallTiles(assetsRoot: string): LoadedWallTiles | null {
     const png = PNG.sync.read(pngBuffer);
     const sprites: string[][][] = [];
 
-    for (let mask = 0; mask < WALL_BITMASK_COUNT; mask++) {
-      const ox = (mask % WALL_GRID_COLS) * WALL_PIECE_WIDTH;
-      const oy = Math.floor(mask / WALL_GRID_COLS) * WALL_PIECE_HEIGHT;
+    // Detect total sprite count from PNG dimensions (supports multiple variants)
+    const totalRows = png.height / WALL_PIECE_HEIGHT;
+    const totalSprites = totalRows * WALL_GRID_COLS;
+    const variantsPerMask = Math.max(1, Math.floor(totalSprites / WALL_BITMASK_COUNT));
+
+    for (let i = 0; i < totalSprites; i++) {
+      const ox = (i % WALL_GRID_COLS) * WALL_PIECE_WIDTH;
+      const oy = Math.floor(i / WALL_GRID_COLS) * WALL_PIECE_HEIGHT;
       const sprite: string[][] = [];
       for (let r = 0; r < WALL_PIECE_HEIGHT; r++) {
         const row: string[] = [];
@@ -195,8 +201,8 @@ export function loadWallTiles(assetsRoot: string): LoadedWallTiles | null {
       sprites.push(sprite);
     }
 
-    console.log(`[AssetLoader] Loaded ${sprites.length} wall tile pieces`);
-    return { sprites };
+    console.log(`[AssetLoader] Loaded ${sprites.length} wall tile pieces (${variantsPerMask} variants per mask)`);
+    return { sprites, variantsPerMask };
   } catch (err) {
     console.error(`[AssetLoader] Error loading wall tiles: ${err instanceof Error ? err.message : err}`);
     return null;

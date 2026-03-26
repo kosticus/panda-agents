@@ -345,8 +345,9 @@ export function useExtensionMessages(
         setFloorSprites(sprites)
       } else if (msg.type === 'wallTilesLoaded') {
         const sprites = msg.sprites as string[][][]
-        console.log(`[Webview] Received ${sprites.length} wall tile sprites`)
-        setWallSprites(sprites)
+        const variantsPerMask = (msg.variantsPerMask as number) || 1
+        console.log(`[Webview] Received ${sprites.length} wall tile sprites (${variantsPerMask} variants per mask)`)
+        setWallSprites(sprites, variantsPerMask)
       } else if (msg.type === 'workspaceFolders') {
         const folders = msg.folders as WorkspaceFolder[]
         setWorkspaceFolders(folders)

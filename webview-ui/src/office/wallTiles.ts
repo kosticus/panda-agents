@@ -13,17 +13,27 @@ import type { SpriteData, TileType as TileTypeVal, FloorColor, FurnitureInstance
 import { TileType, TILE_SIZE } from './types.js'
 import { getColorizedSprite } from './colorize.js'
 
-/** 16 wall sprites indexed by bitmask (0-15) */
+/** Wall sprites — flat array of (variantsPerMask × 16) sprites.
+ *  Layout: [variant0_mask0, variant0_mask1, ..., variant0_mask15, variant1_mask0, ...] */
 let wallSprites: SpriteData[] | null = null
+let wallVariants = 1
 
 /** Set wall sprites (called once when extension sends wallTilesLoaded) */
-export function setWallSprites(sprites: SpriteData[]): void {
+export function setWallSprites(sprites: SpriteData[], variantsPerMask = 1): void {
   wallSprites = sprites
+  wallVariants = variantsPerMask
 }
 
 /** Check if wall sprites have been loaded */
 export function hasWallSprites(): boolean {
   return wallSprites !== null
+}
+
+/** Deterministic hash to pick a wall variant per tile position */
+function wallVariantFor(col: number, row: number): number {
+  if (wallVariants <= 1) return 0
+  // Simple hash that distributes well across adjacent tiles
+  return ((col * 7 + row * 13 + col * row * 3) & 0x7fffffff) % wallVariants
 }
 
 /**
@@ -47,7 +57,8 @@ export function getWallSprite(
   if (row < tmRows - 1 && tileMap[row + 1][col] === TileType.WALL) mask |= 4   // S
   if (col > 0 && tileMap[row][col - 1] === TileType.WALL) mask |= 8            // W
 
-  const sprite = wallSprites[mask]
+  const variant = wallVariantFor(col, row)
+  const sprite = wallSprites[variant * 16 + mask]
   if (!sprite) return null
 
   // Anchor sprite at bottom of tile — tall sprites extend upward
@@ -77,10 +88,11 @@ export function getColorizedWallSprite(
   if (row < tmRows - 1 && tileMap[row + 1][col] === TileType.WALL) mask |= 4   // S
   if (col > 0 && tileMap[row][col - 1] === TileType.WALL) mask |= 8            // W
 
-  const sprite = wallSprites[mask]
+  const variant = wallVariantFor(col, row)
+  const sprite = wallSprites[variant * 16 + mask]
   if (!sprite) return null
 
-  const cacheKey = `wall-${mask}-${color.h}-${color.s}-${color.b}-${color.c}`
+  const cacheKey = `wall-${variant}-${mask}-${color.h}-${color.s}-${color.b}-${color.c}`
   const colorized = getColorizedSprite(cacheKey, sprite, { ...color, colorize: true })
 
   return { sprite: colorized, offsetY: TILE_SIZE - sprite.length }
