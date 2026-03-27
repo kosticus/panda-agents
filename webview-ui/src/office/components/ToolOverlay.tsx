@@ -85,7 +85,7 @@ export function ToolOverlay({
   const parentsNeedingAttention = new Set<number>()
   for (const sub of subagentCharacters) {
     const subCh = officeState.characters.get(sub.id)
-    if (!subCh) continue
+    if (!subCh || subCh.matrixEffect === 'despawn') continue
     const subTools = agentTools[sub.id]
     const subNeedsPermission = subCh.bubbleType === 'permission' || subTools?.some((t) => t.permissionWait && !t.done)
     const subWaiting = subTools?.some((t) => !t.done && t.status === 'Waiting for your answer') ?? false
@@ -99,6 +99,7 @@ export function ToolOverlay({
       {allIds.map((id) => {
         const ch = officeState.characters.get(id)
         if (!ch) return null
+        if (ch.matrixEffect === 'despawn') return null
 
         const isSelected = selectedId === id
         const isHovered = hoveredId === id
@@ -133,14 +134,7 @@ export function ToolOverlay({
           } else if (childNeedsAttention) {
             activityText = 'Sub-agent needs approval'
           } else if (isSub) {
-            // Show tool activity if available, otherwise fall back to label
-            const subActivity = getActivityText(id, agentTools, ch.isActive)
-            if (subActivity !== 'Idle') {
-              activityText = subActivity
-            } else {
-              const sub = subagentCharacters.find((s) => s.id === id)
-              activityText = sub ? sub.label : 'Sub-agent'
-            }
+            activityText = getActivityText(id, agentTools, ch.isActive)
           } else {
             activityText = getActivityText(id, agentTools, ch.isActive)
           }

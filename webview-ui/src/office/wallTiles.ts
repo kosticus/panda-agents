@@ -29,11 +29,18 @@ export function hasWallSprites(): boolean {
   return wallSprites !== null
 }
 
-/** Deterministic hash to pick a wall variant per tile position */
-function wallVariantFor(col: number, row: number): number {
+/**
+ * Deterministic hash to pick a wall variant per tile position.
+ * isConstruction selects from the construction variant pool (second half)
+ * vs the forest variant pool (first half).
+ */
+function wallVariantFor(col: number, row: number, isConstruction = false): number {
   if (wallVariants <= 1) return 0
-  // Simple hash that distributes well across adjacent tiles
-  return ((col * 7 + row * 13 + col * row * 3) & 0x7fffffff) % wallVariants
+  const poolSize = wallVariants / 2
+  if (poolSize < 1) return ((col * 7 + row * 13 + col * row * 3) & 0x7fffffff) % wallVariants
+  const base = isConstruction ? poolSize : 0
+  const pick = ((col * 7 + row * 13 + col * row * 3) & 0x7fffffff) % poolSize
+  return base + pick
 }
 
 /**
@@ -88,7 +95,9 @@ export function getColorizedWallSprite(
   if (row < tmRows - 1 && tileMap[row + 1][col] === TileType.WALL) mask |= 4   // S
   if (col > 0 && tileMap[row][col - 1] === TileType.WALL) mask |= 8            // W
 
-  const variant = wallVariantFor(col, row)
+  // Brown hue (h < 60) = construction bamboo, green = forest
+  const isConstruction = color.h < 60
+  const variant = wallVariantFor(col, row, isConstruction)
   const sprite = wallSprites[variant * 16 + mask]
   if (!sprite) return null
 

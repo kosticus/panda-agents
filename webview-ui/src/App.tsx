@@ -11,7 +11,7 @@ import { useExtensionMessages } from './hooks/useExtensionMessages.js'
 import { PULSE_ANIMATION_DURATION_SEC } from './constants.js'
 import { useEditorActions } from './hooks/useEditorActions.js'
 import { useEditorKeyboard } from './hooks/useEditorKeyboard.js'
-import { ZoomControls } from './components/ZoomControls.js'
+// ZoomControls removed — village uses fixed zoom
 import { BottomToolbar } from './components/BottomToolbar.js'
 import { DebugView } from './components/DebugView.js'
 
@@ -220,7 +220,7 @@ function App() {
         panRef={editor.panRef}
       />
 
-      <ZoomControls zoom={editor.zoom} onZoomChange={editor.handleZoomChange} />
+      {/* Zoom controls removed — village uses fixed zoom */}
 
       {/* Vignette overlay */}
       <div

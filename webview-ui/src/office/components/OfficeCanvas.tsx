@@ -5,7 +5,7 @@ import type { EditorRenderState, SelectionRenderState, DeleteButtonBounds, Rotat
 import { startGameLoop } from '../engine/gameLoop.js'
 import { renderFrame } from '../engine/renderer.js'
 import { TILE_SIZE, EditTool } from '../types.js'
-import { CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_SNAP_THRESHOLD, ZOOM_MIN, ZOOM_MAX, ZOOM_SCROLL_THRESHOLD, PAN_MARGIN_FRACTION } from '../../constants.js'
+import { CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_SNAP_THRESHOLD, ZOOM_MIN, ZOOM_MAX, ZOOM_SCROLL_THRESHOLD } from '../../constants.js'
 import { getCatalogEntry, isRotatable } from '../layout/furnitureCatalog.js'
 import { canPlaceFurniture, getWallPlacementRow } from '../editor/editorActions.js'
 import { vscode } from '../../vscodeApi.js'
@@ -43,22 +43,10 @@ export function OfficeCanvas({ officeState, onClick, isEditMode, editorState, on
   // Zoom scroll accumulator for trackpad pinch sensitivity
   const zoomAccumulatorRef = useRef(0)
 
-  // Clamp pan so the map edge can't go past a margin inside the viewport
-  const clampPan = useCallback((px: number, py: number): { x: number; y: number } => {
-    const canvas = canvasRef.current
-    if (!canvas) return { x: px, y: py }
-    const layout = officeState.getLayout()
-    const mapW = layout.cols * TILE_SIZE * zoom
-    const mapH = layout.rows * TILE_SIZE * zoom
-    const marginX = canvas.width * PAN_MARGIN_FRACTION
-    const marginY = canvas.height * PAN_MARGIN_FRACTION
-    const maxPanX = (mapW / 2) + canvas.width / 2 - marginX
-    const maxPanY = (mapH / 2) + canvas.height / 2 - marginY
-    return {
-      x: Math.max(-maxPanX, Math.min(maxPanX, px)),
-      y: Math.max(-maxPanY, Math.min(maxPanY, py)),
-    }
-  }, [officeState, zoom])
+  // Pan locked — village is centered and fixed
+  const clampPan = useCallback((_px: number, _py: number): { x: number; y: number } => {
+    return { x: 0, y: 0 }
+  }, [])
 
   // Resize canvas backing store to device pixels (no DPR transform on ctx)
   const resizeCanvas = useCallback(() => {
@@ -401,20 +389,9 @@ export function OfficeCanvas({ officeState, onClick, isEditMode, editorState, on
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       unlockAudio()
-      // Middle mouse button (button 1) starts panning
+      // Middle mouse button — no-op (panning disabled)
       if (e.button === 1) {
         e.preventDefault()
-        // Break camera follow on manual pan
-        officeState.cameraFollowId = null
-        isPanningRef.current = true
-        panStartRef.current = {
-          mouseX: e.clientX,
-          mouseY: e.clientY,
-          panX: panRef.current.x,
-          panY: panRef.current.y,
-        }
-        const canvas = canvasRef.current
-        if (canvas) canvas.style.cursor = 'grabbing'
         return
       }
 
@@ -629,32 +606,12 @@ export function OfficeCanvas({ officeState, onClick, isEditMode, editorState, on
     }
   }, [isEditMode, officeState, screenToTile])
 
-  // Wheel: Ctrl+wheel to zoom, plain wheel/trackpad to pan
+  // Wheel: disabled — fixed view, no zoom or pan
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
       e.preventDefault()
-      if (e.ctrlKey || e.metaKey) {
-        // Accumulate scroll delta, step zoom when threshold crossed
-        zoomAccumulatorRef.current += e.deltaY
-        if (Math.abs(zoomAccumulatorRef.current) >= ZOOM_SCROLL_THRESHOLD) {
-          const delta = zoomAccumulatorRef.current < 0 ? 1 : -1
-          zoomAccumulatorRef.current = 0
-          const newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom + delta))
-          if (newZoom !== zoom) {
-            onZoomChange(newZoom)
-          }
-        }
-      } else {
-        // Pan via trackpad two-finger scroll or mouse wheel
-        const dpr = window.devicePixelRatio || 1
-        officeState.cameraFollowId = null
-        panRef.current = clampPan(
-          panRef.current.x - e.deltaX * dpr,
-          panRef.current.y - e.deltaY * dpr,
-        )
-      }
     },
-    [zoom, onZoomChange, officeState, panRef, clampPan],
+    [],
   )
 
   // Prevent default middle-click browser behavior (auto-scroll)

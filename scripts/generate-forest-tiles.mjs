@@ -75,14 +75,18 @@ const bambooFloor = makeFloorPattern((x, y) => {
   return base;
 });
 
-// Pattern 3: Dirt/packed earth
+// Pattern 3: Dirt/packed earth — very smooth with gentle variation
 const dirt = makeFloorPattern((x, y) => {
-  const r = seededRand(x * 23 + y * 71 + 13);
-  const v = r();
-  if (v < 0.1) return 85;
-  if (v < 0.25) return 100;
-  if (v < 0.4) return 115;
-  return 105;
+  // Broad gradient using large blocks (5×5) for nearly flat appearance
+  const bx = Math.floor(x / 5), by = Math.floor(y / 5);
+  const r1 = seededRand(bx * 41 + by * 67 + 11);
+  const base = 108 + Math.floor(r1() * 6) - 3; // 105–111, very tight range
+  // Rare subtle speck
+  const r2 = seededRand(x * 23 + y * 71 + 13);
+  const v = r2();
+  if (v < 0.02) return base - 5;
+  if (v < 0.04) return base + 4;
+  return base;
 });
 
 // Pattern 4: Stone stepping path
@@ -180,12 +184,12 @@ function drawStalk(data, stalk, topY, botY, W, H, si, r) {
         val = 135; // single-pixel stalk
       }
 
-      // Bamboo nodes — very dark ring (reads as brown segment against green)
+      // Bamboo nodes — subtle dark ring
       const nodeY = (y + (stalk.nodeOff || 0)) % nodeSpacing;
       if (nodeY === 0 && y > topY + 2 && y < botY - 2) {
-        val = clamp(val - 55, 40, 255); // much darker node line
+        val = clamp(val - 25, 60, 255); // gentle node line
       } else if ((nodeY === 1 || nodeY === nodeSpacing - 1) && y > topY + 2 && y < botY - 2) {
-        val = clamp(val - 20, 40, 255); // darker surround
+        val = clamp(val - 10, 60, 255); // slight surround
       }
 
       // Subtle grain
@@ -250,38 +254,40 @@ function makeWallSprite(mask, variant = 0) {
 
   // Generate stalk positions — random placement, not evenly distributed
   const stalks = [];
-  const numStalks = 2 + Math.floor(r() * 3); // 2-4 stalks
+  const numStalks = 2 + Math.floor(r() * 2); // 2-3 stalks (fewer but thicker)
 
-  const margin = (hasW ? 0 : 1);
-  const endMargin = (hasE ? W : W - 1);
+  const margin = (hasW ? 0 : 2);
+  const endMargin = (hasE ? W : W - 2);
 
-  // Place stalks at fully random x positions (with minimum spacing)
+  // Place stalks with variant-dependent x-offset to prevent alignment across tiles
+  // Each variant shifts stalks by a different amount so vertically-adjacent tiles don't line up
+  const xBias = (variant * 4) % W;
   const usedX = [];
   for (let i = 0; i < numStalks; i++) {
     let cx;
     let attempts = 0;
     do {
-      cx = margin + Math.floor(r() * (endMargin - margin));
+      cx = margin + ((Math.floor(r() * (endMargin - margin)) + xBias) % (endMargin - margin));
       attempts++;
-    } while (attempts < 10 && usedX.some(ux => Math.abs(ux - cx) < 3));
+    } while (attempts < 15 && usedX.some(ux => Math.abs(ux - cx) < 4));
     usedX.push(cx);
 
-    // Mix of widths — mostly thin
+    // Thicker stalks — minimum width 3
     const widthRoll = r();
     let w;
-    if (widthRoll < 0.35) w = 1;
-    else if (widthRoll < 0.65) w = 2;
-    else if (widthRoll < 0.85) w = 3;
-    else w = 4;
+    if (widthRoll < 0.5) w = 3;
+    else if (widthRoll < 0.8) w = 4;
+    else w = 5;
 
-    const lean = Math.floor(r() * 3) - 1;
+    // Lean slightly to break vertical alignment across tiles
+    const lean = Math.floor(r() * 5) - 2; // -2 to +2
 
     stalks.push({
       cx,
       w,
       nodeOff: Math.floor(r() * 7),
       nodeSpacing: 4 + Math.floor(r() * 4),
-      lean: (hasN && hasS) ? 0 : lean,
+      lean,
     });
   }
 
@@ -314,7 +320,7 @@ function makeWallSprite(mask, variant = 0) {
   for (let y = 2; y < H - 2; y++) {
     for (let x = 0; x < W; x++) {
       if (data[y][x] === 0 && bgR() < 0.12) {
-        data[y][x] = 50 + Math.floor(bgR() * 15);
+        data[y][x] = 75 + Math.floor(bgR() * 15);
       }
     }
   }
@@ -333,11 +339,92 @@ function makeWallSprite(mask, variant = 0) {
   return data;
 }
 
-const WALL_VARIANTS = 4;
+/** Construction bamboo — even spacing, uniform width, no leaves, tightly packed */
+function makeConstructionWallSprite(mask, variant = 0) {
+  const hasN = !!(mask & 1);
+  const hasE = !!(mask & 2);
+  const hasS = !!(mask & 4);
+  const hasW = !!(mask & 8);
+
+  const W = TILE;
+  const H = WALL_H;
+  const data = [];
+  for (let y = 0; y < H; y++) data.push(new Array(W).fill(0));
+
+  const r = seededRand(mask * 37 + 113 + variant * 4951);
+
+  // Even, tightly-packed stalks — 3-4 across the tile, width 3-4
+  const numStalks = 3 + Math.floor(r() * 2);
+  const spacing = W / (numStalks + 1);
+  const stalkWidth = 3 + (variant % 2); // alternating 3 and 4 px
+
+  // Variant-dependent offset so hut walls don't create continuous lines
+  const cxBias = (variant * 3) % Math.floor(spacing);
+  const stalks = [];
+  for (let i = 0; i < numStalks; i++) {
+    const cx = Math.round(spacing * (i + 1) + cxBias) % W;
+    stalks.push({
+      cx: clamp(cx, 1, W - 2),
+      w: stalkWidth,
+      nodeOff: Math.floor(r() * 3) + i * 2, // staggered nodes for visual interest
+      nodeSpacing: 5 + Math.floor(r() * 2),  // consistent spacing
+      lean: 0, // perfectly vertical
+    });
+  }
+
+  // Draw stalks (no lean, uniform)
+  for (let si = 0; si < stalks.length; si++) {
+    const stalk = stalks[si];
+    const topY = hasN ? 0 : 0;  // flush to top for construction
+    const botY = hasS ? H - 1 : H - 1;  // flush to bottom
+    drawStalk(data, stalk, topY, botY, W, H, si, r);
+  }
+
+  // Horizontal bamboo ties — more regular, 2-3 evenly spaced
+  const tieCount = 2 + Math.floor(r() * 2);
+  const tieSpacing = Math.floor(H / (tieCount + 1));
+  for (let t = 0; t < tieCount; t++) {
+    const tieY = tieSpacing * (t + 1);
+    if (tieY >= 0 && tieY < H) {
+      for (let x = 0; x < W; x++) {
+        // Subtle tie line — only slightly darker than stalks
+        data[tieY][x] = Math.max(data[tieY][x], 110 + Math.floor(r() * 10));
+      }
+    }
+  }
+
+  // Fill ALL remaining gaps — a construction wall should be solid, no transparency
+  const bgR = seededRand(mask * 83 + 29 + variant * 2347);
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (data[y][x] === 0) {
+        // Mid-tone fill simulating bamboo behind the front stalks
+        data[y][x] = 90 + Math.floor(bgR() * 20);
+      }
+    }
+  }
+
+  return data;
+}
+
+// Variants 0-3: wild forest bamboo (random stalks, leaves, irregular)
+// Variants 4-7: construction bamboo (even spacing, uniform width, no leaves, tight)
+const FOREST_VARIANTS = 4;
+const CONSTRUCTION_VARIANTS = 4;
+const WALL_VARIANTS = FOREST_VARIANTS + CONSTRUCTION_VARIANTS;
 const wallSprites = [];
-for (let variant = 0; variant < WALL_VARIANTS; variant++) {
+
+// Forest variants
+for (let variant = 0; variant < FOREST_VARIANTS; variant++) {
   for (let mask = 0; mask < 16; mask++) {
     wallSprites.push(makeWallSprite(mask, variant));
+  }
+}
+
+// Construction variants — regular, evenly-spaced bamboo for huts
+for (let variant = 0; variant < CONSTRUCTION_VARIANTS; variant++) {
+  for (let mask = 0; mask < 16; mask++) {
+    wallSprites.push(makeConstructionWallSprite(mask, variant));
   }
 }
 
@@ -400,53 +487,200 @@ function createWallsPNG(sprites) {
   return PNG.sync.write(png);
 }
 
-// ── Update persisted layout colors ──────────────────────────────────────
+// ── Village layout generation ────────────────────────────────────────────
 
-function updateLayoutColors() {
-  const layoutPath = join(homedir(), ".pixel-agents", "layout.json");
-  if (!existsSync(layoutPath)) {
-    console.log("No persisted layout found, skipping color update");
-    return;
-  }
+function generateVillageLayout() {
+  const cols = 45;
+  const rows = 30;
 
-  const layout = JSON.parse(readFileSync(layoutPath, "utf-8"));
+  // 0=wall(forest), 1=grass, 2=bamboo plank, 3=dirt path
+  const tiles = new Array(cols * rows).fill(0);
 
-  // Forest color palette for each floor type
-  const forestColors = {
-    1: { h: 110, s: 30, b: 8, c: 0 },    // FLOOR_1: grass green
-    2: { h: 35, s: 35, b: 15, c: 0 },     // FLOOR_2: bamboo plank (warm light brown)
-    3: { h: 30, s: 25, b: 0, c: 0 },      // FLOOR_3: packed dirt (dark brown)
-    4: { h: 40, s: 12, b: 15, c: 0 },     // FLOOR_4: stone path (gray-tan)
-    5: { h: 30, s: 30, b: 18, c: 0 },     // FLOOR_5: bamboo plank vertical (light brown)
-    6: { h: 120, s: 35, b: 0, c: 0 },     // FLOOR_6: dark forest floor (deep green)
-    7: { h: 95, s: 25, b: 12, c: 0 },     // FLOOR_7: meadow (light green)
+  const set = (c, r, v) => {
+    if (c >= 0 && c < cols && r >= 0 && r < rows) tiles[r * cols + c] = v;
   };
+  const get = (c, r) => (c >= 0 && c < cols && r >= 0 && r < rows) ? tiles[r * cols + c] : 0;
 
-  // Wall color — bamboo green with per-tile hue variation for variety
-  const wallRand = seededRand(42);
-
-  const { tiles } = layout;
-  const newColors = [];
-
-  for (let i = 0; i < tiles.length; i++) {
-    const t = tiles[i];
-    if (t === 0) {
-      // Green bamboo with slight per-tile variation so adjacent walls differ
-      const hueJitter = Math.floor(wallRand() * 20) - 10; // ±10
-      const satJitter = Math.floor(wallRand() * 10) - 5;  // ±5
-      newColors.push({ h: 115 + hueJitter, s: 35 + satJitter, b: 3, c: 0 });
-    } else if (t >= 1 && t <= 7) {
-      // Force all floor tiles to bamboo plank pattern + brown color
-      tiles[i] = 2; // horizontal bamboo plank pattern
-      newColors.push({ h: 35, s: 35, b: 15, c: 0 });
-    } else {
-      newColors.push(null);
+  // Step 1: Carve a large organic clearing (grass)
+  const cx = 22, cy = 15;
+  const noiseR = seededRand(777);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const dx = (c - cx) / 19;
+      const dy = (r - cy) / 12;
+      const dist = dx * dx + dy * dy;
+      const noise = noiseR() * 0.25 - 0.125;
+      if (dist < 0.85 + noise) {
+        set(c, r, 1); // grass
+      }
     }
   }
 
-  layout.tileColors = newColors;
+  // Keep a 1-tile forest border on all edges
+  for (let c = 0; c < cols; c++) { set(c, 0, 0); set(c, rows - 1, 0); }
+  for (let r = 0; r < rows; r++) { set(0, r, 0); set(cols - 1, r, 0); }
+
+  // Step 2: Place huts — wall border with plank interior (shelter only, no furniture)
+  const huts = [
+    { x: 5,  y: 3,  door: 'south' },  // NW
+    { x: 33, y: 4,  door: 'south' },  // NE
+    { x: 7,  y: 21, door: 'north' },  // SW
+    { x: 34, y: 22, door: 'north' },  // SE
+  ];
+
+  for (const hut of huts) {
+    for (let dr = 0; dr < 5; dr++) {
+      for (let dc = 0; dc < 5; dc++) {
+        const c = hut.x + dc, r = hut.y + dr;
+        if (dr === 0 || dr === 4 || dc === 0 || dc === 4) {
+          set(c, r, 0); // wall
+        } else {
+          set(c, r, 2); // plank floor
+        }
+      }
+    }
+    if (hut.door === 'south') {
+      set(hut.x + 2, hut.y + 4, 2);
+      set(hut.x + 2, hut.y + 5, 1); // grass below door
+    } else {
+      set(hut.x + 2, hut.y, 2);
+      set(hut.x + 2, hut.y - 1, 1); // grass above door
+    }
+  }
+
+  // Step 3: Central workspace hub — large dirt area with workstations
+  // Hub: cols 14-30, rows 11-18 (17×8)
+  for (let r = 11; r <= 18; r++) {
+    for (let c = 14; c <= 30; c++) {
+      set(c, r, 3); // dirt
+    }
+  }
+
+  // Step 4: Paths from huts to hub — 2-wide dirt
+  function drawPathH(r, c1, c2) {
+    const lo = Math.min(c1, c2), hi = Math.max(c1, c2);
+    for (let c = lo; c <= hi; c++) {
+      if (get(c, r) === 1) set(c, r, 3);
+      if (get(c, r + 1) === 1) set(c, r + 1, 3);
+    }
+  }
+  function drawPathV(c, r1, r2) {
+    const lo = Math.min(r1, r2), hi = Math.max(r1, r2);
+    for (let r = lo; r <= hi; r++) {
+      if (get(c, r) === 1) set(c, r, 3);
+      if (get(c + 1, r) === 1) set(c + 1, r, 3);
+    }
+  }
+
+  // NW hut (5,3) south door at col 7, row 7
+  drawPathV(7, 8, 11);
+  drawPathH(11, 7, 14);
+
+  // NE hut (33,4) south door at col 35, row 8
+  drawPathV(35, 9, 11);
+  drawPathH(11, 30, 35);
+
+  // SW hut (7,21) north door at col 9, row 21
+  drawPathV(9, 18, 20);
+  drawPathH(18, 9, 14);
+
+  // SE hut (34,22) north door at col 36, row 22
+  drawPathV(36, 18, 21);
+  drawPathH(18, 30, 36);
+
+  // Step 5: Furniture — workstations in hub, pandas face inward
+  const furniture = [];
+
+  // Top row: desks at row 11, chairs at row 13 (face UP toward desk)
+  furniture.push({ uid: "hub-desk-1",  type: "desk",  col: 16, row: 11 });
+  furniture.push({ uid: "hub-chair-1", type: "chair", col: 17, row: 13 });
+
+  furniture.push({ uid: "hub-desk-2",  type: "desk",  col: 24, row: 11 });
+  furniture.push({ uid: "hub-chair-2", type: "chair", col: 25, row: 13 });
+
+  // Bottom row: desks at row 17, chairs at row 16 (face DOWN toward desk)
+  furniture.push({ uid: "hub-desk-3",  type: "desk",  col: 16, row: 17 });
+  furniture.push({ uid: "hub-chair-3", type: "chair", col: 17, row: 16 });
+
+  furniture.push({ uid: "hub-desk-4",  type: "desk",  col: 24, row: 17 });
+  furniture.push({ uid: "hub-chair-4", type: "chair", col: 25, row: 16 });
+
+  // Left side: desk at col 14, chair faces LEFT
+  furniture.push({ uid: "hub-desk-5",  type: "desk",  col: 14, row: 14 });
+  furniture.push({ uid: "hub-chair-5", type: "chair", col: 16, row: 14 });
+
+  // Right side: desk at col 29, chair faces RIGHT
+  furniture.push({ uid: "hub-desk-6",  type: "desk",  col: 29, row: 14 });
+  furniture.push({ uid: "hub-chair-6", type: "chair", col: 28, row: 15 });
+
+  // Decorations — center of hub
+  furniture.push({ uid: "hub-plant-1", type: "plant", col: 22, row: 14 });
+  furniture.push({ uid: "hub-plant-2", type: "plant", col: 21, row: 15 });
+  furniture.push({ uid: "hub-cooler",  type: "cooler", col: 22, row: 15 });
+
+  // Hut lamps — minimal interior decoration
+  furniture.push({ uid: "hut1-lamp", type: "lamp", col: 7, row: 4 });
+  furniture.push({ uid: "hut2-lamp", type: "lamp", col: 35, row: 5 });
+  furniture.push({ uid: "hut3-lamp", type: "lamp", col: 9, row: 22 });
+  furniture.push({ uid: "hut4-lamp", type: "lamp", col: 36, row: 23 });
+
+  // Step 5: Track which wall tiles belong to huts (for brown colorization)
+  const hutWalls = new Set();
+  for (const hut of huts) {
+    for (let dr = 0; dr < 5; dr++) {
+      for (let dc = 0; dc < 5; dc++) {
+        const c = hut.x + dc, r = hut.y + dr;
+        if (dr === 0 || dr === 4 || dc === 0 || dc === 4) {
+          hutWalls.add(r * cols + c);
+        }
+      }
+    }
+  }
+
+  // Step 6: Generate colors per tile
+  const wallRand = seededRand(42);
+  const tileColors = [];
+
+  for (let i = 0; i < tiles.length; i++) {
+    const t = tiles[i];
+    if (t === 0 && hutWalls.has(i)) {
+      // Hut walls — warm golden-brown processed bamboo
+      const hueJ = Math.floor(wallRand() * 8) - 4;
+      const satJ = Math.floor(wallRand() * 6) - 3;
+      tileColors.push({ h: 38 + hueJ, s: 40 + satJ, b: 12, c: 0 });
+    } else if (t === 0) {
+      // Forest walls — green living bamboo
+      const hueJ = Math.floor(wallRand() * 20) - 10;
+      const satJ = Math.floor(wallRand() * 10) - 5;
+      tileColors.push({ h: 115 + hueJ, s: 35 + satJ, b: 3, c: 0 });
+    } else if (t === 1) {
+      tileColors.push({ h: 110, s: 30, b: 8, c: 0 });     // grass green
+    } else if (t === 2) {
+      tileColors.push({ h: 35, s: 35, b: 15, c: 0 });      // bamboo plank brown
+    } else if (t === 3) {
+      tileColors.push({ h: 38, s: 18, b: 20, c: 0 });      // dirt path (light sandy tan)
+    } else {
+      tileColors.push(null);
+    }
+  }
+
+  return { version: 1, cols, rows, tiles, tileColors, furniture };
+}
+
+function writeVillageLayout() {
+  const persistDir = join(homedir(), ".pixel-agents");
+  const layoutPath = join(persistDir, "layout.json");
+  const seatsPath = join(persistDir, "agent-seats.json");
+
+  const layout = generateVillageLayout();
   writeFileSync(layoutPath, JSON.stringify(layout, null, 2));
-  console.log(`Updated ${layoutPath} with forest colors`);
+  console.log(`Wrote village layout to ${layoutPath} (${layout.cols}×${layout.rows}, ${layout.furniture.length} furniture)`);
+
+  // Clear stale seat assignments — old UIDs won't match new layout
+  if (existsSync(seatsPath)) {
+    writeFileSync(seatsPath, "{}");
+    console.log("Cleared stale agent-seats.json");
+  }
 }
 
 // ── Main ────────────────────────────────────────────────────────────────
@@ -461,6 +695,6 @@ const wallsBuf = createWallsPNG(wallSprites);
 writeFileSync(join(assetsDir, "walls.png"), wallsBuf);
 console.log(`Created walls.png (${wallsBuf.length} bytes)`);
 
-updateLayoutColors();
+writeVillageLayout();
 
 console.log("Done! Restart server to see changes.");

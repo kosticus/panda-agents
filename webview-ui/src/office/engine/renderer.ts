@@ -463,7 +463,7 @@ export function renderBubbles(
   zoom: number,
 ): void {
   for (const ch of characters) {
-    if (!ch.bubbleType) continue
+    if (!ch.bubbleType || ch.matrixEffect === 'despawn') continue
 
     const sprite = ch.bubbleType === 'permission'
       ? BUBBLE_PERMISSION_SPRITE

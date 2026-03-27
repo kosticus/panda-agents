@@ -584,7 +584,7 @@ export class OfficeState {
 
   showPermissionBubble(id: number): void {
     const ch = this.characters.get(id)
-    if (ch) {
+    if (ch && ch.matrixEffect !== 'despawn') {
       ch.bubbleType = 'permission'
       ch.bubbleTimer = 0
     }

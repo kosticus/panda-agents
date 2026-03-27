@@ -113,24 +113,13 @@ function startPermissionTimer(
     agent.id,
     setTimeout(() => {
       permissionTimers.delete(agent.id);
-      // Check if there are still active non-exempt tools
+      // Check if there are still active non-exempt tools (own tools only —
+      // subagent tools run autonomously and don't need parent permission)
       let hasNonExempt = false;
       for (const [, toolName] of agent.activeToolNames) {
         if (!PERMISSION_EXEMPT_TOOLS.has(toolName)) {
           hasNonExempt = true;
           break;
-        }
-      }
-      if (!hasNonExempt) {
-        // Also check subagent tools
-        for (const [, subNames] of agent.activeSubagentToolNames) {
-          for (const [, toolName] of subNames) {
-            if (!PERMISSION_EXEMPT_TOOLS.has(toolName)) {
-              hasNonExempt = true;
-              break;
-            }
-          }
-          if (hasNonExempt) break;
         }
       }
       if (hasNonExempt && !agent.permissionSent) {
