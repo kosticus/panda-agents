@@ -14,6 +14,10 @@ import { useEditorKeyboard } from './hooks/useEditorKeyboard.js'
 // ZoomControls removed — village uses fixed zoom
 import { BottomToolbar } from './components/BottomToolbar.js'
 import { DebugView } from './components/DebugView.js'
+import { VillageCanvas } from './village/VillageCanvas.js'
+
+// Temporary: set to true to preview village renderer
+const VILLAGE_PREVIEW = true
 
 // Game state lives outside React — updated imperatively by message handlers
 const officeStateRef = { current: null as OfficeState | null }
@@ -174,6 +178,14 @@ function App() {
     }
     return false
   })()
+
+  if (VILLAGE_PREVIEW) {
+    return (
+      <div style={{ width: '100%', height: '100%', background: '#1a1a2e' }}>
+        <VillageCanvas />
+      </div>
+    )
+  }
 
   if (!layoutReady) {
     return (
