@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates cooking chore animation preview: 2 frames side by side at 8× scale.
-// Frame 1: body rocks LEFT over pot, right arm extends to stir
-// Frame 2: body rocks RIGHT over pot, left arm extends to stir
-// The WHOLE SILHOUETTE sways — not just arm shifts. Pot stays centered.
+// Frame 1: body rocks LEFT over pot, right arm extends to stir with spoon
+// Frame 2: body rocks RIGHT over pot, left arm extends to stir with spoon
+// Both frames same total height (32 rows). 2 empty rows at top to align with others.
+// Motion: left/right sway + spoon angle change.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -21,6 +22,7 @@ const C = {
   O: [220, 140, 50],      // fire orange
   Y: [240, 200, 60],      // fire yellow
   S: [120, 120, 120],     // stone ring
+  P: [100, 70, 40],       // spoon handle (dark wood)
 };
 
 const FRAME_W = 16;
@@ -36,76 +38,84 @@ function n(frame) {
   });
 }
 
-// === COOK FRAME 1: Whole body leaned LEFT, right arm reaches to pot ===
-// Everything shifted 1px left from center. Weight on left foot.
+// === COOK FRAME 1: Whole body leaned LEFT, right arm reaches to pot with spoon ===
+// 2 empty + 6 ears + 6 face + 3 band + 5 body + 3 legs + 4 pot+spoon + 3 empty = 32
+// Everything shifted 1px left from center.
 const cook1 = n([
-  // Head shifted 1px left
+  // 2 empty alignment rows
+  EMPTY,
+  EMPTY,
+  // Head shifted 1px left (6 rows — ears)
   ".KKKK..KKKK.....",  // ear top (shifted left)
   "KKKKK..KKKKK....",  // ear widens
   "KKKKK..KKKKK....",  // ear holds
   ".KKWWWWWWKK.....",  // ear base
-  ".WWWWWWWWWWWW...",  // head
+  ".WWWWWWWWWWWWW..",  // head
   "WWWWWWWWWWWWWW..",  // head widest
-  // Face shifted left
+  // Face shifted left (6 rows)
   "WWWKKKWWKKKWWW..",  // eye patches
   "WWKKEKWWKEKWWW..",  // eyes with glint
   "WWWKKKWWKKKWWW..",  // eye patches
   ".WWWWWKKWWWWW...",  // nose
   ".WWWWWWWWWWWW...",  // lower face
   "..WWWWWWWWWW....",  // chin
-  // Band shifted left
-  ".KKKKKKKKKKKK...",  // band 1
-  "KKKKKKKKKKKKKKK.",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body leaned left, right arm extends right toward pot
-  "KKKWWWGGWWWK.KKK",  // body, right arm detaches to reach
-  "KKKWWGGGGWW..KKK",  // belly, right arm extends
-  "KKKWWGGGGWW...KK",  // belly, arm further out
-  ".KKWWWGGWWW...KK",  // body narrows, arm at pot
-  "..KWWWWWWWWWWKK.",  // hips + right paw at pot level
-  // Legs — weight on left
-  "..KKKK..KKKK....",  // legs
-  "..KKKK...KKKK...",  // right foot shifts right
-  ".KKKKK...KKKKK..",  // feet
-  // Pot (centered — doesn't move)
+  // Band shifted left (3 rows)
+  ".KKKKKKKKKKKK...",
+  "KKKKKKKKKKKKKKK.",
+  "KKKKKKKKKKKKKKKK",
+  // Body leaned left — right arm extends to stir, spoon handle (5 rows)
+  "KKKWWWWWWKKKK...",  // body top, arm starts reaching right
+  "KKKWWGGWWWKKK.KK",  // belly, right arm detaches to reach
+  "KKKWWGGGGWK...KP",  // arm extends out, spoon handle angles down
+  ".KKWWWGGWWWK.KPP",  // arm at pot level, spoon into pot
+  "..KKWWWWWWKKK.P.",  // hips, spoon tip in pot
+  // Legs — weight on left (3 rows)
+  "..KKKK..KKKK....",
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  // Pot (centered — doesn't move) (4 rows)
   ".....RRRRRR.....",  // pot rim
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
   "...SSSSSSSS.....",  // stone base
 ]);
 
-// === COOK FRAME 2: Whole body leaned RIGHT, left arm reaches to pot ===
-// Everything shifted 1px right from center. Weight on right foot.
+// === COOK FRAME 2: Whole body leaned RIGHT, left arm reaches to pot with spoon ===
+// 2 empty + 6 ears + 6 face + 3 band + 5 body + 3 legs + 4 pot + 3 empty = 32
+// Everything shifted 1px right.
 const cook2 = n([
-  // Head shifted 1px right
+  // 2 empty alignment rows
+  EMPTY,
+  EMPTY,
+  // Head shifted 1px right (6 rows — ears)
   "...KKKK..KKKK...",  // ear top (shifted right)
   "..KKKKK..KKKKK..",  // ear widens
   "..KKKKK..KKKKK..",  // ear holds
   "...KKWWWWWWKK...",  // ear base
   "...WWWWWWWWWWWW.",  // head
   "..WWWWWWWWWWWWWW",  // head widest
-  // Face shifted right
+  // Face shifted right (6 rows)
   "..WWWKKKWWKKKWWW",  // eye patches
   "..WWKKEKWWKEKWWW",  // eyes with glint
   "..WWWKKKWWKKKWWW",  // eye patches
   "...WWWWWKKWWWWW.",  // nose
   "...WWWWWWWWWWWW.",  // lower face
   "....WWWWWWWWWW..",  // chin
-  // Band shifted right
-  "...KKKKKKKKKKKK.",  // band 1
-  "..KKKKKKKKKKKKKKK", // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body leaned right, left arm extends left toward pot
-  "KKK.KWWWGGWWWKKK",  // body, left arm detaches
-  "KKK..WWGGGGWWKKK",  // left arm extends
-  "KK...WWGGGGWWKKK",  // arm further out
-  "KK...WWWGGWWWKK.",  // arm at pot
-  ".KK.WWWWWWWWWK..",  // left paw at pot level + hips
-  // Legs — weight on right
-  "....KKKK..KKKK..",  // legs
-  "...KKKK...KKKK..",  // left foot shifts left
-  "..KKKKK...KKKKK.",  // feet
-  // Pot (centered — doesn't move)
+  // Band shifted right (3 rows)
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // Body leaned right — left arm extends to stir, spoon angled other way (5 rows)
+  "...KKKKWWWWWWKKK",  // body top, arm starts reaching left
+  "KK.KKKWWGGWWWKKK",  // left arm detaches to reach, belly
+  "PK...KWWGGGGWKKK",  // spoon handle angles down, arm extends
+  "PPK.KWWWGGWWWKK.",  // spoon into pot, arm at pot level
+  ".P.KKKWWWWWWKK..",  // spoon tip in pot, hips
+  // Legs — weight on right (3 rows)
+  "....KKKK..KKKK..",
+  "....KKKK..KKKK..",
+  "...KKKKK..KKKKK.",
+  // Pot (centered — doesn't move) (4 rows)
   ".....RRRRRR.....",  // pot rim
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
@@ -170,5 +180,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_cook_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean left — whole body shifted left, right arm reaches to pot");
-console.log("Frame 2 (right): lean right — whole body shifted right, left arm reaches to pot");
+console.log("Frame 1 (left): lean left — whole body shifted left, right arm stirs with spoon");
+console.log("Frame 2 (right): lean right — whole body shifted right, left arm stirs with spoon");

@@ -41,3 +41,7 @@ Source: ~/pkm/projects/pixel-agents/chore-animation-design-r1.synth.md
 **2026-03-28T20:43:34Z**
 
 Added preview scripts for all 5 remaining chore animations: fish (standing cast → seated waiting with bobber), build (mallet raised → mallet down on sawhorse, vertical motion profile matching chop), bamboo (reach high → hunch/pull, vertical motion profile), sweep (broom sweeps left → sweeps right, bending profile matching water), carry (walking variant: left foot forward → right foot forward with bundle at chest). Fixed 3 oversized row strings (17→16 chars) in fish, sweep, and carry scripts before commit.
+
+**2026-03-28T21:27:27Z**
+
+Revised all 5 animations: fishing changed to seated tug, building to sideways hammer, bamboo to pulling shoot. Fixed sweep head proportions and carry body proportions to match canonical panda from generate-panda-sheets.mjs.

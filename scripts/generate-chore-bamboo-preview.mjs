@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 // Generates bamboo harvesting animation preview: 2 frames side by side at 8× scale.
-// Frame 1: Crouched low, both hands gripping stalk at ground level, stalk still planted.
-//          Compressed head (hunched/crouched). Bamboo shoot visible in ground.
-// Frame 2: Standing tall (full/near-full height), stalk uprooted and lifted. Arms hold
-//          the pulled shoot. Roots/dirt visible at base.
-// Motion signal: VERTICAL (crouched gripping → standing with uprooted shoot)
+// Frame 1: body leans forward, arms extend down to grip bamboo stalk at ground. Stalk planted.
+// Frame 2: body leans back pulling, stalk rising (at waist level), roots at base.
+// Both frames similar height (~30 rows). Lean-based motion, feet same position.
+// Bamboo stalk is 3-4px wide (N/V colors), clearly visible both frames.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -40,85 +39,88 @@ function n(frame) {
   });
 }
 
-// === BAMBOO FRAME 1: Crouched, gripping stalk at ground level. Compressed head. ===
-// Panda is LOW. Both arms reach down, gripping bamboo stalk. Stalk still in ground.
-// 5 empty rows + 2-row compressed ears + 5 face rows + body/legs squished down low
+// === BAMBOO FRAME 1: Body leans forward (shifted 1px left), arms extend down to grip stalk ===
+// 3 empty + 5 ears (drop 1 for lean) + 6 face + 3 band + 8 body + 3 legs + 2 ground + 2 empty = 32
 const bamboo1 = n([
-  // 5 empty rows (crouched — head pushed down)
   EMPTY,
   EMPTY,
   EMPTY,
-  EMPTY,
-  EMPTY,
-  // Head — compressed for crouched pose (2-row ears only, no widen rows)
-  "..KKKK..KKKK....",  // ear tops
-  "..KKWWWWWWKK....",  // ears compressed directly to head
-  "..WWWWWWWWWWWW..",  // head wide
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — compressed (no separate chin row)
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose/lower face
-  // Band
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
+  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
+  ".KKKK..KKKK.....",  // ear top (shifted left)
+  "KKKKK..KKKKK....",  // ear widens
+  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold row)
+  ".WWWWWWWWWWWWW..",  // head
+  "WWWWWWWWWWWWWW..",  // head widest
+  // DN_FACE shifted left (lean forward) — 6 rows
+  "WWWKKKWWKKKWWW..",  // eye patches
+  "WWKKEKWWKEKWWW..",  // eyes with glint
+  "WWWKKKWWKKKWWW..",  // eye patches
+  ".WWWWWKKWWWWW...",  // nose
+  ".WWWWWWWWWWWW...",  // lower face
+  "..WWWWWWWWWW....",  // chin
+  // DN_BAND shifted left — 3 rows
+  ".KKKKKKKKKKKK...",
+  "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // Body — crouched wide, arms reach down to grip stalk
-  "KKKKKWWWWWWKKKKK",  // body (crouched, spread)
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KNNKWWGGGGWWKNNN",  // arms down gripping stalk (N = bamboo, K = paws gripping)
-  "KNNKWWWGGWWWKNNK",  // lower grip, stalk between hands
-  // Stalk at ground level with legs squished in crouched position
-  "KKNNKKKKKKKKNNKK",  // paws fully gripping stalk at ground, legs behind
-  "..NNKKKKKKKKNNN.",  // stalk base, folded legs
-  "..NJNKKKKKKNVNN.",  // bamboo node at ground, legs/feet
-  // Ground + stalk still planted
-  "...NVN...........",  // bamboo emerging from ground
-  "...NJN...........",  // bamboo root node
-  "...DDD...........",  // dirt/ground
-]);
-
-// === BAMBOO FRAME 2: Standing tall, stalk uprooted and lifted! Roots visible. ===
-// Full canonical height. Arms hold the pulled bamboo shoot up. Roots hang from base.
-// Layout: 4 empty (acc header) + 6 ears + 6 face + 3 band + 8 body + 3 legs = 30
-const bamboo2 = n([
-  // Bamboo shoot held high — tip extends into acc header rows
-  "........NVN.....",  // bamboo tip above head
-  ".......JNVNL....",  // bamboo with leaf
-  "........NVN.....",  // bamboo shaft
-  "........NJN.....",  // bamboo node
-  // DN_EARS_HEAD (6 rows) — full canonical, centered
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  // DN_FACE (6 rows) — full canonical
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  // DN_BAND (3 rows)
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY (8 rows) — arms raised holding uprooted stalk
-  "KKKKKWWWWWWKKKKK",  // body (canonical row 1)
-  "KKKNWWWGGWWWNKKK",  // belly — arms come in holding stalk (N = stalk)
-  "KKKNWWGGGGWWWNKK",  // belly, stalk gripped by both arms
-  "KKKNWWGGGGWWWNKK",  // belly
-  "KKKKNWWWGGWWWNKK",  // body narrows, stalk held
-  "KKKKKWWNNNWWKKKK",  // body base, stalk at belly level
-  ".KKKKKNVNVWKKKK.",  // body narrows, stalk held out
-  "..KKKKNRRNKKKK..",  // body bottom — roots (R) dangling from stalk base
-  // DN_LEGS_IDLE (3 rows)
+  // Body leaned forward, arms reaching down to grip stalk — 8 rows
+  // Stalk (NVN = 3px wide) at right side, panda reaches toward it
+  "KKKKKWWWWWWKKKK.",  // body top
+  "KKKKWWWGGWWWKKK.",  // belly
+  "KKKKWWGGGGWWKKNV",  // belly, right arm descends toward stalk
+  "KKKKWWGGGGWWKNVN",  // belly, arm at stalk
+  ".KKKWWWGGWWWKNVN",  // body narrows, paw (K) gripping stalk
+  "..KKWWWWWWWKKNVN",  // body base, arm at stalk
+  "...KKWWWWWKKKNVN",  // body lower, paw gripping stalk
+  "....KKWWWWKKKNVN",  // body bottom, both paws at stalk
+  // DN_LEGS_IDLE (same both frames) — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
+  // Ground + stalk still planted — 2 rows
+  "............JNJN",  // bamboo stalk node at ground
+  "....DDDDDDDDDDD.",  // dirt around stalk base
+]);
+
+// === BAMBOO FRAME 2: Body leans back (shifted 1px right), stalk rising at waist level ===
+// 3 empty + 6 ears (full for lean back) + 6 face + 3 band + 8 body + 3 legs + 1 ground + 2 empty = 32
+const bamboo2 = n([
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD shifted 1px RIGHT (lean back) — full 6 rows
+  "...KKKK..KKKK...",  // ear top
+  "..KKKKK..KKKKK..",  // ear widens
+  "..KKKKK..KKKKK..",  // ear holds
+  "...KKWWWWWWKK...",  // ear base
+  "...WWWWWWWWWWWW.",  // head
+  "..WWWWWWWWWWWWWW",  // head widest
+  // DN_FACE shifted right (lean back) — 6 rows
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "..WWKKEKWWKEKWWW",  // eyes with glint
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "...WWWWWKKWWWWW.",  // nose
+  "...WWWWWWWWWWWW.",  // lower face
+  "....WWWWWWWWWW..",  // chin
+  // DN_BAND shifted right — 3 rows
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKK",
+  ".KKKKKKKKKKKKKKKK",
+  // Body leaned back, arms hold stalk pulled up to waist/chest level — 8 rows
+  // Stalk now at chest/waist level, partially uprooted
+  "NVN.KKKKKWWWWWWKK",  // stalk at chest height, body shifted right
+  "NVN.KKKKWWWGGWWKK",  // stalk, belly
+  "NVNKKKKWWGGGGWWKK",  // stalk held, paws (K) gripping, belly
+  "NVNKKKKWWGGGGWWKK",  // stalk at belly, arms gripping
+  "NVN.KKKKWWWGGWWWK",  // stalk at waist, body narrows
+  ".R..KKKKKWWWWWWKK",  // root (R) dangling from stalk base
+  ".R...KKKKWWWWKKKK",  // roots visible
+  "......KKKWWWWKKK.",  // body bottom
+  // DN_LEGS_IDLE (same both frames) — 3 rows
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  // Ground (stalk uprooted — hole visible) — 1 row
+  "....DDDDDDDDDDD.",  // dirt + hole where stalk was
 ]);
 
 // === Render: 2 frames side by side ===
@@ -179,5 +181,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_bamboo_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): crouched low — both hands gripping stalk at ground, stalk planted");
-console.log("Frame 2 (right): standing tall — stalk uprooted and lifted, roots dangling");
+console.log("Frame 1 (left): lean forward — arms extend down gripping stalk at ground, stalk planted");
+console.log("Frame 2 (right): lean back pulling — stalk uprooted to waist level, roots dangling");

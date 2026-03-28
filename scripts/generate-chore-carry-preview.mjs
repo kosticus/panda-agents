@@ -38,86 +38,86 @@ function n(frame) {
 }
 
 // === CARRY FRAME 1: Body shifted 1px RIGHT, right foot forward (DN_WALK3_LEGS) ===
-// Bundle held at belly level. Whole silhouette shifted right like cook2.
-// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body (bundle overlay) + 4 walk legs = 31
+// Bundle held at belly level. Whole silhouette shifted right.
+// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body (bundle overlay) + 4 walk legs + 1 empty = 32
 const carry1 = n([
   EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px RIGHT
+  // DN_EARS_HEAD shifted 1px RIGHT — 6 rows
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
   "..KKKKK..KKKKK..",
   "...KKWWWWWWKK...",
   "...WWWWWWWWWWWW.",
   "..WWWWWWWWWWWWWW",
-  // DN_FACE shifted right
+  // DN_FACE shifted right — 6 rows
   "..WWWKKKWWKKKWWW",
   "..WWKKEKWWKEKWWW",
   "..WWWKKKWWKKKWWW",
   "...WWWWWKKWWWWW.",
   "...WWWWWWWWWWWW.",
   "....WWWWWWWWWW..",
-  // DN_BAND shifted right
+  // DN_BAND shifted right — 3 rows
   "...KKKKKKKKKKKK.",
-  "..KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY (8 rows) shifted right — bundle overlaid at belly rows 2-5
-  ".KKKKWWWWWWKKKKK",  // body top (canonical row 1, shifted right)
-  ".KKKKTTTTTTKKKK.",  // belly row 2: bundle top face (arms under bundle hidden)
+  "..KKKKKKKKKKKKKK",
+  ".KKKKKKKKKKKKKKKK",
+  // DN_BODY shifted right — bundle overlaid at belly rows 2-5 — 8 rows
+  ".KKKKKWWWWWWKKKK",  // body top (shifted right 1px)
+  ".KKKKTTTTTTKKKKK",  // belly row 2: bundle top face
   ".KKKXTRRRRXTKKK.",  // belly row 3: bundle with straps (X) and highlight (R)
   ".KKKXTRRRRXTKKKK",  // belly row 4: bundle body
   ".KKKKTTTTTTKKKKK",  // belly row 5: bundle bottom
-  "..KKKKWWWWWKKKKK",  // body row 6 (canonical): below bundle, arms visible
-  "...KKKKKWWWWKKKK",  // body row 7 (canonical)
-  "....KKKKWWWWKKKK",  // body row 8 (canonical)
-  // DN_WALK3_LEGS (4 rows): right foot forward — shifted right
-  "...KKKKW...KKKK.",  // legs (WALK3: left foot has W step)
-  "...KKKK....KKKK.",  // legs
-  "...KKKKK..KKKKK.",  // feet
-  "...KKKK............", // trailing left foot step
+  "..KKKKWWWWWKKKKK",  // body row 6: below bundle
+  "...KKKKWWWWKKKK.",  // body row 7
+  "....KKKWWWWKKK..",  // body row 8
+  // DN_WALK3_LEGS shifted right (4 rows): right foot forward
+  "...KKKKW...KKKK.",
+  "...KKKK....KKKK.",
+  "...KKKKK..KKKKK.",
+  "...KKKK.........",
 ]);
 
 // === CARRY FRAME 2: Body shifted 1px LEFT, left foot forward (DN_WALK1_LEGS) ===
-// Bundle same position at belly. Whole silhouette shifted left like cook1.
+// Bundle same position at belly. Whole silhouette shifted left.
 const carry2 = n([
   EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT
+  // DN_EARS_HEAD shifted 1px LEFT — 6 rows
   ".KKKK..KKKK.....",
   "KKKKK..KKKKK....",
   "KKKKK..KKKKK....",
   ".KKWWWWWWKK.....",
   ".WWWWWWWWWWWWW..",
   "WWWWWWWWWWWWWW..",
-  // DN_FACE shifted left
+  // DN_FACE shifted left — 6 rows
   "WWWKKKWWKKKWWW..",
   "WWKKEKWWKEKWWW..",
   "WWWKKKWWKKKWWW..",
   ".WWWWWKKWWWWW...",
   ".WWWWWWWWWWWW...",
   "..WWWWWWWWWW....",
-  // DN_BAND shifted left
+  // DN_BAND shifted left — 3 rows
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY (8 rows) shifted left — bundle overlaid at belly rows 2-5
-  "KKKKKWWWWWWKKKKK",  // body top (canonical row 1, shifted left)
+  // DN_BODY shifted left — bundle overlaid at belly rows 2-5 — 8 rows
+  "KKKKKWWWWWWKKKK.",  // body top (shifted left 1px)
   "KKKKTTTTTTKKKKK.",  // belly row 2: bundle top face
-  "KKKXTRRRRXTKKKK.",  // belly row 3: bundle with straps and highlight
-  "KKKXTRRRRXTKKKKK",  // belly row 4: bundle body
+  ".KKKXTRRRRXTKK..",  // belly row 3: bundle with straps and highlight
+  "KKKKXTRRRRXTKKKK",  // belly row 4: bundle body
   "KKKKTTTTTTKKKKK.",  // belly row 5: bundle bottom
-  ".KKKKKWWWWWKKKK.",  // body row 6 (canonical): below bundle
-  "..KKKKKWWWWKKKKK",  // body row 7 (canonical)
-  "...KKKKWWWWKKKK.",  // body row 8 (canonical)
-  // DN_WALK1_LEGS (4 rows): left foot forward — shifted left
-  "..KKKK...WKKKK..",  // legs (WALK1: right foot has W step)
-  "..KKKK....KKKK..",  // legs
-  "..KKKKK..KKKKK..",  // feet
-  "..........KKKK..",  // trailing right foot step
+  ".KKKKWWWWWKKKKK.",  // body row 6: below bundle
+  "..KKKKWWWWKKKK..",  // body row 7
+  "...KKKWWWWKKK...",  // body row 8
+  // DN_WALK1_LEGS shifted left (4 rows): left foot forward
+  ".KKKK...WKKKK...",
+  ".KKKK....KKKK...",
+  ".KKKKK..KKKKK...",
+  ".........KKKK...",
 ]);
 
 // === Render: 2 frames side by side ===

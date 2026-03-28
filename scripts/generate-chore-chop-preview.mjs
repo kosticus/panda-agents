@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates chopping wood animation preview: 2 frames side by side at 8× scale.
-// Frame 1: axe raised — handle runs through ear gap, paws grip at ear level, body tall, wide stance
-// Frame 2: axe down — body hunched/compressed over stump, axe embedded
-// Front-facing. The overall HEIGHT difference between frames is the primary motion signal.
+// Frame 1: axe raised — panda leans back slightly, axe handle in accessory rows above head.
+// Frame 2: axe down — panda leans forward, arms bring axe to stump level.
+// Both frames same height (3 empty rows at top each). Motion = lean + arm position.
+// Feet in same position both frames.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -36,76 +37,92 @@ function n(frame) {
   });
 }
 
-// === CHOP FRAME 1: Axe raised, thick arms visible above head ===
-// Arms are 3px wide each, forming a clear V above the head.
-// Paw block is 5px wide gripping handle. Body tall, slim, wide stance.
+// === CHOP FRAME 1: Axe raised, panda leans back slightly (head 1px right) ===
+// 3 empty + 2 axe rows + 6 ears + 6 face + 3 band + 7 body + 3 legs + 1 stump + 1 empty = 32
 const chop1 = n([
-  // Axe + thick arm assembly above head
-  ".....AAAAA......",  // axe blade (5px wide)
-  "......HHH.......",  // handle (3px wide)
-  ".....KKKKK......",  // paws gripping — wide block (5px)
-  "....KKK.KKK.....",  // forearms spread (3px each)
-  "...KKK...KKK....",  // arms widen (3px each, clear gap)
-  "..KKKK....KKKK..",  // arms merge into ears (4px gap)
-  ".KKKKK....KKKKK.",  // ears/arms at widest
-  "..KKWWWWWWWWKK..",  // ear base into head
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
-  // Band — narrow (arms are raised, not wrapping the sides)
-  "....KKKKKKKK....",
-  "...KKKKKKKKKK...",
-  "...KKKKKKKKKK...",
-  // Body — NO black on sides (arms are up, only white fur + gray belly visible)
-  "...WWWWGGWWWW...",  // body (white fur, no K edges)
-  "...WWWGGGGWWW...",  // belly
-  "....WWWGGWWW....",  // body narrows
-  "....WWWWWWWW....",  // hips
-  // Legs — wide stance
-  "..KKKK....KKKK.",  // legs spread
-  ".KKKKK....KKKKK",  // feet wide
+  // 3 empty rows at top
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // Axe blade + handle in accessory space above head (right side)
+  ".......AAAAA....",  // axe blade (5px wide)
+  ".......KHH......",  // paw (K) gripping handle
+  // DN_EARS_HEAD shifted 1px RIGHT (lean back) — 6 rows
+  "...KKKK..KKKK...",  // ear top
+  "..KKKKK..KKKKK..",  // ear widens
+  "..KKKKK..KKKKK..",  // ear holds
+  "...KKWWWWWWKK...",  // ear base
+  "...WWWWWWWWWWWW.",  // head
+  "..WWWWWWWWWWWWWW",  // head widest
+  // DN_FACE shifted 1px right (lean back) — 6 rows
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "..WWKKEKWWKEKWWW",  // eyes with glint
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "...WWWWWKKWWWWW.",  // nose
+  "...WWWWWWWWWWWW.",  // lower face
+  "....WWWWWWWWWW..",  // chin
+  // DN_BAND shifted right — 3 rows
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKK",
+  ".KKKKKKKKKKKKKKKK",
+  // DN_BODY shifted right, arms up (no arm extensions at side) — 7 rows
+  ".KKKKKWWWWWWKKKK",  // body top
+  ".KKKKWWWGGWWWKKK",  // belly
+  ".KKKKWWGGGGWWKKK",  // belly
+  ".KKKKWWGGGGWWKKK",  // belly
+  ".KKKKKWWWGGWWKKK",  // body narrows
+  "..KKKKWWWWWWKKKK",  // body base
+  "...KKKWWWWWKKK..",  // body bottom
+  // DN_LEGS_IDLE (same both frames) — 3 legs
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
   // Stump in front (at ground level)
-  ".....TTDDTT.....",  // stump top
-  ".....TTTTTT.....",  // stump body
+  ".....TTDDTT.....",
 ]);
 
-// === CHOP FRAME 2: Axe swung down into stump IN FRONT of body ===
-// Panda hunched, much shorter. Stump+axe at waist level overlapping the legs.
+// === CHOP FRAME 2: Axe down at stump, panda leans forward (head 1px left) ===
+// 3 empty + 2 empty (no axe above) + 5 ears (drop 1 for lean) + 6 face + 3 band + 8 body + 3 legs + 2 stump = 32
 const chop2 = n([
+  // 3 empty rows at top
   EMPTY,
   EMPTY,
   EMPTY,
+  // Extra empty rows (axe is now down at stump, not above head)
   EMPTY,
-  // Head dropped lower, ears compressed
-  "..KKKK..KKKK....",  // ear top
-  "..KKWWWWWWKK....",  // ears compressed
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  // Band (no chin — compressed)
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
+  EMPTY,
+  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
+  ".KKKK..KKKK.....",  // ear top (shifted left)
+  "KKKKK..KKKKK....",  // ear widens
+  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold row for lean)
+  ".WWWWWWWWWWWWW..",  // head
+  "WWWWWWWWWWWWWW..",  // head widest
+  // DN_FACE shifted 1px left (lean forward) — 6 rows
+  "WWWKKKWWKKKWWW..",  // eye patches
+  "WWKKEKWWKEKWWW..",  // eyes with glint
+  "WWWKKKWWKKKWWW..",  // eye patches
+  ".WWWWWKKWWWWW...",  // nose
+  ".WWWWWWWWWWWW...",  // lower face
+  "..WWWWWWWWWW....",  // chin
+  // DN_BAND shifted left — 3 rows
+  ".KKKKKKKKKKKK...",
+  "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // Body hunched, arms reaching forward/down
-  "KKKKWWWGGWWWKKKK",  // body
-  "KKKWWWGGGGWWWKKK",  // belly wide (hunched)
-  ".KKWWWWGGWWWWKK.",  // body leans forward
-  "..KWWWWWWWWWWK..",  // arms reaching down to stump
-  // Stump + axe in front of legs (overlaps — between panda and viewer)
-  "..KK.AAAAAA.KK..",  // paws flanking axe blade in stump
-  ".KKKKAATTAAKKKK.",  // legs behind stump, axe embedded
-  ".KKKKTTDDTTKKKK.",  // legs + stump body
-  "..KKKKTTTTKKKK..",  // feet + stump base
+  // DN_BODY shifted left, arms forward/down toward stump — 8 rows
+  "KKKKKWWWWWWKKKK.",  // body top
+  "KKKKWWWGGWWWKKK.",  // belly
+  "KKKKWWGGGGWWKKK.",  // belly, arms coming down
+  "KKKKWWGGGGWWKKK.",  // belly
+  "KKKKKWWWGGWWWKK.",  // body narrows
+  ".KKKKWWWWWWWKKKK",  // body base, arms reaching down
+  "..KKKWWWWWWKKKMM",  // arms extend to stump level, handle (MM)
+  "...KKWWWWWWKKAAA",  // arms fully down, axe blade (AAA) at stump
+  // DN_LEGS_IDLE (same both frames) — 3 rows
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  // Stump + axe embedded at ground level — 2 rows
+  ".....TTDDTT.....",  // stump body
 ]);
 
 // === Render: 2 frames side by side ===
@@ -166,5 +183,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_chop_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): axe raised — handle through ear gap, paws grip at head, tall stance");
-console.log("Frame 2 (right): axe down — hunched over stump, compressed, axe embedded");
+console.log("Frame 1 (left): axe raised — leans back (head right), paw grips handle above head");
+console.log("Frame 2 (right): axe down — leans forward (head left), arms down at stump with axe");
