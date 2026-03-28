@@ -1,13 +1,13 @@
 import type { SpriteData, Structure } from './types.js'
 
-// --- Palette (hex) ---
-const T  = '#B99B5A' // thatch base
-const Td = '#A5874B' // thatch dark / edge
-const Th = '#CDB273' // thatch highlight
-const Te = '#917841' // eave underside shadow
-const b  = '#788A69' // bamboo stalk
-const bh = '#9BAC8C' // bamboo highlight
-const bj = '#5A694E' // bamboo joint / dark
+// --- Palette (hex, r2) ---
+const T  = '#B99B34' // thatch base (saturated gold)
+const Td = '#9E8228' // thatch dark / edge
+const Th = '#CDB24B' // thatch highlight
+const Te = '#826C23' // eave underside shadow
+const b  = '#8C7044' // bamboo wall base (processed brown)
+const bh = '#A28A5C' // bamboo wall highlight
+const bj = '#6C5230' // bamboo wall joint / dark
 const D  = '#554B3A' // interior back wall
 const d  = '#5F5541' // interior floor
 const S  = '#8C7855' // stone light

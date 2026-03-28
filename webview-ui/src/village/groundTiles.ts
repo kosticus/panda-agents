@@ -9,15 +9,17 @@
 import type { SpriteData } from './types.js'
 import { TileType } from './types.js'
 
-// --- Palette: character → CSS hex color (from generate-ground-preview.mjs) ---
+// --- Palette: character → CSS hex color (r2 — from generate-ground-preview.mjs) ---
 const P: Record<string, string> = {
-  // Bamboo (desaturated gray-green)
-  b: '#788a69', h: '#9bac8c', j: '#5a694e',
-  l: '#648c55', f: '#94a28a', e: '#a5b29b',
-  // Grass (warm yellow-green)
-  g: '#6e9b46', d: '#507d37', t: '#8caf5f', m: '#5f8c3c',
-  // Path (warm sandy)
-  s: '#c3af8c', k: '#aa9678', w: '#d7c3a5', p: '#9b8c78',
+  // Bamboo (lightened stalks for contrast against dark fill)
+  b: '#6E8255', h: '#96AC80', j: '#415037',
+  l: '#5F9B2D', f: '#879878', e: '#9BAA8C',
+  // Grass (slightly darker, r2)
+  g: '#64913E', d: '#487330', t: '#82A555', m: '#558234',
+  // Path (warm sandy — unchanged from r1)
+  s: '#C3AF8C', k: '#AA9678', w: '#D7C3A5', p: '#9B8C78',
+  // Gathering (packed earth / sun-baked clay)
+  c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834',
 }
 
 /** Convert a 16-row character grid into SpriteData (16×16 hex array). */
@@ -153,61 +155,111 @@ const path3 = toSprite([
 // BAMBOO TILES
 // =====================
 
+// Stalks at cols 2-5 (bhhb), 8-10 (bhb), 12-15 (bhhb). Left margin jitter.
+// Fill uses d/m only (dark canopy floor) for contrast against lightened stalks.
 const bamboo1 = toSprite([
-  'ggggggbhhbgggggg',
-  'ggtgggbhhbggggdg',
-  'ggggggbhhbgggggg',
-  'ggggggjhhjgggggg',
-  'gdgggjbhhbjggggg',
-  'ggggggbhhbgggtgg',
-  'ggggggbhhbgggggg',
-  'ggtgggbhhbggdggg',
-  'ggggggbhhbgggggg',
-  'ggggggbhhbgggggg',
-  'ggdgggbhhbgggggg',
-  'ggggggjhhjgggggg',
-  'gggggjbhhbjggtgg',
-  'ggggggbhhbgggggg',
-  'ggtgggbhhbggdggg',
-  'ggggggbhhbgggggg',
+  'dmbhhbdmbhbdbhhb',
+  'mdbhhbmdbhbmbhhb',
+  'dmbhhbdmjhjdbhhb',
+  'dlbhhbdmbhbdbhhb',
+  'dmjhhjdmbhbmbhhb',
+  'ddbhhbmdbhbmbhhb',
+  'ldbhhbmdbhbdjhhj',
+  'dmbhhbdmbhbmbhhb',
+  'mdbhhbdmbhbdbhhb',
+  'mdbhhbddjhjdbhhb',
+  'dmbhhbmdbhbmbhhb',
+  'dljhhjmdbhbmbhhb',
+  'mdbhhbddbhbdbhhb',
+  'dmbhhbdmbhbdjhhj',
+  'ldbhhbmdbhbdbhhb',
+  'mdbhhbmdbhbdbhhb',
 ])
 
+// Stalks at cols 0-3 (bhhb), 5-7 (bhb), 10-13 (bhhb). Right margin jitter.
+// Fill uses d/m only (dark canopy floor) for contrast against lightened stalks.
 const bamboo2 = toSprite([
-  'gfeegggggbhhbggg',
-  'gfeeggtggbhhbgdg',
-  'gfeegggggjhhjggg',
-  'gfeeggjbhhbjgggg',
-  'gfeegdggbhhbgggg',
-  'gfeeggggbhhbgggg',
-  'gfeeggggbhhbgggg',
-  'gfeegtggbhhbgdgg',
-  'gfeeggggjhhjgggg',
-  'gfeegjbhhbjggggg',
-  'gfeegdggbhhbgggg',
-  'gfeeggggbhhbgggg',
-  'gfeeggggbhhbggtg',
-  'gfeeggggjhhjgggg',
-  'gfeegjbhhbjggggg',
-  'gfeegdggbhhbgggg',
+  'bhhbdbhbdmbhhbdm',
+  'bhhbmbhbdmjhhjdm',
+  'bhhbdbhbmdbhhbdd',
+  'bhhbdjhjmdbhhbdl',
+  'bhhbmbhbdmbhhbdm',
+  'jhhjdbhbmmbhhbdd',
+  'bhhbdbhbddbhhbdm',
+  'bhhbmbhbdmbhhbld',
+  'bhhbmbhbdmjhhjdm',
+  'bhhbdbhbddbhhbmm',
+  'bhhbmjhjdmbhhbdd',
+  'bhhbdbhbmmbhhbdl',
+  'jhhjdbhbddbhhbmd',
+  'bhhbmbhbdmbhhbdm',
+  'bhhbmbhbdmbhhbdl',
+  'bhhbdbhbddbhhbmm',
 ])
 
+// Stalks at cols 1-3 (bhb), 6-9 (bhhb), 12-14 (bhb). Both margins jitter.
+// Fill uses d/m only (dark canopy floor) for contrast against lightened stalks.
 const bamboo3 = toSprite([
-  'ggggggbhhbgggggg',
-  'ggggggbhhbllggdg',
-  'gggtggbhhblllggg',
-  'ggggggbhhbgggggg',
-  'ggggggbhhbgggggg',
-  'ggggggjhhjgggggg',
-  'gdgggjbhhbjggggg',
-  'ggggggbhhbgggggg',
-  'ggllggbhhbggtggg',
-  'glllggbhhbgggggg',
-  'ggggggjhhjgggggg',
-  'gggggjbhhbjggggg',
-  'ggggggbhhbggggdg',
-  'ggggggbhhbllgggg',
-  'ggtgggbhhblllggg',
-  'ggggggbhhbgggggg',
+  'dbhbdmbhhbddbhbm',
+  'mbhbddbhhbdmjhjd',
+  'dbhbmdbhhbdmbhbl',
+  'djhjdmbhhbddbhbm',
+  'lbhbdmbhhbdmbhbd',
+  'mbhbddbhhbdmbhbd',
+  'mbhbddjhhjddbhbd',
+  'dbhbmdbhhbdmbhbd',
+  'dbhbmdbhhbddjhjl',
+  'dbhbdmbhhbddbhbm',
+  'djhjdmbhhbmdbhbd',
+  'mbhbddbhhbddbhbl',
+  'lbhbdmbhhbddbhbm',
+  'dbhbdmjhhjdmbhbd',
+  'mbhbmdbhhbdmbhbd',
+  'dbhbdmbhhbddbhbm',
+])
+
+// =====================
+// GATHERING TILES
+// =====================
+
+// Interior — solid packed earth with scattered texture
+const gather1 = toSprite([
+  'ccxccvcccxcccvcc',
+  'cvccccxccccxcccc',
+  'cccvcccccvcccxcc',
+  'cxccccvcccccccvc',
+  'ccccxccccxcccccc',
+  'cvcccccxcccvccxc',
+  'ccccvccccccccccv',
+  'cxccccccvcccxccc',
+  'cccxcvcccccccccx',
+  'cvccccccxcvccccv',
+  'ccccxcccccccxccc',
+  'cxcccvcccxcccccc',
+  'ccvccccxcccvcccx',
+  'cccccxcccccccvcc',
+  'cvcccccvcxcccccc',
+  'ccxcccccccvcxccc',
+])
+
+// Edge — grass border transitioning to packed earth center
+const gather2 = toSprite([
+  'gggtggdggggtgggg',
+  'gdggggggdgggggdg',
+  'ggggdgggggdggggg',
+  'ggdggcccccccggdg',
+  'ggggcccxcccccggg',
+  'gdgccxcccvccccgg',
+  'gggccccvcccxccgg',
+  'ggccvccccxccccgg',
+  'ggcccxcccccvccgd',
+  'ggccccccxcccccgg',
+  'gdgcccvcccxcccgg',
+  'ggggccccccccgggg',
+  'gggdgccccccdgggg',
+  'ggggggdggggggtgg',
+  'gdggtggggdgggggg',
+  'ggggggggtgggggdg',
 ])
 
 // =====================
@@ -227,6 +279,8 @@ function variantIndex(col: number, row: number): number {
  * Return the ground SpriteData for a tile at the given grid position.
  *
  * GRASS / PATH / BAMBOO pick a deterministic variant based on (col, row).
+ * GATHERING uses edge-aware selection: gather2 (transition) at zone edges,
+ * gather1 (solid) in the interior.
  * Other tile types (WATER, COOKING, etc.) fall back to grass1 for the POC.
  */
 export function getGroundSprite(
@@ -239,7 +293,8 @@ export function getGroundSprite(
   if (tileType === TileType.GRASS) return grassVariants[idx]
   if (tileType === TileType.PATH) return pathVariants[idx]
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
+  if (tileType === TileType.GATHERING) return gather1
 
-  // Fallback for POC: water, cooking, woodcutting, garden, gathering, void
+  // Fallback for POC: water, cooking, woodcutting, garden, void
   return grass1
 }
