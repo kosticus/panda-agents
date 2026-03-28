@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates fishing chore animation preview: 2 frames side by side at 8× scale.
-// Frame 1: rod cast — panda upright, right arm raised, rod angled up and out to the right
-// Frame 2: waiting — panda seated/low, rod horizontal, line in water with bobber
-// The HEIGHT change (standing vs sitting low) is the primary motion signal.
+// Frame 1: Seated, pole angled up-right, relaxed posture. Compressed head (hunched seated).
+//          Bobber visible in water to the right.
+// Frame 2: Seated, pole pulled back/down (a bite!), body leans back slightly, line taut.
+// Motion signal: pole angle change + body lean back
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -37,79 +38,77 @@ function n(frame) {
   });
 }
 
-// === FISH FRAME 1: Standing, rod cast upward — arm raised, rod angles up-right ===
-// Right arm extends up with rod going diagonally. Body tall, full height.
+// === FISH FRAME 1: Seated, pole angled up-right, relaxed. Compressed head (hunched seated). ===
+// Rod tip goes up-right above head. Body seated low. Bobber in water to right.
 const fish1 = n([
-  // Rod tip high above head (diagonal, right side)
-  "..............F.",  // rod tip
-  ".............FF.",  // rod shaft
+  // Rod tip up-right (4 rows above head for pole)
+  "..............F.",  // rod tip far up-right
+  ".............FF.",  // rod shaft angles down-left
   "............FF..",  // rod continues
-  "...........FF...",  // rod near hand
-  // Head — normal centered position
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head
+  "...........FF...",  // rod base near paw
+  // Head — compressed for seated/hunched (2-row ears only)
+  "..KKKK..KKKK....",  // ear tops
+  "..KKWWWWWWKK....",  // ears compressed into head (no separate ear-widen rows)
+  "..WWWWWWWWWWWW..",  // head wide
   ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — right arm raised above, rod in paw
+  // Face (normal face, but no separate chin row — seated slouch)
   ".WWWKKKWWKKKWWW.",  // eye patches
   ".WWKKEKWWKEKWWW.",  // eyes with glint
   ".WWWKKKWWKKKWWW.",  // eye patches
   "..WWWWWKKWWWWW..",  // nose
   "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
   // Band
   "..KKKKKKKKKKKK..",  // band 1
-  ".KKKKKKKKKKKKK..",  // band 2 (arm on right, missing K far right)
-  "KKKKKKKKKKKKK...",  // band 3
-  // Body — right arm raised (no K on right edge — arm is up)
-  "KKKKWWWGGWWWWW..",  // body
-  "KKKKWWGGGGWWWW..",  // belly
-  ".KKKWWGGGGWWW...",  // belly narrows
-  "..KKWWWGGWWW....",  // body narrows
-  "..WWWWWWWWWW....",  // hips
-  // Legs — standing
-  "...KKKK..KKKK...",  // legs
-  "...KKKK..KKKK...",  // legs
-  "..KKKKK..KKKKK..",  // feet
-  // Water bank below
+  ".KKKKKKKKKKKKKKK",  // band 2
+  "KKKKKKKKKKKKKKKK",  // band 3
+  // Body — wide/seated, right arm holds pole (extends right)
+  "KKKKKWWWWWWKKKKK",  // body wide (seated spread)
+  "KKKKWWWGGWWWKKKK",  // belly
+  "KKKKWWGGGGWWKKKF",  // belly, right paw at pole grip
+  "KKKKWWWGGWWWKFFF",  // lower body, rod extends right
+  // Legs folded/tucked (seated on bank)
+  "..KKKKKKKKKKKK..",  // thick leg block folded
+  "..KKKKKKKKKKKK..",  // feet/seat on bank
+  // Sandy bank + water with bobber
   "...PPPPPPPPPP...",  // sandy bank
-  "..UUUUUUUUUUUU..",  // water surface
+  "..UUUUUUUUBUUU..",  // water + bobber (B at col 11 — far right where line ends)
+  "..UUUUUUUUUUUU..",  // water depth
 ]);
 
-// === FISH FRAME 2: Seated/low, rod horizontal, bobber in water, waiting ===
-// Panda is LOW (seated). Rod extends flat to the right. Bobber bobs in water.
+// === FISH FRAME 2: Seated, pole pulled back/down (a bite!), body leans back. ===
+// Pole now angled steeply down toward water (pulled by fish). Body leans back. Line taut.
 const fish2 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Head low (seated — head starts later in frame)
-  "..KKKK..KKKK....",  // ear top
-  "..KKWWWWWWKK....",  // ears compressed (seated slouch)
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  // Band (no chin — seated/slouched forward)
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // Body — wide, seated, right arm extends holding rod horizontal
-  "KKKWWWGGGGWWWKKK",  // body wide (seated)
-  "KKWWWWGGGGWWWWKK",  // belly spreads
-  ".KWWWWGGWWWWKFFF",  // body, right arm to rod
-  "..KWWWWWWWWKFFF.",  // lower body, rod extends right
-  // Legs folded low (seated)
-  "..KKKKKKKKKKKK..",  // thick leg block (folded)
-  "..KKKKKKKKKKKK..",  // feet/seat
+  // Rod tip now pulled down-right at steeper angle (bite pulls it)
+  "...............F",  // rod tip (still upper right but angled steeper)
+  "..............FF",  // rod shaft
+  ".............FF.",  // rod continues
+  "............FF..",  // rod base near grip, coming down more steeply
+  // Head — same compressed (seated) but body leans back (head shifts right slightly)
+  "...KKKK..KKKK..",  // ear tops (shifted 1px right — lean back)
+  "...KKWWWWWWKK..",  // ears compressed
+  "...WWWWWWWWWWWW.",  // head
+  "..WWWWWWWWWWWWWW",  // head widest
+  // Face (shifted right)
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "..WWKKEKWWKEKWWW",  // eyes with glint
+  "..WWWKKKWWKKKWWW",  // eye patches
+  "...WWWWWKKWWWWW.",  // nose
+  "...WWWWWWWWWWWW.",  // lower face
+  // Band (shifted right — lean back)
+  "...KKKKKKKKKKKK.",  // band 1
+  "..KKKKKKKKKKKKKKK", // band 2
+  "KKKKKKKKKKKKKKKK",  // band 3
+  // Body — leaning back, right arm pulls rod back, pole angle changed
+  ".KKKKWWWWWWKKKKK",  // body (leaned right/back)
+  ".KKKWWWGGWWWKKKK",  // belly
+  ".KKKWWGGGGWWKKKF",  // belly, right paw grips pole tightly
+  ".KKKWWWGGWWWKFFF",  // lower body, rod angles back
+  // Legs folded/tucked (still seated)
+  "..KKKKKKKKKKKK..",  // thick leg block
+  "..KKKKKKKKKKKK..",  // feet on bank
+  // Sandy bank + taut line going right into water
   "...PPPPPPPPPP...",  // sandy bank
-  "..UUUUUBUUUUUU..",  // water + bobber (B at col 6)
-  "..UUUUUUUUUUUU..",  // water depth
+  "..UUUUUUUUUUUU..",  // water (bobber submerged — fish biting!)
   "..UUUUUUUUUUUU..",  // water depth
 ]);
 
@@ -171,5 +170,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_fish_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): standing — rod cast upward, right arm raised, full height");
-console.log("Frame 2 (right): seated low — rod horizontal, bobber in water, waiting");
+console.log("Frame 1 (left): seated, pole angled up-right, relaxed — bobber in water");
+console.log("Frame 2 (right): seated, pole pulled back/down (a bite!), body leans back");

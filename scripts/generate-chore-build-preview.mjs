@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates building/repairing animation preview: 2 frames side by side at 8× scale.
-// Frame 1: mallet raised — arms up holding mallet overhead, body tall, wide stance
-// Frame 2: mallet down — body hunched/compressed, mallet strikes sawhorse, arms pushing down
-// Uses the same vertical motion profile as chopping: HEIGHT change is the primary motion signal.
+// Frame 1: Standing, arm/mallet pulled back LEFT (away from wall). Wall planks on right.
+//          Full canonical height. Body centered/neutral.
+// Frame 2: Arm/mallet strikes wall. Body leans toward wall (right). Horizontal arm swing.
+// Motion signal: HORIZONTAL arm movement (distinct from chop's vertical motion).
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -19,7 +20,7 @@ const C = {
   E: [255, 255, 255],     // eye glint
   M: [140, 100, 60],      // mallet handle (wood)
   X: [160, 160, 170],     // mallet head (steel gray)
-  T: [120, 80, 50],       // sawhorse wood
+  T: [120, 80, 50],       // wall plank wood
   D: [90, 60, 35],        // dark wood grain
 };
 
@@ -36,75 +37,87 @@ function n(frame) {
   });
 }
 
-// === BUILD FRAME 1: Mallet raised, arms up — body tall, wide stance ===
-// Both arms form a V above head holding mallet. Same profile as chop raised.
+// === BUILD FRAME 1: Standing, mallet pulled back LEFT, arm cocked. Wall on right. ===
+// Full canonical height. Left arm pulled back (holding mallet). Wall planks on far right.
+// Layout: 4 empty (acc header) + 6 ears + 6 face + 3 band + 8 body + 3 legs = 30 rows
 const build1 = n([
-  // Mallet head above arms
-  "....XXXXX.......",  // mallet head (5px wide)
-  ".....MMM........",  // handle (3px wide)
-  "....KKKKK.......",  // paws gripping — wide block (5px)
-  "...KKK.KKK......",  // forearms spread (3px each)
-  "..KKK...KKK.....",  // arms widen (3px each, clear gap)
-  ".KKKK....KKKK...",  // arms merge into ears (4px gap)
-  "KKKKK....KKKKK..",  // ears/arms at widest
-  ".KKWWWWWWWWKK...",  // ear base into head
-  ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWWW.",  // head widest
-  // Face
-  "WWWKKKWWWKKKWWW.",  // eye patches
-  "WWKKEKWWWKEKWWW.",  // eyes with glint
-  "WWWKKKWWWKKKWWW.",  // eye patches
-  ".WWWWWKKWWWWWW..",  // nose
-  ".WWWWWWWWWWWWW..",  // lower face
-  "..WWWWWWWWWWWW..",  // chin
-  // Band — narrow (arms are raised)
-  "...KKKKKKKKKK...",
+  // 4-row acc header (empty — no overhead prop in this frame)
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD (6 rows) — full canonical, centered
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE (6 rows) — full canonical
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // DN_BAND (3 rows)
   "..KKKKKKKKKKKK..",
-  "..KKKKKKKKKKKK..",
-  // Body — no black on sides (arms are up)
-  "..WWWWWGGWWWWW..",  // body (white fur)
-  "..WWWWGGGGWWWW..",  // belly
-  "...WWWGGWWWWW...",  // body narrows
-  "...WWWWWWWWWW...",  // hips
-  // Legs — wide stance
-  ".KKKK....KKKK..",  // legs spread
-  "KKKKK....KKKKK.",  // feet wide
-  // Sawhorse in front
-  "....TTDDDDTT....",  // sawhorse top beam
-  "....TDDDDDDT....",  // sawhorse body
+  ".KKKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // DN_BODY (8 rows) — left arm extended left (mallet pulled back), wall plank on right
+  "XXKKKWWWWWWKKKT.",  // mallet head left (XX), body, wall plank (T) right
+  "MXKKWWWGGWWWKKT.",  // handle+mallet, body belly, wall
+  "MMKKKWWGGGGWWKT.",  // handle continues, belly, wall
+  "MKKKKWWGGGGWWKT.",  // handle at grip, belly, wall
+  ".KKKKKWWWGGWKKT.",  // body narrows, wall
+  ".KKKKKWWWWWWKKT.",  // body base, wall
+  "..KKKKKWWWWKKKKT",  // body narrows, wall
+  "...KKKKWWWWKKKT.",  // body bottom, wall
+  // DN_LEGS_IDLE (3 rows)
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
 ]);
 
-// === BUILD FRAME 2: Mallet swung down, body hunched over sawhorse ===
-// Same compressed silhouette as chop-down: panda short, mallet strikes sawhorse.
+// === BUILD FRAME 2: Body leans toward wall (right), mallet strikes wall. ===
+// Body shifted 1px right (lean toward wall). Arm now extended RIGHT, mallet hits wall.
+// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs = 30 rows
 const build2 = n([
   EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
-  // Head dropped lower, ears compressed
-  "..KKKK..KKKK....",  // ear top
-  "..KKWWWWWWKK....",  // ears compressed
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  // Band (no chin — compressed)
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
+  // DN_EARS_HEAD shifted 1px right (lean toward wall)
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  "..KKKKK..KKKKK..",
+  "...KKWWWWWWKK...",
+  "...WWWWWWWWWWWW.",
+  "..WWWWWWWWWWWWWW",
+  // DN_FACE shifted 1px right
+  "..WWWKKKWWKKKWWW",
+  "..WWKKEKWWKEKWWW",
+  "..WWWKKKWWKKKWWW",
+  "...WWWWWKKWWWWW.",
+  "...WWWWWWWWWWWW.",
+  "....WWWWWWWWWW..",
+  // DN_BAND shifted right
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body hunched, arms pushing down on mallet
-  "KKKKWWWGGWWWKKKK",  // body
-  "KKKWWWGGGGWWWKKK",  // belly wide (hunched)
-  ".KKWWWWGGWWWWKK.",  // body leans forward
-  "..KWWWWWWWWWWK..",  // arms pushing down
-  // Mallet + sawhorse in front of legs
-  "..KK.XXXXX..KK..",  // paws flanking mallet head on sawhorse
-  ".KKKKXMMMMXKKKK.",  // legs behind, mallet handle visible
-  ".KKKKTTDDTTKKKK.",  // legs + sawhorse body
-  "..KKKKTTTTKKKK..",  // feet + sawhorse base
+  // DN_BODY (8 rows) — right arm now extends RIGHT, mallet head hits wall planks
+  ".KKKKWWWWWWKXXTT",  // body shifted right, arm extends, mallet (XX) hits wall (TT)
+  ".KKKWWWGGWWKXTT.",  // belly, arm at wall
+  ".KKKWWGGGGWWKXT.",  // belly, mallet strikes
+  ".KKKWWGGGGWWKXT.",  // belly, impact
+  "..KKWWWGGWWWKTT.",  // body narrows, wall
+  "..KKWWWWWWWKKTT.",  // body base, wall
+  "...KKKWWWWKKKKT.",  // body narrows, wall
+  "...KKKKWWWWKKKT.",  // body bottom, wall
+  // Legs — weight shifted right (lean toward wall)
+  "....KKKK..KKKK..",
+  "....KKKK..KKKK..",
+  "...KKKKK..KKKKK.",
 ]);
 
 // === Render: 2 frames side by side ===
@@ -165,5 +178,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_build_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): mallet raised — arms in V above head, body tall, wide stance");
-console.log("Frame 2 (right): mallet down — body hunched over sawhorse, compressed height");
+console.log("Frame 1 (left): standing full height — mallet pulled back left, wall planks on right");
+console.log("Frame 2 (right): body leans right — mallet strikes wall, horizontal arm swing");

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates sweeping/cleaning animation preview: 2 frames side by side at 8× scale.
-// Frame 1: broom sweeps LEFT — panda bent forward/left, broom angled left low
-// Frame 2: broom sweeps RIGHT — panda bent forward/right, broom angled right low
-// Shares bending motion profile with watering: body tilts side-to-side while bent.
+// Frame 1: broom sweeps LEFT — panda leans left, broom angled left low
+// Frame 2: broom sweeps RIGHT — panda leans right, broom angled right low
+// Head uses FULL 6-row canonical ears/head shifted left/right (like cooking does).
+// Bent posture comes from body/legs area, not from compressing the head.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -37,72 +38,77 @@ function n(frame) {
 }
 
 // === SWEEP FRAME 1: Body leans LEFT, broom sweeps left along ground ===
-// Whole body tilted left. Left arm reaches down-left with broom. Low posture.
+// Full 6-row ears/head shifted 1px LEFT. Body tilts left.
+// Layout: 2 empty + 6 ears + 6 face + 3 band + body (bent) + legs + broom = ~32
 const sweep1 = n([
   EMPTY,
   EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Head lower, shifted slightly left (bent forward posture)
+  // DN_EARS_HEAD (6 rows) shifted 1px LEFT
   ".KKKK..KKKK.....",  // ear top (shifted left)
-  ".KKWWWWWWKK.....",  // ears compressed (bent)
+  "KKKKK..KKKKK....",  // ear widens
+  "KKKKK..KKKKK....",  // ear holds
+  ".KKWWWWWWKK.....",  // ear base
   ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWWW.",  // head widest
-  "WWWKKKWWKKKWWWW.",  // eye patches (shifted left)
-  "WWKKEKWWKEKWWWW.",  // eyes with glint
-  ".WWWWWKKWWWWWW..",  // nose
-  ".WWWWWWWWWWWWW..",  // lower face
-  // Band (no chin — bent forward)
-  ".KKKKKKKKKKKK...",
-  "KKKKKKKKKKKKKKK.",
-  "KKKKKKKKKKKKKKKK",
-  // Body bent left, left arm extends down-left with broom
-  "KKKWWWGGGGWWWKKK",  // body wide (bent)
+  "WWWWWWWWWWWWWW..",  // head widest
+  // DN_FACE (6 rows) shifted left
+  "WWWKKKWWKKKWWW..",  // eye patches
+  "WWKKEKWWKEKWWW..",  // eyes with glint
+  "WWWKKKWWKKKWWW..",  // eye patches
+  ".WWWWWKKWWWWW...",  // nose
+  ".WWWWWWWWWWWW...",  // lower face
+  "..WWWWWWWWWW....",  // chin
+  // DN_BAND (3 rows) shifted left
+  ".KKKKKKKKKKKK...",  // band 1
+  "KKKKKKKKKKKKKKK.",  // band 2
+  "KKKKKKKKKKKKKKKK",  // band 3
+  // Body bent left — left arm extends down-left with broom handle
+  "KKKWWWGGGGWWWKKK",  // body wide (bent forward)
   "KKWWWWGGGGWWWWKK",  // belly spreads
   "KWWWWWGGWWWWKK..",  // body tilts left, right arm in
-  "H.KWWWWWWWWKK...",  // broom handle starts left, body continues
-  "HH.WWWWWWWWW....",  // broom handle, lower body/hips
+  "H.KWWWWWWWWKK...",  // broom handle starts left, body
   // Legs + broom reaching ground
-  "HHH..KKKKKKKK..",  // broom shaft, legs
-  "RRRH..KKKKKKK..",  // bristle base + legs
-  "RRRR.KKKKKKKK..",  // bristles spread left
-  "SSSS...........",  // bristle tips on ground
-  "DDDDD..........",  // dirt/dust cloud
+  "HH..KKKKKKKKKK..",  // broom shaft, legs
+  "HHH..KKKKKKKKK..",  // broom continues down
+  "RRRH..KKKKKKKK..",  // bristle base + legs
+  "RRRR..KKKKKKK...",  // bristles spread left
+  "SSSS............",  // bristle tips on ground
+  "DDDDD...........",  // dirt/dust cloud
 ]);
 
 // === SWEEP FRAME 2: Body leans RIGHT, broom sweeps right along ground ===
-// Whole body tilted right. Right arm reaches down-right with broom. Low posture.
+// Full 6-row ears/head shifted 1px RIGHT. Body tilts right.
 const sweep2 = n([
   EMPTY,
   EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Head lower, shifted slightly right (bent forward posture)
-  "....KKKK..KKKK..",  // ear top (shifted right)
-  "....KKWWWWWWKK..",  // ears compressed (bent)
-  "...WWWWWWWWWWWWW",  // head
+  // DN_EARS_HEAD (6 rows) shifted 1px RIGHT
+  "...KKKK..KKKK...",  // ear top (shifted right)
+  "..KKKKK..KKKKK..",  // ear widens
+  "..KKKKK..KKKKK..",  // ear holds
+  "...KKWWWWWWKK...",  // ear base
+  "...WWWWWWWWWWWW.",  // head
   "..WWWWWWWWWWWWWW",  // head widest
-  "..WWWKKKWWKKKWWW",  // eye patches (shifted right)
+  // DN_FACE (6 rows) shifted right
+  "..WWWKKKWWKKKWWW",  // eye patches
   "..WWKKEKWWKEKWWW",  // eyes with glint
+  "..WWWKKKWWKKKWWW",  // eye patches
   "...WWWWWKKWWWWW.",  // nose
   "...WWWWWWWWWWWW.",  // lower face
-  // Band (no chin — bent forward)
-  "...KKKKKKKKKKKK.",
-  ".KKKKKKKKKKKKKKK",  // band 2
+  "....WWWWWWWWWW..",  // chin
+  // DN_BAND (3 rows) shifted right
+  "...KKKKKKKKKKKK.",  // band 1
+  "..KKKKKKKKKKKKKKK", // band 2
   "KKKKKKKKKKKKKKKK",  // band 3
-  // Body bent right, right arm extends down-right with broom
-  "KKKWWWGGGGWWWKKK",  // body wide (bent)
+  // Body bent right — right arm extends down-right with broom handle
+  "KKKWWWGGGGWWWKKK",  // body wide (bent forward)
   "KKWWWWGGGGWWWWKK",  // belly spreads
   "..KKWWWWGGWWWWWK",  // body tilts right, left arm in
-  "...KKK.WWWWWWWKH",  // body continues, broom handle right
-  "....WWWWWWWWW.HH",  // hips, broom handle
+  "...KKK.WWWWWWWKH",  // body, broom handle starts right
   // Legs + broom reaching ground
-  "..KKKKKKKK..HHH.",  // legs, broom shaft right
-  "..KKKKKKK..RRRH.",  // legs, bristle base
-  "..KKKKKKKK.RRRR.",  // legs, bristles spread right
-  "..........SSSSS.",  // bristle tips on ground
+  "..KKKKKKKKKK..HH",  // legs, broom shaft right
+  "..KKKKKKKKK..HHH",  // legs, broom continues down
+  "..KKKKKKKK..RRRH",  // legs, bristle base
+  "...KKKKKKK..RRRR",  // legs, bristles spread right
+  "............SSSS",  // bristle tips on ground
   "...........DDDDD",  // dirt/dust cloud
 ]);
 
@@ -164,5 +170,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_sweep_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean left — whole body tilted, broom sweeps left along ground");
-console.log("Frame 2 (right): lean right — whole body tilted, broom sweeps right along ground");
+console.log("Frame 1 (left): lean left — full canonical head shifted left, broom sweeps left along ground");
+console.log("Frame 2 (right): lean right — full canonical head shifted right, broom sweeps right along ground");

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // Generates carrying animation preview: 2 frames side by side at 8× scale.
-// Walk cycle with a bundle/box held in front of body.
-// Frame 1: left foot forward — body weight shifts slightly right, bundle at chest
-// Frame 2: right foot forward — body weight shifts slightly left, bundle at chest
-// The leg/foot alternation is the primary motion signal (walking variant, not stationary).
+// Walk cycle with a bundle held in front of body at belly level.
+// Frame 1: body shifted 1px RIGHT (weight right), right foot forward (DN_WALK3_LEGS)
+// Frame 2: body shifted 1px LEFT (weight left), left foot forward (DN_WALK1_LEGS)
+// Uses canonical DN_BODY proportions with bundle overlaid at belly rows.
+// Matches cooking script approach: entire canonical panda shifted left/right per frame.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -36,72 +37,87 @@ function n(frame) {
   });
 }
 
-// === CARRY FRAME 1: Left foot forward, weight slightly right ===
-// Body shifted 1px right from neutral. Bundle held at chest level, both arms under it.
+// === CARRY FRAME 1: Body shifted 1px RIGHT, right foot forward (DN_WALK3_LEGS) ===
+// Bundle held at belly level. Whole silhouette shifted right like cook2.
+// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body (bundle overlay) + 4 walk legs = 31
 const carry1 = n([
-  // Head shifted 1px right (like cook2 — weight shift rightward)
-  "...KKKK..KKKK...",  // ear top (shifted right)
-  "..KKKKK..KKKKK..",  // ear widens
-  "..KKKKK..KKKKK..",  // ear holds
-  "...KKWWWWWWKK...",  // ear base
-  "...WWWWWWWWWWWW.",  // head
-  "..WWWWWWWWWWWWWW",  // head widest
-  // Face shifted right
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "..WWKKEKWWKEKWWW",  // eyes with glint
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "...WWWWWKKWWWWW.",  // nose
-  "...WWWWWWWWWWWW.",  // lower face
-  "....WWWWWWWWWW..",  // chin
-  // Band shifted right
-  "...KKKKKKKKKKKK.",  // band 1
-  ".KKKKKKKKKKKKKKK",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body — both arms come FORWARD under bundle (arms wrap around, not to sides)
-  ".KKKWWWGGWWWKKK.",  // body, arms gone inward (holding bundle)
-  "..KWWWGGGGWWWK..",  // belly, arms under bundle
-  // Bundle held at belly level, both arms wrapped underneath
-  "..KXTTTRTTTXK..",  // arms under bundle (K = paws, T = bundle bottom)
-  "..XTTTRRRTTTTX.",  // bundle body main
-  "..XTTTRRRTTTX..",  // bundle body lower
-  // Legs — left foot stepped FORWARD (left foot at cols 2-5, right foot back cols 10-14)
-  "...KKKK...KKKK.",  // legs
-  "..KKKKK....KKKK",  // left leg forward (shifted left), right leg back
-  ".KKKKKK....KKKK",  // left foot lands (col 1-6), right foot lifts
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD shifted 1px RIGHT
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  "..KKKKK..KKKKK..",
+  "...KKWWWWWWKK...",
+  "...WWWWWWWWWWWW.",
+  "..WWWWWWWWWWWWWW",
+  // DN_FACE shifted right
+  "..WWWKKKWWKKKWWW",
+  "..WWKKEKWWKEKWWW",
+  "..WWWKKKWWKKKWWW",
+  "...WWWWWKKWWWWW.",
+  "...WWWWWWWWWWWW.",
+  "....WWWWWWWWWW..",
+  // DN_BAND shifted right
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // DN_BODY (8 rows) shifted right — bundle overlaid at belly rows 2-5
+  ".KKKKWWWWWWKKKKK",  // body top (canonical row 1, shifted right)
+  ".KKKKTTTTTTKKKK.",  // belly row 2: bundle top face (arms under bundle hidden)
+  ".KKKXTRRRRXTKKK.",  // belly row 3: bundle with straps (X) and highlight (R)
+  ".KKKXTRRRRXTKKKK",  // belly row 4: bundle body
+  ".KKKKTTTTTTKKKKK",  // belly row 5: bundle bottom
+  "..KKKKWWWWWKKKKK",  // body row 6 (canonical): below bundle, arms visible
+  "...KKKKKWWWWKKKK",  // body row 7 (canonical)
+  "....KKKKWWWWKKKK",  // body row 8 (canonical)
+  // DN_WALK3_LEGS (4 rows): right foot forward — shifted right
+  "...KKKKW...KKKK.",  // legs (WALK3: left foot has W step)
+  "...KKKK....KKKK.",  // legs
+  "...KKKKK..KKKKK.",  // feet
+  "...KKKK............", // trailing left foot step
 ]);
 
-// === CARRY FRAME 2: Right foot forward, weight slightly left ===
-// Body shifted 1px left from neutral. Bundle same position at chest.
+// === CARRY FRAME 2: Body shifted 1px LEFT, left foot forward (DN_WALK1_LEGS) ===
+// Bundle same position at belly. Whole silhouette shifted left like cook1.
 const carry2 = n([
-  // Head shifted 1px left (weight shift leftward)
-  ".KKKK..KKKK.....",  // ear top (shifted left)
-  "KKKKK..KKKKK....",  // ear widens
-  "KKKKK..KKKKK....",  // ear holds
-  ".KKWWWWWWKK.....",  // ear base
-  ".WWWWWWWWWWWWWW.",  // head
-  "WWWWWWWWWWWWWW..",  // head widest
-  // Face shifted left
-  "WWWKKKWWKKKWWWW.",  // eye patches
-  "WWKKEKWWKEKWWWW.",  // eyes with glint
-  "WWWKKKWWKKKWWWW.",  // eye patches
-  ".WWWWWKKWWWWWW..",  // nose
-  ".WWWWWWWWWWWWW..",  // lower face
-  "..WWWWWWWWWWWW..",  // chin
-  // Band shifted left
-  ".KKKKKKKKKKKK...",  // band 1
-  "KKKKKKKKKKKKKKKK",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body — arms holding bundle from below
-  "KKKWWWGGWWWKKKK.",  // body
-  ".KWWWGGGGWWWK...",  // belly, arms under bundle
-  // Bundle held at belly level
-  ".KXTTTRTTTXK...",  // arms under bundle
-  ".XTTTRRRTTTTX..",  // bundle body main
-  ".XTTTRRRTTTX...",  // bundle body lower
-  // Legs — right foot stepped FORWARD (right foot at cols 10-14, left foot back at cols 2-6)
-  "...KKKK...KKKK.",  // legs
-  "..KKKK....KKKKK",  // right leg forward (shifted right), left leg back
-  "..KKKK....KKKKKK", // right foot lands (col 10-15), left foot lifts
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD shifted 1px LEFT
+  ".KKKK..KKKK.....",
+  "KKKKK..KKKKK....",
+  "KKKKK..KKKKK....",
+  ".KKWWWWWWKK.....",
+  ".WWWWWWWWWWWWW..",
+  "WWWWWWWWWWWWWW..",
+  // DN_FACE shifted left
+  "WWWKKKWWKKKWWW..",
+  "WWKKEKWWKEKWWW..",
+  "WWWKKKWWKKKWWW..",
+  ".WWWWWKKWWWWW...",
+  ".WWWWWWWWWWWW...",
+  "..WWWWWWWWWW....",
+  // DN_BAND shifted left
+  ".KKKKKKKKKKKK...",
+  "KKKKKKKKKKKKKKK.",
+  "KKKKKKKKKKKKKKKK",
+  // DN_BODY (8 rows) shifted left — bundle overlaid at belly rows 2-5
+  "KKKKKWWWWWWKKKKK",  // body top (canonical row 1, shifted left)
+  "KKKKTTTTTTKKKKK.",  // belly row 2: bundle top face
+  "KKKXTRRRRXTKKKK.",  // belly row 3: bundle with straps and highlight
+  "KKKXTRRRRXTKKKKK",  // belly row 4: bundle body
+  "KKKKTTTTTTKKKKK.",  // belly row 5: bundle bottom
+  ".KKKKKWWWWWKKKK.",  // body row 6 (canonical): below bundle
+  "..KKKKKWWWWKKKKK",  // body row 7 (canonical)
+  "...KKKKWWWWKKKK.",  // body row 8 (canonical)
+  // DN_WALK1_LEGS (4 rows): left foot forward — shifted left
+  "..KKKK...WKKKK..",  // legs (WALK1: right foot has W step)
+  "..KKKK....KKKK..",  // legs
+  "..KKKKK..KKKKK..",  // feet
+  "..........KKKK..",  // trailing right foot step
 ]);
 
 // === Render: 2 frames side by side ===
@@ -162,5 +178,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_carry_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): left foot forward — body shifted right, bundle at chest, walk step 1");
-console.log("Frame 2 (right): right foot forward — body shifted left, bundle at chest, walk step 2");
+console.log("Frame 1 (left): body shifted right, right foot forward (WALK3 legs), bundle at belly");
+console.log("Frame 2 (right): body shifted left, left foot forward (WALK1 legs), bundle at belly");
