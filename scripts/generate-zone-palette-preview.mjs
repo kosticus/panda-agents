@@ -19,10 +19,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const C = {
   ".": null,
 
-  // === Existing palette (for context/transitions) ===
-  g: [110, 155, 70],   // grass base
-  d: [80, 125, 55],    // grass dark
-  t: [140, 175, 95],   // grass light
+  // === Existing palette (for context/transitions — matches updated ground palette) ===
+  g: [100, 145, 62],   // grass base
+  d: [72, 115, 48],    // grass dark
+  t: [130, 165, 85],   // grass light
 
   // === WATER ===
   // Cool blues — pond/stream. Should contrast the warm grass and sandy path.
@@ -54,6 +54,13 @@ const C = {
   I: [125, 100, 70],   // packed earth dark
   N: [165, 140, 105],  // packed earth light / ash
   O: [110, 90, 60],    // char / soot patches
+
+  // === GATHERING (central hub) ===
+  // Packed earth — sun-baked clay. Warmer/more orange than cooking, lighter than woodcutting.
+  c: [165, 120, 68],   // packed clay base (warm, orange-shifted)
+  v: [135, 102, 58],   // worn/trodden dark
+  x: [180, 145, 95],   // sun-baked highlight
+  y: [115, 88, 52],    // cracks / texture detail
 };
 
 const TILE = 16;
@@ -246,22 +253,66 @@ const cook2 = tile([
 ]);
 
 // =====================
+// GATHERING TILES
+// =====================
+
+// Gathering — packed earth, well-trodden
+const gather1 = tile([
+  "ccxccvcccxcccvcc",
+  "cvccccxccccxcccc",
+  "cccvcccccvcccxcc",
+  "cxccccvcccccccvc",
+  "ccccxccccxcccccc",
+  "cvcccccxcccvccxc",
+  "ccccvccccccccccv",
+  "cxccccccvcccxccc",
+  "cccxcvcccccccccx",
+  "cvccccccxcvccccv",
+  "ccccxcccccccxccc",
+  "cxcccvcccxcccccc",
+  "ccvccccxcccvcccx",
+  "cccccxcccccccvcc",
+  "cvcccccvcxcccccc",
+  "ccxcccccccvcxccc",
+]);
+
+// Gathering — edge transition (grass to packed earth)
+const gather2 = tile([
+  "gggtggdggggtgggg",
+  "gdggggggdgggggdg",
+  "ggggdgggggdggggg",
+  "ggdggcccccccggdg",
+  "ggggcccxcccccggg",
+  "gdgccxcccvccccgg",
+  "gggccccvcccxccgg",
+  "ggccvccccxccccgg",
+  "ggcccxcccccvccgd",
+  "ggccccccxcccccgg",
+  "gdgcccvcccxcccgg",
+  "ggggccccccccgggg",
+  "gggdgccccccdgggg",
+  "ggggggdggggggtgg",
+  "gdggtggggdgggggg",
+  "ggggggggtgggggdg",
+]);
+
+// =====================
 // RENDER
 // =====================
 
-const COLS = 4;
+const COLS = 5;
 const ROWS = 2;
 const IMG_W = TILE * COLS;
 const IMG_H = TILE * ROWS;
 
 const grid = [
   // Row 0: plain ground tiles
-  [water1, garden1, wood1, cook1],
+  [water1, garden1, wood1, cook1, gather1],
   // Row 1: with landmark / edge transition
-  [water2, garden2, wood2, cook2],
+  [water2, garden2, wood2, cook2, gather2],
 ];
 
-const labels = ["Water", "Garden", "Woodcutting", "Cooking"];
+const labels = ["Water", "Garden", "Woodcutting", "Cooking", "Gathering"];
 
 const png = new PNG({ width: IMG_W, height: IMG_H });
 // Fill with mid gray background
@@ -318,7 +369,7 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets");
 const outPath = join(outDir, "zone_palette_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Layout: 4 columns (Water | Garden | Woodcutting | Cooking) × 2 rows");
+console.log("Layout: 5 columns (Water | Garden | Woodcutting | Cooking | Gathering) × 2 rows");
 console.log("Row 0: plain zone ground tiles");
 console.log("Row 1: zone with landmark or grass edge transition");
 console.log(`\nPalette values to edit in C object at top of script.`);

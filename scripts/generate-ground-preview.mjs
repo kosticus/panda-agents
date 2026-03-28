@@ -17,19 +17,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const C = {
   ".": null, // transparent (won't appear — all tiles are filled)
 
-  // Bamboo (desaturated gray-green — same hue family as grass but much less saturated)
-  b: [120, 138, 105],  // stalk outer (muted gray-green)
-  h: [155, 172, 140],  // stalk highlight (lighter gray-green)
-  j: [90, 105, 78],    // node / joint (dark muted)
-  l: [100, 140, 85],   // leaf (more saturated — leaves are lush)
-  f: [148, 162, 138],  // faded background stalk
-  e: [165, 178, 155],  // faded stalk highlight
+  // Bamboo (darkened gray-green — wider contrast range for stalk detail)
+  b: [95, 115, 80],    // stalk outer (darker gray-green)
+  h: [130, 150, 115],  // stalk highlight (less washed)
+  j: [65, 80, 55],     // node / joint (much darker — detail anchor)
+  l: [95, 155, 45],    // leaf (vivid green — must pop against d/m fill)
+  f: [120, 138, 110],  // faded background stalk
+  e: [140, 155, 128],  // faded stalk highlight
 
-  // Grass (warmer yellow-greens, contrast bamboo's cool sage)
-  g: [110, 155, 70],   // base grass
-  d: [80, 125, 55],    // dark grass
-  t: [140, 175, 95],   // light grass / tip
-  m: [95, 140, 60],    // mid grass
+  // Grass (slightly darker yellow-greens)
+  g: [100, 145, 62],   // base grass
+  d: [72, 115, 48],    // dark grass
+  t: [130, 165, 85],   // light grass / tip
+  m: [85, 130, 52],    // mid grass
 
   // Path (warm sandy)
   s: [195, 175, 140],  // base sand
@@ -182,68 +182,70 @@ const path3 = tile([
 
 // =====================
 // BAMBOO TILES
-// Vertical stalks on grass, seen from game's pseudo-side perspective.
-// Stalk: 3px wide (b-h-b), node: 5px wide (j-b-h-b-j)
+// Three stalks per tile: 2 thick (4px bhhb) + 1 medium (3px bhb).
+// Dark grass fill (d/m) between stalks for canopy shade.
+// Height variation: some stalks are partial (start/stop mid-tile).
+// A at cols 0–3, B at cols 6–8, C at cols 10–13. Fill at 4–5, 9, 14–15.
 // =====================
 
-// Bamboo 1 — Single stalk, two nodes (4px wide: b-hh-b, node 6px: j-bhhb-j)
+// Bamboo 1 — Dense grove: all three stalks full height, leaves alternating sides
 const bamboo1 = tile([
-  "ggggggbhhbgggggg",
-  "ggtgggbhhbggggdg",
-  "ggggggbhhbgggggg",
-  "ggggggjhhjgggggg",
-  "gdgggjbhhbjggggg",
-  "ggggggbhhbgggtgg",
-  "ggggggbhhbgggggg",
-  "ggtgggbhhbggdggg",
-  "ggggggbhhbgggggg",
-  "ggggggbhhbgggggg",
-  "ggdgggbhhbgggggg",
-  "ggggggjhhjgggggg",
-  "gggggjbhhbjggtgg",
-  "ggggggbhhbgggggg",
-  "ggtgggbhhbggdggg",
-  "ggggggbhhbgggggg",
+  "bhhbdmbhbdbhhbdm",
+  "bhhbmdbhbmbhhbll",
+  "bhhbllbhbdbhhbdd",
+  "jhhjdmbhbdbhhbdm",
+  "bhhbmdbhbmbhhbll",
+  "bhhbllbhbdbhhbdd",
+  "bhhbdmbhbmbhhbdm",
+  "bhhbmdjhjdbhhbmd",
+  "bhhbddbhbdbhhbll",
+  "bhhbllbhbmbhhbdm",
+  "bhhbmdbhbdbhhbll",
+  "bhhbddbhbdjhhjdd",
+  "bhhbllbhbmbhhbdm",
+  "bhhbmdbhbdbhhbll",
+  "bhhbllbhbdbhhbdd",
+  "bhhbdmbhbmbhhbdm",
 ]);
 
-// Bamboo 2 — Two stalks: foreground (full), background (faded, offset)
+// Bamboo 2 — Height variation: thin stalk B only rows 4–11, faded bg (fe), leaves in gaps
 const bamboo2 = tile([
-  "gfeegggggbhhbggg",
-  "gfeeggtggbhhbgdg",
-  "gfeegggggjhhjggg",
-  "gfeeggjbhhbjgggg",
-  "gfeegdggbhhbgggg",
-  "gfeeggggbhhbgggg",
-  "gfeeggggbhhbgggg",
-  "gfeegtggbhhbgdgg",
-  "gfeeggggjhhjgggg",
-  "gfeegjbhhbjggggg",
-  "gfeegdggbhhbgggg",
-  "gfeeggggbhhbgggg",
-  "gfeeggggbhhbggtg",
-  "gfeeggggjhhjgggg",
-  "gfeegjbhhbjggggg",
-  "gfeegdggbhhbgggg",
+  "bhhbdfelldbhhbll",
+  "bhhbmfemdmbhhbmd",
+  "bhhbdfelldbhhbdd",
+  "bhhbmfelldbhhbll",
+  "bhhbdfebhmbhhbll",
+  "jhhjmfebhdbhhbmd",
+  "bhhbdfebhmbhhbll",
+  "bhhbmfejhdbhhbmd",
+  "bhhbdfebhdjhhjdd",
+  "bhhbmfebhmbhhbll",
+  "bhhbdfebhdbhhbmd",
+  "bhhbmfebhmbhhbll",
+  "bhhbdfelldbhhbll",
+  "jhhjmfedmmbhhbmd",
+  "bhhbdfelldbhhbdd",
+  "bhhbmfedmdbhhbll",
 ]);
 
-// Bamboo 3 — Stalk with leaf accents
+// Bamboo 3 — Height variation: stalk A only rows 5–15, heavy leaf canopy
 const bamboo3 = tile([
-  "ggggggbhhbgggggg",
-  "ggggggbhhbllggdg",
-  "gggtggbhhblllggg",
-  "ggggggbhhbgggggg",
-  "ggggggbhhbgggggg",
-  "ggggggjhhjgggggg",
-  "gdgggjbhhbjggggg",
-  "ggggggbhhbgggggg",
-  "ggllggbhhbggtggg",
-  "glllggbhhbgggggg",
-  "ggggggjhhjgggggg",
-  "gggggjbhhbjggggg",
-  "ggggggbhhbggggdg",
-  "ggggggbhhbllgggg",
-  "ggtgggbhhblllggg",
-  "ggggggbhhbgggggg",
+  "llddllbhbdbhhbll",
+  "ldldldbhbmbhhbll",
+  "llldllbhbdbhhbdd",
+  "llllldbhbmbhhbll",
+  "dlllddbhbdbhhbll",
+  "bhhbllbhbmbhhbll",
+  "bhhbddbhbdbhhbdd",
+  "bhhblljhjmbhhbll",
+  "bhhbddbhbdbhhbll",
+  "bhhbllbhbmbhhbll",
+  "jhhjddbhbdbhhbdd",
+  "bhhbllbhbmjhhjll",
+  "bhhbllbhbdbhhbll",
+  "bhhbddbhbmbhhbdd",
+  "bhhbllbhbdbhhbll",
+  "bhhbddbhbmbhhbll",
 ]);
 
 // =====================
@@ -350,10 +352,10 @@ console.log();
 console.log("Tile grid layout:");
 console.log("  Row 0: Grass  — plain, tufty, dark/shaded");
 console.log("  Row 1: Path   — center, pebbled, grass→path edge");
-console.log("  Row 2: Bamboo — single stalk, two stalks (faded bg), stalk + leaves");
+console.log("  Row 2: Bamboo — 3 stalks dense, 3 stalks (B partial + faded), 3 stalks (A partial + leaves)");
 console.log("  Row 3: Sample — bamboo|grass|path side by side (palette check)");
 console.log();
 console.log("Palette summary:");
-console.log("  Bamboo: muted sage [95,120,85] / [120,145,105] — cool green");
-console.log("  Grass:  warm green [110,155,70] / [140,175,95] — yellow-green");
+console.log("  Bamboo: dark sage [65,80,55] / [130,150,115] — gray-green");
+console.log("  Grass:  warm green [100,145,62] / [130,165,85] — yellow-green");
 console.log("  Path:   sandy      [195,175,140] / [215,195,165] — warm tan");

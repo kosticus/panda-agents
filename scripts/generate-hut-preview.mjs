@@ -15,15 +15,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // === Palette ===
 const C = {
   ".": null,
-  // Thatch roof
-  T: [185, 155, 90],     // thatch base (golden straw)
-  t: [165, 135, 75],     // thatch dark (shadow/edge)
-  U: [205, 178, 115],    // thatch highlight (bright straw)
-  u: [145, 120, 65],     // eave underside shadow
-  // Bamboo walls (matches ground-palette-r1 bamboo)
-  b: [120, 138, 105],    // bamboo stalk outer
-  h: [155, 172, 140],    // bamboo highlight
-  j: [90, 105, 78],      // bamboo joint/dark
+  // Thatch roof (golden-yellow straw — distinct from brown walls below)
+  T: [185, 155, 52],     // thatch base (saturated golden)
+  t: [158, 130, 40],     // thatch dark (shadow/edge)
+  U: [205, 178, 75],     // thatch highlight (bright straw)
+  u: [130, 108, 35],     // eave underside shadow
+  // Bamboo walls (processed/dried — woody brown, distinct from golden thatch above)
+  b: [140, 112, 68],     // dried bamboo base (brown, not tan)
+  h: [162, 138, 92],     // dried bamboo highlight
+  j: [108, 82, 48],      // dried bamboo joint/dark
   // Interior (warm brown — light enough for black ears to read against)
   D: [85, 75, 58],       // interior back wall
   d: [95, 85, 65],       // interior floor (slightly lighter)
@@ -36,7 +36,7 @@ const C = {
   S: [125, 105, 72],     // stone dark
 };
 
-const GRASS = [110, 155, 70];
+const GRASS = [100, 145, 62];
 
 // === Grid ===
 const GW = 48, GH = 48;
