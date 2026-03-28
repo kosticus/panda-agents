@@ -1,6 +1,6 @@
 ---
 id: pa-udbx
-status: open
+status: in_progress
 deps: []
 links: []
 created: 2026-03-28T19:37:08Z
@@ -35,3 +35,9 @@ Design notes (from chore-animation-design-r1.synth.md):
 
 Source: ~/pkm/projects/pixel-agents/chore-animation-design-r1.synth.md
 
+
+## Notes
+
+**2026-03-28T20:43:34Z**
+
+Added preview scripts for all 5 remaining chore animations: fish (standing cast → seated waiting with bobber), build (mallet raised → mallet down on sawhorse, vertical motion profile matching chop), bamboo (reach high → hunch/pull, vertical motion profile), sweep (broom sweeps left → sweeps right, bending profile matching water), carry (walking variant: left foot forward → right foot forward with bundle at chest). Fixed 3 oversized row strings (17→16 chars) in fish, sweep, and carry scripts before commit.
