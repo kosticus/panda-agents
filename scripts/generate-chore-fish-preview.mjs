@@ -39,19 +39,20 @@ function n(frame) {
   });
 }
 
-// === FISH FRAME 1: Seated, rod angled up-right ~45°, body centered, bobber floating ===
-// Rod extends clearly above head at diagonal. Bobber is 2-3px wide. Water fills 4 rows.
-// Layout: 4 rod rows + 5 ears (drop 1) + 6 face + 3 band + 4 body+rod + 2 seated legs + 1 bank + 4 water + 3 empty = 32
+// === FISH FRAME 1: Seated, rod angled up-right, body centered, bobber floating ===
+// Rod stays at cols 14-15, clearing right ear (cols 8-12). Bobber 3px wide.
+// Layout: 4 rod rows + 6 ears + 6 face + 3 band + 4 body+rod + 2 seated legs + 1 bank + 4 water + 2 pad = 32
 const fish1 = n([
-  // Rod tip angled up-right — 4 rows (thick 2px rod handle)
-  "..............FF",  // rod tip far up-right (2px wide)
-  ".............FF.",  // rod shaft
-  "............FF..",  // rod continues
-  "...........FF...",  // rod base near grip
-  // Head — 5-row ears for seated posture (drop 1 ear-hold row)
-  "..KKKK..KKKK....",  // ear tops
+  // Rod tip — straight up at cols 14-15, clear of ears
+  "..............FF",  // rod tip (cols 14-15)
+  "..............FF",  // rod shaft
+  ".............FF.",  // rod angles slightly left
+  ".............FF.",  // rod near head level
+  // Head — full 6-row ears for seated posture
+  "..KKKK..KKKK.FF.",  // ear tops, rod passes right of ears
   ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds (keep 1 hold row)
+  ".KKKKK..KKKKK...",  // ear holds
+  "..KKWWWWWWKK....",  // ear base
   "..WWWWWWWWWWWW..",  // head wide
   ".WWWWWWWWWWWWWW.",  // head widest
   // Face — 6 rows
@@ -65,34 +66,35 @@ const fish1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body — seated, right arm holds rod extending right — 4 rows
+  // Body — seated, right arm holds rod grip at cols 13-14 — 4 rows
   "KKKKKWWWWWWKKKKK",  // body wide (seated spread)
   "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWWKKFF",  // belly, right paw at rod grip (FF = thick rod)
-  "KKKKWWWGGWWWKFF.",  // lower body, rod base extends right
+  "KKKKWWGGGGWWKKFF",  // belly, right paw at rod grip (FF cols 14-15)
+  "KKKKWWWGGWWWKKFF",  // lower body, rod base
   // Legs folded/tucked (seated) — 2 rows
   "..KKKKKKKKKKKK..",  // thick leg block folded
   "..KKKKKKKKKKKK..",  // feet/seat on bank
-  // Sandy bank + water (4 rows) with 2-3px bobber floating
+  // Sandy bank + water (4 rows) with 3px bobber floating
   "...PPPPPPPPPP...",  // sandy bank
   "..UUUUUUUUUUUU..",  // water surface
-  "..UUUUUUUUBBUUU.",  // water — 2px bobber (BB)
+  "..UUUUUUUBBBUU..",  // water — 3px bobber (BBB)
   "..UUUUUUUUUUUU..",  // water depth
 ]);
 
 // === FISH FRAME 2: Seated, rod pulled sharply back (bite!), body leans back 2px, bobber splashing ===
-// Body shifted 2px right (lean back). Rod now angled more steeply / pulled back.
+// Body shifted 2px right (lean back). Rod stays right of ears.
 // Bobber submerged with splash pixels around it.
 const fish2 = n([
-  // Rod tip — pulled back, angled more steeply (being pulled by fish)
-  "...............F",  // rod tip (right edge)
-  "..............FF",  // rod shaft
-  ".............FF.",  // rod continues
-  "............FF..",  // rod base near grip
-  // Head — same 5-row ears, shifted 2px right (lean back)
+  // Rod tip — pulled back/up, at right edge, clear of ears
+  "...............F",  // rod tip (col 15)
+  "..............FF",  // rod shaft (cols 14-15)
+  "..............FF",  // rod continues
+  ".............FF.",  // rod near head level
+  // Head — full 6-row ears, shifted 2px right (lean back)
   "....KKKK..KKKK..",  // ear tops (shifted 2px right)
   "...KKKKK..KKKKK.",  // ear widens
   "...KKKKK..KKKKK.",  // ear holds
+  "....KKWWWWWWKK..",  // ear base
   "....WWWWWWWWWWWW",  // head wide
   "...WWWWWWWWWWWWW",  // head widest
   // Face shifted 2px right (lean back) — 6 rows
@@ -106,19 +108,19 @@ const fish2 = n([
   "....KKKKKKKKKKKK",
   "...KKKKKKKKKKKKK",
   "..KKKKKKKKKKKKKK",
-  // Body leaned back (shifted 2px right), arm grips rod tightly — 4 rows
+  // Body leaned back (shifted 2px right), arm grips rod — 4 rows
   "..KKKKKWWWWWWKKK",  // body (shifted right)
   "..KKKKWWWGGWWWKK",  // belly
-  "..KKKKWWGGGGWKFF",  // belly, right paw grips rod tightly
-  "..KKKKWWWGGWWKFF",  // lower body, rod base pulled back
+  "..KKKKWWGGGGWKFF",  // belly, right paw grips rod (FF at cols 14-15)
+  "..KKKKWWWGGWWKFF",  // lower body, rod base
   // Legs folded/tucked (still seated, same position as frame 1) — 2 rows
   "..KKKKKKKKKKKK..",  // thick leg block (same position)
   "..KKKKKKKKKKKK..",  // feet on bank
   // Sandy bank + water with splash around submerged bobber — 4 rows
   "...PPPPPPPPPP...",  // sandy bank
-  "..UUUUUUUUDUUU..",  // water surface — splash (D) at surface
-  "..UUUUUUUDBBUUU.",  // water — bobber partially submerged, splash beside
-  "..UUUUUUUDDUUUU.",  // water depth — more splash pixels below
+  "..UUUUUUUUDDUUU.",  // water surface — splash (DD) at surface
+  "..UUUUUUUBBBUUU.",  // water — 3px bobber partially submerged
+  "..UUUUUUUDDUUUU.",  // water depth — splash below
 ]);
 
 // === Render: 2 frames side by side ===

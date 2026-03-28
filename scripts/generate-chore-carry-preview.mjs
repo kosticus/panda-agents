@@ -62,16 +62,16 @@ const carry1 = n([
   // DN_BAND shifted right — 3 rows
   "...KKKKKKKKKKKK.",
   "..KKKKKKKKKKKKKK",
-  ".KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted right — bundle overlaid at belly rows 2-5 — 8 rows
+  ".KKKKKKKKKKKKKKK",
+  // DN_BODY shifted right — bundle peeks out right past K edge — 8 rows
   ".KKKKKWWWWWWKKKK",  // body top (shifted right 1px)
-  ".KKKKTTTTTTKKKKK",  // belly row 2: bundle top face
-  ".KKKXTRRRRXTKKK.",  // belly row 3: bundle with straps (X) and highlight (R)
-  ".KKKXTRRRRXTKKKK",  // belly row 4: bundle body
-  ".KKKKTTTTTTKKKKK",  // belly row 5: bundle bottom
-  "..KKKKWWWWWKKKKK",  // body row 6: below bundle
-  "...KKKKWWWWKKKK.",  // body row 7
-  "....KKKWWWWKKK..",  // body row 8
+  ".KKKKWWWGGWWKKKK",  // belly
+  ".KKKKWWGGGGWKKTT",  // belly, bundle top peeks right (TT)
+  ".KKKKWWGGGGWKXRT",  // belly, bundle face visible right (X,R,T)
+  ".KKKKWWGGGGWKXRT",  // belly, bundle body visible
+  ".KKKKWWWGGWWKKTT",  // body narrows, bundle bottom peeks right
+  "..KKKKKWWWWWKKKK",  // body row 7
+  "...KKKKWWWWKKK..",  // body row 8
   // DN_WALK3_LEGS shifted right (4 rows): right foot forward
   "...KKKKW...KKKK.",
   "...KKKK....KKKK.",
@@ -103,16 +103,16 @@ const carry2 = n([
   // DN_BAND shifted left — 3 rows
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted left — bundle overlaid at belly rows 2-5 — 8 rows
+  "KKKKKKKKKKKKKKK.",
+  // DN_BODY shifted left — bundle peeks out left past K edge — 8 rows
   "KKKKKWWWWWWKKKK.",  // body top (shifted left 1px)
-  "KKKKTTTTTTKKKKK.",  // belly row 2: bundle top face
-  ".KKKXTRRRRXTKK..",  // belly row 3: bundle with straps and highlight
-  "KKKKXTRRRRXTKKKK",  // belly row 4: bundle body
-  "KKKKTTTTTTKKKKK.",  // belly row 5: bundle bottom
-  ".KKKKWWWWWKKKKK.",  // body row 6: below bundle
-  "..KKKKWWWWKKKK..",  // body row 7
-  "...KKKWWWWKKK...",  // body row 8
+  "KKKKWWWGGWWWKKKK",  // belly
+  "TTKKWWGGGGWWKKKK",  // belly, bundle top peeks left (TT)
+  "TRXKWWGGGGWWKKKK",  // belly, bundle face visible left (T,R,X)
+  "TRXKWWGGGGWWKKKK",  // belly, bundle body visible
+  "TTKKWWWGGWWWKKKK",  // body narrows, bundle bottom peeks left
+  ".KKKKKWWWWWKKKK.",  // body row 7
+  "..KKKKWWWWKKK...",  // body row 8
   // DN_WALK1_LEGS shifted left (4 rows): left foot forward
   ".KKKK...WKKKK...",
   ".KKKK....KKKK...",

@@ -38,15 +38,15 @@ function n(frame) {
 }
 
 // === CHOP FRAME 1: Axe raised, panda leans back slightly (head 1px right) ===
-// 3 empty + 2 axe rows + 6 ears + 6 face + 3 band + 7 body + 3 legs + 1 stump + 1 empty = 32
+// 3 empty + 2 axe/arm rows + 6 ears + 6 face + 3 band + 6 body + 3 legs + 2 stump + 1 empty = 32
 const chop1 = n([
   // 3 empty rows at top
   EMPTY,
   EMPTY,
   EMPTY,
-  // Axe blade + handle in accessory space above head (right side)
-  ".......AAAAA....",  // axe blade (5px wide)
-  ".......KHH......",  // paw (K) gripping handle
+  // Axe raised above head — arms (KK) visible connecting to body through ear gap
+  "......KKAAAAKKK.",  // arms up gripping axe blade (AAAA)
+  "......KKHH.KK...",  // arms hold handle (HH), merge toward ears
   // DN_EARS_HEAD shifted 1px RIGHT (lean back) — 6 rows
   "...KKKK..KKKK...",  // ear top
   "..KKKKK..KKKKK..",  // ear widens
@@ -64,37 +64,38 @@ const chop1 = n([
   // DN_BAND shifted right — 3 rows
   "...KKKKKKKKKKKK.",
   "..KKKKKKKKKKKKKK",
-  ".KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted right, arms up (no arm extensions at side) — 7 rows
-  ".KKKKKWWWWWWKKKK",  // body top
-  ".KKKKWWWGGWWWKKK",  // belly
-  ".KKKKWWGGGGWWKKK",  // belly
-  ".KKKKWWGGGGWWKKK",  // belly
-  ".KKKKKWWWGGWWKKK",  // body narrows
-  "..KKKKWWWWWWKKKK",  // body base
-  "...KKKWWWWWKKK..",  // body bottom
+  ".KKKKKKKKKKKKKKK",
+  // DN_BODY shifted right, arms raised (slimmer sides) — 6 rows
+  "..KKKKWWWWWWKKKK",  // body top
+  "..KKKWWWGGWWWKKK",  // belly
+  "..KKKWWGGGGWWKKK",  // belly
+  "..KKKWWGGGGWWKKK",  // belly
+  "..KKKKWWWGGWWKKK",  // body narrows
+  "...KKKWWWWWWKKK.",  // body base
   // DN_LEGS_IDLE (same both frames) — 3 legs
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
-  // Stump in front (at ground level)
+  // Stump at ground level — 2 rows
   ".....TTDDTT.....",
+  EMPTY,
 ]);
 
 // === CHOP FRAME 2: Axe down at stump, panda leans forward (head 1px left) ===
-// 3 empty + 2 empty (no axe above) + 5 ears (drop 1 for lean) + 6 face + 3 band + 8 body + 3 legs + 2 stump = 32
+// 3 empty + 2 empty (no axe above) + 6 ears + 6 face + 3 band + 6 body+handle + 3 legs + 2 stump + 1 empty = 32
 const chop2 = n([
   // 3 empty rows at top
   EMPTY,
   EMPTY,
   EMPTY,
-  // Extra empty rows (axe is now down at stump, not above head)
+  // Extra empty rows (axe is now down, not above head)
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
+  // DN_EARS_HEAD shifted 1px LEFT (lean forward), full 6 ear rows
   ".KKKK..KKKK.....",  // ear top (shifted left)
   "KKKKK..KKKKK....",  // ear widens
-  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold row for lean)
+  "KKKKK..KKKKK....",  // ear holds
+  ".KKWWWWWWKK.....",  // ear base
   ".WWWWWWWWWWWWW..",  // head
   "WWWWWWWWWWWWWW..",  // head widest
   // DN_FACE shifted 1px left (lean forward) — 6 rows
@@ -108,21 +109,20 @@ const chop2 = n([
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted left, arms forward/down toward stump — 8 rows
+  // Body shifted left, arms extend right with handle to stump — 6 rows
   "KKKKKWWWWWWKKKK.",  // body top
-  "KKKKWWWGGWWWKKK.",  // belly
-  "KKKKWWGGGGWWKKK.",  // belly, arms coming down
-  "KKKKWWGGGGWWKKK.",  // belly
-  "KKKKKWWWGGWWWKK.",  // body narrows
-  ".KKKKWWWWWWWKKKK",  // body base, arms reaching down
-  "..KKKWWWWWWKKKMM",  // arms extend to stump level, handle (MM)
-  "...KKWWWWWWKKAAA",  // arms fully down, axe blade (AAA) at stump
-  // DN_LEGS_IDLE (same both frames) — 3 rows
+  "KKKKWWWGGWWWKKKK",  // belly, arm starts going right
+  "KKKKWWGGGGWWKKKK",  // belly, arm extends
+  ".KKKWWWGGWWWKKMM",  // body narrows, arms hold handle (MM)
+  "..KKWWWWWWWKKMM.",  // body base, handle continues down
+  "...KKWWWWWKKAAA.",  // body lower, axe blade (AAA) at stump
+  // DN_LEGS_IDLE (same both frames) — 3 legs
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
-  // Stump + axe embedded at ground level — 2 rows
-  ".....TTDDTT.....",  // stump body
+  // Stump at ground level — 2 rows
+  ".....TTDDTT.....",
+  EMPTY,
 ]);
 
 // === Render: 2 frames side by side ===

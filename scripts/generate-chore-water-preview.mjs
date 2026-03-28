@@ -39,15 +39,16 @@ function n(frame) {
 }
 
 // === WATER FRAME 1: Lean forward, arm extends right with large can, water pours ===
-// 3 empty + 5 ears (drop 1 for lean) + 6 face + 3 band + 7 body+can + 3 legs + 3 crops/water + 2 empty = 32
+// 3 empty + 6 ears + 6 face + 3 band + 6 body+can + 3 legs + 3 crops/water + 2 pad = 32
 const water1 = n([
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
+  // DN_EARS_HEAD shifted 1px LEFT (lean forward), full 6 ear rows
   ".KKKK..KKKK.....",  // ear top (shifted left)
   "KKKKK..KKKKK....",  // ear widens
-  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold for lean)
+  "KKKKK..KKKKK....",  // ear holds
+  ".KKWWWWWWKK.....",  // ear base
   ".WWWWWWWWWWWWW..",  // head
   "WWWWWWWWWWWWWW..",  // head widest
   // DN_FACE shifted 1px left (lean forward) — 6 rows
@@ -61,14 +62,13 @@ const water1 = n([
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // Body leaned forward, right arm extends with large can — 7 rows
+  // Body leaned forward, right arm extends with large can — 6 rows
   "KKKKKWWWWWWKKKK.",  // body top
-  "KKKKWWWGGWWWKKK.",  // belly
-  "KKKKWWGGGGWWKKK.",  // belly, arm going right
-  "KKKKWWGGGGWKKQQQ",  // arm at can level, can starts (QQQ = 3px)
+  "KKKKWWWGGWWWKKKK",  // belly, arm starts right
+  "KKKKWWGGGGWKKQQQ",  // belly, arm at can top (QQQ = 3px visible)
   ".KKKWWWGGWWKQQQQ",  // body narrows, can body (4px wide)
   "..KKWWWWWWWKQQQQ",  // body base, large can body
-  "...KKWWWWWK.QQQQ",  // body bottom, can + spout extends
+  "...KKWWWWWKKQQQQ",  // body bottom, can + spout
   // DN_LEGS_IDLE (same both frames) — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
@@ -80,7 +80,7 @@ const water1 = n([
 ]);
 
 // === WATER FRAME 2: Standing upright, can at hip (not pouring) ===
-// 4 empty + 6 ears + 6 face + 3 band + 7 body+can + 3 legs + 2 crops + 1 empty = 32
+// 3 empty + 1 empty + 6 ears + 6 face + 3 band + 5 body+can + 3 legs + 3 ground + 2 pad = 32
 const water2 = n([
   EMPTY,
   EMPTY,
@@ -104,20 +104,19 @@ const water2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY upright, large can held at right hip — 7 rows
+  // DN_BODY upright, large can held at right hip — 5 rows
   "KKKKKWWWWWWKKKKK",  // body top
   "KKKKWWWGGWWWKKKK",  // belly
   "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  ".KKKWWWGGWWWKQQQ",  // body narrows, can top at hip (3px)
+  ".KKKWWWGGWWWKQQQ",  // body narrows, can top at hip (QQQ = 3px)
   "..KKWWWWWWWKQQQQ",  // body base, can body (4px)
-  "...KKWWWWWKK.QQQ",  // body bottom, can base upright (not pouring)
   // DN_LEGS_IDLE (same both frames) — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
-  // Crops (no water) — 2 rows
+  // Crops + soil (no water) — 3 rows
   "..L.NL..L...N.L.",
+  "..L.NL..L..N..L.",
   "..BBBBBBBBBBBBBB",
 ]);
 

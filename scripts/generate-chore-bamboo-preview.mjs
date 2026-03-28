@@ -40,15 +40,16 @@ function n(frame) {
 }
 
 // === BAMBOO FRAME 1: Body leans forward (shifted 1px left), arms extend down to grip stalk ===
-// 3 empty + 5 ears (drop 1 for lean) + 6 face + 3 band + 8 body + 3 legs + 2 ground + 2 empty = 32
+// 3 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 ground + 1 pad = 32
 const bamboo1 = n([
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
+  // DN_EARS_HEAD shifted 1px LEFT (lean forward), full 6 ear rows
   ".KKKK..KKKK.....",  // ear top (shifted left)
   "KKKKK..KKKKK....",  // ear widens
-  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold row)
+  "KKKKK..KKKKK....",  // ear holds
+  ".KKWWWWWWKK.....",  // ear base
   ".WWWWWWWWWWWWW..",  // head
   "WWWWWWWWWWWWWW..",  // head widest
   // DN_FACE shifted left (lean forward) — 6 rows
@@ -81,8 +82,9 @@ const bamboo1 = n([
   "....DDDDDDDDDDD.",  // dirt around stalk base
 ]);
 
-// === BAMBOO FRAME 2: Body leans back (shifted 1px right), stalk rising at waist level ===
-// 3 empty + 6 ears (full for lean back) + 6 face + 3 band + 8 body + 3 legs + 1 ground + 2 empty = 32
+// === BAMBOO FRAME 2: Body leans back (shifted 1px right), stalk pulled up to waist ===
+// Stalk on RIGHT side (same as frame 1), but raised to waist level.
+// 3 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 1 ground + 2 empty = 32
 const bamboo2 = n([
   EMPTY,
   EMPTY,
@@ -104,17 +106,16 @@ const bamboo2 = n([
   // DN_BAND shifted right — 3 rows
   "...KKKKKKKKKKKK.",
   "..KKKKKKKKKKKKKK",
-  ".KKKKKKKKKKKKKKKK",
-  // Body leaned back, arms hold stalk pulled up to waist/chest level — 8 rows
-  // Stalk now at chest/waist level, partially uprooted
-  "NVN.KKKKKWWWWWWKK",  // stalk at chest height, body shifted right
-  "NVN.KKKKWWWGGWWKK",  // stalk, belly
-  "NVNKKKKWWGGGGWWKK",  // stalk held, paws (K) gripping, belly
-  "NVNKKKKWWGGGGWWKK",  // stalk at belly, arms gripping
-  "NVN.KKKKWWWGGWWWK",  // stalk at waist, body narrows
-  ".R..KKKKKWWWWWWKK",  // root (R) dangling from stalk base
-  ".R...KKKKWWWWKKKK",  // roots visible
-  "......KKKWWWWKKK.",  // body bottom
+  ".KKKKKKKKKKKKKKK",
+  // Body leaned back, arms hold stalk pulled up at waist (right side) — 8 rows
+  ".KKKKKWWWWWWKKKK",  // body top (shifted right)
+  ".KKKKWWWGGWWWKKK",  // belly
+  ".KKKKWWGGGGWKNVN",  // belly, stalk at waist held by paw
+  ".KKKKWWGGGGWKNVN",  // belly, arms gripping stalk
+  ".KKKKWWWGGWWKNVN",  // body narrows, stalk held
+  "..KKKWWWWWWKKNVN",  // body base, stalk continues
+  "...KKKWWWWWKKK.R",  // body lower, root dangling from stalk
+  "....KKWWWWKKK..R",  // body bottom, roots visible
   // DN_LEGS_IDLE (same both frames) — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",

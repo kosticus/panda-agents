@@ -64,11 +64,11 @@ const cook1 = n([
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
   // Body leaned left — right arm extends to stir, spoon handle (5 rows)
-  "KKKWWWWWWKKKK...",  // body top, arm starts reaching right
-  "KKKWWGGWWWKKK.KK",  // belly, right arm detaches to reach
-  "KKKWWGGGGWK...KP",  // arm extends out, spoon handle angles down
-  ".KKWWWGGWWWK.KPP",  // arm at pot level, spoon into pot
-  "..KKWWWWWWKKK.P.",  // hips, spoon tip in pot
+  "KKKWWWWWWKKKK...",  // body top
+  "KKKWWGGWWWKKKK..",  // belly
+  "KKKWWGGGGWWKKKKK",  // belly, arm extends right
+  ".KKWWWGGWWWKKPPP",  // arm to pot, paw grips spoon handle
+  "..KKWWWWWWKKK.PP",  // hips, spoon into pot
   // Legs — weight on left (3 rows)
   "..KKKK..KKKK....",
   "..KKKK..KKKK....",
@@ -106,11 +106,11 @@ const cook2 = n([
   "..KKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
   // Body leaned right — left arm extends to stir, spoon angled other way (5 rows)
-  "...KKKKWWWWWWKKK",  // body top, arm starts reaching left
-  "KK.KKKWWGGWWWKKK",  // left arm detaches to reach, belly
-  "PK...KWWGGGGWKKK",  // spoon handle angles down, arm extends
-  "PPK.KWWWGGWWWKK.",  // spoon into pot, arm at pot level
-  ".P.KKKWWWWWWKK..",  // spoon tip in pot, hips
+  "...KKKKWWWWWWKKK",  // body top
+  "..KKKKKWWGGWWKKK",  // belly
+  "KKKKKKWWGGGGWKKK",  // belly, left arm extends left
+  "PPPKKWWWGGWWWKK.",  // spoon handle, paw grips, arm to pot
+  "PP.KKKWWWWWWKK..",  // spoon into pot, hips
   // Legs — weight on right (3 rows)
   "....KKKK..KKKK..",
   "....KKKK..KKKK..",
