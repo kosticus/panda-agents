@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chore Animation Preview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #2a2a2a;
+      color: #fff;
+      font-family: monospace;
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      color: #eee;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .controls label {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .controls input[type="range"] {
+      width: 160px;
+      accent-color: #888;
+    }
+
+    #fps-display {
+      font-size: 13px;
+      color: #aaa;
+      min-width: 60px;
+    }
+
+    #toggle-btn {
+      background: #444;
+      color: #eee;
+      border: 1px solid #666;
+      padding: 5px 14px;
+      font-family: monospace;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    #toggle-btn:hover {
+      background: #555;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 900px;
+    }
+
+    .anim-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .anim-label {
+      font-size: 12px;
+      color: #ccc;
+      letter-spacing: 0.5px;
+      text-transform: lowercase;
+    }
+
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      /* Each frame is 128x256 at 8x scale; display at that native size */
+    }
+
+    .error-msg {
+      font-size: 11px;
+      color: #e06060;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chore Animation Preview</h1>
+
+  <div class="controls">
+    <label for="fps-slider">Speed:</label>
+    <input type="range" id="fps-slider" min="0.5" max="8" step="0.5" value="2" />
+    <span id="fps-display">2 FPS</span>
+    <button id="toggle-btn">Pause</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <script>
+    // Each preview PNG is 256x256: two frames side by side at 8x scale.
+    // Frame width at 8x: 128px. Frame height at 8x: 256px.
+    const FRAME_W = 128;
+    const FRAME_H = 256;
+    const FRAME_COUNT = 2;
+
+    const animations = [
+      { name: 'cook',      file: 'panda_cook_preview_8x.png' },
+      { name: 'chop',      file: 'panda_chop_preview_8x.png' },
+      { name: 'water',     file: 'panda_water_preview_8x.png' },
+      { name: 'attention', file: 'panda_attention_preview_8x.png' },
+      { name: 'fish',      file: 'panda_fish_preview_8x.png' },
+      { name: 'build',     file: 'panda_build_preview_8x.png' },
+      { name: 'bamboo',    file: 'panda_bamboo_preview_8x.png' },
+      { name: 'sweep',     file: 'panda_sweep_preview_8x.png' },
+      { name: 'carry',     file: 'panda_carry_preview_8x.png' },
+    ];
+
+    const BASE_PATH = '../webview-ui/public/assets/characters/';
+
+    // --- Build DOM ---
+    const grid = document.getElementById('grid');
+    const canvases = [];
+
+    for (const anim of animations) {
+      const cell = document.createElement('div');
+      cell.className = 'anim-cell';
+
+      const label = document.createElement('div');
+      label.className = 'anim-label';
+      label.textContent = anim.name;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = FRAME_W;
+      canvas.height = FRAME_H;
+
+      cell.appendChild(label);
+      cell.appendChild(canvas);
+      grid.appendChild(cell);
+
+      const img = new Image();
+      const entry = { canvas, img, loaded: false, error: false, frame: 0 };
+      canvases.push(entry);
+
+      img.onload = () => { entry.loaded = true; };
+      img.onerror = () => {
+        entry.error = true;
+        const msg = document.createElement('div');
+        msg.className = 'error-msg';
+        msg.textContent = 'failed to load';
+        cell.appendChild(msg);
+      };
+      img.src = BASE_PATH + anim.file;
+    }
+
+    // --- Animation loop ---
+    let fps = 2;
+    let paused = false;
+    let lastTick = 0;
+
+    const fpsSlider = document.getElementById('fps-slider');
+    const fpsDisplay = document.getElementById('fps-display');
+    const toggleBtn = document.getElementById('toggle-btn');
+
+    fpsSlider.addEventListener('input', () => {
+      fps = parseFloat(fpsSlider.value);
+      fpsDisplay.textContent = fps + ' FPS';
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      paused = !paused;
+      toggleBtn.textContent = paused ? 'Play' : 'Pause';
+      if (!paused) {
+        lastTick = performance.now();
+        requestAnimationFrame(loop);
+      }
+    });
+
+    function drawFrame(entry) {
+      const ctx = entry.canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      if (!entry.loaded) {
+        ctx.clearRect(0, 0, FRAME_W, FRAME_H);
+        return;
+      }
+      const sx = entry.frame * FRAME_W;
+      ctx.clearRect(0, 0, FRAME_W, FRAME_H);
+      ctx.drawImage(entry.img, sx, 0, FRAME_W, FRAME_H, 0, 0, FRAME_W, FRAME_H);
+    }
+
+    function loop(ts) {
+      if (paused) return;
+
+      const interval = 1000 / fps;
+      const elapsed = ts - lastTick;
+
+      if (elapsed >= interval) {
+        lastTick = ts - (elapsed % interval);
+        for (const entry of canvases) {
+          entry.frame = (entry.frame + 1) % FRAME_COUNT;
+          drawFrame(entry);
+        }
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    // Initial draw (frame 0) as images load
+    function initialDraw() {
+      for (const entry of canvases) {
+        drawFrame(entry);
+      }
+    }
+
+    // Poll for initial load so frame 0 appears quickly
+    let initInterval = setInterval(() => {
+      initialDraw();
+      const anyUnloaded = canvases.some(e => !e.loaded && !e.error);
+      if (!anyUnloaded) clearInterval(initInterval);
+    }, 100);
+
+    lastTick = performance.now();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
