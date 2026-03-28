@@ -4,7 +4,7 @@ import type { SpriteData } from './types.js'
 const K = '#1e1e1e' // black fur
 const W = '#f5f5f5' // white fur
 const G = '#d7d7d7' // gray shadow
-const Z = '#82b4f0' // Zzz blue
+const Z = '#ffffff' // Zzz white (high contrast against green ground)
 const _ = ''        // transparent
 
 const PALETTE: Record<string, string> = { K, W, G, Z, '.': _ }
@@ -17,13 +17,15 @@ const FRAME_H = 32
  * Mirrors the n() helper in generate-sleep-preview.mjs.
  */
 function normalize(rows: string[]): string[] {
-  const out = [...rows]
-  while (out.length < FRAME_H) out.push('.'.repeat(FRAME_W))
-  return out.map(r => {
+  // Pad columns to FRAME_W
+  const out = rows.map(r => {
     if (r.length < FRAME_W) return r + '.'.repeat(FRAME_W - r.length)
     if (r.length > FRAME_W) return r.slice(0, FRAME_W)
     return r
   })
+  // Pad at TOP so feet stay grounded (bottom-aligned)
+  while (out.length < FRAME_H) out.unshift('.'.repeat(FRAME_W))
+  return out
 }
 
 /** Convert a normalized character grid to SpriteData (rows × cols of hex strings). */
@@ -34,14 +36,10 @@ function toSprite(rows: string[]): SpriteData {
 }
 
 // ============================================================
-// Frame 1: Sitting slump, head up, eyes closed, Zzz top-right
-// Source: generate-sleep-preview.mjs lines 43–77
+// Sleeping panda body — single static frame, no body movement.
+// Zzz are rendered separately above the hut roof.
 // ============================================================
-const SLEEP_GRID_1: string[] = [
-  '............ZZZ.',
-  '..............Z.',
-  '.............Z..',
-  '............ZZZ.',
+const SLEEP_BODY: string[] = [
   '..KKKK..KKKK....',
   '.KKKKK..KKKKK...',
   '.KKKKK..KKKKK...',
@@ -68,41 +66,36 @@ const SLEEP_GRID_1: string[] = [
   '..KKKKK..KKKKK..',
 ]
 
+export const SLEEP_SPRITE: SpriteData = toSprite(SLEEP_BODY)
+
 // ============================================================
-// Frame 2: Deep nod, ears flatten, head drops 2 rows, Zzz shifted
-// Source: generate-sleep-preview.mjs lines 81–111
+// Zzz overlay — two frames, rendered above the hut roof
 // ============================================================
-const SLEEP_GRID_2: string[] = [
-  '...........ZZZ..',
-  '.............Z..',
-  '............Z...',
-  '...........ZZZ..',
-  '..KKKK..KKKK....',
-  '..KKWWWWWWKK....',
-  '..WWWWWWWWWWWW..',
-  '.WWWWWWWWWWWWWW..',
-  '.WWWKKKWWKKKWWW.',
-  '.WWKKKKKWKKKKWW.',
-  '..WWWWWKKWWWWW..',
-  '..WWWWWWWWWWWW..',
-  '..KKKKKKKKKKKK..',
-  '.KKKKKKKKKKKKKKK',
-  'KKKKKKKKKKKKKKKK',
-  'KKKKWWWGGWWWKKKK',
-  'KKKWWWGGGGWWWKKK',
-  'KKKWWWGGGGWWWKKK',
-  '.KKWWWWGGWWWWKK.',
-  '..KWWWWWWWWWWK..',
-  '..WWWWWWWWWWWW..',
-  '...KKKK..KKKK...',
-  '...KKKK..KKKK...',
-  '..KKKKK..KKKKK..',
+const ZZZ_1: string[] = [
+  'ZZZ',
+  '..Z',
+  '.Z.',
+  'ZZZ',
 ]
 
-export const SLEEP_FRAMES: SpriteData[] = [
-  toSprite(SLEEP_GRID_1),
-  toSprite(SLEEP_GRID_2),
+const ZZZ_2: string[] = [
+  '...',
+  'ZZZ',
+  '..Z',
+  '.Z.',
+  'ZZZ',
 ]
 
-/** Seconds between frame switches for the sleeping animation. */
-export const SLEEP_FRAME_DURATION_SEC: number = 1.0
+function toSmallSprite(rows: string[]): SpriteData {
+  return rows.map(row =>
+    Array.from(row).map(ch => PALETTE[ch] ?? _),
+  )
+}
+
+export const ZZZ_FRAMES: SpriteData[] = [
+  toSmallSprite(ZZZ_1),
+  toSmallSprite(ZZZ_2),
+]
+
+/** Seconds between Zzz frame switches. */
+export const SLEEP_FRAME_DURATION_SEC: number = 2.5

@@ -2,8 +2,11 @@ import type { SpriteData, Drawable } from './types.js'
 import { TILE_SIZE } from './types.js'
 import { getGroundSprite } from './groundTiles.js'
 import { createSmallHut } from './hutSprites.js'
-import { SLEEP_FRAMES, SLEEP_FRAME_DURATION_SEC } from './sleepSprite.js'
+import { SLEEP_SPRITE, ZZZ_FRAMES, SLEEP_FRAME_DURATION_SEC } from './sleepSprite.js'
 import { VILLAGE_COLS, VILLAGE_ROWS, tileMap, HUT_POSITIONS } from './tileMap.js'
+
+const BASE_MAP_W = VILLAGE_COLS * TILE_SIZE
+const BASE_MAP_H = VILLAGE_ROWS * TILE_SIZE
 
 // --- Animation state (module-level) ---
 let sleepFrameIndex = 0
@@ -48,23 +51,29 @@ export function renderFrame(
     sleepTimer = 0
   }
 
-  const currentSleepFrame = SLEEP_FRAMES[sleepFrameIndex]
+  const currentZzz = ZZZ_FRAMES[sleepFrameIndex]
 
   // 1. Clear canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)
 
-  // 2. Compute offset to center village on canvas
-  const mapWidth = VILLAGE_COLS * TILE_SIZE
-  const mapHeight = VILLAGE_ROWS * TILE_SIZE
+  // 2. Compute scale to fit village in viewport, then center
+  ctx.imageSmoothingEnabled = false
+  const scale = Math.min(canvasWidth / BASE_MAP_W, canvasHeight / BASE_MAP_H)
+  const mapWidth = BASE_MAP_W * scale
+  const mapHeight = BASE_MAP_H * scale
   const offsetX = (canvasWidth - mapWidth) / 2
   const offsetY = (canvasHeight - mapHeight) / 2
+
+  ctx.save()
+  ctx.translate(offsetX, offsetY)
+  ctx.scale(scale, scale)
 
   // 3. Draw ground grid
   for (let row = 0; row < VILLAGE_ROWS; row++) {
     for (let col = 0; col < VILLAGE_COLS; col++) {
       const tileType = tileMap[row][col]
       const sprite = getGroundSprite(tileType, col, row)
-      drawSprite(ctx, sprite, offsetX + col * TILE_SIZE, offsetY + row * TILE_SIZE)
+      drawSprite(ctx, sprite, col * TILE_SIZE, row * TILE_SIZE)
     }
   }
 
@@ -83,9 +92,9 @@ export function renderFrame(
       zY: hut.row * TILE_SIZE,
     })
 
-    // Sleeping panda (centered in hut doorway: 1 tile right, 1 tile down from hut origin)
+    // Sleeping panda body (static, centered in hut doorway)
     drawables.push({
-      sprite: currentSleepFrame,
+      sprite: SLEEP_SPRITE,
       x: (hut.col + 1) * TILE_SIZE,
       y: (hut.row + 1) * TILE_SIZE,
       zY: (hut.row + 2) * TILE_SIZE + 8,
@@ -98,6 +107,14 @@ export function renderFrame(
       y: hut.row * TILE_SIZE,
       zY: (hut.row + hut.heightTiles) * TILE_SIZE,
     })
+
+    // Zzz overlay — rendered ABOVE hut roof (highest zY)
+    drawables.push({
+      sprite: currentZzz,
+      x: (hut.col + 1) * TILE_SIZE + 12,
+      y: (hut.row + 1) * TILE_SIZE + 4,
+      zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
+    })
   }
 
   // 5. Sort drawables by zY ascending (painter's algorithm)
@@ -105,8 +122,10 @@ export function renderFrame(
 
   // 6. Draw each drawable
   for (const d of drawables) {
-    drawSprite(ctx, d.sprite, offsetX + d.x, offsetY + d.y)
+    drawSprite(ctx, d.sprite, d.x, d.y)
   }
+
+  ctx.restore()
 }
 
 /**
