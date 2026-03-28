@@ -1,6 +1,6 @@
 ---
 id: pa-1xtp
-status: in_progress
+status: closed
 deps: []
 links: []
 created: 2026-03-28T19:36:37Z
@@ -22,3 +22,9 @@ Constraints:
 - Keep functional zones close to gathering hub
 - village-layout.txt is a reference copy; tileMap.ts is the runtime source of truth
 
+
+## Notes
+
+**2026-03-28T19:55:32Z**
+
+Revised layout: spread overlapping huts with 4-5 tile clearance, added organic paths connecting zones to gathering hub, synced village-layout.txt
