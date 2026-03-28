@@ -3,7 +3,7 @@ import { TILE_SIZE } from './types.js'
 import { getGroundSprite } from './groundTiles.js'
 import { createSmallHut } from './hutSprites.js'
 import { SLEEP_SPRITE, ZZZ_FRAMES, SLEEP_FRAME_DURATION_SEC } from './sleepSprite.js'
-import { VILLAGE_COLS, VILLAGE_ROWS, tileMap, HUT_POSITIONS } from './tileMap.js'
+import { VILLAGE_COLS, VILLAGE_ROWS, tileMap, HUT_PLACEMENTS } from './tileMap.js'
 
 const BASE_MAP_W = VILLAGE_COLS * TILE_SIZE
 const BASE_MAP_H = VILLAGE_ROWS * TILE_SIZE
@@ -80,8 +80,8 @@ export function renderFrame(
   // 4. Build structures and collect drawables
   const drawables: Drawable[] = []
 
-  for (let i = 0; i < HUT_POSITIONS.length; i++) {
-    const hutPos = HUT_POSITIONS[i]
+  for (let i = 0; i < HUT_PLACEMENTS.length; i++) {
+    const hutPos = HUT_PLACEMENTS[i]
     const hut = createSmallHut(`hut-${i}`, hutPos.col, hutPos.row)
 
     // Hut back layer (doorway interior)
