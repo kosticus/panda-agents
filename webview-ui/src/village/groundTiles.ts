@@ -20,6 +20,14 @@ const P: Record<string, string> = {
   s: '#C3AF8C', k: '#AA9678', w: '#D7C3A5', p: '#9B8C78',
   // Gathering (packed earth / sun-baked clay)
   c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834',
+  // Water (cool blues — pond/stream)
+  W: '#4678AA', L: '#5A91C3', D: '#325F8C', R: '#6EA5D2', S: '#3C6C9B',
+  // Garden (warm brown soil + green sprouts)
+  B: '#8C6941', K: '#735532', H: '#A58255', P: '#64A050', Q: '#4B823C',
+  // Woodcutting (trampled mud + sawdust)
+  E: '#786946', F: '#B49B6E', J: '#645032', M: '#877D55',
+  // Cooking (ashy packed earth + charcoal — cool gray, distinct from warm gathering clay)
+  A: '#7D766C', I: '#645C52', N: '#9B968C', O: '#373028',
 }
 
 /** Convert a 16-row character grid into SpriteData (16×16 hex array). */
@@ -263,6 +271,182 @@ const gather2 = toSprite([
 ])
 
 // =====================
+// WATER TILES
+// =====================
+
+// Plain pond surface with subtle ripple pattern
+const water1 = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWWWWWW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWLWWWWWWWWSWW',
+  'WWWWWWWSWWWWWWWL',
+  'WLWWWWWWWWWWLWWW',
+  'WWWWWWLWWSWWWWWW',
+  'WWWSWWWWWWWWWWLW',
+  'WWWWWWWWLWWWWWWW',
+  'WLWWWSWWWWWWSWWW',
+  'WWWWWWWWWLWWWWWW',
+  'WWWWLWWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Edge — grass border transitioning to pond center
+const water2 = toSprite([
+  'ggggddgtggdggggg',
+  'gdggggddgggggtgg',
+  'gggdgDDDDDDggggg',
+  'ggggDDWWWWDDdggg',
+  'gdgDWWWWWWWDgggg',
+  'gggDWWLWWWWDgtgg',
+  'gggDWWWWLWWDgggg',
+  'ggDWWWWWWWLDgggg',
+  'ggDWWSWWWWWDggdg',
+  'ggDWWWWWLWWDgggg',
+  'gggDWWWWWWDdgggg',
+  'gggDDWWWWDDggggg',
+  'gdgggDDDDDgggtgg',
+  'gggtggggggdggggg',
+  'gggggdggggggggdg',
+  'ggdgggggtggggggg',
+])
+
+// =====================
+// GARDEN TILES
+// =====================
+
+// Tilled soil with crop rows
+const garden1 = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+])
+
+// Edge — grass border transitioning to tilled soil
+const garden2 = toSprite([
+  'gggtggggdggtgggg',
+  'gdggggtggggggdgg',
+  'gggggdggggggtggg',
+  'gdgggggKBBKgggdg',
+  'gggggKBBHBBKgggg',
+  'ggdgKBHBBHBBKggg',
+  'ggggKBPQBBPQKggg',
+  'gggKBBHBBHBBKggg',
+  'gggKBPQBBPQBKgdg',
+  'ggdKBBHBBHBBKggg',
+  'gggKBPQBBPQBKggg',
+  'ggggKBBBBBBKgggg',
+  'gdgggKKKKKKggdgg',
+  'ggggtgggggggtggg',
+  'ggdgggggdgggggdg',
+  'gggggtgggggtgggg',
+])
+
+// =====================
+// WOODCUTTING TILES
+// =====================
+
+// Trampled grass with sawdust patches
+const wood1 = toSprite([
+  'EEgEEFEEgEEEJEgE',
+  'EgEEEEJEEEFEEEEE',
+  'EEEFEEEEEJEEEgEE',
+  'gEEEEEEFEEEEEEJE',
+  'EEJEEgEEEEFEEEEE',
+  'EEEEFEEJEEEEgEEE',
+  'EgEEEEEEEEJEEFEE',
+  'EEEEJEFEEEEEEEgE',
+  'EFEEEEEEgEEFEEEE',
+  'EEEgEEJEEEEEEJEE',
+  'EEEEEEEEFEgEEEEE',
+  'EJEEFEgEEEEEEFEE',
+  'EEEEEEEEEJEEEEgE',
+  'EgEEJEEFEEEEJEEE',
+  'EEFEEEEEEgEEEEFE',
+  'EEEEgEJEEEEFEEEE',
+])
+
+// With stump landmark
+const wood2 = toSprite([
+  'EEgEEFEEgEEEJEgE',
+  'EgEEEEJEEEFEEEEE',
+  'EEEFEEEEEJEEEgEE',
+  'gEEEEEEFEEEEEEJE',
+  'EEJEEgJJJJFEEEEE',
+  'EEEEFJFFFFJEgEEE',
+  'EgEEEJFJJFJEEFEE',
+  'EEEEJJFFFJJEEEgE',
+  'EFEEEJJJJJEFEgEE',
+  'EEEgEEJEEEEEEJEE',
+  'EEEEEEEEFEgEEEEE',
+  'EJEEFEgEEEEEEFEE',
+  'EEEEEEEEEJEEEEgE',
+  'EgEEJEEFEEEEJEEE',
+  'EEFEEEEEEgEEEEFE',
+  'EEEEgEJEEEEFEEEE',
+])
+
+// =====================
+// COOKING TILES
+// =====================
+
+// Packed earth with soot
+const cook1 = toSprite([
+  'AAIAAANAAIAANAAA',
+  'AAAAAIAAAAAAAAAI',
+  'ANAAAAAAOAAIAAAA',
+  'AAAAAIAAAAAAAANA',
+  'AIAAAAAANAAAOAAA',
+  'AAAANAAAAAAAIAAA',
+  'AAOAAAAAIAAAAAAN',
+  'AAAAAANAAAAAAAOA',
+  'AAIAAAAAAOAAAAAA',
+  'AAAAAAOAAAAAIANA',
+  'ANAAAAAAAIAAAAAA',
+  'AAAOAAIAAAAAANAA',
+  'AAAAAAAANAAAOAAA',
+  'AIAAANAAAAAAIAAA',
+  'AAAAAAAAOAAAAAAA',
+  'AAANAAAAAAIAAANA',
+])
+
+// With fire pit landmark
+const cook2 = toSprite([
+  'AAIAAANAAIAANAAA',
+  'AAAAAIAAAAAAAAAI',
+  'ANAAAAAAOAAIAAAA',
+  'AAAAAIAAAAAAAANA',
+  'AIAAAOOOOOAAOAAA',
+  'AAAAOOIIIOOAIAAA',
+  'AAOAOINNNIOAAAAN',
+  'AAAAAOINNIOANAOA',
+  'AAIAAOINNIOOAAAA',
+  'AAAAAOOIIIOIANAA',
+  'ANAAAOOOOOAAAAAA',
+  'AAAOAAIAAAAAANAA',
+  'AAAAAAAANAAAOAAA',
+  'AIAAANAAAAAAIAAA',
+  'AAAAAAAAOAAAAAAA',
+  'AAANAAAAAAIAAANA',
+])
+
+// =====================
 // Variant lookup tables
 // =====================
 
@@ -294,7 +478,11 @@ export function getGroundSprite(
   if (tileType === TileType.PATH) return pathVariants[idx]
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
   if (tileType === TileType.GATHERING) return gather1
+  if (tileType === TileType.WATER) return water1
+  if (tileType === TileType.GARDEN) return garden1
+  if (tileType === TileType.WOODCUTTING) return wood1
+  if (tileType === TileType.COOKING) return cook1
 
-  // Fallback for POC: water, cooking, woodcutting, garden, void
+  // Fallback: void or unknown
   return grass1
 }
