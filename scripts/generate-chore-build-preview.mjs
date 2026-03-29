@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-// Generates building/repairing animation preview: 2 frames side by side at 8× scale.
-// Frame 1: arm back/up — mallet held above/behind head in accessory rows. Body centered/back.
-// Frame 2: arm forward/down — body leans forward, mallet at wall/structure level.
-// Motion signal: VERTICAL arm movement (arm up -> arm down) + forward lean.
-// Both frames same height (~30 rows). Feet same position. Low wall at bottom.
+// Generates building/repairing animation preview: 3 frames side by side at 8× scale.
+// Frame 1: mallet raised — held above head, arm bridges header to ear, body canonical.
+// Frame 2: mid-swing — mallet at chest/shoulder height on right side, body canonical.
+// Frame 3: impact — body leans forward, mallet strikes wall at bottom.
+// Motion signal: 3-frame swing arc (raised → mid → impact).
+// All frames same height (32 rows). Feet same position. Low wall at bottom.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -37,15 +38,15 @@ function n(frame) {
   });
 }
 
-// === BUILD FRAME 1: Arm pulled back/up, mallet above head in accessory rows. Body centered. ===
-// Layout: 4 mallet + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
+// === BUILD FRAME 1: Mallet raised above head. Arm in header rows only, bridges to ear. ===
+// Layout: 4 header + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
 const build1 = n([
-  // Mallet in accessory header — held up above/behind head (right side)
-  ".............XXX",  // mallet head (steel, shifted right)
-  ".............XXX",  // mallet head
-  "..............M.",  // handle mid
-  "..............M.",  // paw gripping handle (arm raised right)
-  // DN_EARS_HEAD — canonical centered — 6 rows
+  // Mallet raised above head — arm (KK/KKK) bridges from handle down to right ear (cols 8-11)
+  "..........XXXXX.",  // row 0: mallet head (5px steel gray)
+  "...........MM...",  // row 1: handle below head
+  "..........KKK...",  // row 2: paw gripping handle
+  ".........KKK....",  // row 3: arm base, cols 9-11 → meets right ear below
+  // DN_EARS_HEAD — canonical — 6 rows
   "..KKKK..KKKK....",
   ".KKKKK..KKKKK...",
   ".KKKKK..KKKKK...",
@@ -63,7 +64,7 @@ const build1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY — canonical symmetric — 8 rows
+  // DN_BODY — canonical — 8 rows
   "KKKKKWWWWWWKKKKK",
   "KKKKWWWGGWWWKKKK",
   "KKKKWWGGGGWWKKKK",
@@ -73,62 +74,106 @@ const build1 = n([
   ".KKKKKWWWWKKKKK.",
   "..KKKKWWWWKKKK..",
   // DN_LEGS_IDLE — canonical — 3 rows
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Wall/structure at bottom being built — 2 rows
-  "....TTDTTDTTDT..",  // low wall planks top
-  "....TDTTDTTDTT..",  // low wall planks bottom
+  "...KKKK..KKKK..",
+  "...KKKK..KKKK..",
+  "..KKKKK..KKKKK.",
+  // Wall/structure at bottom — 2 rows
+  "....TTDTTDTTDT..",
+  "....TDTTDTTDTT..",
 ]);
 
-// === BUILD FRAME 2: Arm forward/down, mallet strikes wall. Body leans forward. ===
-// Layout: 4 empty + 5 ears (drop 1 for lean) + 6 face + 3 band + 8 body+mallet + 3 legs + 2 wall + 1 empty = 32
+// === BUILD FRAME 2: Mid-swing. Mallet at chest height, right side. Body canonical. ===
+// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
 const build2 = n([
-  // 4 empty rows (mallet is down, not in acc header)
+  // 4 empty header rows (mallet is at body level, not above head)
   EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT (lean forward), drop 1 ear row — 5 rows
-  ".KKKK..KKKK.....",  // ear top
-  "KKKKK..KKKKK....",  // ear widens
-  ".KKWWWWWWKK.....",  // ear base (skip one ear-hold row)
-  ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWW..",  // head widest
+  // DN_EARS_HEAD — canonical — 6 rows
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE — canonical — 6 rows
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // DN_BAND — canonical — 3 rows
+  "..KKKKKKKKKKKK..",
+  ".KKKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // DN_BODY — modified: mallet at chest/shoulder height on right side — 8 rows
+  "KKKKKWWWWWWKKKKK",  // body top (canonical)
+  "KKKKWWWGGWWWKKKK",  // belly (canonical)
+  "KKKKWWGGGGWWKKMM",  // arm extends right, holding handle
+  "KKKKWWGGGGWWKKXX",  // mallet head at end of arm
+  "KKKKWWWGGWWWKKKK",  // body narrows (canonical)
+  "KKKKKWWWWWWKKKKK",  // body base (canonical)
+  ".KKKKKWWWWKKKKK.",  // canonical
+  "..KKKKWWWWKKKK..",  // canonical
+  // DN_LEGS_IDLE — canonical — 3 rows
+  "...KKKK..KKKK..",
+  "...KKKK..KKKK..",
+  "..KKKKK..KKKKK.",
+  // Wall/structure at bottom — 2 rows
+  "....TTDTTDTTDT..",
+  "....TDTTDTTDTT..",
+]);
+
+// === BUILD FRAME 3: Impact. Body leans forward, mallet strikes wall. ===
+// Layout: 4 empty + 5 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall + 1 empty = 32
+const build3 = n([
+  // 4 empty rows (mallet is down at wall level)
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD shifted 1px left (lean forward), drop 1 ear row — 5 rows
+  ".KKKK..KKKK.....",
+  "KKKKK..KKKKK....",
+  ".KKWWWWWWKK.....",
+  ".WWWWWWWWWWWWW..",
+  "WWWWWWWWWWWWWW..",
   // DN_FACE shifted left (lean forward) — 6 rows
-  "WWWKKKWWKKKWWW..",  // eye patches
-  "WWKKEKWWKEKWWW..",  // eyes with glint
-  "WWWKKKWWKKKWWW..",  // eye patches
-  ".WWWWWKKWWWWW...",  // nose
-  ".WWWWWWWWWWWW...",  // lower face
-  "..WWWWWWWWWW....",  // chin
+  "WWWKKKWWKKKWWW..",
+  "WWKKEKWWKEKWWW..",
+  "WWWKKKWWKKKWWW..",
+  ".WWWWWKKWWWWW...",
+  ".WWWWWWWWWWWW...",
+  "..WWWWWWWWWW....",
   // DN_BAND shifted left — 3 rows
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted left — right arm extends forward/down, mallet at wall level — 8 rows
-  "KKKKKWWWWWWKKKK.",  // body top
-  "KKKKWWWGGWWWKKK.",  // belly
-  "KKKKWWGGGGWWKKK.",  // belly, arm comes forward
-  "KKKKWWGGGGWWKKK.",  // belly, arm going down
-  "KKKKKWWWGGWWWKK.",  // body narrows, arm at mid level
-  ".KKKKWWWWWWWKKKK",  // body base, arm reaching down
-  "..KKKWWWWWWKKMMM",  // arm extends down, mallet handle (MMM)
-  "...KKWWWWWWKKXXX",  // mallet head (XXX) at wall level
-  // DN_LEGS_IDLE (same both frames) — 3 rows
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
+  // DN_BODY shifted left — arm extends down to mallet at wall — 8 rows
+  "KKKKKWWWWWWKKKK.",
+  "KKKKWWWGGWWWKKK.",
+  "KKKKWWGGGGWWKKK.",
+  "KKKKWWGGGGWWKKK.",
+  "KKKKKWWWGGWWWKK.",
+  ".KKKKWWWWWWWKKKK",
+  "..KKKWWWWWWKKMMM",
+  "...KKWWWWWWKKXXX",
+  // DN_LEGS_IDLE — 3 rows
+  "...KKKK..KKKK..",
+  "...KKKK..KKKK..",
+  "..KKKKK..KKKKK.",
   // Wall/structure at bottom — 2 rows
-  "....TTDTTDTTDT..",  // low wall planks top
-  "....TDTTDTTDTT..",  // low wall planks bottom
+  "....TTDTTDTTDT..",
+  "....TDTTDTTDTT..",
 ]);
 
-// === Render: 2 frames side by side ===
-const COLS = 2;
+// === Render: 3 frames side by side ===
+const COLS = 3;
 const IMG_W = FRAME_W * COLS;
 const IMG_H = FRAME_H;
-const frames = [build1, build2];
+const frames = [build1, build2, build3];
 
 const png = new PNG({ width: IMG_W, height: IMG_H });
 for (let i = 0; i < png.data.length; i += 4) {
@@ -182,5 +227,6 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_build_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): arm back/up — mallet above head in accessory rows, body upright");
-console.log("Frame 2 (right): arm forward/down — body leans forward, mallet strikes wall at bottom");
+console.log("Frame 1 (left): mallet raised — held above head, arm bridges header to ear, body canonical");
+console.log("Frame 2 (center): mid-swing — mallet at chest height on right side, body canonical");
+console.log("Frame 3 (right): impact — body leans forward, mallet strikes wall at bottom");
