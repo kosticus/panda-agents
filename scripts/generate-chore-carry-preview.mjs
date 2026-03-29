@@ -66,12 +66,12 @@ const carry1 = n([
   // Body shifted right, bundle at belly center — 8 rows
   ".KKKKKWWWWWWKKKK",
   ".KKKKWWWGGWWKKKK",
-  ".KKKKWWGGGGWKKKK",
-  ".KKKKWWTTTTWKKKK",  // bundle top
-  ".KKKKWWXRRXWKKKK",  // bundle face
-  ".KKKKWWTTTTWKKKK",  // bundle bottom
+  ".KKKKKKGGGKKKKK.",  // belly narrows — arms closing in
+  ".KKKKKTTTTTKKKK.",  // bundle top — arms wrap around
+  ".KKKKKXXRXXKKKK.",  // bundle face — arms grip
+  ".KKKKKTTTTTKKKK.",  // bundle bottom
   "..KKKKWWWWWKKK..",
-  "...KKKWWWWKKK...",
+  "...KKKWWWWWKKK..",
   // DN_WALK3_LEGS shifted right (4 rows): right foot forward
   "...KKKKW...KKKK.",
   "...KKKK....KKKK.",
@@ -107,11 +107,11 @@ const carry2 = n([
   // Body shifted left, bundle at belly center — 8 rows
   "KKKKKWWWWWWKKKK.",
   "KKKKWWWGGWWWKKK.",
-  "KKKKWWGGGGWWKKK.",
-  "KKKKWWTTTTWWKKK.",  // bundle top
-  "KKKKWWXRRXWWKKK.",  // bundle face
-  "KKKKWWTTTTWWKKK.",  // bundle bottom
-  ".KKKKKWWWWWKKKK.",
+  "KKKKKKGGGKKKKK..",  // belly narrows — arms closing in
+  "KKKKKTTTTTKKKK..",  // bundle top — arms wrap around
+  "KKKKKXXRXXKKKK..",  // bundle face — arms grip
+  "KKKKKTTTTTKKKK..",  // bundle bottom
+  ".KKKKKWWWWWKKK..",
   "..KKKKWWWWKKK...",
   // DN_WALK1_LEGS shifted left (4 rows): left foot forward
   ".KKKK...WKKKK...",

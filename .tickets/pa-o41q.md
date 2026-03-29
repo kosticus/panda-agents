@@ -1,6 +1,6 @@
 ---
 id: pa-o41q
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-03-29T01:33:29Z
@@ -31,3 +31,13 @@ Key file: scripts/generate-chore-carry-preview.mjs
 
 Acceptance: run `node scripts/generate-chore-carry-preview.mjs`, open panda_carry_preview_8x.png — should see white paw pixels visibly wrapping around the bundle, distinguishable from the body outline.
 
+
+## Notes
+
+**2026-03-29T17:15:23Z**
+
+Started by kimberlykost
+
+**2026-03-29T17:43:23Z**
+
+Redesigned carry bundle: arms (K) directly wrap bundle with no white gap, belly narrows above bundle to transition smoothly, bundle 5px wide with XXRXX face pattern. Stray pixels fixed by eliminating W between arm and bundle.
