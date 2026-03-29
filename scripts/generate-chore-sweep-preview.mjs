@@ -59,8 +59,8 @@ const sweep1 = n([
   ".WWWWWWWWWWWW...",
   "..WWWWWWWWWW....",
   // DN_BAND shifted left — 2 rows
+  "KKKKKKKKKKKKKK..",
   "KKKKKKKKKKKKKKK.",
-  "KKKKKKKKKKKKKKKK",
   // Body shifted left, left arm holds broom — 7 rows
   "KKKKKWWWWWWKKKK.",
   "KKKKWWWGGWWWKKK.",
@@ -100,7 +100,7 @@ const sweep2 = n([
   "....WWWWWWWWWW..",
   // DN_BAND shifted right — 2 rows
   "..KKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
+  ".KKKKKKKKKKKKKKK",
   // Body shifted right, right arm holds broom — 7 rows
   ".KKKKKWWWWWWKKKK",
   ".KKKKWWWGGWWWKKK",
