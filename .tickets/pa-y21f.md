@@ -43,3 +43,11 @@ Acceptance: run `node scripts/generate-chore-bamboo-preview.mjs`, open panda_bam
 **2026-03-29T18:06:00Z**
 
 Started by kimberlykost
+
+**2026-03-29T18:18:50Z**
+
+Redesigned both frames: 3px lean (was 1px), stalk goes from ground-planted (frame 1) to head-height with clear air gap (frame 2). ~8 row vertical shift in stalk position. All row strings verified 16 chars, all characters in color map.
+
+**2026-03-29T18:32:41Z**
+
+Second attempt: reduced lean to 2px (was 3px), stalk now 2px wide (NV) with J-color segment nodes instead of 3px solid NVN. Stalk moves ~4 rows between frames (was 8). Only 1 row of dirt at base (was 5 rows underground). Leaf at stalk top in both frames. Air gap of 3 rows in frame 2 between root and ground.
