@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 // Generates chopping wood animation preview: 2 frames side by side at 8× scale.
-// Frame 1: axe raised — panda leans back slightly, axe handle in accessory rows above head.
-// Frame 2: axe down — panda leans forward, arms bring axe to stump level.
-// Both frames same height (3 empty rows at top each). Motion = lean + arm position.
-// Feet in same position both frames.
+// Frame 1: wind-up — widened shoulders (power stance), body shifted up 1px, axe above head.
+// Frame 2: chop down — canonical body, axe handle visible through belly to stump.
+// Motion = shoulder width change + vertical shift + handle path.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -37,43 +36,45 @@ function n(frame) {
   });
 }
 
-// === CHOP FRAME 1: Axe raised above head, thin arms (arms are up) ===
+// === CHOP FRAME 1: Wind-up — /\ arms overhead, body shifted up ===
 const chop1 = n([
-  // Axe head centered above + handle
-  "....AAHHAA......",  // axe head (blade around handle)
-  "....AAHHAA......",  // axe head continues
+  // Axe head
+  "...AAAHHA.......",  // blade fans left
+  "....AAHHA.......",  // taper
   "......HH........",  // handle
-  "......HH........",  // handle toward ears
-  // DN_EARS_HEAD centered — 6 rows
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  // DN_FACE centered — 6 rows
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  // Band (narrower, arms raised) — 3 rows
-  "...KKKKKKKKKK...",
-  "..KKKKKKKKKKKK..",
-  "..KKKKKKKKKKKK..",
-  // Body with thin arms (arms are up) — 6 rows
-  "...KKWWWWWWKK...",
-  "...KKWWGGWWKK...",
-  "...KKWGGGGWKK...",
-  "...KKWWGGWWKK...",
-  "...KKKWWWWKKK...",
-  "....KKWWWWKK....",
-  // DN_LEGS_IDLE — 3 rows
-  "...KKKK..KKKK...",
+  "......HH........",  // handle
+  // Ears — handle passes through gap
+  "..KKKKHHKKKK....",
+  ".KKKKKHHKKKKK...",
+  ".KKKKKHHKKKKK...",
+  // Head — arms branch from handle in /\ shape (4px at top, taper to 3px)
+  "..KKKKKKKKKK....",  // hands grip handle wide (cols 4-9)
+  "..KKKKWWKKKKWW..",  // arms 4px: L=2-5, R=8-11
+  ".KKKKWWWWKKKKWW.",  // arms 4px: L=1-4, R=9-12
+  // Face — /\ arms continue outward, eyes peek through
+  "KKKKKKKWWKKKKKW.",  // arms 4px: L=0-3, R=10-13
+  "KKKKKEKWWKEKKKW.",  // arms: L=0-2, R=11-13, eyes visible
+  "KKKWKKKWWKKKKKK.",  // arms: L=0-2, R=12-14
+  "KKKWWWWKKWWWWKKK",  // arms: L=0-2, R=13-15
+  "KKKWWWWWWWWWWKKK",  // arms at edges
+  "KKKWWWWWWWWWWKKK",  // arms at edges, chin
+  // Band — arms meet body at shoulders
+  "KKKKKKKKKKKKKKKK",  // arms + body merge at shoulders
+  ".KKKKKKKKKKKKKKK",  // transition
+  "..KKKKKKKKKKKK..",  // body width
+  // Body (arms are overhead — bare belly exposed)
+  "...WWWWWWWWWW...",  // white belly, no arms
+  "...WWWWGGWWWW...",  // belly
+  "...WWWGGGGWWW...",  // belly center
+  "...WWWWGGWWWW...",  // mirror
+  "...WWWWWWWWWW...",  // mirror
+  "....WWWWWWWW....",  // taper
+  // Legs (2 rows, shifted up)
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
-  // Stump — 2 rows
+  // Gap — panda lifted for wind-up
+  EMPTY,
+  // Stump
   ".....TTDDTT.....",
   ".....TTDDTT.....",
 ]);
@@ -102,19 +103,19 @@ const chop2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body canonical (full arms, axe below) — 6 rows
-  "KKKKKWWWWWWKKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
-  "..KKKKWWWWKKKK..",
+  // Body canonical with handle through belly (cols 7-8) — 6 rows
+  "KKKKKWWHHWWKKKKK",  // handle visible through white belly
+  "KKKKWWWHHWWWKKKK",  // handle through gray/white
+  "KKKKWWGHHGWWKKKK",  // handle through gray belly
+  "KKKKWWWHHWWWKKKK",  // mirror
+  "KKKKKWWHHWWKKKKK",  // mirror
+  "..KKKKWHHWKKKK..",  // handle continues to legs
   // Legs with handle between — 3 rows
   "...KKKKHHKKKK...",
   "...KKKKHHKKKK...",
   "..KKKKKHHKKKKK..",
   // Axe embedded in stump — 2 rows
-  ".....AAHAA......",
+  "....AAAHHA......",  // blade fans left in stump
   ".....TTDDTT.....",
 ]);
 
@@ -176,5 +177,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_chop_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): axe raised — leans back (head right), paw grips handle above head");
-console.log("Frame 2 (right): axe down — leans forward (head left), arms down at stump with axe");
+console.log("Frame 1 (left): wind-up — widened shoulders, body shifted up, axe above head");
+console.log("Frame 2 (right): chop down — canonical body, handle visible through belly to stump");
