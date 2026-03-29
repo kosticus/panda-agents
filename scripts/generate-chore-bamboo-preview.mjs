@@ -73,13 +73,12 @@ const bamboo1 = n([
   "..KKWWWWWWWKKNVN",  // body base, arm at stalk
   "...KKWWWWWKKKNVN",  // body lower, paw gripping stalk
   "....KKWWWWKKKNVN",  // body bottom, both paws at stalk
-  // DN_LEGS_IDLE (same both frames) — 3 rows
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Ground + stalk still planted — 2 rows
-  "............JNJN",  // bamboo stalk node at ground
-  "....DDDDDDDDDDD.",  // dirt around stalk base
+  // Legs with stalk continuous to ground — 3 rows
+  "...KKKK..KKKKNVN",
+  "...KKKK..KKKKNVN",
+  "..KKKKK..KKKKNVN",
+  // Ground — stalk rooted in dirt
+  "....DDDDDDDDDNVN",  // dirt with stalk base
 ]);
 
 // === BAMBOO FRAME 2: Body leans back (shifted 1px right), stalk pulled up to waist ===
@@ -116,12 +115,12 @@ const bamboo2 = n([
   "..KKKWWWWWWKKNVN",  // body base, stalk continues
   "...KKKWWWWWKKK.R",  // body lower, root dangling from stalk
   "....KKWWWWKKK..R",  // body bottom, roots visible
-  // DN_LEGS_IDLE (same both frames) — 3 rows
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Ground (stalk uprooted — hole visible) — 1 row
-  "....DDDDDDDDDDD.",  // dirt + hole where stalk was
+  // Legs with root dangling — 3 rows
+  "...KKKK..KKKK..R",
+  "...KKKK..KKKK..R",
+  "..KKKKK..KKKKK.R",
+  // Ground (stalk uprooted) — 1 row
+  "....DDDDDDDDDDD.",  // dirt + hole
 ]);
 
 // === Render: 2 frames side by side ===

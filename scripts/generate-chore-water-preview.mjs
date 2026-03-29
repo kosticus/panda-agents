@@ -74,15 +74,14 @@ const water1 = n([
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
   // Water stream + crops — 3 rows
-  "..L.NL..L..DDDDD",  // crops + thick water stream from spout
-  "..L.NL..L..DD.L.",  // crops + water drops falling
+  "..LDNL.DL..DDDDD",  // water drops on crops + stream from spout
+  "..LDNL.DL..DD.L.",  // water drops falling between crops
   "..BBBBBBBBBBBBBB",  // soil
 ]);
 
 // === WATER FRAME 2: Standing upright, can at hip (not pouring) ===
-// 3 empty + 1 empty + 6 ears + 6 face + 3 band + 5 body+can + 3 legs + 3 ground + 2 pad = 32
+// 3 empty + 6 ears + 6 face + 3 band + 6 body+can + 3 legs + 3 ground + 2 pad = 32
 const water2 = n([
-  EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
@@ -104,9 +103,10 @@ const water2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY upright, large can held at right hip — 5 rows
+  // DN_BODY upright, large can held at right hip — 6 rows (was 5)
   "KKKKKWWWWWWKKKKK",  // body top
   "KKKKWWWGGWWWKKKK",  // belly
+  "KKKKWWGGGGWWKKKK",  // belly
   "KKKKWWGGGGWWKKKK",  // belly
   ".KKKWWWGGWWWKQQQ",  // body narrows, can top at hip (QQQ = 3px)
   "..KKWWWWWWWKQQQQ",  // body base, can body (4px)

@@ -37,92 +37,85 @@ function n(frame) {
   });
 }
 
-// === CHOP FRAME 1: Axe raised, panda leans back slightly (head 1px right) ===
-// 3 empty + 2 axe/arm rows + 6 ears + 6 face + 3 band + 6 body + 3 legs + 2 stump + 1 empty = 32
+// === CHOP FRAME 1: Axe raised above head, thin arms (arms are up) ===
 const chop1 = n([
-  // 3 empty rows at top
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Axe raised above head — arms (KK) visible connecting to body through ear gap
-  "......KKAAAAKKK.",  // arms up gripping axe blade (AAAA)
-  "......KKHH.KK...",  // arms hold handle (HH), merge toward ears
-  // DN_EARS_HEAD shifted 1px RIGHT (lean back) — 6 rows
-  "...KKKK..KKKK...",  // ear top
-  "..KKKKK..KKKKK..",  // ear widens
-  "..KKKKK..KKKKK..",  // ear holds
-  "...KKWWWWWWKK...",  // ear base
-  "...WWWWWWWWWWWW.",  // head
-  "..WWWWWWWWWWWWWW",  // head widest
-  // DN_FACE shifted 1px right (lean back) — 6 rows
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "..WWKKEKWWKEKWWW",  // eyes with glint
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "...WWWWWKKWWWWW.",  // nose
-  "...WWWWWWWWWWWW.",  // lower face
-  "....WWWWWWWWWW..",  // chin
-  // DN_BAND shifted right — 3 rows
-  "...KKKKKKKKKKKK.",
-  "..KKKKKKKKKKKKKK",
-  ".KKKKKKKKKKKKKKK",
-  // DN_BODY shifted right, arms raised (slimmer sides) — 6 rows
-  "..KKKKWWWWWWKKKK",  // body top
-  "..KKKWWWGGWWWKKK",  // belly
-  "..KKKWWGGGGWWKKK",  // belly
-  "..KKKWWGGGGWWKKK",  // belly
-  "..KKKKWWWGGWWKKK",  // body narrows
-  "...KKKWWWWWWKKK.",  // body base
-  // DN_LEGS_IDLE (same both frames) — 3 legs
+  // Axe head centered above + handle
+  "....AAHHAA......",  // axe head (blade around handle)
+  "....AAHHAA......",  // axe head continues
+  "......HH........",  // handle
+  "......HH........",  // handle toward ears
+  // DN_EARS_HEAD centered — 6 rows
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE centered — 6 rows
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // Band (narrower, arms raised) — 3 rows
+  "...KKKKKKKKKK...",
+  "..KKKKKKKKKKKK..",
+  "..KKKKKKKKKKKK..",
+  // Body with thin arms (arms are up) — 6 rows
+  "...KKWWWWWWKK...",
+  "...KKWWGGWWKK...",
+  "...KKWGGGGWKK...",
+  "...KKWWGGWWKK...",
+  "...KKKWWWWKKK...",
+  "....KKWWWWKK....",
+  // DN_LEGS_IDLE — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
-  // Stump at ground level — 2 rows
+  // Stump — 2 rows
   ".....TTDDTT.....",
-  EMPTY,
+  ".....TTDDTT.....",
 ]);
 
-// === CHOP FRAME 2: Axe down at stump, panda leans forward (head 1px left) ===
-// 3 empty + 2 empty (no axe above) + 6 ears + 6 face + 3 band + 6 body+handle + 3 legs + 2 stump + 1 empty = 32
+// === CHOP FRAME 2: Axe down at stump, handle through legs ===
 const chop2 = n([
-  // 3 empty rows at top
   EMPTY,
   EMPTY,
   EMPTY,
-  // Extra empty rows (axe is now down, not above head)
   EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT (lean forward), full 6 ear rows
-  ".KKKK..KKKK.....",  // ear top (shifted left)
-  "KKKKK..KKKKK....",  // ear widens
-  "KKKKK..KKKKK....",  // ear holds
-  ".KKWWWWWWKK.....",  // ear base
-  ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWW..",  // head widest
-  // DN_FACE shifted 1px left (lean forward) — 6 rows
-  "WWWKKKWWKKKWWW..",  // eye patches
-  "WWKKEKWWKEKWWW..",  // eyes with glint
-  "WWWKKKWWKKKWWW..",  // eye patches
-  ".WWWWWKKWWWWW...",  // nose
-  ".WWWWWWWWWWWW...",  // lower face
-  "..WWWWWWWWWW....",  // chin
-  // DN_BAND shifted left — 3 rows
-  ".KKKKKKKKKKKK...",
-  "KKKKKKKKKKKKKKK.",
+  // DN_EARS_HEAD centered — 6 rows
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE centered — 6 rows
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // DN_BAND centered — 3 rows
+  "..KKKKKKKKKKKK..",
+  ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body shifted left, arms extend right with handle to stump — 6 rows
-  "KKKKKWWWWWWKKKK.",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly, arm starts going right
-  "KKKKWWGGGGWWKKKK",  // belly, arm extends
-  ".KKKWWWGGWWWKKMM",  // body narrows, arms hold handle (MM)
-  "..KKWWWWWWWKKMM.",  // body base, handle continues down
-  "...KKWWWWWKKAAA.",  // body lower, axe blade (AAA) at stump
-  // DN_LEGS_IDLE (same both frames) — 3 legs
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Stump at ground level — 2 rows
+  // Body canonical (full arms, axe below) — 6 rows
+  "KKKKKWWWWWWKKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKWWGGGGWWKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKKWWWWWWKKKKK",
+  "..KKKKWWWWKKKK..",
+  // Legs with handle between — 3 rows
+  "...KKKKHHKKKK...",
+  "...KKKKHHKKKK...",
+  "..KKKKKHHKKKKK..",
+  // Axe embedded in stump — 2 rows
+  ".....AAHAA......",
   ".....TTDDTT.....",
-  EMPTY,
 ]);
 
 // === Render: 2 frames side by side ===

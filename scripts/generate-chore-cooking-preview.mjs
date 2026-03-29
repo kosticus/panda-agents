@@ -38,85 +38,83 @@ function n(frame) {
   });
 }
 
-// === COOK FRAME 1: Whole body leaned LEFT, right arm reaches to pot with spoon ===
-// 2 empty + 6 ears + 6 face + 3 band + 5 body + 3 legs + 4 pot+spoon + 3 empty = 32
-// Everything shifted 1px left from center.
+// === COOK FRAME 1: Static body, spoon stirs LEFT side of pot ===
+// 2 empty + 6 ears + 6 face + 3 band + 6 body + 3 legs + 4 pot + 2 pad = 32
+// Body is centered and identical in both frames. Only pot row changes.
 const cook1 = n([
-  // 2 empty alignment rows
   EMPTY,
   EMPTY,
-  // Head shifted 1px left (6 rows — ears)
-  ".KKKK..KKKK.....",  // ear top (shifted left)
-  "KKKKK..KKKKK....",  // ear widens
-  "KKKKK..KKKKK....",  // ear holds
-  ".KKWWWWWWKK.....",  // ear base
-  ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWW..",  // head widest
-  // Face shifted left (6 rows)
-  "WWWKKKWWKKKWWW..",  // eye patches
-  "WWKKEKWWKEKWWW..",  // eyes with glint
-  "WWWKKKWWKKKWWW..",  // eye patches
-  ".WWWWWKKWWWWW...",  // nose
-  ".WWWWWWWWWWWW...",  // lower face
-  "..WWWWWWWWWW....",  // chin
-  // Band shifted left (3 rows)
-  ".KKKKKKKKKKKK...",
-  "KKKKKKKKKKKKKKK.",
-  "KKKKKKKKKKKKKKKK",
-  // Body leaned left — right arm extends to stir, spoon handle (5 rows)
-  "KKKWWWWWWKKKK...",  // body top
-  "KKKWWGGWWWKKKK..",  // belly
-  "KKKWWGGGGWWKKKKK",  // belly, arm extends right
-  ".KKWWWGGWWWKKPPP",  // arm to pot, paw grips spoon handle
-  "..KKWWWWWWKKK.PP",  // hips, spoon into pot
-  // Legs — weight on left (3 rows)
-  "..KKKK..KKKK....",
+  // DN_EARS_HEAD centered — 6 rows
   "..KKKK..KKKK....",
   ".KKKKK..KKKKK...",
-  // Pot (centered — doesn't move) (4 rows)
-  ".....RRRRRR.....",  // pot rim
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE centered — 6 rows
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // DN_BAND centered — 3 rows
+  "..KKKKKKKKKKKK..",
+  ".KKKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // Body — 6 rows (canonical, centered, identical both frames)
+  "KKKKKWWWWWWKKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKWWGGGGWWKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKKWWWWWWKKKKK",
+  "..KKKKWWWWKKKK..",
+  // DN_LEGS_IDLE — 3 rows (identical both frames)
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  // Pot — spoon (PP) stirs LEFT side
+  "...PPRRRRRR.....",  // spoon handle left, pot rim
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
   "...SSSSSSSS.....",  // stone base
 ]);
 
-// === COOK FRAME 2: Whole body leaned RIGHT, left arm reaches to pot with spoon ===
-// 2 empty + 6 ears + 6 face + 3 band + 5 body + 3 legs + 4 pot + 3 empty = 32
-// Everything shifted 1px right.
+// === COOK FRAME 2: Body centered (same as frame 1), spoon stirs RIGHT ===
 const cook2 = n([
-  // 2 empty alignment rows
   EMPTY,
   EMPTY,
-  // Head shifted 1px right (6 rows — ears)
-  "...KKKK..KKKK...",  // ear top (shifted right)
-  "..KKKKK..KKKKK..",  // ear widens
-  "..KKKKK..KKKKK..",  // ear holds
-  "...KKWWWWWWKK...",  // ear base
-  "...WWWWWWWWWWWW.",  // head
-  "..WWWWWWWWWWWWWW",  // head widest
-  // Face shifted right (6 rows)
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "..WWKKEKWWKEKWWW",  // eyes with glint
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "...WWWWWKKWWWWW.",  // nose
-  "...WWWWWWWWWWWW.",  // lower face
-  "....WWWWWWWWWW..",  // chin
-  // Band shifted right (3 rows)
-  "...KKKKKKKKKKKK.",
-  "..KKKKKKKKKKKKKK",
+  // DN_EARS_HEAD centered (identical to frame 1)
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
+  // DN_FACE centered (identical to frame 1)
+  ".WWWKKKWWKKKWWW.",
+  ".WWKKEKWWKEKWWW.",
+  ".WWWKKKWWKKKWWW.",
+  "..WWWWWKKWWWWW..",
+  "..WWWWWWWWWWWW..",
+  "...WWWWWWWWWW...",
+  // DN_BAND centered (identical to frame 1)
+  "..KKKKKKKKKKKK..",
+  ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body leaned right — left arm extends to stir, spoon angled other way (5 rows)
-  "...KKKKWWWWWWKKK",  // body top
-  "..KKKKKWWGGWWKKK",  // belly
-  "KKKKKKWWGGGGWKKK",  // belly, left arm extends left
-  "PPPKKWWWGGWWWKK.",  // spoon handle, paw grips, arm to pot
-  "PP.KKKWWWWWWKK..",  // spoon into pot, hips
-  // Legs — weight on right (3 rows)
-  "....KKKK..KKKK..",
-  "....KKKK..KKKK..",
-  "...KKKKK..KKKKK.",
-  // Pot (centered — doesn't move) (4 rows)
-  ".....RRRRRR.....",  // pot rim
+  // Body centered (identical to frame 1)
+  "KKKKKWWWWWWKKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKWWGGGGWWKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKKWWWWWWKKKKK",
+  "..KKKKWWWWKKKK..",
+  // DN_LEGS_IDLE (identical to frame 1)
+  "...KKKK..KKKK...",
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  // Pot — spoon stirs RIGHT side
+  ".....RRRRRRPP...",  // pot rim + spoon handle right
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
   "...SSSSSSSS.....",  // stone base

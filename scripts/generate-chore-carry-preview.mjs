@@ -63,15 +63,15 @@ const carry1 = n([
   "...KKKKKKKKKKKK.",
   "..KKKKKKKKKKKKKK",
   ".KKKKKKKKKKKKKKK",
-  // DN_BODY shifted right — bundle peeks out right past K edge — 8 rows
-  ".KKKKKWWWWWWKKKK",  // body top (shifted right 1px)
-  ".KKKKWWWGGWWKKKK",  // belly
-  ".KKKKWWGGGGWKKTT",  // belly, bundle top peeks right (TT)
-  ".KKKKWWGGGGWKXRT",  // belly, bundle face visible right (X,R,T)
-  ".KKKKWWGGGGWKXRT",  // belly, bundle body visible
-  ".KKKKWWWGGWWKKTT",  // body narrows, bundle bottom peeks right
-  "..KKKKKWWWWWKKKK",  // body row 7
-  "...KKKKWWWWKKK..",  // body row 8
+  // Body shifted right, bundle at belly center — 8 rows
+  ".KKKKKWWWWWWKKKK",
+  ".KKKKWWWGGWWKKKK",
+  ".KKKKWWGGGGWKKKK",
+  ".KKKKWWTTTTWKKKK",  // bundle top
+  ".KKKKWWXRRXWKKKK",  // bundle face
+  ".KKKKWWTTTTWKKKK",  // bundle bottom
+  "..KKKKWWWWWKKK..",
+  "...KKKWWWWKKK...",
   // DN_WALK3_LEGS shifted right (4 rows): right foot forward
   "...KKKKW...KKKK.",
   "...KKKK....KKKK.",
@@ -104,15 +104,15 @@ const carry2 = n([
   ".KKKKKKKKKKKK...",
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKK.",
-  // DN_BODY shifted left — bundle peeks out left past K edge — 8 rows
-  "KKKKKWWWWWWKKKK.",  // body top (shifted left 1px)
-  "KKKKWWWGGWWWKKKK",  // belly
-  "TTKKWWGGGGWWKKKK",  // belly, bundle top peeks left (TT)
-  "TRXKWWGGGGWWKKKK",  // belly, bundle face visible left (T,R,X)
-  "TRXKWWGGGGWWKKKK",  // belly, bundle body visible
-  "TTKKWWWGGWWWKKKK",  // body narrows, bundle bottom peeks left
-  ".KKKKKWWWWWKKKK.",  // body row 7
-  "..KKKKWWWWKKK...",  // body row 8
+  // Body shifted left, bundle at belly center — 8 rows
+  "KKKKKWWWWWWKKKK.",
+  "KKKKWWWGGWWWKKK.",
+  "KKKKWWGGGGWWKKK.",
+  "KKKKWWTTTTWWKKK.",  // bundle top
+  "KKKKWWXRRXWWKKK.",  // bundle face
+  "KKKKWWTTTTWWKKK.",  // bundle bottom
+  ".KKKKKWWWWWKKKK.",
+  "..KKKKWWWWKKK...",
   // DN_WALK1_LEGS shifted left (4 rows): left foot forward
   ".KKKK...WKKKK...",
   ".KKKK....KKKK...",

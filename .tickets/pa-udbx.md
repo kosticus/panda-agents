@@ -1,7 +1,7 @@
 ---
 id: pa-udbx
 status: in_progress
-deps: []
+deps: [pa-cu9j, pa-0wei, pa-n4ew, pa-lp40, pa-0bea, pa-y21f, pa-io1k, pa-o41q]
 links: []
 created: 2026-03-28T19:37:08Z
 type: task
@@ -45,3 +45,11 @@ Added preview scripts for all 5 remaining chore animations: fish (standing cast 
 **2026-03-28T21:27:27Z**
 
 Revised all 5 animations: fishing changed to seated tug, building to sideways hammer, bamboo to pulling shoot. Fixed sweep head proportions and carry body proportions to match canonical panda from generate-panda-sheets.mjs.
+
+**2026-03-28T21:56:42Z**
+
+Round 3: Shifted all animations from height-change to lean/tilt motion. Fixed ear consistency, feet positions, prop readability. Cook: added spoon. Chop/water/bamboo: lean instead of shrink. Fish: bigger props and splash. Build: forward lean instead of sideways. Carry: cleaned up stray pixels.
+
+**2026-03-28T22:18:18Z**
+
+Round 4: Fixed cook spoon as continuous handle, chop arm connection, water ground alignment, fish pole not clipping ear, bamboo stalk same side both frames, carry stray pixels and bundle visibility.

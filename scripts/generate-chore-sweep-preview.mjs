@@ -43,36 +43,39 @@ function n(frame) {
 const sweep1 = n([
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD (6 rows) shifted 1px LEFT
-  ".KKKK..KKKK.....",  // ear top (shifted left)
-  "KKKKK..KKKKK....",  // ear widens
-  "KKKKK..KKKKK....",  // ear holds
-  ".KKWWWWWWKK.....",  // ear base
-  ".WWWWWWWWWWWWW..",  // head
-  "WWWWWWWWWWWWWW..",  // head widest
-  // DN_FACE (6 rows) shifted left
-  "WWWKKKWWKKKWWW..",  // eye patches
-  "WWKKEKWWKEKWWW..",  // eyes with glint
-  "WWWKKKWWKKKWWW..",  // eye patches
-  ".WWWWWKKWWWWW...",  // nose
-  ".WWWWWWWWWWWW...",  // lower face
-  "..WWWWWWWWWW....",  // chin
-  // DN_BAND (3 rows) shifted left
-  ".KKKKKKKKKKKK...",  // band 1
-  "KKKKKKKKKKKKKKK.",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body bent left — left arm extends down-left with broom handle
-  "KKKWWWGGGGWWWKKK",  // body wide (bent forward)
-  "KKWWWWGGGGWWWWKK",  // belly spreads
-  "KWWWWWGGWWWWKK..",  // body tilts left, right arm in
-  "H.KWWWWWWWWKK...",  // broom handle starts left, body
-  // Legs + broom reaching ground
-  "HH..KKKKKKKKKK..",  // broom shaft, legs
-  "HHH..KKKKKKKKK..",  // broom continues down
-  "RRRH..KKKKKKKK..",  // bristle base + legs
-  "RRRR..KKKKKKK...",  // bristles spread left
-  "SSSS............",  // bristle tips on ground
-  "DDDDD...........",  // dirt/dust cloud
+  // DN_EARS_HEAD shifted 1px LEFT — 6 rows
+  ".KKKK..KKKK.....",
+  "KKKKK..KKKKK....",
+  "KKKKK..KKKKK....",
+  ".KKWWWWWWKK.....",
+  ".WWWWWWWWWWWWW..",
+  "WWWWWWWWWWWWWW..",
+  // DN_FACE shifted left — 6 rows
+  "WWWKKKWWKKKWWW..",
+  "WWKKEKWWKEKWWW..",
+  "WWWKKKWWKKKWWW..",
+  ".WWWWWKKWWWWW...",
+  ".WWWWWWWWWWWW...",
+  "..WWWWWWWWWW....",
+  // DN_BAND shifted left — 3 rows
+  ".KKKKKKKKKKKK...",
+  "KKKKKKKKKKKKKKK.",
+  "KKKKKKKKKKKKKKKK",
+  // Body shifted left, left arm holds broom — 6 rows
+  "KKKKKWWWWWWKKKK.",
+  "KKKKWWWGGWWWKKK.",
+  "KKKKWWGGGGWWKKK.",
+  "KKKKWWWGGWWWKKK.",
+  "HKKKWWWWWWWKKK..",
+  "HH.KKWWWWKKKK..",
+  // Legs + broom shaft — 3 rows
+  "HH.KKKK..KKKK..",
+  "RH.KKKK..KKKK..",
+  "RRKKKKK..KKKKK.",
+  // Broom on ground — 3 rows
+  "RRRR............",
+  "SSSS............",
+  "DDDD............",
 ]);
 
 // === SWEEP FRAME 2: Body leans RIGHT, broom sweeps right along ground ===
@@ -80,36 +83,39 @@ const sweep1 = n([
 const sweep2 = n([
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD (6 rows) shifted 1px RIGHT
-  "...KKKK..KKKK...",  // ear top (shifted right)
-  "..KKKKK..KKKKK..",  // ear widens
-  "..KKKKK..KKKKK..",  // ear holds
-  "...KKWWWWWWKK...",  // ear base
-  "...WWWWWWWWWWWW.",  // head
-  "..WWWWWWWWWWWWWW",  // head widest
-  // DN_FACE (6 rows) shifted right
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "..WWKKEKWWKEKWWW",  // eyes with glint
-  "..WWWKKKWWKKKWWW",  // eye patches
-  "...WWWWWKKWWWWW.",  // nose
-  "...WWWWWWWWWWWW.",  // lower face
-  "....WWWWWWWWWW..",  // chin
-  // DN_BAND (3 rows) shifted right
-  "...KKKKKKKKKKKK.",  // band 1
-  "..KKKKKKKKKKKKKKK", // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body bent right — right arm extends down-right with broom handle
-  "KKKWWWGGGGWWWKKK",  // body wide (bent forward)
-  "KKWWWWGGGGWWWWKK",  // belly spreads
-  "..KKWWWWGGWWWWWK",  // body tilts right, left arm in
-  "...KKK.WWWWWWWKH",  // body, broom handle starts right
-  // Legs + broom reaching ground
-  "..KKKKKKKKKK..HH",  // legs, broom shaft right
-  "..KKKKKKKKK..HHH",  // legs, broom continues down
-  "..KKKKKKKK..RRRH",  // legs, bristle base
-  "...KKKKKKK..RRRR",  // legs, bristles spread right
-  "............SSSS",  // bristle tips on ground
-  "...........DDDDD",  // dirt/dust cloud
+  // DN_EARS_HEAD shifted 1px RIGHT — 6 rows
+  "...KKKK..KKKK...",
+  "..KKKKK..KKKKK..",
+  "..KKKKK..KKKKK..",
+  "...KKWWWWWWKK...",
+  "...WWWWWWWWWWWW.",
+  "..WWWWWWWWWWWWWW",
+  // DN_FACE shifted right — 6 rows
+  "..WWWKKKWWKKKWWW",
+  "..WWKKEKWWKEKWWW",
+  "..WWWKKKWWKKKWWW",
+  "...WWWWWKKWWWWW.",
+  "...WWWWWWWWWWWW.",
+  "....WWWWWWWWWW..",
+  // DN_BAND shifted right — 3 rows
+  "...KKKKKKKKKKKK.",
+  "..KKKKKKKKKKKKKK",
+  "KKKKKKKKKKKKKKKK",
+  // Body shifted right, right arm holds broom — 6 rows
+  ".KKKKKWWWWWWKKKK",
+  ".KKKKWWWGGWWWKKK",
+  ".KKKKWWGGGGWWKKK",
+  ".KKKKWWWGGWWWKKK",
+  "..KKKWWWWWWWKKKH",
+  "...KKKKWWWWKK.HH",
+  // Legs + broom shaft — 3 rows
+  "..KKKK..KKKK..HH",
+  "..KKKK..KKKK..HR",
+  ".KKKKK..KKKKKRRR",
+  // Broom on ground — 3 rows
+  "............RRRR",
+  "............SSSS",
+  "...........DDDDD",
 ]);
 
 // === Render: 2 frames side by side ===

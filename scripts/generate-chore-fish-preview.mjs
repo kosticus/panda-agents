@@ -39,78 +39,76 @@ function n(frame) {
   });
 }
 
-// === FISH FRAME 1: Seated, rod angled up-right, body centered, bobber floating ===
-// Rod stays at cols 14-15, clearing right ear (cols 8-12). Bobber 3px wide.
-// Layout: 4 rod rows + 6 ears + 6 face + 3 band + 4 body+rod + 2 seated legs + 1 bank + 4 water + 2 pad = 32
+// === FISH FRAME 1: Seated, rod continuous at col 15, bobber floating ===
 const fish1 = n([
-  // Rod tip — straight up at cols 14-15, clear of ears
-  "..............FF",  // rod tip (cols 14-15)
-  "..............FF",  // rod shaft
-  ".............FF.",  // rod angles slightly left
-  ".............FF.",  // rod near head level
-  // Head — full 6-row ears for seated posture
-  "..KKKK..KKKK.FF.",  // ear tops, rod passes right of ears
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head wide
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — 6 rows
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
-  // Band — 3 rows
+  // Rod — 1px at col 15 from tip to grip
+  "...............F",
+  "...............F",
+  "...............F",
+  "...............F",
+  // Head — 6-row ears, rod at col 15
+  "..KKKK..KKKK..F",
+  ".KKKKK..KKKKK.F",
+  ".KKKKK..KKKKK.F",
+  "..KKWWWWWWKK..F",
+  "..WWWWWWWWWWWW.F",
+  ".WWWWWWWWWWWWWWF",
+  // Face, rod at col 15
+  ".WWWKKKWWKKKWWWF",
+  ".WWKKEKWWKEKWWWF",
+  ".WWWKKKWWKKKWWWF",
+  "..WWWWWKKWWWWW.F",
+  "..WWWWWWWWWWWW.F",
+  "...WWWWWWWWWW..F",
+  // Band, rod at col 15
+  "..KKKKKKKKKKKK.F",
+  ".KKKKKKKKKKKKKKF",
+  "KKKKKKKKKKKKKKKF",
+  // Body — seated, rod + grip
+  "KKKKKWWWWWWKKKKF",
+  "KKKKWWWGGWWWKKKF",
+  "KKKKWWGGGGWWKKFF",
+  "KKKKWWWGGWWWKKFF",
+  // Legs folded/tucked (seated)
   "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // Body — seated, right arm holds rod grip at cols 13-14 — 4 rows
-  "KKKKKWWWWWWKKKKK",  // body wide (seated spread)
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWWKKFF",  // belly, right paw at rod grip (FF cols 14-15)
-  "KKKKWWWGGWWWKKFF",  // lower body, rod base
-  // Legs folded/tucked (seated) — 2 rows
-  "..KKKKKKKKKKKK..",  // thick leg block folded
-  "..KKKKKKKKKKKK..",  // feet/seat on bank
-  // Sandy bank + water (4 rows) with 3px bobber floating
-  "...PPPPPPPPPP...",  // sandy bank
-  "..UUUUUUUUUUUU..",  // water surface
-  "..UUUUUUUBBBUU..",  // water — 3px bobber (BBB)
-  "..UUUUUUUUUUUU..",  // water depth
+  "..KKKKKKKKKKKK..",
+  // Sandy bank + water with bobber
+  "...PPPPPPPPPP...",
+  "..UUUUUUUUUUUU..",
+  "..UUUUUUUBBBUU..",
+  "..UUUUUUUUUUUU..",
 ]);
 
-// === FISH FRAME 2: Seated, rod pulled sharply back (bite!), body leans back 2px, bobber splashing ===
-// Body shifted 2px right (lean back). Rod stays right of ears.
+// === FISH FRAME 2: Seated, rod pulled back (bite!), body leans back 2px, bobber splashing ===
+// Body shifted 2px right (lean back). Rod 1px at col 15, continuous tip to grip.
 // Bobber submerged with splash pixels around it.
 const fish2 = n([
-  // Rod tip — pulled back/up, at right edge, clear of ears
-  "...............F",  // rod tip (col 15)
-  "..............FF",  // rod shaft (cols 14-15)
-  "..............FF",  // rod continues
-  ".............FF.",  // rod near head level
-  // Head — full 6-row ears, shifted 2px right (lean back)
-  "....KKKK..KKKK..",  // ear tops (shifted 2px right)
-  "...KKKKK..KKKKK.",  // ear widens
-  "...KKKKK..KKKKK.",  // ear holds
-  "....KKWWWWWWKK..",  // ear base
-  "....WWWWWWWWWWWW",  // head wide
-  "...WWWWWWWWWWWWW",  // head widest
-  // Face shifted 2px right (lean back) — 6 rows
-  "...WWWKKKWWKKKWW",  // eye patches
-  "...WWKKEKWWKEKWW",  // eyes with glint
-  "...WWWKKKWWKKKWW",  // eye patches
-  "....WWWWWKKWWWWW",  // nose
-  "....WWWWWWWWWWWW",  // lower face
-  ".....WWWWWWWWWW.",  // chin
-  // Band shifted right — 3 rows
-  "....KKKKKKKKKKKK",
-  "...KKKKKKKKKKKKK",
-  "..KKKKKKKKKKKKKK",
+  // Rod — 1px at col 15 continuous to grip
+  "...............F",  // rod tip
+  "...............F",  // rod shaft
+  "...............F",  // rod continues
+  "...............F",  // rod near head level
+  // Head — full 6-row ears, shifted 2px right (lean back), rod at col 15
+  "....KKKK..KKKK.F",  // ear tops
+  "...KKKKK..KKKKKF",  // ear widens
+  "...KKKKK..KKKKKF",  // ear holds
+  "....KKWWWWWWKK.F",  // ear base
+  "....WWWWWWWWWWWF",  // head wide
+  "...WWWWWWWWWWWWF",  // head widest
+  // Face shifted 2px right (lean back), rod at col 15 — 6 rows
+  "...WWWKKKWWKKKWF",  // eye patches
+  "...WWKKEKWWKEKWF",  // eyes with glint
+  "...WWWKKKWWKKKWF",  // eye patches
+  "....WWWWWKKWWWWF",  // nose
+  "....WWWWWWWWWWWF",  // lower face
+  ".....WWWWWWWWWWF",  // chin
+  // Band shifted right, rod at col 15 — 3 rows
+  "....KKKKKKKKKKKF",
+  "...KKKKKKKKKKKKF",
+  "..KKKKKKKKKKKKKF",
   // Body leaned back (shifted 2px right), arm grips rod — 4 rows
-  "..KKKKKWWWWWWKKK",  // body (shifted right)
-  "..KKKKWWWGGWWWKK",  // belly
+  "..KKKKKWWWWWWKKF",  // body (shifted right)
+  "..KKKKWWWGGWWWKF",  // belly
   "..KKKKWWGGGGWKFF",  // belly, right paw grips rod (FF at cols 14-15)
   "..KKKKWWWGGWWKFF",  // lower body, rod base
   // Legs folded/tucked (still seated, same position as frame 1) — 2 rows
