@@ -111,22 +111,21 @@
   <div class="grid" id="grid"></div>
 
   <script>
-    // Each preview PNG is 256x256: two frames side by side at 8x scale.
+    // Each preview PNG has N frames side by side at 8x scale.
     // Frame width at 8x: 128px. Frame height at 8x: 256px.
     const FRAME_W = 128;
     const FRAME_H = 256;
-    const FRAME_COUNT = 2;
 
     const animations = [
-      { name: 'cook',      file: 'panda_cook_preview_8x.png' },
-      { name: 'chop',      file: 'panda_chop_preview_8x.png' },
-      { name: 'water',     file: 'panda_water_preview_8x.png' },
-      { name: 'attention', file: 'panda_attention_preview_8x.png' },
-      { name: 'fish',      file: 'panda_fish_preview_8x.png' },
-      { name: 'build',     file: 'panda_build_preview_8x.png' },
-      { name: 'bamboo',    file: 'panda_bamboo_preview_8x.png' },
-      { name: 'sweep',     file: 'panda_sweep_preview_8x.png' },
-      { name: 'carry',     file: 'panda_carry_preview_8x.png' },
+      { name: 'cook',      file: 'panda_cook_preview_8x.png',      frames: 2 },
+      { name: 'chop',      file: 'panda_chop_preview_8x.png',      frames: 2 },
+      { name: 'water',     file: 'panda_water_preview_8x.png',     frames: 2 },
+      { name: 'attention', file: 'panda_attention_preview_8x.png', frames: 2 },
+      { name: 'fish',      file: 'panda_fish_preview_8x.png',      frames: 2 },
+      { name: 'build',     file: 'panda_build_preview_8x.png',     frames: 2 },
+      { name: 'bamboo',    file: 'panda_bamboo_preview_8x.png',    frames: 2 },
+      { name: 'sweep',     file: 'panda_sweep_preview_8x.png',     frames: 2 },
+      { name: 'carry',     file: 'panda_carry_preview_8x.png',     frames: 2 },
     ];
 
     const BASE_PATH = '../webview-ui/public/assets/characters/';
@@ -152,7 +151,7 @@
       grid.appendChild(cell);
 
       const img = new Image();
-      const entry = { canvas, img, loaded: false, error: false, frame: 0 };
+      const entry = { canvas, img, loaded: false, error: false, frame: 0, frameCount: anim.frames };
       canvases.push(entry);
 
       img.onload = () => { entry.loaded = true; };
@@ -210,7 +209,7 @@
       if (elapsed >= interval) {
         lastTick = ts - (elapsed % interval);
         for (const entry of canvases) {
-          entry.frame = (entry.frame + 1) % FRAME_COUNT;
+          entry.frame = (entry.frame + 1) % entry.frameCount;
           drawFrame(entry);
         }
       }

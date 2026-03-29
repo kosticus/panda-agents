@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-// Generates building/repairing animation preview: 3 frames side by side at 8× scale.
-// Frame 1: mallet raised — held above head, arm bridges header to ear, body canonical.
-// Frame 2: mid-swing — mallet at chest/shoulder height on right side, body canonical.
-// Frame 3: impact — body leans forward, mallet strikes wall at bottom.
-// Motion signal: 3-frame swing arc (raised → mid → impact).
-// All frames same height (32 rows). Feet same position. Low wall at bottom.
+// Generates building/repairing animation preview: 2 frames side by side at 8× scale.
+// Frame 1: panda standing upright, holding wide plank across belly.
+// Frame 2: panda crouched (drops 3 rows), plank placed on wall.
+// Motion signal: panda drops vertically + plank moves from belly to wall.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -19,9 +17,7 @@ const C = {
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
-  M: [140, 100, 60],      // mallet handle (wood)
-  X: [160, 160, 170],     // mallet head (steel gray)
-  T: [120, 80, 50],       // wall plank wood
+  T: [120, 80, 50],       // plank wood
   D: [90, 60, 35],        // dark wood grain
 };
 
@@ -38,21 +34,18 @@ function n(frame) {
   });
 }
 
-// === BUILD FRAME 1: Mallet raised above head. Right arm raised, bridges header→ear→body. ===
-// Layout: 4 header + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
+// === BUILD FRAME 1: Standing, holding plank across belly ===
+// Layout: 2 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall + 2 empty = 32
 const build1 = n([
-  // Mallet raised above head — arm bridges from handle down through ear to body right edge
-  "..........XXXXX.",  // row 0: mallet head (5px steel gray)
-  "...........MM...",  // row 1: handle below head
-  "..........KKK...",  // row 2: paw gripping handle
-  "........KKK.....",  // row 3: arm base, cols 8-10 → connects to ear KK below
-  // DN_EARS_HEAD — arm KK added at right ear edge — 6 rows
-  "..KKKK..KKKKKK..",  // ear row 1: arm KK at cols 12-13
-  ".KKKKK..KKKKKK..",  // ear row 2: arm KK at cols 13-14
-  ".KKKKK..KKKKKK..",  // ear row 3: arm KK at cols 13-14
-  "..KKWWWWWWKKKK..",  // ear row 4: arm KK at cols 12-13
-  "..WWWWWWWWWWWW..",  // ear row 5: face area, no arm pixels
-  ".WWWWWWWWWWWWWW.",  // ear row 6: face area, no arm pixels
+  EMPTY,
+  EMPTY,
+  // DN_EARS_HEAD — canonical — 6 rows
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
+  ".KKKKK..KKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
   // DN_FACE — canonical — 6 rows
   ".WWWKKKWWKKKWWW.",
   ".WWKKEKWWKEKWWW.",
@@ -64,28 +57,28 @@ const build1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY — right arm raised: right K arm reduced to 2K edge — 8 rows
-  "KKKKKWWWWWWWWKK.",  // body top: left arm 5K, right edge 2K
-  "KKKKWWWGGWWWWKK.",  // belly: left arm 4K, right edge 2K
-  "KKKKWWGGGGWWWKK.",  // belly: left arm 4K, right edge 2K
-  "KKKKWWGGGGWWWKK.",  // belly: left arm 4K, right edge 2K
-  "KKKKWWWGGWWWWKK.",  // narrows: left arm 4K, right edge 2K
-  "KKKKKWWWWWWWWKK.",  // base: left arm 5K, right edge 2K
-  ".KKKKKWWWWWKKK..",  // narrowing
-  "..KKKKWWWWKKK...",  // bottom
+  // DN_BODY — plank across belly, full width — 8 rows
+  "KKKKKWWWWWWKKKKK",  // body top
+  "KKKKWWWGGWWWKKKK",  // belly
+  "KKTTTTDDDDTTTTKK",  // plank held by paws (K at edges)
+  "KKTTTTDDDDTTTTKK",  // plank
+  "KKKKWWWGGWWWKKKK",  // belly below plank
+  "KKKKKWWWWWWKKKKK",  // body base
+  ".KKKKKWWWWKKKKK.",
+  "..KKKKWWWWKKKK..",
   // DN_LEGS_IDLE — canonical — 3 rows
   "...KKKK..KKKK..",
   "...KKKK..KKKK..",
   "..KKKKK..KKKKK.",
-  // Wall/structure at bottom — 2 rows
-  "....TTDTTDTTDT..",
-  "....TDTTDTTDTT..",
+  // Wall — 2 rows
+  "..TTTTDDDDTTTT..",
+  "..TDTTTTTTTTTD..",
 ]);
 
-// === BUILD FRAME 2: Mid-swing. Mallet at chest height, right side. Body canonical. ===
-// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
+// === BUILD FRAME 2: Crouched, plank placed on wall ===
+// Layout: 5 empty + 6 ears + 6 face + 3 band + 5 body + 2 legs + 3 wall + 2 empty = 32
 const build2 = n([
-  // 4 empty header rows (mallet is at body level, not above head)
+  EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
@@ -108,73 +101,26 @@ const build2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY — modified: mallet at chest/shoulder height on right side — 8 rows
-  "KKKKKWWWWWWKKKKK",  // body top (canonical)
-  "KKKKWWWGGWWWKKKK",  // belly (canonical)
-  "KKKKWWGGGGWWKKMM",  // arm extends right, holding handle
-  "KKKKWWGGGGWWKKXX",  // mallet head at end of arm
-  "KKKKWWWGGWWWKKKK",  // body narrows (canonical)
-  "KKKKKWWWWWWKKKKK",  // body base (canonical)
-  ".KKKKKWWWWKKKKK.",  // canonical
-  "..KKKKWWWWKKKK..",  // canonical
-  // DN_LEGS_IDLE — canonical — 3 rows
-  "...KKKK..KKKK..",
+  // DN_BODY — crouched, compressed to 5 rows — no plank
+  "KKKKKWWWWWWKKKKK",  // body top
+  "KKKKWWWGGWWWKKKK",  // belly
+  "KKKKWWGGGGWWKKKK",  // belly
+  "KKKKWWWGGWWWKKKK",  // narrows
+  "KKKKKWWWWWWKKKKK",  // base
+  // DN_LEGS — crouched, 2 rows
   "...KKKK..KKKK..",
   "..KKKKK..KKKKK.",
-  // Wall/structure at bottom — 2 rows
-  "....TTDTTDTTDT..",
-  "....TDTTDTTDTT..",
+  // Wall — 3 rows (plank placed on top)
+  "..TTTTDDDDTTTT..",  // freshly placed plank
+  "..TTTTDDDDTTTT..",
+  "..TDTTTTTTTTTD..",
 ]);
 
-// === BUILD FRAME 3: Impact. Body leans forward, mallet strikes wall. ===
-// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
-const build3 = n([
-  // 4 empty rows (mallet is down at wall level)
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD shifted 1px left (lean forward) — 6 rows
-  ".KKKK..KKKK.....",
-  "KKKKK..KKKKK....",
-  "KKKKK..KKKKK....",
-  ".KKWWWWWWKK.....",
-  ".WWWWWWWWWWWW...",
-  "WWWWWWWWWWWWWW..",
-  // DN_FACE shifted left (lean forward) — 6 rows
-  "WWWKKKWWKKKWWW..",
-  "WWKKEKWWKEKWWW..",
-  "WWWKKKWWKKKWWW..",
-  ".WWWWWKKWWWWW...",
-  ".WWWWWWWWWWWW...",
-  "..WWWWWWWWWW....",
-  // DN_BAND shifted left — 3 rows
-  ".KKKKKKKKKKKK...",
-  "KKKKKKKKKKKKKKK.",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY shifted left — arm extends down to mallet at wall — 8 rows
-  "KKKKKWWWWWWKKKK.",
-  "KKKKWWWGGWWWKKK.",
-  "KKKKWWGGGGWWKKK.",
-  "KKKKWWGGGGWWKKK.",
-  "KKKKKWWWGGWWWKK.",
-  ".KKKKWWWWWWWKKKK",
-  "..KKKWWWWWWKKMMM",
-  "...KKWWWWWWKKXXX",
-  // DN_LEGS_IDLE — 3 rows
-  "...KKKK..KKKK..",
-  "...KKKK..KKKK..",
-  "..KKKKK..KKKKK.",
-  // Wall/structure at bottom — 2 rows
-  "....TTDTTDTTDT..",
-  "....TDTTDTTDTT..",
-]);
-
-// === Render: 3 frames side by side ===
-const COLS = 3;
+// === Render: 2 frames side by side ===
+const COLS = 2;
 const IMG_W = FRAME_W * COLS;
 const IMG_H = FRAME_H;
-const frames = [build1, build2, build3];
+const frames = [build1, build2];
 
 const png = new PNG({ width: IMG_W, height: IMG_H });
 for (let i = 0; i < png.data.length; i += 4) {
@@ -228,6 +174,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_build_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): mallet raised — held above head, arm bridges header to ear, body canonical");
-console.log("Frame 2 (center): mid-swing — mallet at chest height on right side, body canonical");
-console.log("Frame 3 (right): impact — body leans forward, mallet strikes wall at bottom");
+console.log("Frame 1 (left): standing, holding wide plank across belly");
+console.log("Frame 2 (right): crouched (dropped 3 rows), plank placed on wall");
