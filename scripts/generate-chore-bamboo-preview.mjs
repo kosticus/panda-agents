@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Generates bamboo harvesting animation preview: 2 frames side by side at 8× scale.
-// Frame 1: body leans forward 2px, arms reach DOWN to grip bamboo stalk at ground. Stalk planted with 1 row dirt.
-// Frame 2: body leans back 2px, stalk pulled UP ~3-4 rows. Root dangles, small air gap above ground.
-// Bamboo stalk is 2px wide (NV) with J-color segment nodes every 3-4 rows for bamboo look.
+// Frame 1: body leans forward, arms reach down to grip bamboo stalk at ground. Stalk at right side.
+// Frame 2: body leans back, stalk pulled up ~4 rows. Air gap between stalk bottom and ground.
+// Bamboo stalk is 2px wide (NV) with J-color node. Paw (K) grips at single contact point.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -38,9 +38,9 @@ function n(frame) {
   });
 }
 
-// === BAMBOO FRAME 1: Body leans forward 2px (shifted left), arms extend DOWN to grip stalk near ground ===
-// Stalk is 2px wide (NV) with J-color nodes for bamboo segments. Small leaf at top.
-// 3 pad + 5 ears + 6 face + 2 band + 7 body + 3 legs + 1 ground + 5 pad = 32
+// === BAMBOO FRAME 1: Body leans forward (shifted left), arms reach down to grip stalk at ground ===
+// Stalk (NV, 2px) at cols 14-15 above grip, 13-14 from grip down. Leaf at stalk top.
+// 3 pad + 5 ears + 6 face + 2 band + 5 body + 2 taper + 3 legs + 1 ground + 5 pad = 32
 const bamboo1 = n([
   EMPTY,                     // row 0: pad
   EMPTY,                     // row 1: pad
@@ -61,59 +61,60 @@ const bamboo1 = n([
   // Band shifted 2px left — 2 rows
   "KKKKKKKKKKKKKK..",       // row 14: band
   "KKKKKKKKKKKKKKKK",       // row 15: band wide
-  // Body leaned forward, arms reaching DOWN toward stalk — 7 rows
+  // Body leaned forward — 5 rows
   "KKKKKWWWWWWKKK..",       // row 16: body top
-  "KKKKWWWGGWWWKK..",       // row 17: belly
-  "KKKKWWGGGGWWKK..",       // row 18: belly wide
-  ".KKKWWWGGWWWKK..",       // row 19: body narrows
-  "..KKWWWWWWWKK...",       // row 20: body base
-  "...KKWWWWWKKL...",       // row 21: body lower, leaf at stalk top
-  "....KKWWWKKNV...",       // row 22: paws grip stalk top (NV 2px)
-  // Legs + stalk continues to ground — 3 rows
-  "...KKKK..KKJV...",       // row 23: legs, stalk with J node
-  "...KKKK..KKNV...",       // row 24: legs, stalk continues
-  "..KKKKK..KKNV...",       // row 25: feet, stalk near ground
-  // Ground — 1 row dirt at stalk base
-  "..........DNVD..",       // row 26: dirt around stalk base
+  "KKKKWWWGGWWWKKL.",       // row 17: belly, leaf at stalk top
+  "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins, stalk NV(14-15)
+  ".KKKWWWGGWWWK.NV",       // row 19: narrows, stalk continues
+  "..KKWWWWWWWKKNV.",       // row 20: base, paw K(12) grips NV(13-14)
+  // Taper to legs — 2 rows
+  "..KKKWWWWKKK.NV.",       // row 21: taper, stalk NV(13-14)
+  "...KKKWWKKKK.JV.",       // row 22: taper, J node
+  // Legs + stalk to ground — 3 rows
+  "...KKKK..KKKKNV.",       // row 23: legs, stalk NV(13-14)
+  "...KKKK..KKKKNV.",       // row 24: legs
+  "..KKKKK..KKKKNV.",       // row 25: feet
+  // Ground
+  "............DNVD",       // row 26: dirt at stalk base
 ]);
 
-// === BAMBOO FRAME 2: Body leans back 2px (shifted right), stalk pulled UP ~3-4 rows ===
-// Stalk is 2px wide (NV) with J nodes. Pulled up so bottom is above knee level.
-// Root (R) dangles at stalk bottom. Air gap between stalk and ground. 1 row disturbed dirt.
-// 3 pad + 5 ears + 6 face + 2 band + 7 body + 3 legs + 1 ground + 5 pad = 32
+// === BAMBOO FRAME 2: Body leans back (shifted right), stalk pulled UP ~4 rows ===
+// Stalk (NV, 2px) held beside body at right. Air gap between stalk bottom and ground.
+// 3 pad + 5 ears + 6 face + 2 band + 5 body + 2 taper + 3 legs + 1 ground + 5 pad = 32
 const bamboo2 = n([
   EMPTY,                     // row 0: pad
   EMPTY,                     // row 1: pad
   EMPTY,                     // row 2: pad
-  // Ears shifted 2px RIGHT (lean back) — 5 rows
+  // Ears shifted right — 5 rows
   "...KKKK..KKKK...",       // row 3: ear tops
   "..KKKKK..KKKKK..",       // row 4: ear widens
   "..KKKKK..KKKKK..",       // row 5: ear holds
   "...KKWWWWWWKK...",       // row 6: ear base
   "...WWWWWWWWWWWW.",       // row 7: head
-  // Face shifted 2px RIGHT — 6 rows
+  // Face shifted right — 6 rows
   "..WWWWWWWWWWWWWW",       // row 8: head widest
   "..WWWKKKWWKKKWWW",       // row 9: eye patches
   "..WWKKEKWWKEKWWW",       // row 10: eyes with glint
   "..WWWKKKWWKKKWWW",       // row 11: eye patches
   "...WWWWWKKWWWWW.",       // row 12: nose
   "...WWWWWWWWWWWW.",       // row 13: lower face
-  // Band shifted 2px right — 2 rows
+  // Band shifted right — 2 rows
   "..KKKKKKKKKKKKKK",       // row 14: band
   "KKKKKKKKKKKKKKKK",       // row 15: band wide
-  // Body leaned back, paws grip stalk pulled up — 7 rows
-  "..KKKKKWWWWWWKKK",       // row 16: body top
-  "..KKKKWWWGGWWWKK",       // row 17: belly
-  "..KKKKWWGGGGWLNV",       // row 18: belly wide, leaf + stalk top (NV 14-15)
-  "...KKKWWWGGWKKNV",       // row 19: body narrows, paw grips stalk
-  "....KKWWWWWWKKJV",       // row 20: body base, J node (JV cols 14-15)
-  ".....KWWWWWKK.NV",       // row 21: body lower, stalk (NV cols 14-15)
-  "..............R.",       // row 22: root dangles below stalk (col 14)
-  // Legs — NO stalk, air gap — 3 rows
+  // Body shifted right, stalk held up at right — 5 rows
+  "..KKKKKWWWWWWKLV",       // row 16: body top, leaf+stalk LV(14-15)
+  "..KKKKWWWGGWWKNV",       // row 17: belly, stalk NV(14-15)
+  "..KKKKWWGGGGWKNV",       // row 18: belly wide, paw K(13) grips
+  "...KKKWWWGGWWKNV",       // row 19: narrows, stalk continues
+  "....KKWWWWWWK.JV",       // row 20: base, stalk bottom JV(14-15)
+  // Taper to legs — no stalk — 2 rows
+  "...KKWWWWWKKK...",       // row 21: taper
+  "...KKKWWWKKKK...",       // row 22: taper
+  // Legs — 3 rows
   "...KKKK..KKKK...",       // row 23: legs
   "...KKKK..KKKK...",       // row 24: legs
   "..KKKKK..KKKKK..",       // row 25: feet
-  // Ground — 1 row disturbed dirt where stalk was
+  // Ground — disturbed dirt
   "...........DDD..",       // row 26: disturbed ground
 ]);
 
@@ -175,5 +176,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_bamboo_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean forward 2px — arms reach down, 2px-wide bamboo stalk with J nodes planted in ground");
-console.log("Frame 2 (right): lean back 2px — stalk pulled up ~3-4 rows, root dangles, disturbed dirt on ground");
+console.log("Frame 1 (left): lean forward — stalk planted in ground at right side, paw grips near base");
+console.log("Frame 2 (right): lean back — stalk pulled up, air gap to ground, disturbed dirt");
