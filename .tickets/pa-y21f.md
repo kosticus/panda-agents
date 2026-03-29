@@ -1,6 +1,6 @@
 ---
 id: pa-y21f
-status: open
+status: in_progress
 deps: []
 links: []
 created: 2026-03-29T01:33:27Z
@@ -37,3 +37,9 @@ Key file: scripts/generate-chore-bamboo-preview.mjs
 
 Acceptance: run `node scripts/generate-chore-bamboo-preview.mjs`, open panda_bamboo_preview_8x.png — the "pulling up bamboo" action should be immediately recognizable from the stalk height change between frames.
 
+
+## Notes
+
+**2026-03-29T18:06:00Z**
+
+Started by kimberlykost
