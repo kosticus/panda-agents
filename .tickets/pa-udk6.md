@@ -1,6 +1,6 @@
 ---
 id: pa-udk6
-status: open
+status: closed
 deps: [pa-rchx]
 links: []
 created: 2026-03-29T21:21:17Z
@@ -14,3 +14,9 @@ tags: [village, sprites, landmarks]
 
 Extend the cooking animation's pot with a larger fire pit landmark: stone ring, embers, ash marks on cooking zone tile. Uses cooking zone palette (packed earth + soot). Animation keeps its pot; landmark is the stage it sits on.
 
+
+## Notes
+
+**2026-03-29T21:34:13Z**
+
+Started by Kimberly Kost
