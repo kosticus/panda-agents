@@ -3,6 +3,7 @@ import { TILE_SIZE } from './types.js'
 import { getGroundSprite } from './groundTiles.js'
 import { createSmallHut } from './hutSprites.js'
 import { SLEEP_SPRITE, ZZZ_FRAMES, SLEEP_FRAME_DURATION_SEC } from './sleepSprite.js'
+import { CHORE_SPRITES, CHORE_PLACEMENTS, CHORE_FRAME_DURATION_SEC } from './choreSprites.js'
 import { VILLAGE_COLS, VILLAGE_ROWS, tileMap, HUT_PLACEMENTS } from './tileMap.js'
 
 const BASE_MAP_W = VILLAGE_COLS * TILE_SIZE
@@ -11,6 +12,8 @@ const BASE_MAP_H = VILLAGE_ROWS * TILE_SIZE
 // --- Animation state (module-level) ---
 let sleepFrameIndex = 0
 let sleepTimer = 0
+let choreFrameIndex = 0
+let choreTimer = 0
 
 /** Draw a SpriteData at (x, y) using 1×1 fillRect calls. */
 function drawSprite(
@@ -49,6 +52,11 @@ export function renderFrame(
   if (sleepTimer >= SLEEP_FRAME_DURATION_SEC) {
     sleepFrameIndex = sleepFrameIndex === 0 ? 1 : 0
     sleepTimer = 0
+  }
+  choreTimer += deltaTime
+  if (choreTimer >= CHORE_FRAME_DURATION_SEC) {
+    choreFrameIndex = choreFrameIndex === 0 ? 1 : 0
+    choreTimer = 0
   }
 
   const currentZzz = ZZZ_FRAMES[sleepFrameIndex]
@@ -114,6 +122,17 @@ export function renderFrame(
       x: (hut.col + 1) * TILE_SIZE + 12,
       y: (hut.row + 1) * TILE_SIZE + 4,
       zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
+    })
+  }
+
+  for (const choreId of Object.keys(CHORE_SPRITES) as Array<keyof typeof CHORE_SPRITES>) {
+    const frames = CHORE_SPRITES[choreId]
+    const placement = CHORE_PLACEMENTS[choreId]
+    drawables.push({
+      sprite: frames[choreFrameIndex],
+      x: placement.col * TILE_SIZE,
+      y: placement.row * TILE_SIZE,
+      zY: (placement.row + 2) * TILE_SIZE,
     })
   }
 
