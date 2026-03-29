@@ -23,6 +23,7 @@ const C = {
   Y: [240, 200, 60],      // fire yellow
   S: [120, 120, 120],     // stone ring
   P: [100, 70, 40],       // spoon handle (dark wood)
+  V: [80, 140, 255],      // steam (obvious blue — temp debug color)
 };
 
 const FRAME_W = 16;
@@ -62,19 +63,19 @@ const cook1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body — 6 rows (canonical, centered, identical both frames)
+  // Body — spoon diagonal from upper-right to lower-left (in front of body)
   "KKKKKWWWWWWKKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
-  "..KKKKWWWWKKKK..",
-  // DN_LEGS_IDLE — 3 rows (identical both frames)
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Pot — spoon (PP) stirs LEFT side
-  "...PPRRRRRR.....",  // spoon handle left, pot rim
+  "KKKKWWWGGWKKKKKK",  // right arm extends (col 10: W→K)
+  "KKKKWWGGGGKPPKKK",  // right arm wraps spoon (col 10: W→K)
+  "KKKKWWWGGWPPKKKK",  // PP at cols 10-11
+  "KKKKKWWWWPPKKKKK",  // PP at cols 9-10
+  // Spoon diagonal continues through body bottom + legs
+  "..KKKKWWPPKKKK..",  // PP at cols 8-9
+  "...KKKKPPKKKK...",  // PP at cols 7-8 (crosses leg gap)
+  "...KKKPP.KKKVV..",  // PP at cols 6-7, steam VV at cols 13-14
+  "..KKKPP..KKKVV..",  // PP at cols 5-6, steam V at col 14
+  // Pot — spoon enters from LEFT
+  "....PPRRRRRR....",  // PP at cols 4-5 enters pot
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
   "...SSSSSSSS.....",  // stone base
@@ -102,19 +103,19 @@ const cook2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body centered (identical to frame 1)
+  // Body — spoon diagonal from upper-left to lower-right (in front of body)
   "KKKKKWWWWWWKKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
-  "..KKKKWWWWKKKK..",
-  // DN_LEGS_IDLE (identical to frame 1)
-  "...KKKK..KKKK...",
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Pot — spoon stirs RIGHT side
-  ".....RRRRRRPP...",  // pot rim + spoon handle right
+  "KKKKKKWGGWWWKKKK",  // left arm extends (col 5: W→K)
+  "KKKPPKGGGGWWKKKK",  // left arm wraps spoon (col 5: W→K)
+  "KKKKPPWGGWWWKKKK",  // PP at cols 4-5
+  "KKKKKPPWWWWKKKKK",  // PP at cols 5-6
+  // Spoon diagonal continues through body bottom + legs
+  "..KKKKPPWWKKKK..",  // PP at cols 6-7
+  "...KKKKPPKKKKVV.",  // PP at cols 7-8, steam VV at cols 13-14
+  "...KKKK.PPKKKVV.",  // PP at cols 8-9, steam VV at cols 13-14
+  "..KKKKK..PPKKK..",  // PP at cols 9-10 (no steam — shifted up)
+  // Pot — spoon enters from RIGHT
+  "....RRRRRRPP....",  // PP at cols 10-11 enters pot
   "....RRRRRRRR....",  // pot body
   "...SOOYYYOOS....",  // fire + stone ring
   "...SSSSSSSS.....",  // stone base
