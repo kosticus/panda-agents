@@ -38,21 +38,21 @@ function n(frame) {
   });
 }
 
-// === BUILD FRAME 1: Mallet raised above head. Arm in header rows only, bridges to ear. ===
+// === BUILD FRAME 1: Mallet raised above head. Right arm raised, bridges header→ear→body. ===
 // Layout: 4 header + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
 const build1 = n([
-  // Mallet raised above head — arm (KK/KKK) bridges from handle down to right ear (cols 8-11)
+  // Mallet raised above head — arm bridges from handle down through ear to body right edge
   "..........XXXXX.",  // row 0: mallet head (5px steel gray)
   "...........MM...",  // row 1: handle below head
   "..........KKK...",  // row 2: paw gripping handle
-  ".........KKK....",  // row 3: arm base, cols 9-11 → meets right ear below
-  // DN_EARS_HEAD — canonical — 6 rows
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
+  "........KKK.....",  // row 3: arm base, cols 8-10 → connects to ear KK below
+  // DN_EARS_HEAD — arm KK added at right ear edge — 6 rows
+  "..KKKK..KKKKKK..",  // ear row 1: arm KK at cols 12-13
+  ".KKKKK..KKKKKK..",  // ear row 2: arm KK at cols 13-14
+  ".KKKKK..KKKKKK..",  // ear row 3: arm KK at cols 13-14
+  "..KKWWWWWWKKKK..",  // ear row 4: arm KK at cols 12-13
+  "..WWWWWWWWWWWW..",  // ear row 5: face area, no arm pixels
+  ".WWWWWWWWWWWWWW.",  // ear row 6: face area, no arm pixels
   // DN_FACE — canonical — 6 rows
   ".WWWKKKWWKKKWWW.",
   ".WWKKEKWWKEKWWW.",
@@ -64,15 +64,15 @@ const build1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY — canonical — 8 rows
-  "KKKKKWWWWWWKKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
-  ".KKKKKWWWWKKKKK.",
-  "..KKKKWWWWKKKK..",
+  // DN_BODY — right arm raised: right K arm reduced to 2K edge — 8 rows
+  "KKKKKWWWWWWWWKK.",  // body top: left arm 5K, right edge 2K
+  "KKKKWWWGGWWWWKK.",  // belly: left arm 4K, right edge 2K
+  "KKKKWWGGGGWWWKK.",  // belly: left arm 4K, right edge 2K
+  "KKKKWWGGGGWWWKK.",  // belly: left arm 4K, right edge 2K
+  "KKKKWWWGGWWWWKK.",  // narrows: left arm 4K, right edge 2K
+  "KKKKKWWWWWWWWKK.",  // base: left arm 5K, right edge 2K
+  ".KKKKKWWWWWKKK..",  // narrowing
+  "..KKKKWWWWKKK...",  // bottom
   // DN_LEGS_IDLE — canonical — 3 rows
   "...KKKK..KKKK..",
   "...KKKK..KKKK..",
@@ -127,18 +127,19 @@ const build2 = n([
 ]);
 
 // === BUILD FRAME 3: Impact. Body leans forward, mallet strikes wall. ===
-// Layout: 4 empty + 5 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall + 1 empty = 32
+// Layout: 4 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
 const build3 = n([
   // 4 empty rows (mallet is down at wall level)
   EMPTY,
   EMPTY,
   EMPTY,
   EMPTY,
-  // DN_EARS_HEAD shifted 1px left (lean forward), drop 1 ear row — 5 rows
+  // DN_EARS_HEAD shifted 1px left (lean forward) — 6 rows
   ".KKKK..KKKK.....",
   "KKKKK..KKKKK....",
+  "KKKKK..KKKKK....",
   ".KKWWWWWWKK.....",
-  ".WWWWWWWWWWWWW..",
+  ".WWWWWWWWWWWW...",
   "WWWWWWWWWWWWWW..",
   // DN_FACE shifted left (lean forward) — 6 rows
   "WWWKKKWWKKKWWW..",
