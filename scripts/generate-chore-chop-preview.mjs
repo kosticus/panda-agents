@@ -17,8 +17,10 @@ const C = {
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
-  T: [140, 95, 55],       // wood / stump brown
-  D: [100, 70, 40],       // dark wood grain
+  // Stump colors — harmonized with landmark chopping station palette
+  T: [145, 110, 65],      // cut face rings (landmark 'r')
+  D: [90, 65, 35],        // bark / dark grain (landmark 'b')
+  R: [170, 140, 90],      // cut face light interior (landmark 'c')
   A: [160, 160, 170],     // axe head (steel)
   H: [120, 80, 50],       // axe handle
 };
@@ -74,9 +76,9 @@ const chop1 = n([
   "..KKKKK..KKKKK..",
   // Gap — panda lifted for wind-up
   EMPTY,
-  // Stump
-  ".....TTDDTT.....",
-  ".....TTDDTT.....",
+  // Stump — wider to match landmark (8px: bark + cut face + heartwood)
+  "....DTTRRTTD....",
+  "....DTTRRTTD....",
 ]);
 
 // === CHOP FRAME 2: Axe down at stump, handle through legs ===
@@ -114,9 +116,9 @@ const chop2 = n([
   "...KKKKHHKKKK...",
   "...KKKKHHKKKK...",
   "..KKKKKHHKKKKK..",
-  // Axe embedded in stump — 2 rows
-  "....AAAHHA......",  // blade fans left in stump
-  ".....TTDDTT.....",
+  // Axe embedded in stump — wider stump matching landmark
+  "...DAAAHHATD....",  // blade fans left in stump, bark edges visible
+  "....DTTRRTTD....",
 ]);
 
 // === Render: 2 frames side by side ===
