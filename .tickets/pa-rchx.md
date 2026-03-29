@@ -1,6 +1,6 @@
 ---
 id: pa-rchx
-status: open
+status: closed
 deps: [pa-1xtp]
 links: []
 created: 2026-03-28T19:36:52Z
