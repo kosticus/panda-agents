@@ -60,10 +60,10 @@ const bamboo1 = n([
   ".WWWWWWWWWWWW...",       // row 13: lower face
   // Band — 2 rows
   "KKKKKKKKKKKKKK..",       // row 14: band
-  "KKKKKKKKKKKKKKKK",       // row 15: band wide
+  "KKKKKKKKKKKKKKK.",       // row 15: band wide
   // Body leaned forward — 5 rows
-  "KKKKKWWWWWWKKK..",       // row 16: body top
-  "KKKKWWWGGWWWKK..",       // row 17: belly
+  "KKKKKWWWWWWKKKK.",       // row 16: body top
+  "KKKKWWWGGWWWKKK.",       // row 17: belly
   "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins to K(12), stalk appears
   ".KKKWWWGGWWWW.NV",       // row 19: narrows, arm dissolved into body W
   "..KKWWWGGWWWW.NV",       // row 20: body base
@@ -71,7 +71,7 @@ const bamboo1 = n([
   "...WWWWWWWWWW.NV",       // row 21: hips (pure W like attention panda)
   "...KKKK..KKKK.NV",       // row 22: legs + stalk
   "...KKKK..KKKK.JV",       // row 23: legs + J node
-  "..KKKKK..KKKK.NV",       // row 24: feet + stalk
+  "..KKKKK..KKKKKNV",       // row 24: feet + stalk
   // Ground — 2 rows
   "..............NV",       // row 25: stalk at ground level
   ".............DDD",       // row 26: dirt at stalk base
@@ -98,8 +98,8 @@ const bamboo2 = n([
   "...WWWWWKKWWWWW.",       // row 12: nose
   "...WWWWWWWWWWWW.",       // row 13: lower face
   // Band — stalk peeks out at right edge — 2 rows
-  "..KKKKKKKKKKK.NV",       // row 14: band, stalk NV(14-15)
-  "KKKKKKKKKKKKK.NV",       // row 15: band wide, stalk
+  "..KKKKKKKKKKKKNV",       // row 14: band, stalk NV(14-15)
+  ".KKKKKKKKKKKKKNV",       // row 15: band wide, stalk
   // Body shifted right, stalk alongside — 5 rows
   "..KKKKKWWWWWWWNV",       // row 16: body top, W extends to 13, NV(14-15)
   "..KKKKWWWGGWWWJV",       // row 17: belly, J node JV(14-15)

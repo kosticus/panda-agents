@@ -51,3 +51,11 @@ Redesigned both frames: 3px lean (was 1px), stalk goes from ground-planted (fram
 **2026-03-29T18:32:41Z**
 
 Second attempt: reduced lean to 2px (was 3px), stalk now 2px wide (NV) with J-color segment nodes instead of 3px solid NVN. Stalk moves ~4 rows between frames (was 8). Only 1 row of dirt at base (was 5 rows underground). Leaf at stalk top in both frames. Air gap of 3 rows in frame 2 between root and ground.
+
+**2026-03-29T18:57:22Z**
+
+v3: Moved stalk from cols 11-12 to 13-14 (clear of leg area). Added 2 taper rows for smooth body-to-leg transition. Removed stray L/R pixels. Single K paw at grip point — no more arm-hanging look. Stalk at 14-15 above grip, shifts 1px to 13-14 at grip and below.
+
+**2026-03-29T19:13:08Z**
+
+v4: Redesigned using attention panda body-to-leg pattern (pure-W hips row). Stalk NV at fixed cols 14-15 both frames. No floating pixels — dropped leaf L and grip K entirely. Stalk same 8-row length both frames (frame 2 extends into band). Frame 2 has 3-row air gap between stalk bottom and ground.
