@@ -38,49 +38,48 @@ function n(frame) {
   });
 }
 
-// === BAMBOO FRAME 1: Body leans forward (shifted left), arms reach down to grip stalk at ground ===
-// Stalk (NV, 2px) at cols 14-15 above grip, 13-14 from grip down. Leaf at stalk top.
-// 3 pad + 5 ears + 6 face + 2 band + 5 body + 2 taper + 3 legs + 1 ground + 5 pad = 32
+// === BAMBOO FRAME 1: Body leans forward (shifted left), stalk planted at right side ===
+// Stalk (NV, 2px) at cols 14-15 consistently. Arm dissolves where stalk appears.
+// 3 pad + 5 ears + 6 face + 2 band + 5 body + 1 hips + 3 legs + 2 ground + 5 pad = 32
 const bamboo1 = n([
   EMPTY,                     // row 0: pad
   EMPTY,                     // row 1: pad
   EMPTY,                     // row 2: pad
-  // Ears shifted 2px LEFT (lean forward) — 5 rows
+  // Ears shifted left — 5 rows
   ".KKKK..KKKK.....",       // row 3: ear tops
   "KKKKK..KKKKK....",       // row 4: ear widens
   "KKKKK..KKKKK....",       // row 5: ear holds
   ".KKWWWWWWKK.....",       // row 6: ear base
   ".WWWWWWWWWWWW...",       // row 7: head
-  // Face shifted 2px LEFT — 6 rows
+  // Face shifted left — 6 rows
   "WWWWWWWWWWWWWW..",       // row 8: head widest
   "WWWKKKWWKKKWWW..",       // row 9: eye patches
   "WWKKEKWWKEKWWW..",       // row 10: eyes with glint
   "WWWKKKWWKKKWWW..",       // row 11: eye patches
   ".WWWWWKKWWWWW...",       // row 12: nose
   ".WWWWWWWWWWWW...",       // row 13: lower face
-  // Band shifted 2px left — 2 rows
+  // Band — 2 rows
   "KKKKKKKKKKKKKK..",       // row 14: band
   "KKKKKKKKKKKKKKKK",       // row 15: band wide
   // Body leaned forward — 5 rows
   "KKKKKWWWWWWKKK..",       // row 16: body top
-  "KKKKWWWGGWWWKKL.",       // row 17: belly, leaf at stalk top
-  "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins, stalk NV(14-15)
-  ".KKKWWWGGWWWK.NV",       // row 19: narrows, stalk continues
-  "..KKWWWWWWWKKNV.",       // row 20: base, paw K(12) grips NV(13-14)
-  // Taper to legs — 2 rows
-  "..KKKWWWWKKK.NV.",       // row 21: taper, stalk NV(13-14)
-  "...KKKWWKKKK.JV.",       // row 22: taper, J node
-  // Legs + stalk to ground — 3 rows
-  "...KKKK..KKKKNV.",       // row 23: legs, stalk NV(13-14)
-  "...KKKK..KKKKNV.",       // row 24: legs
-  "..KKKKK..KKKKNV.",       // row 25: feet
-  // Ground
-  "............DNVD",       // row 26: dirt at stalk base
+  "KKKKWWWGGWWWKK..",       // row 17: belly
+  "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins to K(12), stalk appears
+  ".KKKWWWGGWWWW.NV",       // row 19: narrows, arm dissolved into body W
+  "..KKWWWGGWWWW.NV",       // row 20: body base
+  // Hips + legs — 4 rows
+  "...WWWWWWWWWW.NV",       // row 21: hips (pure W like attention panda)
+  "...KKKK..KKKK.NV",       // row 22: legs + stalk
+  "...KKKK..KKKK.JV",       // row 23: legs + J node
+  "..KKKKK..KKKK.NV",       // row 24: feet + stalk
+  // Ground — 2 rows
+  "..............NV",       // row 25: stalk at ground level
+  ".............DDD",       // row 26: dirt at stalk base
 ]);
 
-// === BAMBOO FRAME 2: Body leans back (shifted right), stalk pulled UP ~4 rows ===
-// Stalk (NV, 2px) held beside body at right. Air gap between stalk bottom and ground.
-// 3 pad + 5 ears + 6 face + 2 band + 5 body + 2 taper + 3 legs + 1 ground + 5 pad = 32
+// === BAMBOO FRAME 2: Body leans back (shifted right), stalk pulled UP 4 rows ===
+// Stalk (NV, 2px) at cols 14-15, from band (row 14) to hips (row 21) = 8 rows (same as frame 1).
+// Air gap: rows 22-24 (legs/feet) have no stalk. Disturbed dirt at ground.
 const bamboo2 = n([
   EMPTY,                     // row 0: pad
   EMPTY,                     // row 1: pad
@@ -98,24 +97,23 @@ const bamboo2 = n([
   "..WWWKKKWWKKKWWW",       // row 11: eye patches
   "...WWWWWKKWWWWW.",       // row 12: nose
   "...WWWWWWWWWWWW.",       // row 13: lower face
-  // Band shifted right — 2 rows
-  "..KKKKKKKKKKKKKK",       // row 14: band
-  "KKKKKKKKKKKKKKKK",       // row 15: band wide
-  // Body shifted right, stalk held up at right — 5 rows
-  "..KKKKKWWWWWWKLV",       // row 16: body top, leaf+stalk LV(14-15)
-  "..KKKKWWWGGWWKNV",       // row 17: belly, stalk NV(14-15)
-  "..KKKKWWGGGGWKNV",       // row 18: belly wide, paw K(13) grips
-  "...KKKWWWGGWWKNV",       // row 19: narrows, stalk continues
-  "....KKWWWWWWK.JV",       // row 20: base, stalk bottom JV(14-15)
-  // Taper to legs — no stalk — 2 rows
-  "...KKWWWWWKKK...",       // row 21: taper
-  "...KKKWWWKKKK...",       // row 22: taper
-  // Legs — 3 rows
+  // Band — stalk peeks out at right edge — 2 rows
+  "..KKKKKKKKKKK.NV",       // row 14: band, stalk NV(14-15)
+  "KKKKKKKKKKKKK.NV",       // row 15: band wide, stalk
+  // Body shifted right, stalk alongside — 5 rows
+  "..KKKKKWWWWWWWNV",       // row 16: body top, W extends to 13, NV(14-15)
+  "..KKKKWWWGGWWWJV",       // row 17: belly, J node JV(14-15)
+  "..KKKKWWGGGGWWNV",       // row 18: belly wide
+  "...KKKWWWGGWWWNV",       // row 19: narrows
+  "....KKWWWGGWWWNV",       // row 20: body base
+  // Hips + stalk bottom — 1 row
+  "...WWWWWWWWWW.NV",       // row 21: hips (pure W), stalk bottom
+  // Legs — no stalk, air gap — 3 rows
+  "...KKKK..KKKK...",       // row 22: legs
   "...KKKK..KKKK...",       // row 23: legs
-  "...KKKK..KKKK...",       // row 24: legs
-  "..KKKKK..KKKKK..",       // row 25: feet
+  "..KKKKK..KKKKK..",       // row 24: feet
   // Ground — disturbed dirt
-  "...........DDD..",       // row 26: disturbed ground
+  ".............DDD",       // row 25: dirt where stalk was
 ]);
 
 // === Render: 2 frames side by side ===
@@ -176,5 +174,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_bamboo_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean forward — stalk planted in ground at right side, paw grips near base");
-console.log("Frame 2 (right): lean back — stalk pulled up, air gap to ground, disturbed dirt");
+console.log("Frame 1 (left): lean forward — stalk planted in ground, NV at cols 14-15");
+console.log("Frame 2 (right): lean back — stalk pulled up 4 rows, same length, air gap to ground");
