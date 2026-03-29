@@ -39,8 +39,9 @@ function n(frame) {
 
 // === SWEEP FRAME 1: Body leans LEFT, broom sweeps left along ground ===
 // Full 6-row ears/head shifted 1px LEFT. Body tilts left.
-// Layout: 2 empty + 6 ears + 6 face + 3 band + body (bent) + legs + broom = ~32
+// Layout: 3 empty + 6 ears + 6 face + 2 band + 7 body + 3 legs + 2 ground = 29 + 3 pad = 32
 const sweep1 = n([
+  EMPTY,
   EMPTY,
   EMPTY,
   // DN_EARS_HEAD shifted 1px LEFT — 6 rows
@@ -57,13 +58,13 @@ const sweep1 = n([
   ".WWWWWKKWWWWW...",
   ".WWWWWWWWWWWW...",
   "..WWWWWWWWWW....",
-  // DN_BAND shifted left — 3 rows
-  ".KKKKKKKKKKKK...",
+  // DN_BAND shifted left — 2 rows
   "KKKKKKKKKKKKKKK.",
   "KKKKKKKKKKKKKKKK",
-  // Body shifted left, left arm holds broom — 6 rows
+  // Body shifted left, left arm holds broom — 7 rows
   "KKKKKWWWWWWKKKK.",
   "KKKKWWWGGWWWKKK.",
+  "KKKKWWGGGGWWKKK.",
   "KKKKWWGGGGWWKKK.",
   "KKKKWWWGGWWWKKK.",
   "HKKKWWWWWWWKKK..",
@@ -71,16 +72,16 @@ const sweep1 = n([
   // Legs + broom shaft — 3 rows
   "HH.KKKK..KKKK..",
   "RH.KKKK..KKKK..",
-  "RRKKKKK..KKKKK.",
-  // Broom on ground — 3 rows
+  "R.KKKKK..KKKKK..",
+  // Broom on ground — 2 rows
   "RRRR............",
   "SSSS............",
-  "DDDD............",
 ]);
 
 // === SWEEP FRAME 2: Body leans RIGHT, broom sweeps right along ground ===
 // Full 6-row ears/head shifted 1px RIGHT. Body tilts right.
 const sweep2 = n([
+  EMPTY,
   EMPTY,
   EMPTY,
   // DN_EARS_HEAD shifted 1px RIGHT — 6 rows
@@ -97,13 +98,13 @@ const sweep2 = n([
   "...WWWWWKKWWWWW.",
   "...WWWWWWWWWWWW.",
   "....WWWWWWWWWW..",
-  // DN_BAND shifted right — 3 rows
-  "...KKKKKKKKKKKK.",
+  // DN_BAND shifted right — 2 rows
   "..KKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // Body shifted right, right arm holds broom — 6 rows
+  // Body shifted right, right arm holds broom — 7 rows
   ".KKKKKWWWWWWKKKK",
   ".KKKKWWWGGWWWKKK",
+  ".KKKKWWGGGGWWKKK",
   ".KKKKWWGGGGWWKKK",
   ".KKKKWWWGGWWWKKK",
   "..KKKWWWWWWWKKKH",
@@ -111,11 +112,10 @@ const sweep2 = n([
   // Legs + broom shaft — 3 rows
   "..KKKK..KKKK..HH",
   "..KKKK..KKKK..HR",
-  ".KKKKK..KKKKKRRR",
-  // Broom on ground — 3 rows
+  ".KKKKK..KKKKK.RR",
+  // Broom on ground — 2 rows
   "............RRRR",
   "............SSSS",
-  "...........DDDDD",
 ]);
 
 // === Render: 2 frames side by side ===

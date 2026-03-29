@@ -1,6 +1,6 @@
 ---
 id: pa-io1k
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-03-29T01:33:28Z
@@ -28,3 +28,13 @@ Key file: scripts/generate-chore-sweep-preview.mjs
 
 Acceptance: run `node scripts/generate-chore-sweep-preview.mjs`, open panda_sweep_preview_8x.png — panda should look proportionally taller with more space above the ears.
 
+
+## Notes
+
+**2026-03-29T17:05:46Z**
+
+Started by kimberlykost
+
+**2026-03-29T17:14:37Z**
+
+Redesigned both sweep frames with more headroom and taller body. Stray pixels near broom deferred.
