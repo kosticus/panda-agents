@@ -1,6 +1,6 @@
 ---
 id: pa-n4ew
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-03-29T01:31:51Z
@@ -27,3 +27,9 @@ Key file: scripts/generate-chore-water-preview.mjs
 
 Acceptance: run `node scripts/generate-chore-water-preview.mjs`, open panda_water_preview_8x.png — frame 1 should show dry crops, frame 2 should show water drops on crops.
 
+
+## Notes
+
+**2026-03-29T17:04:32Z**
+
+Started by kimberlykost
