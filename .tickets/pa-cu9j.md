@@ -28,3 +28,13 @@ Reference canonical body: scripts/generate-panda-sheets.mjs DN_BODY
 
 Acceptance: run `node scripts/generate-chore-cooking-preview.mjs`, open panda_cook_preview_8x.png — spoon and steam should be clearly visible and obviously different between the two frames.
 
+## Completion notes (2026-03-29)
+
+Final design diverged significantly from original plan after iterative prototyping:
+
+1. **Spoon**: 2px-wide diagonal crossing the panda's body (in front). Frame 1: upper-right to lower-left into pot. Frame 2: mirrored. 7 rows of visible handle (body row 3 through feet), entering pot at rim.
+2. **Arm**: Arm on the spoon side extends 1px inward on 2 rows (row 18: W→K, row 19: W→K wrapping the handle). Creates "holding" read.
+3. **Steam**: V color key added. 2-3 puffs (VV) at cols 13-14, right side of frame. Bobs vertically between frames (rows 24-25 in frame 1, rows 23-24 in frame 2).
+4. **Steam color TODO**: Currently debug blue `[80, 140, 255]`. Needs to be tuned against the in-game background — not the preview gray.
+5. **Body**: Static between frames (spoon swing carries the motion).
+
