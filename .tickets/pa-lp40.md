@@ -1,6 +1,6 @@
 ---
 id: pa-lp40
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-03-29T01:32:03Z
@@ -38,3 +38,13 @@ Both frames need substantial rewrite (~40+ lines of pixel data).
 
 Acceptance: run `node scripts/generate-chore-fish-preview.mjs`, open panda_fish_preview_8x.png — the two frames should be clearly distinguishable at a glance. Rod angle, body position, and water activity should all visibly differ.
 
+
+## Notes
+
+**2026-03-29T17:44:31Z**
+
+Started by kimberlykost
+
+**2026-03-29T18:01:14Z**
+
+Redesigned both frames: Frame 1 has rod angled forward (tip col 13, base col 14) with centered body and calm water with floating bobber. Frame 2 has rod straight up (col 15) with body leaned back 3px, and bobber submerged with splash pixels. Rod tip moves 2 columns between frames, body shifts 3px. Legs, bank, and water rows stay anchored. 5-row compressed ears for seated posture. All rows verified at exactly 16 chars.
