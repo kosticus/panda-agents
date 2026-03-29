@@ -38,40 +38,41 @@ function n(frame) {
 }
 
 // === BUILD FRAME 1: Arm pulled back/up, mallet above head in accessory rows. Body centered. ===
-// Layout: 1 mallet head + 3 handle/arm rows + 6 ears + 6 face + 3 band + 7 body + 3 legs + 2 wall + 1 empty = 32
+// Layout: 4 mallet + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall = 32
 const build1 = n([
   // Mallet in accessory header — held up above/behind head (right side)
-  "..........XXXXX.",  // mallet head (5px wide steel)
-  "..........MMM...",  // handle top
-  "..........MM....",  // handle mid
-  "..........KK....",  // paw gripping handle (arm raised right)
-  // DN_EARS_HEAD — full canonical, centered — 6 rows
+  ".............XXX",  // mallet head (steel, shifted right)
+  ".............XXX",  // mallet head
+  "..............M.",  // handle mid
+  "..............M.",  // paw gripping handle (arm raised right)
+  // DN_EARS_HEAD — canonical centered — 6 rows
   "..KKKK..KKKK....",
   ".KKKKK..KKKKK...",
   ".KKKKK..KKKKK...",
   "..KKWWWWWWKK....",
   "..WWWWWWWWWWWW..",
   ".WWWWWWWWWWWWWW.",
-  // DN_FACE — full canonical — 6 rows
+  // DN_FACE — canonical — 6 rows
   ".WWWKKKWWKKKWWW.",
   ".WWKKEKWWKEKWWW.",
   ".WWWKKKWWKKKWWW.",
   "..WWWWWKKWWWWW..",
   "..WWWWWWWWWWWW..",
   "...WWWWWWWWWW...",
-  // DN_BAND — 3 rows
+  // DN_BAND — canonical — 3 rows
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  // DN_BODY — canonical, right arm pulled up/back — 7 rows
-  "KKKKKWWWWWWKKKKK",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKKWWWGGWWWKKK",  // body narrows
-  ".KKKKWWWWWWWKKKK",  // body base
-  "..KKKWWWWWWKKK..",  // body bottom
-  // DN_LEGS_IDLE (same both frames) — 3 rows
+  // DN_BODY — canonical symmetric — 8 rows
+  "KKKKKWWWWWWKKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKWWGGGGWWKKKK",
+  "KKKKWWGGGGWWKKKK",
+  "KKKKWWWGGWWWKKKK",
+  "KKKKKWWWWWWKKKKK",
+  ".KKKKKWWWWKKKKK.",
+  "..KKKKWWWWKKKK..",
+  // DN_LEGS_IDLE — canonical — 3 rows
   "...KKKK..KKKK...",
   "...KKKK..KKKK...",
   "..KKKKK..KKKKK..",
