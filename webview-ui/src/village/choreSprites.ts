@@ -217,72 +217,72 @@ const FISH_PAL: Record<string, string> = {
   D: '#A0D0F0',  // splash (light blue-white)
 }
 
-// Frame 1: canonical SWEEP_2 body (unshifted), rod at col 7, calm bobber
+// Frame 1: canonical SWEEP_2 body (unshifted), rod at col 9, calm bobber
 const FISH_1: string[] = [
-  '.......F........',  // 0:  rod tip at col 7
-  '.......F........',  // 1:  rod shaft
-  '.......F........',  // 2:  rod shaft
-  '...KKKKF.KKKK...',  // 3:  ears — rod in ear gap
-  '..KKKKKF.KKKKK..',  // 4:  ears widen
-  '..KKKKKF.KKKKK..',  // 5:  ears full
-  '...KKWWFWWWKK...',  // 6:  ear-to-head
-  '...WWWWFWWWWWWW.',  // 7:  head
-  '..WWWWWFWWWWWWWW',  // 8:  head widest
-  '..WWWKKFWWKKKWWW',  // 9:  eye patches
-  '..WWKKEFWWKEKWWW',  // 10: eyes with glint
-  '..WWWKKFWWKKKWWW',  // 11: eye patches lower
-  '...WWWWFKKWWWWW.',  // 12: nose
-  '...WWWWFWWWWWWW.',  // 13: lower face
-  '....WWWFWWWWWW..',  // 14: chin
-  '..KKKKWFWKKKKKKK',  // 15: band — W paws grip rod
-  '.KKKKKWFWKKKKKKK',  // 16: band wide — W paws grip rod
-  '.KKKKKWFWWWWKKKK',  // 17: body top
-  '.KKKKWWFGGWWWKKK',  // 18: belly
-  '.KKKKWWFGGGWWKKK',  // 19: belly wide
-  '.KKKKWWFGGGWWKKK',  // 20: belly wide
-  '.KKKKWWFGGWWWKKK',  // 21: belly narrowing
-  '..KKKWWFWWWWKKK.',  // 22: body to legs
-  '...KKKKFWWWKK...',  // 23: upper legs
-  '..KKKK.FKKKK....',  // 24: legs — rod in gap
-  '..KKKK.FKKKK....',  // 25: legs
-  '.KKKKK.FKKKKK...',  // 26: feet
-  '.......F........',  // 27: rod extends to water
-  '.......BB.......',  // 28: bobber top (cols 7-8)
-  '......BBB.......',  // 29: bobber body (cols 6-8)
+  '.........F......',  // 0:  rod tip at col 9
+  '.........F......',  // 1:  rod shaft
+  '.........F......',  // 2:  rod shaft
+  '...KKKK..FKKK...',  // 3:  ears — rod through right ear
+  '..KKKKK..FKKKK..',  // 4:  ears widen
+  '..KKKKK..FKKKK..',  // 5:  ears full
+  '...KKWWWWFWKK...',  // 6:  ear-to-head
+  '...WWWWWWFWWWWW.',  // 7:  head
+  '..WWWWWWWFWWWWWW',  // 8:  head widest
+  '..WWWKKKWFKKKWWW',  // 9:  eye patches
+  '..WWKKEKWFKEKWWW',  // 10: eyes with glint
+  '..WWWKKKWFKKKWWW',  // 11: eye patches lower
+  '...WWWWWKFWWWWW.',  // 12: nose
+  '...WWWWWWFWWWWW.',  // 13: lower face
+  '....WWWWWFWWWW..',  // 14: chin
+  '..KKKKKKWFWKKKKK',  // 15: band — W paws grip rod
+  '.KKKKKKKWFWKKKKK',  // 16: band wide — W paws grip rod
+  '.KKKKKWWWFWWKKKK',  // 17: body top
+  '.KKKKWWWGFWWWKKK',  // 18: belly
+  '.KKKKWWGGFGWWKKK',  // 19: belly wide
+  '.KKKKWWGGFGWWKKK',  // 20: belly wide
+  '.KKKKWWWGFWWWKKK',  // 21: belly narrowing
+  '..KKKWWWWFWWKKK.',  // 22: body to legs
+  '...KKKKWWFWKK...',  // 23: upper legs
+  '..KKKK..KFKK....',  // 24: legs — rod through right leg
+  '..KKKK..KFKK....',  // 25: legs
+  '.KKKKK..KFKKK...',  // 26: feet
+  '.........F......',  // 27: rod extends to water
+  '.........BB.....',  // 28: bobber top (cols 9-10)
+  '........BBB.....',  // 29: bobber body (cols 8-10)
 ]
 
-// Frame 2: panda leans LEFT 2px, rod shifts to col 5, feet anchored
+// Frame 2: panda leans LEFT 3px, rod shifts to col 6, feet anchored
 const FISH_2: string[] = [
-  '.....F..........',  // 0:  rod tip at col 5 (shifted left 2)
-  '.....F..........',  // 1:  rod shaft
-  '.....F..........',  // 2:  rod shaft
-  '.KKKKF.KKKK.....',  // 3:  ears shifted 2px left
-  'KKKKKF.KKKKK....',  // 4:  ears widen shifted
-  'KKKKKF.KKKKK....',  // 5:  ears full shifted
-  '.KKWWFWWWKK.....',  // 6:  ear-to-head shifted
-  '.WWWWFWWWWWWW...',  // 7:  head shifted
-  'WWWWWFWWWWWWWW..',  // 8:  head widest shifted
-  'WWWKKFWWKKKWWW..',  // 9:  eye patches shifted
-  'WWKKEFWWKEKWWW..',  // 10: eyes shifted
-  'WWWKKFWWKKKWWW..',  // 11: eye patches lower shifted
-  '.WWWWFKKWWWWW...',  // 12: nose shifted
-  '.WWWWFWWWWWWW...',  // 13: lower face shifted
-  '..WWWFWWWWWW....',  // 14: chin shifted
-  'KKKKWFWKKKKKKK..',  // 15: band shifted + grip
-  'KKKKWFWKKKKKKK..',  // 16: band wide shifted + grip
-  'KKKKWFWWWWKKKK..',  // 17: body top shifted
-  'KKKWWFGGWWWKKK..',  // 18: belly shifted
-  'KKKWWFGGGWWKKK..',  // 19: belly wide shifted
-  'KKKWWFGGGWWKKK..',  // 20: belly wide shifted
-  'KKKWWFGGWWWKKK..',  // 21: belly narrowing shifted
-  '.KKKWWFWWWWKKK..',  // 22: transition — shift 1px
-  '...KKKKFWWWKK...',  // 23: anchored
-  '..KKKK.FKKKK....',  // 24: legs anchored
-  '..KKKK.FKKKK....',  // 25: legs anchored
-  '.KKKKK.FKKKKK...',  // 26: feet anchored
-  '.......F........',  // 27: rod to water
-  '......DDD.......',  // 28: splash (cols 6-8)
-  '.....DBBBD......',  // 29: bobber dipped + splash
+  '......F.........',  // 0:  rod tip at col 6 (shifted left 3)
+  '......F.........',  // 1:  rod shaft
+  '......F.........',  // 2:  rod shaft
+  'KKKK..FKKK......',  // 3:  ears shifted 3px left
+  'KKKK..FKKKK.....',  // 4:  ears widen shifted
+  'KKKK..FKKKK.....',  // 5:  ears full shifted
+  'KKWWWWFWKK......',  // 6:  ear-to-head shifted
+  'WWWWWWFWWWWW....',  // 7:  head shifted
+  'WWWWWWFWWWWWW...',  // 8:  head widest shifted
+  'WWKKKWFKKKWWW...',  // 9:  eye patches shifted
+  'WKKEKWFKEKWWW...',  // 10: eyes shifted
+  'WWKKKWFKKKWWW...',  // 11: eye patches lower shifted
+  'WWWWWKFWWWWW....',  // 12: nose shifted
+  'WWWWWWFWWWWW....',  // 13: lower face shifted
+  '.WWWWWFWWWW.....',  // 14: chin shifted
+  'KKKKKWFWKKKKK...',  // 15: band shifted + grip
+  'KKKKKWFWKKKKK...',  // 16: band wide shifted + grip
+  'KKKWWWFWWKKKK...',  // 17: body top shifted
+  'KKWWWGFWWWKKK...',  // 18: belly shifted
+  'KKWWGGFGWWKKK...',  // 19: belly wide shifted
+  'KKWWGGFGWWKKK...',  // 20: belly wide shifted
+  'KKWWWGFWWWKKK...',  // 21: belly narrowing shifted
+  'KKKWWWWFWWKKK...',  // 22: transition — shift 2px
+  '..KKKKWWFWKK....',  // 23: transition — shift 1px
+  '..KKKK..KFKK....',  // 24: legs anchored
+  '..KKKK..KFKK....',  // 25: legs anchored
+  '.KKKKK..KFKKK...',  // 26: feet anchored
+  '........DFD.....',  // 27: rod enters water + splash top
+  '.......DDDDD....',  // 28: splash wider (cols 7-11)
+  '......DBBBBBD...',  // 29: bobber dipped in splash (cols 6-12)
 ]
 
 // ============================================================
