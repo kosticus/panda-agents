@@ -49,7 +49,7 @@ const COOK_PAL: Record<string, string> = {
   O: '#dc8c32',  // fire orange
   Y: '#f0c83c',  // fire yellow
   S: '#787878',  // stone ring
-  P: '#644628',  // spoon handle (dark wood)
+  P: '#aa8050',  // spoon handle (warm tan wood)
   V: '#508cff',  // steam
 }
 

@@ -22,7 +22,7 @@ const C = {
   O: [220, 140, 50],      // fire orange
   Y: [240, 200, 60],      // fire yellow
   S: [120, 120, 120],     // stone ring
-  P: [100, 70, 40],       // spoon handle (dark wood)
+  P: [170, 128, 80],      // spoon handle (warm tan wood)
   V: [80, 140, 255],      // steam (obvious blue — temp debug color)
 };
 
