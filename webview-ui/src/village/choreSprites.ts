@@ -539,8 +539,8 @@ const BUILD_PAL: Record<string, string> = {
   W: '#f5f5f5',  // white fur
   G: '#d7d7d7',  // gray belly
   E: '#ffffff',   // eye glint
-  T: '#785032',  // plank wood
-  D: '#5a3c23',  // dark wood grain
+  T: '#C8A060',  // plank wood (golden-amber)
+  D: '#A07840',  // dark wood grain (golden-amber)
 }
 
 const BUILD_1: string[] = [
@@ -716,6 +716,6 @@ export const CHORE_PLACEMENTS: Record<ChoreId, { col: number; row: number }> = {
   water:  { col: 30, row: 13 },
   bamboo: { col: 2,  row: 6 },
   sweep:  { col: 19, row: 8 },
-  build:  { col: 23, row: 10 },
+  build:  { col: 11, row: 5 },
   carry:  { col: 16, row: 5 },
 }

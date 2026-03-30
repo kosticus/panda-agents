@@ -17,8 +17,8 @@ const C = {
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
-  T: [120, 80, 50],       // plank wood
-  D: [90, 60, 35],        // dark wood grain
+  T: [200, 160, 96],      // plank wood (golden-amber)
+  D: [160, 120, 64],      // dark wood grain (golden-amber)
 };
 
 const FRAME_W = 16;
