@@ -382,12 +382,10 @@ const BAMBOO_PAL: Record<string, string> = {
   W: '#f5f5f5',  // white fur
   G: '#d7d7d7',  // gray belly
   E: '#ffffff',   // eye glint
-  N: '#50a03c',  // bamboo green (dark)
-  V: '#78be50',  // bamboo green (light)
-  J: '#3c7828',  // bamboo node (darkest)
-  L: '#a0d264',  // bamboo leaf
-  R: '#64461e',  // roots/dirt brown
-  D: '#8c6432',  // dirt/earth
+  N: '#7CC820',  // bamboo green (bright lime)
+  V: '#A0E040',  // bamboo green (bright yellow-green)
+  J: '#5AA010',  // bamboo node (lime-dark)
+  D: '#A05A30',  // dirt (warm red-brown)
 }
 
 const BAMBOO_1: string[] = [
@@ -714,7 +712,7 @@ export const CHORE_PLACEMENTS: Record<ChoreId, { col: number; row: number }> = {
   chop:   { col: 7,  row: 3 },
   fish:   { col: 25, row: 15 },
   water:  { col: 30, row: 13 },
-  bamboo: { col: 2,  row: 6 },
+  bamboo: { col: 33, row: 13 },
   sweep:  { col: 19, row: 8 },
   build:  { col: 11, row: 5 },
   carry:  { col: 16, row: 5 },

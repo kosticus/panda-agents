@@ -17,12 +17,10 @@ const C = {
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
-  N: [80, 160, 60],       // bamboo green (dark)
-  V: [120, 190, 80],      // bamboo green (light)
-  J: [60, 120, 40],       // bamboo node (darkest)
-  L: [160, 210, 100],     // bamboo leaf
-  R: [100, 70, 30],       // roots/dirt brown
-  D: [140, 100, 50],      // dirt/earth
+  N: [124, 200, 32],      // bamboo green (bright lime)
+  V: [160, 224, 64],      // bamboo green (bright yellow-green)
+  J: [90, 160, 16],       // bamboo node (lime-dark)
+  D: [160, 90, 48],       // dirt (warm red-brown)
 };
 
 const FRAME_W = 16;
