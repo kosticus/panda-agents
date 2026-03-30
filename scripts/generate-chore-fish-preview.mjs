@@ -2,7 +2,7 @@
 // Generates fishing chore animation preview: 2 frames side by side at 8× scale.
 // Standing panda (canonical SWEEP_2 body), rod at col 9 (through right ear/body).
 // Frame 1: neutral stance, rod straight through body at col 9, calm bobber.
-// Frame 2: panda leans LEFT 3px (head through belly), rod shifts to col 6,
+// Frame 2: panda leans LEFT 3px (head through belly), rod CURVES (col 3 tip → 5 ears → 6 body → 9 feet),
 //          feet anchored, 3→2→1→0 transition, bobber dips with bigger splash.
 
 import { PNG } from "pngjs";
@@ -70,36 +70,36 @@ const fish1 = n([
   "........BBB.....",       // row 29: bobber body (cols 8-10)
 ]);
 
-// === FISH FRAME 2: Panda leans LEFT 3px, rod shifts to col 6, feet anchored ===
+// === FISH FRAME 2: Panda leans LEFT 3px, rod CURVES — tip col 3→4, ears col 5, body col 6, feet anchored col 9 ===
 const fish2 = n([
-  "......F.........",       // row 0:  rod tip at col 6 (shifted left 3)
-  "......F.........",       // row 1:  rod shaft
-  "......F.........",       // row 2:  rod shaft
-  "KKKK..FKKK......",       // row 3:  ears shifted 3px left
-  "KKKK..FKKKK.....",       // row 4:  ears widen shifted
-  "KKKK..FKKKK.....",       // row 5:  ears full shifted
-  "KKWWWWFWKK......",       // row 6:  ear-to-head shifted
-  "WWWWWWFWWWWW....",       // row 7:  head shifted
-  "WWWWWWFWWWWWW...",       // row 8:  head widest shifted
-  "WWKKKWFKKKWWW...",       // row 9:  eye patches shifted
-  "WKKEKWFKEKWWW...",       // row 10: eyes shifted
-  "WWKKKWFKKKWWW...",       // row 11: eye patches lower shifted
-  "WWWWWKFWWWWW....",       // row 12: nose shifted
-  "WWWWWWFWWWWW....",       // row 13: lower face shifted
-  ".WWWWWFWWWW.....",       // row 14: chin shifted
-  "KKKKKWFWKKKKK...",       // row 15: band shifted + grip
-  "KKKKKWFWKKKKK...",       // row 16: band wide shifted + grip
-  "KKKWWWFWWKKKK...",       // row 17: body top shifted
-  "KKWWWGFWWWKKK...",       // row 18: belly shifted
-  "KKWWGGFGWWKKK...",       // row 19: belly wide shifted
-  "KKWWGGFGWWKKK...",       // row 20: belly wide shifted
-  "KKWWWGFWWWKKK...",       // row 21: belly narrowing shifted
-  "KKKWWWWFWWKKK...",       // row 22: transition — shift 2px
-  "..KKKKWWFWKK....",       // row 23: transition — shift 1px
-  "..KKKK..KFKK....",       // row 24: legs anchored
-  "..KKKK..KFKK....",       // row 25: legs anchored
-  ".KKKKK..KFKKK...",       // row 26: feet anchored
-  "........DFD.....",       // row 27: rod enters water + splash top
+  "...F............",       // row 0:  rod tip at col 3 (curved — most lean)
+  "....F...........",       // row 1:  rod shaft at col 4 (curved)
+  "....F...........",       // row 2:  rod shaft at col 4 (curved)
+  "KKKK.F.KKK......",       // row 3:  ears shifted — rod at col 5 (curved)
+  "KKKK.F.KKKK.....",       // row 4:  ears widen — rod at col 5 (curved)
+  "KKKK.F.KKKK.....",       // row 5:  ears full — rod at col 5 (curved)
+  "KKWWWWFWKK......",       // row 6:  ear-to-head shifted — rod at col 6
+  "WWWWWWFWWWWW....",       // row 7:  head shifted — rod at col 6
+  "WWWWWWFWWWWWW...",       // row 8:  head widest shifted — rod at col 6
+  "WWKKKWFKKKWWW...",       // row 9:  eye patches shifted — rod at col 6
+  "WKKEKWFKEKWWW...",       // row 10: eyes shifted — rod at col 6
+  "WWKKKWFKKKWWW...",       // row 11: eye patches lower — rod at col 6
+  "WWWWWKFWWWWW....",       // row 12: nose shifted — rod at col 6
+  "WWWWWWFWWWWW....",       // row 13: lower face shifted — rod at col 6
+  ".WWWWWFWWWW.....",       // row 14: chin shifted — rod at col 6
+  "KKKKKWFWKKKKK...",       // row 15: band shifted + grip — rod at col 6
+  "KKKKKWFWKKKKK...",       // row 16: band wide shifted + grip — rod at col 6
+  "KKKWWWFWWKKKK...",       // row 17: body top shifted — rod at col 6
+  "KKWWWGFWWWKKK...",       // row 18: belly shifted — rod at col 6
+  "KKWWGGFGWWKKK...",       // row 19: belly wide shifted — rod at col 6
+  "KKWWGGFGWWKKK...",       // row 20: belly wide shifted — rod at col 6
+  "KKWWWGFWWWKKK...",       // row 21: belly narrowing — rod at col 6
+  "KKKWWWWFWWKKK...",       // row 22: transition — rod at col 7
+  "..KKKKWWFWKK....",       // row 23: transition — rod at col 8
+  "..KKKK..KFKK....",       // row 24: legs anchored — rod at col 9
+  "..KKKK..KFKK....",       // row 25: legs anchored — rod at col 9
+  ".KKKKK..KFKKK...",       // row 26: feet anchored — rod at col 9
+  ".........F......",       // row 27: rod into water at col 9
   ".......DDDDD....",       // row 28: splash wider (cols 7-11)
   "......DBBBBBD...",       // row 29: bobber dipped in splash (cols 6-12)
 ]);
