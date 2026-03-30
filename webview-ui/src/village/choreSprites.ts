@@ -607,93 +607,94 @@ const BUILD_2: string[] = [
 ]
 
 // ============================================================
-// CARRY — carrying a bundle
+// DIG — digging with shovel
 // ============================================================
 
-const CARRY_PAL: Record<string, string> = {
+const DIG_PAL: Record<string, string> = {
   '.': '',
   K: '#1e1e1e',  // black fur
   W: '#f5f5f5',  // white fur
   G: '#d7d7d7',  // gray belly
   E: '#ffffff',   // eye glint
-  T: '#a06e3c',  // bundle/crate (tan wood)
-  X: '#785028',  // bundle straps / dark wood
-  R: '#c8aa6e',  // bundle highlight
+  A: '#a0a0aa',  // shovel blade (steel gray)
+  H: '#785032',  // shovel handle (wood)
+  D: '#8C6941',  // displaced earth (warm brown)
+  B: '#735532',  // displaced earth (dark brown)
 }
 
-const CARRY_1: string[] = [
-  '................',
-  '................',
-  '................',
-  '................',
-  '...KKKK..KKKK...',
-  '..KKKKK..KKKKK..',
-  '..KKKKK..KKKKK..',
-  '...KKWWWWWWKK...',
-  '...WWWWWWWWWWWW.',
-  '..WWWWWWWWWWWWWW',
-  '..WWWKKKWWKKKWWW',
-  '..WWKKEKWWKEKWWW',
-  '..WWWKKKWWKKKWWW',
-  '...WWWWWKKWWWWW.',
-  '...WWWWWWWWWWWW.',
-  '....WWWWWWWWWW..',
-  '...KKKKKKKKKKKK.',
-  '..KKKKKKKKKKKKKK',
+// Frame 1: standing upright (centered), shovel raised to right side
+// Handle runs vertically on right, blade at top-right
+const DIG_1: string[] = [
+  '..........AAA...',
+  '..........AAAH..',
+  '...........HH...',
+  '...........HH...',
+  '..KKKK..KKKKH...',
+  '.KKKKK..KKKKKH..',
+  '.KKKKK..KKKKKH..',
+  '..KKWWWWWWKKKH..',
+  '..WWWWWWWWWWKH..',
+  '.WWWWWWWWWWWWKW.',
+  '.WWWKKKWWKKKWWW.',
+  '.WWKKEKWWKEKWWW.',
+  '.WWWKKKWWKKKWWW.',
+  '..WWWWWKKWWWWW..',
+  '..WWWWWWWWWWWW..',
+  '...WWWWWWWWWW...',
+  '..KKKKKKKKKKKK..',
   '.KKKKKKKKKKKKKKK',
-  '.KKKKKWWWWWWKKKK',
-  '.KKKKWWWGGWWKKKK',
-  '.KKKKKKGGGKKKKK.',
-  '.KKKKKTTTTTKKKK.',
-  '.KKKKKXXRXXKKKK.',
-  '.KKKKKTTTTTKKKK.',
-  '..KKKKWWWWWKKK..',
-  '...KKKWWWWWKKK..',
-  '...KKKKW...KKKK.',
-  '...KKKK....KKKK.',
-  '...KKKKK..KKKKK.',
-  '...KKKK.........',
+  'KKKKKKKKKKKKKKKK',
+  'KKKKKWWWWWWKKKKK',
+  'KKKKWWWGGWWWKKKK',
+  'KKKKWWGGGGWWKKKK',
+  'KKKKWWWGGWWWKKKK',
+  'KKKKKWWWWWWKKKKK',
+  '.KKKKKWWWWKKKKK.',
+  '..KKKK..KKKK....',
+  '..KKKK..KKKK....',
+  '.KKKKK..KKKKK...',
 ]
 
-const CARRY_2: string[] = [
+// Frame 2: bent forward, shovel blade in ground, earth displaced
+// Head/body shifted down ~3 rows, shovel handle angled, blade at bottom
+const DIG_2: string[] = [
   '................',
   '................',
   '................',
   '................',
-  '.KKKK..KKKK.....',
-  'KKKKK..KKKKK....',
-  'KKKKK..KKKKK....',
-  '.KKWWWWWWKK.....',
-  '.WWWWWWWWWWWWW..',
-  'WWWWWWWWWWWWWW..',
-  'WWWKKKWWKKKWWW..',
-  'WWKKEKWWKEKWWW..',
-  'WWWKKKWWKKKWWW..',
-  '.WWWWWKKWWWWW...',
-  '.WWWWWWWWWWWW...',
-  '..WWWWWWWWWW....',
-  '.KKKKKKKKKKKK...',
-  'KKKKKKKKKKKKKKK.',
-  'KKKKKKKKKKKKKKK.',
-  'KKKKKWWWWWWKKKK.',
-  'KKKKWWWGGWWWKKK.',
-  'KKKKKKGGGKKKKK..',
-  'KKKKKTTTTTKKKK..',
-  'KKKKKXXRXXKKKK..',
-  'KKKKKTTTTTKKKK..',
-  '.KKKKKWWWWWKKK..',
-  '..KKKKWWWWKKK...',
-  '.KKKK...WKKKK...',
-  '.KKKK....KKKK...',
+  '................',
+  '..KKKK..KKKK....',
   '.KKKKK..KKKKK...',
-  '.........KKKK...',
+  '.KKKKK..KKKKK...',
+  '..KKWWWWWWKK....',
+  '..WWWWWWWWWWWW..',
+  '.WWWWWWWWWWWWWW.',
+  '.WWWKKKWWKKKWWW.',
+  '.WWKKEKWWKEKWWW.',
+  '.WWWKKKWWKKKWWW.',
+  '..WWWWWKKWWWWW..',
+  '..WWWWWWWWWWWW..',
+  '...WWWWWWWWWW...',
+  '..KKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKK',
+  'KKKKKHWWWWWKKKKK',
+  'KKKKHWWGGWWWKKKK',
+  'KKKHWWGGGGWWKKKK',
+  'KKKKKWWGGWWWKKKK',
+  'KKKKKWWWWWWKKKKK',
+  '..KKKK..KKKK....',
+  '.KKKKK..KKKKK...',
+  '..B..DAAD..B....',
+  '..BD.AAAA.DB....',
+  '...BDDDDDDB.....',
 ]
 
 // ============================================================
 // Exports
 // ============================================================
 
-export type ChoreId = 'cook' | 'chop' | 'fish' | 'water' | 'bamboo' | 'sweep' | 'build' | 'carry'
+export type ChoreId = 'cook' | 'chop' | 'fish' | 'water' | 'bamboo' | 'sweep' | 'build' | 'dig'
 
 export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
   cook:   [toSprite(COOK_1, COOK_PAL), toSprite(COOK_2, COOK_PAL)],
@@ -703,7 +704,7 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
   bamboo: [toSprite(BAMBOO_1, BAMBOO_PAL), toSprite(BAMBOO_2, BAMBOO_PAL)],
   sweep:  [toSprite(SWEEP_1, SWEEP_PAL), toSprite(SWEEP_2, SWEEP_PAL)],
   build:  [toSprite(BUILD_1, BUILD_PAL), toSprite(BUILD_2, BUILD_PAL)],
-  carry:  [toSprite(CARRY_1, CARRY_PAL), toSprite(CARRY_2, CARRY_PAL)],
+  dig:    [toSprite(DIG_1, DIG_PAL), toSprite(DIG_2, DIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, { col: number; row: number }> = {
@@ -714,5 +715,5 @@ export const CHORE_PLACEMENTS: Record<ChoreId, { col: number; row: number }> = {
   bamboo: { col: 33, row: 13 },
   sweep:  { col: 19, row: 8 },
   build:  { col: 11, row: 5 },
-  carry:  { col: 16, row: 5 },
+  dig:    { col: 35, row: 14 },
 }

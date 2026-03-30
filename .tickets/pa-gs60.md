@@ -1,6 +1,6 @@
 ---
 id: pa-gs60
-status: open
+status: in_progress
 deps: [pa-2h2w]
 links: []
 created: 2026-03-30T00:50:51Z
@@ -32,3 +32,17 @@ ChoreId type change is atomic — tsc --noEmit enforces all Record<ChoreId, ...>
 
 Verification: npx tsc --noEmit, user runs dig preview script, user visual check in village.
 
+
+## Notes
+
+**2026-03-30T21:00:51Z**
+
+Started by Kimberly Kost
+
+**2026-03-30T21:11:27Z**
+
+Approved approach: Replace carry→dig in choreSprites.ts (ChoreId type, delete CARRY_* constants, add DIG_* with steel gray blade/wood handle/earth palette, update CHORE_SPRITES and CHORE_PLACEMENTS to col:35 row:14). New generate-chore-dig-preview.mjs. Update animation-test.html. Delete carry preview script and PNG. Verify with tsc --noEmit.
+
+**2026-03-30T21:38:40Z**
+
+Done: replaced carry with dig in choreSprites.ts (new DIG_PAL/DIG_1/DIG_2, ChoreId updated, placement col:35 row:14). Created generate-chore-dig-preview.mjs. Updated animation-test.html. Deleted carry preview script and PNG. tsc --noEmit: clean (no errors).
