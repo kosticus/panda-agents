@@ -622,19 +622,22 @@ const DIG_PAL: Record<string, string> = {
   B: '#735532',  // displaced earth (dark brown)
 }
 
-// Frame 1: standing upright (centered), shovel raised to right side
-// Handle runs vertically on right, blade at top-right
+// Frame 1: standing upright, shovel raised overhead
+// Blade at top, HH handle through ear gap then through belly center
 const DIG_1: string[] = [
-  '..........AAA...',
-  '..........AAAH..',
-  '...........HH...',
-  '...........HH...',
-  '..KKKK..KKKKH...',
-  '.KKKKK..KKKKKH..',
-  '.KKKKK..KKKKKH..',
-  '..KKWWWWWWKKKH..',
-  '..WWWWWWWWWWKH..',
-  '.WWWWWWWWWWWWKW.',
+  '................',
+  '................',
+  '................',
+  '....AAAAAA......',
+  '.....AAAA.......',
+  '......HH........',
+  '......HH........',
+  '..KKKKHHKKKK....',
+  '.KKKKKHHKKKKK...',
+  '.KKKKKHHKKKKK...',
+  '..KKWWWWWWKK....',
+  '..WWWWWWWWWWWW..',
+  '.WWWWWWWWWWWWWW.',
   '.WWWKKKWWKKKWWW.',
   '.WWKKEKWWKEKWWW.',
   '.WWWKKKWWKKKWWW.',
@@ -644,11 +647,11 @@ const DIG_1: string[] = [
   '..KKKKKKKKKKKK..',
   '.KKKKKKKKKKKKKKK',
   'KKKKKKKKKKKKKKKK',
-  'KKKKKWWWWWWKKKKK',
-  'KKKKWWWGGWWWKKKK',
-  'KKKKWWGGGGWWKKKK',
-  'KKKKWWWGGWWWKKKK',
-  'KKKKKWWWWWWKKKKK',
+  'KKKKKWWHHWWKKKKK',
+  'KKKKWWWHHWWWKKKK',
+  'KKKKWWGHHGWWKKKK',
+  'KKKKWWWHHWWWKKKK',
+  'KKKKKWWHHWWKKKKK',
   '.KKKKKWWWWKKKKK.',
   '..KKKK..KKKK....',
   '..KKKK..KKKK....',
@@ -656,7 +659,7 @@ const DIG_1: string[] = [
 ]
 
 // Frame 2: bent forward, shovel blade in ground, earth displaced
-// Head/body shifted down ~3 rows, shovel handle angled, blade at bottom
+// HH handle through belly center and legs to blade (like CHOP_2 pattern)
 const DIG_2: string[] = [
   '................',
   '................',
@@ -678,16 +681,17 @@ const DIG_2: string[] = [
   '..KKKKKKKKKKKK..',
   '.KKKKKKKKKKKKKKK',
   'KKKKKKKKKKKKKKKK',
-  'KKKKKHWWWWWKKKKK',
-  'KKKKHWWGGWWWKKKK',
-  'KKKHWWGGGGWWKKKK',
-  'KKKKKWWGGWWWKKKK',
-  'KKKKKWWWWWWKKKKK',
-  '..KKKK..KKKK....',
-  '.KKKKK..KKKKK...',
-  '..B..DAAD..B....',
-  '..BD.AAAA.DB....',
-  '...BDDDDDDB.....',
+  'KKKKKWWHHWWKKKKK',
+  'KKKKWWWHHWWWKKKK',
+  'KKKKWWGHHGWWKKKK',
+  'KKKKWWWHHWWWKKKK',
+  'KKKKKWWHHWWKKKKK',
+  '..KKKKWHHWKKKK..',
+  '...KKKKHHKKKK...',
+  '...KKKKHHKKKK...',
+  '..KKKKKHHKKKKK..',
+  '....BAAHHAAB....',
+  '....BDDDDDDB....',
 ]
 
 // ============================================================

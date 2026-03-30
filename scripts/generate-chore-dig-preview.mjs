@@ -36,18 +36,22 @@ function n(frame) {
   });
 }
 
-// === DIG FRAME 1: Standing upright (centered), shovel raised to right side ===
+// === DIG FRAME 1: Standing upright, shovel raised overhead ===
+// Blade at top, HH handle through ear gap then through belly center
 const dig1 = n([
-  "..........AAA...",
-  "..........AAAH..",
-  "...........HH...",
-  "...........HH...",
-  "..KKKK..KKKKH...",
-  ".KKKKK..KKKKKH..",
-  ".KKKKK..KKKKKH..",
-  "..KKWWWWWWKKKH..",
-  "..WWWWWWWWWWKH..",
-  ".WWWWWWWWWWWWKW.",
+  EMPTY,
+  EMPTY,
+  EMPTY,
+  "....AAAAAA......",
+  ".....AAAA.......",
+  "......HH........",
+  "......HH........",
+  "..KKKKHHKKKK....",
+  ".KKKKKHHKKKKK...",
+  ".KKKKKHHKKKKK...",
+  "..KKWWWWWWKK....",
+  "..WWWWWWWWWWWW..",
+  ".WWWWWWWWWWWWWW.",
   ".WWWKKKWWKKKWWW.",
   ".WWKKEKWWKEKWWW.",
   ".WWWKKKWWKKKWWW.",
@@ -57,11 +61,11 @@ const dig1 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  "KKKKKWWWWWWKKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKWWGGGGWWKKKK",
-  "KKKKWWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
+  "KKKKKWWHHWWKKKKK",
+  "KKKKWWWHHWWWKKKK",
+  "KKKKWWGHHGWWKKKK",
+  "KKKKWWWHHWWWKKKK",
+  "KKKKKWWHHWWKKKKK",
   ".KKKKKWWWWKKKKK.",
   "..KKKK..KKKK....",
   "..KKKK..KKKK....",
@@ -69,6 +73,7 @@ const dig1 = n([
 ]);
 
 // === DIG FRAME 2: Bent forward, shovel blade in ground, earth displaced ===
+// HH handle through belly center and legs to blade (like CHOP_2 pattern)
 const dig2 = n([
   EMPTY,
   EMPTY,
@@ -90,16 +95,17 @@ const dig2 = n([
   "..KKKKKKKKKKKK..",
   ".KKKKKKKKKKKKKKK",
   "KKKKKKKKKKKKKKKK",
-  "KKKKKHWWWWWKKKKK",
-  "KKKKHWWGGWWWKKKK",
-  "KKKHWWGGGGWWKKKK",
-  "KKKKKWWGGWWWKKKK",
-  "KKKKKWWWWWWKKKKK",
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  "..B..DAAD..B....",
-  "..BD.AAAA.DB....",
-  "...BDDDDDDB.....",
+  "KKKKKWWHHWWKKKKK",
+  "KKKKWWWHHWWWKKKK",
+  "KKKKWWGHHGWWKKKK",
+  "KKKKWWWHHWWWKKKK",
+  "KKKKKWWHHWWKKKKK",
+  "..KKKKWHHWKKKK..",
+  "...KKKKHHKKKK...",
+  "...KKKKHHKKKK...",
+  "..KKKKKHHKKKKK..",
+  "....BAAHHAAB....",
+  "....BDDDDDDB....",
 ]);
 
 // === Render: 2 frames side by side ===
