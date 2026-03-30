@@ -1,6 +1,6 @@
 ---
 id: pa-njel
-status: in_progress
+status: closed
 deps: [pa-2h2w]
 links: []
 created: 2026-03-30T00:51:06Z
@@ -99,3 +99,7 @@ v7: rod centered at col 7 (ear gap), Frame 1 canonical SWEEP_2 body with rod ove
 **2026-03-30T19:58:08Z**
 
 v7b: rod moved from col 7 to col 9 in frame 1; frame 2 lean increased from 2px to 3px (rod col 9→6); transition rows 3→2→1→0 smoothing; splash expanded from 2 rows to 3 rows (DFD / DDDDD / DBBBBBD) centered on col 9; WFW paw grip preserved at new positions; both files verified identical grids, all rows 16 chars, tsc clean
+
+**2026-03-30T20:04:18Z**
+
+v7c: curved rod in frame 2 — tip at col 3 (row 0), col 4 (rows 1-2), col 5 (ear rows 3-5), col 6 (body rows 6-21), then 7→8→9 transition to anchored feet. Row 27 splash removed (rod only). Full arc visible from top to bottom.
