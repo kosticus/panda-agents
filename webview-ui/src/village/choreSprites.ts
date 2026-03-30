@@ -218,72 +218,72 @@ const FISH_PAL: Record<string, string> = {
   D: '#64aadc',  // splash (light blue)
 }
 
-// Frame 1: relaxed standing, rod at col 7, KFK grip at body rows, bobber floating
+// Frame 1: relaxed standing, rod at col 4 (left side), asymmetric arm grip, bobber floating
 const FISH_1: string[] = [
-  '.......F........',
-  '.......F........',
-  '.......F........',
-  '..KKKK.FKKKK....',
-  '.KKKKK.FKKKKK...',
-  '.KKKKK.FKKKKK...',
-  '..KKWWWFWWKK....',
-  '..WWWWWFWWWWWW..',
-  '.WWWWWWFWWWWWWW.',
-  '.WWWKKKFWKKKWWW.',
-  '.WWKKEKFWKEKWWW.',
-  '.WWWKKKFWKKKWWW.',
-  '..WWWWWFKWWWWW..',
-  '..WWWWWFWWWWWW..',
-  '...WWWWFWWWWW...',
-  '..KKKKKFKKKKKK..',
-  '.KKKKKKFKKKKKKK.',
-  '..KKKKKFKKKKK...',
-  '...KKKKFKKKK....',
-  'KKKKWWWFGWWWKKKK',
-  'KKKKWWGFGGWWKKKK',
-  '.KKKKKWFWWKKKK..',
-  '...KKKKF.KKKK...',
-  '..KKKKKF.KKKKK..',
-  'UUUUUUUFUUUUUUUU',
-  'UUUUUUUFUUUUUUUU',
-  'UUUUUUUBUUUUUUUU',
-  'UUUUUUBBBUUUUUUU',
-  'UUUUUUUUUUUUUUUU',
-  'UUUUUUUUUUUUUUUU',
+  '....F...........',  // row 0:  rod tip at col 4
+  '....F...........',  // row 1:  rod shaft
+  '....F...........',  // row 2:  rod shaft
+  '....FKK..KKKK...',  // row 3:  left ear split by rod, right ear normal
+  '..KKFKK..KKKKK..',  // row 4:  left ear around rod, ears widen
+  '..KKFKK..KKKKK..',  // row 5:  ears full
+  '....FKWWWWWWKK..',  // row 6:  ear-to-head transition
+  '....FWWWWWWWWWW.',  // row 7:  head
+  '....FWWWWWWWWWWW',  // row 8:  head widest
+  '....FWWKKKWKKKWW',  // row 9:  eye patches
+  '....FWKKEKWKEKWW',  // row 10: eyes with glint
+  '....FWWKKKWKKKWW',  // row 11: eye patches lower
+  '....FWWWWKKWWWWW',  // row 12: nose (K at cols 9-10)
+  '....FWWWWWWWWWW.',  // row 13: lower face
+  '....FWWWWWWWWW..',  // row 14: chin
+  '.KKKFKKKKKKKKKK.',  // row 15: band — left arm extends to rod
+  'KKKKFKKKKKKKKKKK',  // row 16: band wide — grip continues
+  '.KKKFKKKKKKKKK..',  // row 17: grip — paw at rod, body right
+  '..KKFWWWGGWWKKK.',  // row 18: belly top — arm at rod
+  '..KKFWWGGGWWKKKK',  // row 19: belly
+  '..KKFWWGGGWWKKKK',  // row 20: belly widest
+  '...KFKWWWWWKKKK.',  // row 21: body narrowing
+  '...KFKK..KKKK...',  // row 22: legs
+  '..KKFKK..KKKKK..',  // row 23: feet
+  '....F...........',  // row 24: rod extends into water (transparent)
+  '....F...........',  // row 25: rod continues
+  '....B...........',  // row 26: bobber top
+  '...BBB..........',  // row 27: bobber body
+  '................',  // row 28: transparent
+  '................',  // row 29: transparent
 ]
 
-// Frame 2: lean-back tug — upper body+rod shift right 1px, legs anchored, rod flexes, bobber dips
+// Frame 2: rod tip bows 1px left, bobber dips with splash, body identical
 const FISH_2: string[] = [
-  '........F.......',
-  '........F.......',
-  '........F.......',
-  '...KKKK.FKKKK...',
-  '..KKKKK.FKKKKK..',
-  '..KKKKK.FKKKKK..',
-  '...KKWWWFWWKK...',
-  '...WWWWWFWWWWWW.',
-  '..WWWWWWFWWWWWWW',
-  '..WWWKKKFWKKKWWW',
-  '..WWKKEKFWKEKWWW',
-  '..WWWKKKFWKKKWWW',
-  '...WWWWWFKWWWWW.',
-  '...WWWWWFWWWWWW.',
-  '....WWWWFWWWWW..',
-  '...KKKKKFKKKKKK.',
-  '..KKKKKKFKKKKKKK',
-  '...KKKKKFKKKKK..',
-  '....KKKKFKKKK...',
-  '.KKKKWWWFGWWWKKK',
-  '.KKKKWWGFGGWWKKK',
-  '..KKKKKWFWWKKKK.',
-  '...KKKKF.KKKK...',
-  '..KKKKKF.KKKKK..',
-  'UUUUUUUFUUUUUUUU',
-  'UUUUUUUFUUUUUUUU',
-  'UUUUUUDDDUUUUUUU',
-  'UUUUUDBBBDUUUUUU',
-  'UUUUUUDDDUUUUUUU',
-  'UUUUUUUUUUUUUUUU',
+  '...F............',  // row 0:  rod tip bowed left (col 3)
+  '....F...........',  // row 1:  rod back to col 4
+  '....F...........',  // row 2:  rod shaft
+  '....FKK..KKKK...',  // row 3:  left ear split by rod
+  '..KKFKK..KKKKK..',  // row 4:  left ear around rod, ears widen
+  '..KKFKK..KKKKK..',  // row 5:  ears full
+  '....FKWWWWWWKK..',  // row 6:  ear-to-head transition
+  '....FWWWWWWWWWW.',  // row 7:  head
+  '....FWWWWWWWWWWW',  // row 8:  head widest
+  '....FWWKKKWKKKWW',  // row 9:  eye patches
+  '....FWKKEKWKEKWW',  // row 10: eyes with glint
+  '....FWWKKKWKKKWW',  // row 11: eye patches lower
+  '....FWWWWKKWWWWW',  // row 12: nose
+  '....FWWWWWWWWWW.',  // row 13: lower face
+  '....FWWWWWWWWW..',  // row 14: chin
+  '.KKKFKKKKKKKKKK.',  // row 15: band — left arm extends to rod
+  'KKKKFKKKKKKKKKKK',  // row 16: band wide — grip continues
+  '.KKKFKKKKKKKKK..',  // row 17: grip — paw at rod
+  '..KKFWWWGGWWKKK.',  // row 18: belly top
+  '..KKFWWGGGWWKKKK',  // row 19: belly
+  '..KKFWWGGGWWKKKK',  // row 20: belly widest
+  '...KFKWWWWWKKKK.',  // row 21: body narrowing
+  '...KFKK..KKKK...',  // row 22: legs
+  '..KKFKK..KKKKK..',  // row 23: feet
+  '....F...........',  // row 24: rod extends down
+  '....F...........',  // row 25: rod continues
+  '...DDD..........',  // row 26: splash ring top
+  '..DBBBD.........',  // row 27: bobber dipped with splash
+  '...DDD..........',  // row 28: splash ring bottom
+  '................',  // row 29: transparent
 ]
 
 // ============================================================

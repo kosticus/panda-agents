@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Generates fishing chore animation preview: 2 frames side by side at 8× scale.
-// Standing panda facing viewer, rod held with visible KFK grip at body rows.
-// Frame 1: relaxed standing, rod at col 7, K paws directly on rod (KFK contrast), bobber floating.
-// Frame 2: lean-back tug — upper body+rod shift right 1px, legs anchored, rod flexes, bobber dips with splash.
+// Standing panda facing viewer, rod held off-center at col 4 (left side).
+// Frame 1: relaxed standing, left arm grips rod, bobber floating on transparent water.
+// Frame 2: rod tip bows 1px left, bobber dips with splash ring, body identical.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -18,7 +18,7 @@ const C = {
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
   F: [120, 80, 50],       // fishing rod (wood brown)
-  U: [70, 120, 170],      // water blue
+  U: [70, 120, 170],      // water blue (unused in frames, kept for palette compat)
   B: [230, 80, 60],       // bobber red
   D: [100, 170, 220],     // splash (light blue)
 };
@@ -36,104 +36,97 @@ function n(frame) {
   });
 }
 
-// === FISH FRAME 1: Relaxed standing, rod at col 7, KFK grip at body rows, bobber floating ===
-// Rod at col 7 throughout — passes between ears, in front of face/body, between legs.
-// K paws directly adjacent to F at grip rows (17-18) for visible KFK contrast.
-// Band rows (15-16) are full-width K. Belly rows (19-20) are wider with G, creating waist pinch.
-// 3 rod + 3 ears + 1 ear-head + 2 head + 3 face + 1 nose + 1 lower face + 1 chin
-//   + 2 band + 2 grip + 2 belly + 1 narrowing + 2 legs + 6 water = 30 (+2 pad from n())
+// === FISH FRAME 1: Relaxed standing, rod at col 4, asymmetric left-arm grip, bobber floating ===
+// Rod at col 4 throughout — left arm extends from body to grip it.
+// Transparent water rows (. background) let ground tiles show through.
+// Only B (bobber) and D (splash) rendered on transparent water area.
 const fish1 = n([
   // Rod above head
-  ".......F........",        // row 0: rod tip at col 7
-  ".......F........",        // row 1: rod shaft
-  ".......F........",        // row 2: rod shaft
-  // Ears — 3 rows, rod passes through ear gap at col 7
-  "..KKKK.FKKKK....",       // row 3: ear tops, rod in gap
-  ".KKKKK.FKKKKK...",       // row 4: ears widen
-  ".KKKKK.FKKKKK...",       // row 5: ears full
+  "....F...........",        // row 0: rod tip at col 4
+  "....F...........",        // row 1: rod shaft
+  "....F...........",        // row 2: rod shaft
+  // Ears — left ear wraps around rod at col 4
+  "....FKK..KKKK...",       // row 3: left ear split by rod, right ear normal
+  "..KKFKK..KKKKK..",       // row 4: left ear around rod, ears widen
+  "..KKFKK..KKKKK..",       // row 5: ears full
   // Ear-to-head transition
-  "..KKWWWFWWKK....",       // row 6: ear base merging to head
-  // Head — 2 rows
-  "..WWWWWFWWWWWW..",       // row 7: head
-  ".WWWWWWFWWWWWWW.",       // row 8: head widest
-  // Face — 3 rows (eye patches + eyes)
-  ".WWWKKKFWKKKWWW.",       // row 9: eye patches
-  ".WWKKEKFWKEKWWW.",       // row 10: eyes with glint
-  ".WWWKKKFWKKKWWW.",       // row 11: eye patches
+  "....FKWWWWWWKK..",       // row 6: ear base merging to head
+  // Head
+  "....FWWWWWWWWWW.",       // row 7: head
+  "....FWWWWWWWWWWW",       // row 8: head widest
+  // Face — eye patches + eyes
+  "....FWWKKKWKKKWW",       // row 9: eye patches
+  "....FWKKEKWKEKWW",       // row 10: eyes with glint
+  "....FWWKKKWKKKWW",       // row 11: eye patches lower
   // Nose, lower face, chin
-  "..WWWWWFKWWWWW..",       // row 12: nose (K at col 8)
-  "..WWWWWFWWWWWW..",       // row 13: lower face
-  "...WWWWFWWWWW...",       // row 14: chin
-  // Band rows — full width K with rod
-  "..KKKKKFKKKKKK..",       // row 15: band (K-filled, F at col 7)
-  ".KKKKKKFKKKKKKK.",       // row 16: band wide
-  // Grip rows — K directly adjacent to F, narrower than belly (visible pinch)
-  "..KKKKKFKKKKK...",       // row 17: grip upper (K at cols 6,8 — KFK visible)
-  "...KKKKFKKKK....",       // row 18: grip tighter (narrowest)
-  // Belly rows — wider with G, creates waist contrast above
-  "KKKKWWWFGWWWKKKK",       // row 19: belly
-  "KKKKWWGFGGWWKKKK",       // row 20: belly widest
+  "....FWWWWKKWWWWW",       // row 12: nose
+  "....FWWWWWWWWWW.",       // row 13: lower face
+  "....FWWWWWWWWW..",       // row 14: chin
+  // Band — left arm extends to rod (grip area)
+  ".KKKFKKKKKKKKKK.",       // row 15: band — arm reaches rod
+  "KKKKFKKKKKKKKKKK",       // row 16: band wide — grip continues
+  ".KKKFKKKKKKKKK..",       // row 17: grip — paw at rod, body right
+  // Belly — arm at rod, body with G
+  "..KKFWWWGGWWKKK.",       // row 18: belly top
+  "..KKFWWGGGWWKKKK",       // row 19: belly
+  "..KKFWWGGGWWKKKK",       // row 20: belly widest
   // Body narrowing + legs
-  ".KKKKKWFWWKKKK..",       // row 21: body narrowing
-  "...KKKKF.KKKK...",       // row 22: legs (rod between legs)
-  "..KKKKKF.KKKKK..",       // row 23: feet
-  // Water with floating bobber — calm
-  "UUUUUUUFUUUUUUUU",       // row 24: water surface, rod entering
-  "UUUUUUUFUUUUUUUU",       // row 25: water, rod continues
-  "UUUUUUUBUUUUUUUU",       // row 26: bobber top (B at col 7)
-  "UUUUUUBBBUUUUUUU",       // row 27: bobber body (B at cols 6-8)
-  "UUUUUUUUUUUUUUUU",       // row 28: water
-  "UUUUUUUUUUUUUUUU",       // row 29: water bottom
+  "...KFKWWWWWKKKK.",       // row 21: body narrowing
+  "...KFKK..KKKK...",       // row 22: legs
+  "..KKFKK..KKKKK..",       // row 23: feet
+  // Water area — transparent with bobber
+  "....F...........",       // row 24: rod extends into water
+  "....F...........",       // row 25: rod continues
+  "....B...........",       // row 26: bobber top (B at col 4)
+  "...BBB..........",       // row 27: bobber body (B at cols 3-5)
+  "................",       // row 28: transparent
+  "................",       // row 29: transparent
 ]);
 
-// === FISH FRAME 2: Lean-back tug — body+rod shift right 1px, legs anchored, rod flexes ===
-// Upper body (rows 0-21) shifts right 1px: rod moves from col 7 to col 8.
-// Row 21 is transition: body still shifted, rod at col 8 flexing toward col 7.
-// Legs (rows 22-23) stay anchored at frame 1 position — rod at col 7.
-// 1px col-8-to-col-7 transition over one row reads as gentle rod flex under tension.
-// KFK grip shifts with body. Bobber dips with D splash ring.
+// === FISH FRAME 2: Rod tip bows 1px left, bobber dips with splash, body identical ===
+// Row 0: rod tip shifts to col 3 (bow from fish tug). Rows 1-2 stay at col 4.
+// Body rows 3-23 are IDENTICAL to frame 1 (no body shift).
+// Bobber dips 1 row with D splash ring around it.
 const fish2 = n([
-  // Rod above head — shifted right 1px
-  "........F.......",        // row 0: rod tip at col 8
-  "........F.......",        // row 1: rod shaft
-  "........F.......",        // row 2: rod shaft
-  // Ears — shifted right 1px
-  "...KKKK.FKKKK...",       // row 3: ear tops
-  "..KKKKK.FKKKKK..",       // row 4: ears widen
-  "..KKKKK.FKKKKK..",       // row 5: ears full
-  // Head — shifted right 1px
-  "...KKWWWFWWKK...",       // row 6: ear base
-  "...WWWWWFWWWWWW.",       // row 7: head
-  "..WWWWWWFWWWWWWW",       // row 8: head widest (right edge clipped)
-  // Face — shifted right 1px
-  "..WWWKKKFWKKKWWW",       // row 9: eye patches
-  "..WWKKEKFWKEKWWW",       // row 10: eyes
-  "..WWWKKKFWKKKWWW",       // row 11: eye patches
-  // Nose, lower face, chin — shifted right 1px
-  "...WWWWWFKWWWWW.",       // row 12: nose
-  "...WWWWWFWWWWWW.",       // row 13: lower face
-  "....WWWWFWWWWW..",       // row 14: chin
-  // Band rows — shifted right 1px
-  "...KKKKKFKKKKKK.",       // row 15: band
-  "..KKKKKKFKKKKKKK",       // row 16: band wide (right edge clipped)
-  // Grip rows — shifted right 1px, K adjacent to F
-  "...KKKKKFKKKKK..",       // row 17: grip upper (KFK visible)
-  "....KKKKFKKKK...",       // row 18: grip tighter
-  // Belly — shifted right 1px
-  ".KKKKWWWFGWWWKKK",       // row 19: belly
-  ".KKKKWWGFGGWWKKK",       // row 20: belly widest (right edge clipped)
-  // Transition row — body still shifted, rod at col 8 flexing toward col 7
-  "..KKKKKWFWWKKKK.",       // row 21: transition (F at col 8, legs below at col 7)
-  // Legs — ANCHORED at frame 1 position (rod at col 7 = visible rod flex)
-  "...KKKKF.KKKK...",       // row 22: legs (rod at col 7)
-  "..KKKKKF.KKKKK..",       // row 23: feet (rod at col 7)
-  // Water with splash — bobber dipped
-  "UUUUUUUFUUUUUUUU",       // row 24: water surface, line at col 7
-  "UUUUUUUFUUUUUUUU",       // row 25: water
-  "UUUUUUDDDUUUUUUU",       // row 26: splash ring top (D at cols 6-8)
-  "UUUUUDBBBDUUUUUU",       // row 27: bobber dipped + splash (D@5, B@6-8, D@9)
-  "UUUUUUDDDUUUUUUU",       // row 28: splash ring bottom (D at cols 6-8)
-  "UUUUUUUUUUUUUUUU",       // row 29: deep water
+  // Rod tip bowed left
+  "...F............",        // row 0: tip at col 3 (bowed 1px left)
+  "....F...........",        // row 1: rod back to col 4
+  "....F...........",        // row 2: rod shaft
+  // Ears — identical to frame 1
+  "....FKK..KKKK...",       // row 3: left ear split by rod
+  "..KKFKK..KKKKK..",       // row 4: left ear around rod, ears widen
+  "..KKFKK..KKKKK..",       // row 5: ears full
+  // Head — identical
+  "....FKWWWWWWKK..",       // row 6: ear base
+  "....FWWWWWWWWWW.",       // row 7: head
+  "....FWWWWWWWWWWW",       // row 8: head widest
+  // Face — identical
+  "....FWWKKKWKKKWW",       // row 9: eye patches
+  "....FWKKEKWKEKWW",       // row 10: eyes
+  "....FWWKKKWKKKWW",       // row 11: eye patches lower
+  // Nose, lower face, chin — identical
+  "....FWWWWKKWWWWW",       // row 12: nose
+  "....FWWWWWWWWWW.",       // row 13: lower face
+  "....FWWWWWWWWW..",       // row 14: chin
+  // Band — identical
+  ".KKKFKKKKKKKKKK.",       // row 15: band
+  "KKKKFKKKKKKKKKKK",       // row 16: band wide
+  ".KKKFKKKKKKKKK..",       // row 17: grip
+  // Belly — identical
+  "..KKFWWWGGWWKKK.",       // row 18: belly top
+  "..KKFWWGGGWWKKKK",       // row 19: belly
+  "..KKFWWGGGWWKKKK",       // row 20: belly widest
+  // Body narrowing + legs — identical
+  "...KFKWWWWWKKKK.",       // row 21: body narrowing
+  "...KFKK..KKKK...",       // row 22: legs
+  "..KKFKK..KKKKK..",       // row 23: feet
+  // Water area — bobber dipped with splash
+  "....F...........",       // row 24: rod extends down
+  "....F...........",       // row 25: rod continues
+  "...DDD..........",       // row 26: splash ring top
+  "..DBBBD.........",       // row 27: bobber dipped + splash flanks
+  "...DDD..........",       // row 28: splash ring bottom
+  "................",       // row 29: transparent
 ]);
 
 // === Render: 2 frames side by side ===
@@ -194,5 +187,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_fish_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): relaxed standing, rod col 7, KFK grip at body rows, bobber floating");
-console.log("Frame 2 (right): lean-back tug, body+rod shifted right 1px, legs anchored, rod flexes, bobber dipped");
+console.log("Frame 1 (left): relaxed standing, rod col 4, left arm grips rod, bobber floating, transparent water");
+console.log("Frame 2 (right): rod tip bows 1px left, bobber dips with splash, body identical, transparent water");
