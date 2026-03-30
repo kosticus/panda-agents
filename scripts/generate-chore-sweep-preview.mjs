@@ -18,9 +18,9 @@ const C = {
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
   E: [255, 255, 255],     // eye glint
-  H: [140, 100, 55],      // broom handle (wood brown)
-  R: [200, 160, 80],      // broom bristles (straw)
-  S: [180, 140, 60],      // broom bristle tips
+  H: [160, 72, 48],       // broom handle (reddish wood)
+  R: [224, 192, 80],      // broom bristles (straw)
+  S: [204, 176, 64],      // broom bristle tips
   D: [120, 100, 60],      // dirt/dust being swept
 };
 

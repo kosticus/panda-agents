@@ -459,9 +459,9 @@ const SWEEP_PAL: Record<string, string> = {
   W: '#f5f5f5',  // white fur
   G: '#d7d7d7',  // gray belly
   E: '#ffffff',   // eye glint
-  H: '#8c6437',  // broom handle (wood brown)
-  R: '#c8a050',  // broom bristles (straw)
-  S: '#b48c3c',  // broom bristle tips
+  H: '#a04830',  // broom handle (reddish wood)
+  R: '#e0c050',  // broom bristles (straw)
+  S: '#ccb040',  // broom bristle tips
   D: '#78643c',  // dirt/dust being swept
 }
 
