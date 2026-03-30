@@ -213,12 +213,12 @@ const FISH_PAL: Record<string, string> = {
   G: '#d7d7d7',  // gray belly
   E: '#ffffff',   // eye glint
   F: '#785032',  // fishing rod (wood brown)
-  U: '#3c82c8',  // water blue
+  U: '#4678AA',  // water blue
   B: '#e6503c',  // bobber red
   D: '#64aadc',  // splash (light blue)
 }
 
-// Frame 1: relaxed standing, rod at col 7, visible paw grip at band, bobber floating
+// Frame 1: relaxed standing, rod at col 7, KFK grip at body rows, bobber floating
 const FISH_1: string[] = [
   '.......F........',
   '.......F........',
@@ -235,12 +235,12 @@ const FISH_1: string[] = [
   '..WWWWWFKWWWWW..',
   '..WWWWWFWWWWWW..',
   '...WWWWFWWWWW...',
-  '..KKKWWFWWKKKK..',
-  '.KKKKWWFWWKKKKK.',
-  'KKKKKWWFWWKKKKKK',
+  '..KKKKKFKKKKKK..',
+  '.KKKKKKFKKKKKKK.',
+  '..KKKKKFKKKKK...',
+  '...KKKKFKKKK....',
   'KKKKWWWFGWWWKKKK',
   'KKKKWWGFGGWWKKKK',
-  'KKKKWWWFGWWWKKKK',
   '.KKKKKWFWWKKKK..',
   '...KKKKF.KKKK...',
   '..KKKKKF.KKKKK..',
@@ -252,30 +252,30 @@ const FISH_1: string[] = [
   'UUUUUUUUUUUUUUUU',
 ]
 
-// Frame 2: lean-back tug — upper body+rod shift right 2px, legs anchored, rod bends, bobber dips
+// Frame 2: lean-back tug — upper body+rod shift right 1px, legs anchored, rod flexes, bobber dips
 const FISH_2: string[] = [
-  '.........F......',
-  '.........F......',
-  '.........F......',
-  '....KKKK.FKKKK..',
-  '...KKKKK.FKKKKK.',
-  '...KKKKK.FKKKKK.',
-  '....KKWWWFWWKK..',
-  '....WWWWWFWWWWWW',
-  '...WWWWWWFWWWWWW',
-  '...WWWKKKFWKKKWW',
-  '...WWKKEKFWKEKWW',
-  '...WWWKKKFWKKKWW',
-  '....WWWWWFKWWWWW',
-  '....WWWWWFWWWWWW',
-  '.....WWWWFWWWWW.',
-  '....KKKWWFWWKKKK',
-  '...KKKKWWFWWKKKK',
-  '..KKKKKWWFWWKKKK',
-  '..KKKKWWWFGWWWKK',
-  '..KKKKWWGFGGWWKK',
-  '..KKKKWWWFGWWWKK',
-  '...KKKKKWFWWKKKK',
+  '........F.......',
+  '........F.......',
+  '........F.......',
+  '...KKKK.FKKKK...',
+  '..KKKKK.FKKKKK..',
+  '..KKKKK.FKKKKK..',
+  '...KKWWWFWWKK...',
+  '...WWWWWFWWWWWW.',
+  '..WWWWWWFWWWWWWW',
+  '..WWWKKKFWKKKWWW',
+  '..WWKKEKFWKEKWWW',
+  '..WWWKKKFWKKKWWW',
+  '...WWWWWFKWWWWW.',
+  '...WWWWWFWWWWWW.',
+  '....WWWWFWWWWW..',
+  '...KKKKKFKKKKKK.',
+  '..KKKKKKFKKKKKKK',
+  '...KKKKKFKKKKK..',
+  '....KKKKFKKKK...',
+  '.KKKKWWWFGWWWKKK',
+  '.KKKKWWGFGGWWKKK',
+  '..KKKKKWFWWKKKK.',
   '...KKKKF.KKKK...',
   '..KKKKKF.KKKKK..',
   'UUUUUUUFUUUUUUUU',
