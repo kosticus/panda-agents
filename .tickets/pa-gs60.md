@@ -46,3 +46,7 @@ Approved approach: Replace carry→dig in choreSprites.ts (ChoreId type, delete 
 **2026-03-30T21:38:40Z**
 
 Done: replaced carry with dig in choreSprites.ts (new DIG_PAL/DIG_1/DIG_2, ChoreId updated, placement col:35 row:14). Created generate-chore-dig-preview.mjs. Updated animation-test.html. Deleted carry preview script and PNG. tsc --noEmit: clean (no errors).
+
+**2026-03-30T22:20:30Z**
+
+v3 sprite (commit 8cb6fc8): Redesigned both frames using CHOP pattern — HH 2px handle through center. Frame 1: big blade at top (6px wide), HH through ear gap cols 6-7, gap through face (handle behind head), HH through belly center cols 7-8. Frame 2: HH cols 7-8 through belly/hip/legs/feet into blade in ground (B-AA-HH-AA-B symmetric). Both frames 31 rows. tsc --noEmit passes. USER HAS NOT YET RUN PREVIEW SCRIPT — next step is user runs generate-chore-dig-preview.mjs and visually approves or requests iteration. Previous iterations: v1 had handle alongside right edge (invisible), v2 had single-pixel H at col 10 (too thin). v3 follows proven CHOP_2 pattern. If user approves: amend commit to include preview PNG, close ticket. If user wants changes: iterate on pixel art in choreSprites.ts + preview script, keep in sync.
