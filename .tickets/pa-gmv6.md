@@ -1,6 +1,6 @@
 ---
 id: pa-gmv6
-status: open
+status: closed
 deps: [pa-hwry, pa-3ze5, pa-bolk]
 links: []
 created: 2026-03-31T01:55:15Z
