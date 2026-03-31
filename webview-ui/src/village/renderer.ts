@@ -127,13 +127,14 @@ export function renderFrame(
 
   for (const choreId of Object.keys(CHORE_SPRITES) as Array<keyof typeof CHORE_SPRITES>) {
     const frames = CHORE_SPRITES[choreId]
-    const placement = CHORE_PLACEMENTS[choreId]
-    drawables.push({
-      sprite: frames[choreFrameIndex],
-      x: placement.col * TILE_SIZE,
-      y: placement.row * TILE_SIZE,
-      zY: (placement.row + 2) * TILE_SIZE,
-    })
+    for (const placement of CHORE_PLACEMENTS[choreId]) {
+      drawables.push({
+        sprite: frames[choreFrameIndex],
+        x: placement.col * TILE_SIZE,
+        y: placement.row * TILE_SIZE,
+        zY: (placement.row + 2) * TILE_SIZE,
+      })
+    }
   }
 
   // 5. Sort drawables by zY ascending (painter's algorithm)

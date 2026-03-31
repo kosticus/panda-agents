@@ -711,13 +711,13 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
   dig:    [toSprite(DIG_1, DIG_PAL), toSprite(DIG_2, DIG_PAL)],
 }
 
-export const CHORE_PLACEMENTS: Record<ChoreId, { col: number; row: number }> = {
-  cook:   { col: 15, row: 13 },
-  chop:   { col: 7,  row: 3 },
-  fish:   { col: 27, row: 16 },
-  water:  { col: 30, row: 13 },
-  bamboo: { col: 33, row: 13 },
-  sweep:  { col: 19, row: 8 },
-  build:  { col: 11, row: 5 },
-  dig:    { col: 35, row: 14 },
+export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number }>> = {
+  cook:   [{ col: 21, row: 14 }, { col: 22, row: 16 }],
+  chop:   [{ col: 8,  row: 3 },  { col: 6,  row: 5 }],
+  fish:   [{ col: 34, row: 23 }, { col: 36, row: 25 }],
+  water:  [{ col: 36, row: 3 },  { col: 35, row: 5 }],
+  bamboo: [{ col: 1,  row: 12 }, { col: 3,  row: 27 }],
+  sweep:  [{ col: 4,  row: 20 }, { col: 6,  row: 22 }],
+  build:  [{ col: 11, row: 2 },  { col: 5,  row: 4 }],
+  dig:    [{ col: 3,  row: 21 }, { col: 5,  row: 23 }],
 }
