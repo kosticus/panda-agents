@@ -1,6 +1,6 @@
 ---
 id: pa-3ze5
-status: open
+status: in_progress
 deps: [pa-hwry]
 links: []
 created: 2026-03-31T14:50:19Z
@@ -43,3 +43,13 @@ Verification:
 - Visual check in VS Code webview: tiles render at 50×30, zones are in correct positions, huts appear where expected
 - Count LAYOUT_ROWS entries = 30, each string length = 50
 
+
+## Notes
+
+**2026-03-31T17:12:18Z**
+
+Started by Kimberly Kost
+
+**2026-03-31T17:18:11Z**
+
+Approved approach: (1) Add GROUNDSKEEPING=9 to village/types.ts TileType. (2) tileMap.ts: VILLAGE_COLS=50, VILLAGE_ROWS=30, replace LAYOUT_ROWS with 30 rows from village-layout.txt, add S->GROUNDSKEEPING to CHAR_TO_TILE, update HUT_POSITIONS to 6 new coords, add GROUNDSKEEPING to isWalkable(). (3) Verify with tsc --noEmit. groundTiles.ts left as-is (falls through to grass).
