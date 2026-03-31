@@ -1,6 +1,6 @@
 ---
 id: pa-3ze5
-status: in_progress
+status: closed
 deps: [pa-hwry]
 links: []
 created: 2026-03-31T14:50:19Z
