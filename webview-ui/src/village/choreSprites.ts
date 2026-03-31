@@ -622,48 +622,12 @@ const DIG_PAL: Record<string, string> = {
   B: '#735532',  // displaced earth (dark brown)
 }
 
-// Frame 1: standing upright, shovel raised overhead
-// Blade at top, HH handle through ear gap then through belly center
+// Frame 1: bent forward, shovel blade in ground, earth displaced
+// HH handle through belly center and legs to blade
 const DIG_1: string[] = [
   '................',
   '................',
   '................',
-  '....AAAAAA......',
-  '.....AAAA.......',
-  '......HH........',
-  '......HH........',
-  '..KKKKHHKKKK....',
-  '.KKKKKHHKKKKK...',
-  '.KKKKKHHKKKKK...',
-  '..KKWWWWWWKK....',
-  '..WWWWWWWWWWWW..',
-  '.WWWWWWWWWWWWWW.',
-  '.WWWKKKWWKKKWWW.',
-  '.WWKKEKWWKEKWWW.',
-  '.WWWKKKWWKKKWWW.',
-  '..WWWWWKKWWWWW..',
-  '..WWWWWWWWWWWW..',
-  '...WWWWWWWWWW...',
-  '..KKKKKKKKKKKK..',
-  '.KKKKKKKKKKKKKKK',
-  'KKKKKKKKKKKKKKKK',
-  'KKKKKWWHHWWKKKKK',
-  'KKKKWWWHHWWWKKKK',
-  'KKKKWWGHHGWWKKKK',
-  'KKKKWWWHHWWWKKKK',
-  'KKKKKWWHHWWKKKKK',
-  '.KKKKKWWWWKKKKK.',
-  '..KKKK..KKKK....',
-  '..KKKK..KKKK....',
-  '.KKKKK..KKKKK...',
-]
-
-// Frame 2: bent forward, shovel blade in ground, earth displaced
-// HH handle through belly center and legs to blade (like CHOP_2 pattern)
-const DIG_2: string[] = [
-  '................',
-  '................',
-  '................',
   '................',
   '................',
   '..KKKK..KKKK....',
@@ -683,15 +647,51 @@ const DIG_2: string[] = [
   'KKKKKKKKKKKKKKKK',
   'KKKKKWWHHWWKKKKK',
   'KKKKWWWHHWWWKKKK',
-  'KKKKWWGHHGWWKKKK',
-  'KKKKWWWHHWWWKKKK',
-  'KKKKKWWHHWWKKKKK',
+  'KKKWWWGHHGWWWKKK',
+  '.KKWWWWHHWWWWKK.',
+  '..KWWWWHHWWWWK..',
   '..KKKKWHHWKKKK..',
   '...KKKKHHKKKK...',
   '...KKKKHHKKKK...',
   '..KKKKKHHKKKKK..',
   '....BAAHHAAB....',
   '....BDDDDDDB....',
+]
+
+// Frame 2: standing upright, shovel raised overhead
+// HH handle continuous through face/body, stops at lower belly
+const DIG_2: string[] = [
+  '.......AA.......',
+  '......AAAA......',
+  '.....AAAAAA.....',
+  '.....AAAAAA.....',
+  '....AAAAAAAA....',
+  '....AAAAAAAA....',
+  '.......HH.......',
+  '...KKKKHHKKKK...',
+  '..KKKKKHHKKKKK..',
+  '..KKKKKHHKKKKK..',
+  '...KKWWHHWWKK...',
+  '..WWWWWHHWWWWW..',
+  '.WWWWWWHHWWWWWW.',
+  '.WWWKKKHHKKKWWW.',
+  '.WWKKEKHHKEKWWW.',
+  '.WWWKKKHHKKKWWW.',
+  '..WWWWWHHWWWWW..',
+  '..WWWWWHHWWWWW..',
+  '...WWWWHHWWWW...',
+  '..KKKKKHHKKKKK..',
+  '.KKKKKKHHKKKKKKK',
+  'KKKKKKKHHKKKKKKK',
+  'KKKKKWWHHWWKKKKK',
+  'KKKKWWWHHWWWKKKK',
+  'KKKWWWGGGGWWWKKK',
+  '.KKWWWWGGWWWWKK.',
+  '..KWWWWWWWWWWK..',
+  '...WWWWWWWWWW...',
+  '..KKKK..KKKK....',
+  '..KKKK..KKKK....',
+  '.KKKKK..KKKKK...',
 ]
 
 // ============================================================

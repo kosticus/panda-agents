@@ -59,15 +59,15 @@ const sweep1 = n([
   ".WWWWWWWWWWWW...",
   "..WWWWWWWWWW....",
   // DN_BAND shifted left — 2 rows
-  "KKKKKKKKKKKKKK..",
-  "KKKKKKKKKKKKKKK.",
+  ".KKKKKKKKKKKKK..",
+  ".KKKKKKKKKKKKKK.",
   // Body shifted left, left arm holds broom — 7 rows
   "KKKKKWWWWWWKKKK.",
   "KKKKWWWGGWWWKKK.",
   "KKKKWWGGGGWWKKK.",
-  "KKKKWWGGGGWWKKK.",
-  "KKKKWWWGGWWWKKK.",
-  "HKKKWWWWWWWKKK..",
+  "HHKKWWGGGGWWKKK.",
+  "KHKKWWWGGWWWKKK.",
+  "HHKKWWWWWWWKKK..",
   "HH.KKWWWWKKKK..",
   // Legs + broom shaft — 3 rows
   "HH.KKKK..KKKK..",
@@ -99,15 +99,15 @@ const sweep2 = n([
   "...WWWWWWWWWWWW.",
   "....WWWWWWWWWW..",
   // DN_BAND shifted right — 2 rows
-  "..KKKKKKKKKKKKKK",
-  ".KKKKKKKKKKKKKKK",
+  "..KKKKKKKKKKKKK.",
+  ".KKKKKKKKKKKKKK.",
   // Body shifted right, right arm holds broom — 7 rows
   ".KKKKKWWWWWWKKKK",
   ".KKKKWWWGGWWWKKK",
   ".KKKKWWGGGGWWKKK",
-  ".KKKKWWGGGGWWKKK",
-  ".KKKKWWWGGWWWKKK",
-  "..KKKWWWWWWWKKKH",
+  ".KKKKWWGGGGWWKHH",
+  ".KKKKWWWGGWWWKHK",
+  "..KKKWWWWWWWKKHH",
   "...KKKKWWWWKK.HH",
   // Legs + broom shaft — 3 rows
   "..KKKK..KKKK..HH",

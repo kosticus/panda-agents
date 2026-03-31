@@ -67,7 +67,7 @@ const water1 = n([
   "KKKKWWWGGWWWKKKK",  // belly
   "KKKKWWGGGGWK.QQQ",  // arm extends, can rim (tilted out)
   ".KKKWWWGGWWKQQQQ",  // body narrows, can body (widest)
-  "..KKWWWWWWKK.QQD",  // body base, can spout + drip
+  "..KKKWWWWWKK.QQD",  // body base, can spout + drip
   "...KKWWWWKKK..DD",  // water falls from spout
   // Legs + water stream — 3 rows
   "...KKKK..KKKK.D.",  // water stream beside right leg
@@ -108,8 +108,8 @@ const water2 = n([
   "KKKKWWWGGWWWKKKK",  // belly
   "KKKKWWGGGGWWKKKK",  // belly
   "KKKKWWGGGGWWKKKQ",  // belly, spout tip rises above can
-  ".KKKWWWGGWWWKQQQ",  // body narrows, can top (3px)
-  "..KKWWWWWWWKQQQQ",  // body base, can body (4px, widest)
+  ".KKKKWWGGWWWKQQQ",  // body narrows, can top (3px)
+  "..KKKKWWWWWKQQQQ",  // body base, can body (4px, widest)
   // Legs — 3 rows (can base visible in first row)
   "...KKKK..KKKKQQQ",  // can base (3px) tapers below body
   "...KKKK..KKKK...",

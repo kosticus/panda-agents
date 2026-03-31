@@ -36,48 +36,12 @@ function n(frame) {
   });
 }
 
-// === DIG FRAME 1: Standing upright, shovel raised overhead ===
-// Blade at top, HH handle through ear gap then through belly center
+// === DIG FRAME 1: Bent forward, shovel blade in ground, earth displaced ===
+// HH handle through belly center and legs to blade
 const dig1 = n([
   EMPTY,
   EMPTY,
   EMPTY,
-  "....AAAAAA......",
-  ".....AAAA.......",
-  "......HH........",
-  "......HH........",
-  "..KKKKHHKKKK....",
-  ".KKKKKHHKKKKK...",
-  ".KKKKKHHKKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  "KKKKKWWHHWWKKKKK",
-  "KKKKWWWHHWWWKKKK",
-  "KKKKWWGHHGWWKKKK",
-  "KKKKWWWHHWWWKKKK",
-  "KKKKKWWHHWWKKKKK",
-  ".KKKKKWWWWKKKKK.",
-  "..KKKK..KKKK....",
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-]);
-
-// === DIG FRAME 2: Bent forward, shovel blade in ground, earth displaced ===
-// HH handle through belly center and legs to blade (like CHOP_2 pattern)
-const dig2 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
   EMPTY,
   EMPTY,
   "..KKKK..KKKK....",
@@ -97,15 +61,51 @@ const dig2 = n([
   "KKKKKKKKKKKKKKKK",
   "KKKKKWWHHWWKKKKK",
   "KKKKWWWHHWWWKKKK",
-  "KKKKWWGHHGWWKKKK",
-  "KKKKWWWHHWWWKKKK",
-  "KKKKKWWHHWWKKKKK",
+  "KKKWWWGHHGWWWKKK",
+  ".KKWWWWHHWWWWKK.",
+  "..KWWWWHHWWWWK..",
   "..KKKKWHHWKKKK..",
   "...KKKKHHKKKK...",
   "...KKKKHHKKKK...",
   "..KKKKKHHKKKKK..",
   "....BAAHHAAB....",
   "....BDDDDDDB....",
+]);
+
+// === DIG FRAME 2: Standing upright, shovel raised overhead ===
+// Tapered blade at top, HH handle continuous through entire body at cols 7-8
+const dig2 = n([
+  ".......AA.......",
+  "......AAAA......",
+  ".....AAAAAA.....",
+  ".....AAAAAA.....",
+  "....AAAAAAAA....",
+  "....AAAAAAAA....",
+  ".......HH.......",
+  "...KKKKHHKKKK...",
+  "..KKKKKHHKKKKK..",
+  "..KKKKKHHKKKKK..",
+  "...KKWWHHWWKK...",
+  "..WWWWWHHWWWWW..",
+  ".WWWWWWHHWWWWWW.",
+  ".WWWKKKHHKKKWWW.",
+  ".WWKKEKHHKEKWWW.",
+  ".WWWKKKHHKKKWWW.",
+  "..WWWWWHHWWWWW..",
+  "..WWWWWHHWWWWW..",
+  "...WWWWHHWWWW...",
+  "..KKKKKHHKKKKK..",
+  ".KKKKKKHHKKKKKKK",
+  "KKKKKKKHHKKKKKKK",
+  "KKKKKWWHHWWKKKKK",
+  "KKKKWWWHHWWWKKKK",
+  "KKKWWWGGGGWWWKKK",
+  ".KKWWWWGGWWWWKK.",
+  "..KWWWWWWWWWWK..",
+  "...WWWWWWWWWW...",
+  "..KKKK..KKKK....",
+  "..KKKK..KKKK....",
+  ".KKKKK..KKKKK...",
 ]);
 
 // === Render: 2 frames side by side ===
@@ -166,5 +166,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_dig_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): standing upright, shovel raised to right side");
-console.log("Frame 2 (right): bent forward, shovel blade in ground, earth displaced");
+console.log("Frame 1 (left): bent forward, shovel blade in ground, earth displaced");
+console.log("Frame 2 (right): standing upright, shovel raised overhead");

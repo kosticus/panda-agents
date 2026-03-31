@@ -64,9 +64,9 @@ const bamboo1 = n([
   "KKKKWWWGGWWWKKK.",       // row 17: belly
   "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins to K(12), stalk appears
   ".KKKWWWGGWWWW.NV",       // row 19: narrows, arm dissolved into body W
-  "..KKWWWGGWWWW.NV",       // row 20: body base
+  "..KKKWWGGWWWW.NV",       // row 20: body base
   // Hips + legs — 4 rows
-  "...WWWWWWWWWW.NV",       // row 21: hips (pure W like attention panda)
+  "...KKKKWWKKKK.NV",       // row 21: hips (pure W like attention panda)
   "...KKKK..KKKK.NV",       // row 22: legs + stalk
   "...KKKK..KKKK.JV",       // row 23: legs + J node
   "..KKKKK..KKKKKNV",       // row 24: feet + stalk
@@ -105,7 +105,7 @@ const bamboo2 = n([
   "...KKKWWWGGWWWNV",       // row 19: narrows
   "....KKWWWGGWWWNV",       // row 20: body base
   // Hips + stalk bottom — 1 row
-  "...WWWWWWWWWW.NV",       // row 21: hips (pure W), stalk bottom
+  "...KKKKWWWWWW.NV",       // row 21: hips (pure W), stalk bottom
   // Legs — no stalk, air gap — 3 rows
   "...KKKK..KKKK...",       // row 22: legs
   "...KKKK..KKKK...",       // row 23: legs
