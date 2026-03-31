@@ -1,6 +1,6 @@
 ---
 id: pa-gs60
-status: in_progress
+status: closed
 deps: [pa-2h2w]
 links: []
 created: 2026-03-30T00:50:51Z
