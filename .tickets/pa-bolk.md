@@ -1,6 +1,6 @@
 ---
 id: pa-bolk
-status: open
+status: closed
 deps: [pa-3ze5]
 links: []
 created: 2026-03-31T15:06:05Z
@@ -52,3 +52,13 @@ Verification:
 - npx tsc --noEmit — must pass (the type change is breaking; both files must update atomically)
 - Visual check: chore sprites appear at all station positions, not just one per chore
 
+
+## Notes
+
+**2026-03-31T18:01:31Z**
+
+Started by Kimberly Kost
+
+**2026-03-31T18:07:24Z**
+
+Approved approach: (1) choreSprites.ts — change CHORE_PLACEMENTS type to Record<ChoreId, Array<{col,row}>>, update all coordinates for 50×30 layout: cook→C zone, chop→X zone, build→X zone, water→F near W, fish→land adj SE lake, bamboo→walkable adj B, sweep→S zone, dig→S zone. 2+ positions each, spaced 2-3 rows apart for z-order. (2) renderer.ts — inner loop over placement array. (3) Verify tsc --noEmit.
