@@ -1,6 +1,6 @@
 ---
 id: pa-hwry
-status: in_progress
+status: closed
 deps: []
 links: []
 created: 2026-03-31T14:42:30Z

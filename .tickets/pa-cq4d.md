@@ -1,7 +1,7 @@
 ---
 id: pa-cq4d
 status: open
-deps: [pa-1xtp]
+deps: [pa-1xtp, pa-3ze5]
 links: []
 created: 2026-03-28T19:36:59Z
 type: task

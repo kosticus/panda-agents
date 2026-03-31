@@ -1,7 +1,7 @@
 ---
 id: pa-aua3
 status: open
-deps: [pa-1xtp, pa-4srm, pa-ah18, pa-rchx, pa-cq4d, pa-udbx, pa-ndew]
+deps: [pa-1xtp, pa-4srm, pa-ah18, pa-rchx, pa-cq4d, pa-udbx, pa-ndew, pa-gmv6]
 links: []
 created: 2026-03-28T19:36:25Z
 type: feature
