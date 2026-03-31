@@ -12,9 +12,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // --- Layout dimensions ---
 // Wider than tall — village sprawl, not a grid.
-// Bamboo perimeter is 2-3 tiles thick.
-const W = 30;
-const H = 23;
+// Bamboo perimeter is 1-2 tiles thick.
+const W = 50;
+const H = 30;
 
 // --- Zone colors (schematic, not final in-game palette) ---
 const Z = {
@@ -27,6 +27,7 @@ const Z = {
   F: [120, 180, 120],  // garden/farm area (bright green)
   A: [180, 165, 140],  // gathering/common area (neutral)
   H: [170, 140, 110],  // hut marker (wood tone)
+  S: [175, 155, 120],  // groundskeeping — sweep + dig (dusty tan)
 };
 
 // Build the map row by row.
@@ -40,6 +41,7 @@ const Z = {
 //   F = garden/farm zone
 //   A = gathering/common area
 //   H = hut location
+//   S = groundskeeping (sweep + dig)
 //
 // Layout concept:
 //   - Bamboo perimeter 2-3 tiles thick wraps everything
@@ -158,6 +160,7 @@ const legendItems = [
   { label: "Garden/farm", color: Z.F },
   { label: "Gathering", color: Z.A },
   { label: "Hut", color: Z.H },
+  { label: "Groundskeeping", color: Z.S },
 ];
 
 // Draw legend swatches in two rows
@@ -185,14 +188,15 @@ const outPath = join(outDir, "village_layout_preview.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath} (${bigW}×${bigH})`);
 console.log();
-console.log("Village layout: 30×22 tiles (480×352 px in-game at 16px/tile)");
+console.log("Village layout: 50×30 tiles (800×480 px in-game at 16px/tile)");
 console.log();
 console.log("Zones:");
-console.log("  Bamboo perimeter — 2-3 tiles thick, wraps everything. Harvesting happens here.");
-console.log("  Woodcutting — upper left. Chopping + building/repair cluster together.");
-console.log("  Garden/farm — upper right, near pond for watering access.");
-console.log("  Gathering — center. Common area, paths radiate outward.");
-console.log("  Cooking — left of center, near gathering (communal meals).");
-console.log("  Pond — right of center. Fishing here, adjacent to garden.");
-console.log("  Huts — scattered near paths. Sweeping happens near these.");
-console.log("  Paths — organic sandy routes connecting zones. Carrying along these.");
+console.log("  Bamboo perimeter — 1-2 tiles thick, wraps everything. Harvesting happens here.");
+console.log("  Building/woodcutting — NW edge. Chopping + building cluster (noisy work).");
+console.log("  Garden/farm — NE, enlarged. Near water source for crops.");
+console.log("  Gathering — center. Hub with paths radiating outward.");
+console.log("  Cooking — W of gathering. Communal meals adjacent to social hub.");
+console.log("  Groundskeeping — S center. Sweep + dig, connective along path network.");
+console.log("  Lake — SE, enlarged. Enough shoreline for 2-3 fishing spots.");
+console.log("  Huts — 6 scattered organically in grass, 7+ tile clearance for larger sprites.");
+console.log("  Paths — trunk N→S through center, branches to each zone, 1-2 wide with jitter.");
