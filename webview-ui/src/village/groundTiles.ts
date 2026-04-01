@@ -8,6 +8,7 @@
 
 import type { SpriteData } from './types.js'
 import { TileType } from './types.js'
+import { tileMap, VILLAGE_COLS, VILLAGE_ROWS } from './tileMap.js'
 
 // --- Palette: character → CSS hex color (r2 — from generate-ground-preview.mjs) ---
 const P: Record<string, string> = {
@@ -460,12 +461,37 @@ function variantIndex(col: number, row: number): number {
 }
 
 /**
+ * Returns true if any 4-connected neighbor differs from `type`.
+ * Out-of-bounds neighbors are treated as "different" (i.e. edges of the map
+ * count as zone boundaries).
+ */
+function isZoneEdge(type: TileType, col: number, row: number): boolean {
+  for (const [dc, dr] of [[0, -1], [0, 1], [-1, 0], [1, 0]] as const) {
+    const nc = col + dc
+    const nr = row + dr
+    if (nc < 0 || nc >= VILLAGE_COLS || nr < 0 || nr >= VILLAGE_ROWS) return true
+    if (tileMap[nr][nc] !== type) return true
+  }
+  return false
+}
+
+/**
+ * Deterministic boolean for landmark placement within a zone.
+ * Returns true for ~1 in 7 interior tiles, spread via coprime hash.
+ */
+function isLandmarkSpot(col: number, row: number): boolean {
+  return ((col * 11 + row * 17) % 7) === 0
+}
+
+/**
  * Return the ground SpriteData for a tile at the given grid position.
  *
  * GRASS / PATH / BAMBOO pick a deterministic variant based on (col, row).
- * GATHERING uses edge-aware selection: gather2 (transition) at zone edges,
- * gather1 (solid) in the interior.
- * Other tile types (WATER, COOKING, etc.) fall back to grass1 for the POC.
+ * GATHERING / WATER / GARDEN use edge-aware selection: *2 variant at zone
+ * boundaries, *1 (solid interior) elsewhere.
+ * WOODCUTTING / COOKING use landmark hashing to place wood2/cook2 at
+ * deterministic interior positions; edges get the base variant.
+ * GROUNDSKEEPING falls through to grass1.
  */
 export function getGroundSprite(
   tileType: TileType,
@@ -477,12 +503,16 @@ export function getGroundSprite(
   if (tileType === TileType.GRASS) return grassVariants[idx]
   if (tileType === TileType.PATH) return pathVariants[idx]
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
-  if (tileType === TileType.GATHERING) return gather1
-  if (tileType === TileType.WATER) return water1
-  if (tileType === TileType.GARDEN) return garden1
-  if (tileType === TileType.WOODCUTTING) return wood1
-  if (tileType === TileType.COOKING) return cook1
 
-  // Fallback: void or unknown
+  // Edge-aware zone tiles: *2 at boundaries, *1 in interior
+  if (tileType === TileType.GATHERING) return isZoneEdge(tileType, col, row) ? gather2 : gather1
+  if (tileType === TileType.WATER) return isZoneEdge(tileType, col, row) ? water2 : water1
+  if (tileType === TileType.GARDEN) return isZoneEdge(tileType, col, row) ? garden2 : garden1
+
+  // Landmark tiles: *2 at deterministic interior spots, *1 elsewhere
+  if (tileType === TileType.WOODCUTTING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? wood2 : wood1
+  if (tileType === TileType.COOKING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? cook2 : cook1
+
+  // Fallback: GROUNDSKEEPING, void, or unknown
   return grass1
 }
