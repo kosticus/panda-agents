@@ -15,7 +15,7 @@ const LAYOUT_ROWS: readonly string[] = [
   'BGGGXXXXXXXXXPPGGGPPGGGGGGGGGGFFFFFFFFWWWWGGGGGGBB',  // row 4
   'BGGGGXXXXXXXXGPPPPPGGGGGGGGGGGFFFFFFFWWWWGGGGGGGBB',  // row 5
   'BGGGGGXXXXXXXGGGGPPGGGGGGGGGGGGGFFFFWWWGGGGGGGGGGB',  // row 6
-  'BGGGGGGGGGGGGGGPPPHGGGGGGGGGGGGGGPGGGGGGGGGGGGGGBB',  // row 7
+  'BGGGGGGGGGGGGGGPPPHHGGGGGGGGGGGGGPGGGGGGGGGGGGGGBB',  // row 7  (HH = medium hut)
   'BGGGGGGGGGGGGPPPGGGGGGGGGGGGGGGGPPGGGGGGGGGGGGGGBB',  // row 8
   'BBGGGGGGGGHGPPGGGGGAAAAAAAGGGGGGGPGGGGGGGGGGGGGGGB',  // row 9
   'BGGGGGGGGGGPPGGGGAAAAAAAAAAAAGGGPPHGGGGGGGGGGGGGBB',  // row 10
@@ -26,7 +26,7 @@ const LAYOUT_ROWS: readonly string[] = [
   'BGGGGGPPGGGGGGGGGACCCCCCCCAAGGGGGGGPPGGGGGGGGGGGBB',  // row 15
   'BGGGGGPPGGGGGGGGGGGCCCCCCAAAGGGGGGGPPGGGGGGGGGGGGB',  // row 16
   'BGGGGGHPPGGGGGGGGGGGAAAAAAGGGGGGGGPPGGGGGGGGGGGGGB',  // row 17
-  'BGGGGGGGPPGGGGGGGGGGGGGGGGGGGGGGGPPGHGGGGGGGGGGGBB',  // row 18
+  'BGGGGGGGPPGGGGGGGGGGGGGGGGGGGGGGGPPGHHHGGGGGGGGGBB',  // row 18  (HHH = large hut)
   'BGGGGGGGGPPGGGGGGGGGGGGGGGGGGGGGPPGGGGGGGGGGGGGGGB',  // row 19
   'BGGSSSSSSSPPGGGGGGGGGGGGGGGGGGGPPGGGGGGGGGGGGGGGGB',  // row 20
   'BGSSSSSSSSPPGGGGGGGGGGGGGGGGGGPPGGGGGGGGGGGGGGGGGB',  // row 21
@@ -61,19 +61,20 @@ export const tileMap: TileType[][] = LAYOUT_ROWS.map((row) =>
 /** All H marker positions in the source layout (raw, may overlap as 3×3 huts). */
 export const HUT_POSITIONS: ReadonlyArray<{ col: number; row: number }> = [
   { col: 18, row: 7 },
+  { col: 19, row: 7 },   // medium cluster with (18,7)
   { col: 10, row: 9 },
   { col: 34, row: 10 },
   { col: 6, row: 17 },
   { col: 36, row: 18 },
+  { col: 37, row: 18 },  // large cluster with (36,18)
+  { col: 38, row: 18 },  // large cluster with (36,18)
   { col: 24, row: 25 },
 ]
 
 /**
  * Group adjacent H markers into clusters (4-connected flood fill),
- * then return one placement position per cluster.
- *
- * This is an interim fix: each cluster gets a single small hut placed at the
- * topmost-leftmost marker. Medium/large hut sprites are future work.
+ * then return one placement per cluster at the topmost-leftmost marker.
+ * Cluster size determines hut variant: 1 = small, 2 = medium, 3+ = large.
  */
 function clusterHuts(
   positions: ReadonlyArray<{ col: number; row: number }>,
@@ -112,7 +113,7 @@ function clusterHuts(
   return clusters
 }
 
-/** Clustered hut placements — one small hut per cluster (interim until medium/large sprites exist). */
+/** Clustered hut placements — size 1 = small, size 2 = medium, size 3+ = large. */
 export const HUT_PLACEMENTS = clusterHuts(HUT_POSITIONS)
 
 /** Returns true if a panda can walk on this tile type. */

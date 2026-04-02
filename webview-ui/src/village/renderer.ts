@@ -1,7 +1,7 @@
 import type { SpriteData, Drawable } from './types.js'
 import { TILE_SIZE } from './types.js'
 import { getGroundSprite } from './groundTiles.js'
-import { createSmallHut } from './hutSprites.js'
+import { createSmallHut, createMediumHut, createLargeHut } from './hutSprites.js'
 import { SLEEP_SPRITE, ZZZ_FRAMES, SLEEP_FRAME_DURATION_SEC } from './sleepSprite.js'
 import { CHORE_SPRITES, CHORE_PLACEMENTS, CHORE_FRAME_DURATION_SEC } from './choreSprites.js'
 import { VILLAGE_COLS, VILLAGE_ROWS, tileMap, HUT_PLACEMENTS } from './tileMap.js'
@@ -90,9 +90,16 @@ export function renderFrame(
 
   for (let i = 0; i < HUT_PLACEMENTS.length; i++) {
     const hutPos = HUT_PLACEMENTS[i]
-    const hut = createSmallHut(`hut-${i}`, hutPos.col, hutPos.row)
 
-    // Hut back layer (doorway interior)
+    // Select hut variant based on cluster size
+    const hut =
+      hutPos.size >= 3
+        ? createLargeHut(`hut-${i}`, hutPos.col, hutPos.row)
+        : hutPos.size === 2
+          ? createMediumHut(`hut-${i}`, hutPos.col, hutPos.row)
+          : createSmallHut(`hut-${i}`, hutPos.col, hutPos.row)
+
+    // Hut back layer (doorway interiors)
     drawables.push({
       sprite: hut.backSprite,
       x: hut.col * TILE_SIZE,
@@ -100,13 +107,22 @@ export function renderFrame(
       zY: hut.row * TILE_SIZE,
     })
 
-    // Sleeping panda body (static, centered in hut doorway)
-    drawables.push({
-      sprite: SLEEP_SPRITE,
-      x: (hut.col + 1) * TILE_SIZE,
-      y: (hut.row + 1) * TILE_SIZE,
-      zY: (hut.row + 2) * TILE_SIZE + 8,
-    })
+    // One sleeping panda + zzz overlay per doorway
+    for (const doorColOffset of hut.doorways) {
+      drawables.push({
+        sprite: SLEEP_SPRITE,
+        x: (hut.col + doorColOffset) * TILE_SIZE,
+        y: (hut.row + 1) * TILE_SIZE,
+        zY: (hut.row + 2) * TILE_SIZE + 8,
+      })
+
+      drawables.push({
+        sprite: currentZzz,
+        x: (hut.col + doorColOffset) * TILE_SIZE + 12,
+        y: (hut.row + 1) * TILE_SIZE + 4,
+        zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
+      })
+    }
 
     // Hut front layer (roof, walls, foundation)
     drawables.push({
@@ -114,14 +130,6 @@ export function renderFrame(
       x: hut.col * TILE_SIZE,
       y: hut.row * TILE_SIZE,
       zY: (hut.row + hut.heightTiles) * TILE_SIZE,
-    })
-
-    // Zzz overlay — rendered ABOVE hut roof (highest zY)
-    drawables.push({
-      sprite: currentZzz,
-      x: (hut.col + 1) * TILE_SIZE + 12,
-      y: (hut.row + 1) * TILE_SIZE + 4,
-      zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
     })
   }
 

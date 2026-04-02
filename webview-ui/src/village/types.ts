@@ -34,6 +34,8 @@ export interface Structure {
   frontSprite: SpriteData
   widthTiles: number
   heightTiles: number
+  /** Tile-column offsets for each doorway center (relative to Structure col). */
+  doorways: number[]
 }
 
 export interface Drawable {
