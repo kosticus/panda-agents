@@ -529,20 +529,115 @@ function isLandmarkSpot(col: number, row: number): boolean {
   return ((col * 11 + row * 17) % 4) === 0
 }
 
+// =====================
+// Edge compositing infrastructure
+// =====================
+
+const EDGE_N = 1
+const EDGE_S = 2
+const EDGE_E = 4
+const EDGE_W = 8
+
+/** Returns NSEW bitmask of edges where neighbors differ from `type`. */
+function getEdgeFlags(type: TileType, col: number, row: number): number {
+  let flags = 0
+  if (row <= 0 || tileMap[row - 1][col] !== type) flags |= EDGE_N
+  if (row >= VILLAGE_ROWS - 1 || tileMap[row + 1][col] !== type) flags |= EDGE_S
+  if (col >= VILLAGE_COLS - 1 || tileMap[row][col + 1] !== type) flags |= EDGE_E
+  if (col <= 0 || tileMap[row][col - 1] !== type) flags |= EDGE_W
+  return flags
+}
+
+/** Look up the tile type of a neighbor at offset (dc, dr). Out-of-bounds → VOID. */
+function getNeighborType(col: number, row: number, dc: number, dr: number): TileType {
+  const nc = col + dc
+  const nr = row + dr
+  if (nc < 0 || nc >= VILLAGE_COLS || nr < 0 || nr >= VILLAGE_ROWS) return TileType.VOID
+  return tileMap[nr][nc]
+}
+
+/** Representative palette colors per tile type for edge dithering. */
+const BLEND_PALETTE: Record<number, readonly string[]> = {
+  [TileType.GRASS]: ['#64913E', '#487330', '#82A555', '#558234'],
+  [TileType.PATH]: ['#C3AF8C', '#AA9678', '#D7C3A5'],
+  [TileType.BAMBOO]: ['#6E8255', '#96AC80', '#415037'],
+  [TileType.GATHERING]: ['#A57844', '#87663A', '#B4915F'],
+  [TileType.WATER]: ['#4678AA', '#5A91C3', '#325F8C'],
+  [TileType.GARDEN]: ['#8C6941', '#735532', '#A58255'],
+  [TileType.WOODCUTTING]: ['#786946', '#B49B6E', '#645032'],
+  [TileType.COOKING]: ['#7D766C', '#645C52', '#9B968C'],
+  [TileType.GROUNDSKEEPING]: ['#64913E', '#487330', '#82A555'],
+}
+
 /**
- * Return the ground SpriteData for a tile at the given grid position.
- *
- * GRASS / PATH / BAMBOO pick a deterministic variant based on (col, row).
- * GATHERING / WATER / GARDEN use solid interior fill (*1).
- * WOODCUTTING / COOKING use landmark hashing to place wood2/cook2 at
- * deterministic interior positions.
- * GROUNDSKEEPING falls through to grass1.
+ * Clone a base sprite and dither neighbor-colored pixels into its edges.
+ * 3-pixel graduated transition: depth 0 = 75%, depth 1 = 50%, depth 2 = 25%.
  */
-export function getGroundSprite(
-  tileType: TileType,
+function blendEdges(
+  base: SpriteData,
+  edges: number,
   col: number,
   row: number,
 ): SpriteData {
+  const result = base.map((r) => [...r])
+
+  // Each entry: [edgeFlag, dc, dr, axis]
+  //   axis 0 = horizontal edge (N/S) → modifies rows
+  //   axis 1 = vertical edge (E/W) → modifies cols
+  const dirs: Array<[number, number, number, number]> = []
+  if (edges & EDGE_N) dirs.push([EDGE_N, 0, -1, 0])
+  if (edges & EDGE_S) dirs.push([EDGE_S, 0, 1, 0])
+  if (edges & EDGE_E) dirs.push([EDGE_E, 1, 0, 1])
+  if (edges & EDGE_W) dirs.push([EDGE_W, -1, 0, 1])
+
+  for (const [_flag, dc, dr, axis] of dirs) {
+    const neighborType = getNeighborType(col, row, dc, dr)
+    const palette = BLEND_PALETTE[neighborType]
+    if (!palette) continue
+
+    for (let depth = 0; depth < 3; depth++) {
+      for (let i = 0; i < 16; i++) {
+        let pixelRow: number
+        let pixelCol: number
+        if (axis === 0) {
+          // N/S edge: modify rows near the edge
+          pixelCol = i
+          if (dr === -1) pixelRow = depth          // N: rows 0,1,2
+          else pixelRow = 15 - depth                // S: rows 15,14,13
+        } else {
+          // E/W edge: modify cols near the edge
+          pixelRow = i
+          if (dc === 1) pixelCol = 15 - depth       // E: cols 15,14,13
+          else pixelCol = depth                      // W: cols 0,1,2
+        }
+
+        // Skip transparent pixels
+        if (!result[pixelRow][pixelCol]) continue
+
+        // Deterministic hash for replacement decision + color selection
+        const hash = ((col * 7 + row * 13 + pixelRow * 3 + pixelCol * 5) & 0x7FFFFFFF) // positive
+        // Depth 0: 75% (replace if hash%4 !== 0)
+        // Depth 1: 50% (replace if hash%2 === 0)
+        // Depth 2: 25% (replace if hash%4 === 0)
+        let replace = false
+        if (depth === 0) replace = hash % 4 !== 0
+        else if (depth === 1) replace = hash % 2 === 0
+        else replace = hash % 4 === 0
+
+        if (replace) {
+          result[pixelRow][pixelCol] = palette[hash % palette.length]
+        }
+      }
+    }
+  }
+  return result
+}
+
+/**
+ * Select the base (unblended) sprite for a tile.
+ * Extracted from the original getGroundSprite logic.
+ */
+function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteData {
   const idx = variantIndex(col, row)
 
   if (tileType === TileType.GRASS) return grassVariants[idx]
@@ -560,4 +655,33 @@ export function getGroundSprite(
 
   // Fallback: GROUNDSKEEPING, void, or unknown
   return grass1
+}
+
+// =====================
+// Sprite cache — pre-computed at module load
+// =====================
+
+const spriteCache: SpriteData[][] = []
+for (let row = 0; row < VILLAGE_ROWS; row++) {
+  spriteCache[row] = []
+  for (let col = 0; col < VILLAGE_COLS; col++) {
+    const tileType = tileMap[row][col]
+    const base = selectBaseSprite(tileType, col, row)
+    const edges = getEdgeFlags(tileType, col, row)
+    spriteCache[row][col] = edges !== 0
+      ? blendEdges(base, edges, col, row)
+      : base
+  }
+}
+
+/**
+ * Return the ground SpriteData for a tile at the given grid position.
+ * Cache lookup — sprites are pre-computed with edge blending at module load.
+ */
+export function getGroundSprite(
+  _tileType: TileType,
+  col: number,
+  row: number,
+): SpriteData {
+  return spriteCache[row][col]
 }
