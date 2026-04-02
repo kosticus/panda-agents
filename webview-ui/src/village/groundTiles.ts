@@ -487,10 +487,9 @@ function isLandmarkSpot(col: number, row: number): boolean {
  * Return the ground SpriteData for a tile at the given grid position.
  *
  * GRASS / PATH / BAMBOO pick a deterministic variant based on (col, row).
- * GATHERING / WATER / GARDEN use edge-aware selection: *2 variant at zone
- * boundaries, *1 (solid interior) elsewhere.
+ * GATHERING / WATER / GARDEN use solid interior fill (*1).
  * WOODCUTTING / COOKING use landmark hashing to place wood2/cook2 at
- * deterministic interior positions; edges get the base variant.
+ * deterministic interior positions.
  * GROUNDSKEEPING falls through to grass1.
  */
 export function getGroundSprite(
@@ -504,10 +503,10 @@ export function getGroundSprite(
   if (tileType === TileType.PATH) return pathVariants[idx]
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
 
-  // Edge-aware zone tiles: *2 at boundaries, *1 in interior
-  if (tileType === TileType.GATHERING) return isZoneEdge(tileType, col, row) ? gather2 : gather1
-  if (tileType === TileType.WATER) return isZoneEdge(tileType, col, row) ? water2 : water1
-  if (tileType === TileType.GARDEN) return isZoneEdge(tileType, col, row) ? garden2 : garden1
+  // Zone fill tiles — solid interior
+  if (tileType === TileType.GATHERING) return gather1
+  if (tileType === TileType.WATER) return water1
+  if (tileType === TileType.GARDEN) return garden1
 
   // Landmark tiles: *2 at deterministic interior spots, *1 elsewhere
   if (tileType === TileType.WOODCUTTING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? wood2 : wood1
