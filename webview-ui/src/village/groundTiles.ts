@@ -29,6 +29,10 @@ const P: Record<string, string> = {
   E: '#786946', F: '#B49B6E', J: '#645032', M: '#877D55',
   // Cooking (ashy packed earth + charcoal — cool gray, distinct from warm gathering clay)
   A: '#7D766C', I: '#645C52', N: '#9B968C', O: '#373028',
+  // Stump landmark (distinct from woodcutting base)
+  r: '#4A2E14', u: '#D4A858', z: '#8C5E28',
+  // Fire landmark (warm flame colors)
+  a: '#CC3C10', q: '#E87828', n: '#F0C030',
 }
 
 /** Convert a 16-row character grid into SpriteData (16×16 hex array). */
@@ -383,17 +387,17 @@ const wood1 = toSprite([
   'EEEEgEJEEEEFEEEE',
 ])
 
-// With stump landmark
+// With stump landmark — contrasting bark (r), heartwood (u), rings (z)
 const wood2 = toSprite([
   'EEgEEFEEgEEEJEgE',
   'EgEEEEJEEEFEEEEE',
   'EEEFEEEEEJEEEgEE',
   'gEEEEEEFEEEEEEJE',
-  'EEJEEgJJJJFEEEEE',
-  'EEEEFJFFFFJEgEEE',
-  'EgEEEJFJJFJEEFEE',
-  'EEEEJJFFFJJEEEgE',
-  'EFEEEJJJJJEFEgEE',
+  'EEJEEgrrrrFEEEEE',
+  'EEEEFruuuurEgEEE',
+  'EgEEEruzzurEEFEE',
+  'EEEErruuurrEEEgE',
+  'EFEEErrrrrrFEgEE',
   'EEEgEEJEEEEEEJEE',
   'EEEEEEEEFEgEEEEE',
   'EJEEFEgEEEEEEFEE',
@@ -427,19 +431,60 @@ const cook1 = toSprite([
   'AAANAAAAAAIAAANA',
 ])
 
-// With fire pit landmark
+// Fire pit variants — same 3/4 stone pit, different flame shapes
+// Variant 1: flame leans right
 const cook2 = toSprite([
   'AAIAAANAAIAANAAA',
   'AAAAAIAAAAAAAAAI',
   'ANAAAAAAOAAIAAAA',
-  'AAAAAIAAAAAAAANA',
-  'AIAAAOOOOOAAOAAA',
-  'AAAAOOIIIOOAIAAA',
-  'AAOAOINNNIOAAAAN',
-  'AAAAAOINNIOANAOA',
-  'AAIAAOINNIOOAAAA',
-  'AAAAAOOIIIOIANAA',
-  'ANAAAOOOOOAAAAAA',
+  'AAAAAIAAnAAAAANA',
+  'AIAAAAAqnqAAOAAA',
+  'AAAANAqnaqAAIAAA',
+  'AAOAAOqaaqOAAAAN',
+  'AAAAAOOaaOOAAAOA',
+  'AAIAAOOOOOOAAAAA',
+  'AAAAAAOOOOOAIANA',
+  'ANAAAAAAAIAAAAAA',
+  'AAAOAAIAAAAAANAA',
+  'AAAAAAAANAAAOAAA',
+  'AIAAANAAAAAAIAAA',
+  'AAAAAAAAOAAAAAAA',
+  'AAANAAAAAAIAAANA',
+])
+
+// Variant 2: flame leans left
+const cook3 = toSprite([
+  'AAIAAANAAIAANAAA',
+  'AAAAAIAAAAAAAAAI',
+  'ANAAAAAAOAAIAAAA',
+  'AAAAAIAnAAAAAANA',
+  'AIAAAqnqAAAAOAAA',
+  'AAAANaqnqAAAIAAA',
+  'AAOAAOqaaqOAAAAN',
+  'AAAAAOOaaOOAAAOA',
+  'AAIAAOOOOOOAAAAA',
+  'AAAAAAOOOOOAIANA',
+  'ANAAAAAAAIAAAAAA',
+  'AAAOAAIAAAAAANAA',
+  'AAAAAAAANAAAOAAA',
+  'AIAAANAAAAAAIAAA',
+  'AAAAAAAAOAAAAAAA',
+  'AAANAAAAAAIAAANA',
+])
+
+// Variant 3: tall narrow centered flame
+const cook4 = toSprite([
+  'AAIAAANAAIAANAAA',
+  'AAAAAIAAAAAAAAAI',
+  'ANAAAAAAOAAIAAAA',
+  'AAAAAIAnAAAAAANA',
+  'AIAAAAAnqAAAOAAA',
+  'AAAANAqnqAAAIAAA',
+  'AAOAAOqaaqOAAAAN',
+  'AAAAAOOaaOOAAAOA',
+  'AAIAAOOOOOOAAAAA',
+  'AAAAAAOOOOOAIANA',
+  'ANAAAAAAAIAAAAAA',
   'AAAOAAIAAAAAANAA',
   'AAAAAAAANAAAOAAA',
   'AIAAANAAAAAAIAAA',
@@ -454,6 +499,7 @@ const cook2 = toSprite([
 const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1, path2, path3]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
+const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 
 /** Deterministic variant index from grid position. */
 function variantIndex(col: number, row: number): number {
@@ -480,7 +526,7 @@ function isZoneEdge(type: TileType, col: number, row: number): boolean {
  * Returns true for ~1 in 7 interior tiles, spread via coprime hash.
  */
 function isLandmarkSpot(col: number, row: number): boolean {
-  return ((col * 11 + row * 17) % 7) === 0
+  return ((col * 11 + row * 17) % 4) === 0
 }
 
 /**
@@ -510,7 +556,7 @@ export function getGroundSprite(
 
   // Landmark tiles: *2 at deterministic interior spots, *1 elsewhere
   if (tileType === TileType.WOODCUTTING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? wood2 : wood1
-  if (tileType === TileType.COOKING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? cook2 : cook1
+  if (tileType === TileType.COOKING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? cookLandmarks[idx] : cook1
 
   // Fallback: GROUNDSKEEPING, void, or unknown
   return grass1
