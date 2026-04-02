@@ -126,25 +126,6 @@ const path1 = toSprite([
   'wkwwwwwwswwwwwpw',
 ])
 
-const path3 = toSprite([
-  'gggggdgksswwwwss',
-  'ggtggggksswwswww',
-  'ggggggdgsswwwwww',
-  'gdgggggkswwwwsww',
-  'gggggdggsswwwwww',
-  'ggtgggggksswwwww',
-  'gggggdgggsswwsww',
-  'ggdggggkswwwwwww',
-  'gggggggksswwwwww',
-  'gtggggdgsswwswww',
-  'ggggggggksswwwww',
-  'ggdgggdggsswwwww',
-  'ggggggggkswwswww',
-  'gdggggdgsswwwwww',
-  'gggggggkswwwwsww',
-  'ggtgggggsswwwwww',
-])
-
 // =====================
 // BAMBOO TILES
 // =====================
