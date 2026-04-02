@@ -34,7 +34,7 @@ export interface Structure {
   frontSprite: SpriteData
   widthTiles: number
   heightTiles: number
-  /** Tile-column offsets for each doorway center (relative to Structure col). */
+  /** Pixel x-offsets for each doorway center (relative to structure left edge). */
   doorways: number[]
 }
 

@@ -108,17 +108,18 @@ export function renderFrame(
     })
 
     // One sleeping panda + zzz overlay per doorway
-    for (const doorColOffset of hut.doorways) {
+    const hutX = hut.col * TILE_SIZE
+    for (const doorPx of hut.doorways) {
       drawables.push({
         sprite: SLEEP_SPRITE,
-        x: (hut.col + doorColOffset) * TILE_SIZE,
+        x: hutX + doorPx,
         y: (hut.row + 1) * TILE_SIZE,
         zY: (hut.row + 2) * TILE_SIZE + 8,
       })
 
       drawables.push({
         sprite: currentZzz,
-        x: (hut.col + doorColOffset) * TILE_SIZE + 12,
+        x: hutX + doorPx + 12,
         y: (hut.row + 1) * TILE_SIZE + 4,
         zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
       })

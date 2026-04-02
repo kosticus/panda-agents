@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Generates medium hut design preview: 64×48 native (4×3 tiles), 2 doorways.
+// Generates medium hut design preview: 80×48 native (5×3 tiles), 2 doorways.
 // Elongated oval dome roof with same palette as small hut.
 // 8× scale on grass background.
 //
@@ -34,7 +34,7 @@ const C = {
 const GRASS = [100, 145, 62];
 
 // === Grid ===
-const GW = 64, GH = 48;
+const GW = 80, GH = 48;
 const grid = Array.from({ length: GH }, () => Array(GW).fill("."));
 
 function set(x, y, ch) {
@@ -47,8 +47,8 @@ function hline(y, x1, x2, ch) {
 // ──────────────────────────────────────
 // Geometry
 // ──────────────────────────────────────
-const ROOF_H = 21, MAX_RW = 60, MIN_RW = 6;
-const WL = 8, WR = 55;      // wall left/right edges
+const ROOF_H = 21, MAX_RW = 76, MIN_RW = 6;
+const WL = 6, WR = 73;      // wall left/right edges
 const WT = 22, WB = 43;     // wall top/bottom
 const DOOR_FULL = 26;       // full-width opening from here down
 
@@ -233,5 +233,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets");
 const outPath = join(outDir, "medium_hut_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Medium hut: 64×48 native (4×3 tiles), 2 doorways");
+console.log("Medium hut: 80×48 native (5×3 tiles), 2 doorways");
 console.log("Elongated thatch dome roof, bamboo walls, 2 arched doorways with pandas");

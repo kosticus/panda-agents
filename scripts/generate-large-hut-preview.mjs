@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Generates large hut design preview: 80×48 native (5×3 tiles), 3 doorways.
-// Elongated oval dome roof with same palette as small hut.
+// Generates large hut design preview: 96×48 native (6×3 tiles), 3 doorways.
+// Ridge beam / longhouse roof — distinct angular silhouette vs dome huts.
 // 8× scale on grass background.
 //
 // Run: ./scripts/preview.sh large-hut
@@ -19,6 +19,7 @@ const C = {
   t: [158, 130, 40],     // thatch dark
   U: [205, 178, 75],     // thatch highlight
   u: [130, 108, 35],     // eave underside shadow
+  R: [120, 95, 50],      // ridge beam (darker wood)
   b: [140, 112, 68],     // bamboo wall base
   h: [162, 138, 92],     // bamboo wall highlight
   j: [108, 82, 48],      // bamboo wall joint/dark
@@ -34,7 +35,7 @@ const C = {
 const GRASS = [100, 145, 62];
 
 // === Grid ===
-const GW = 80, GH = 48;
+const GW = 96, GH = 48;
 const grid = Array.from({ length: GH }, () => Array(GW).fill("."));
 
 function set(x, y, ch) {
@@ -47,10 +48,15 @@ function hline(y, x1, x2, ch) {
 // ──────────────────────────────────────
 // Geometry
 // ──────────────────────────────────────
-const ROOF_H = 21, MAX_RW = 76, MIN_RW = 6;
-const WL = 10, WR = 69;     // wall left/right edges
+const ROOF_H = 21;
+const WL = 6, WR = 89;      // wall left/right edges
 const WT = 22, WB = 43;     // wall top/bottom
 const DOOR_FULL = 26;       // full-width opening from here down
+
+// Ridge beam roof geometry
+const RIDGE_W = 24;          // flat ridge width at peak
+const RIDGE_ROWS = 5;        // rows of flat ridge (0-4)
+const MAX_RW = 92;           // widest roof row (at base, row 20)
 
 // Compute 3 doorway positions evenly within wall area
 const DOOR_W = 16;
@@ -76,25 +82,49 @@ function inAnyDoorway(x, r) {
 }
 
 // ──────────────────────────────────────
-// 1. THATCH DOME ROOF (rows 0–20)
+// 1. RIDGE BEAM ROOF (rows 0–20)
 // ──────────────────────────────────────
+// Flat ridge at top (rows 0-4), then straight angular slopes to full width.
+// Distinct from the dome's sqrt curve — reads as a longhouse.
 for (let r = 0; r < ROOF_H; r++) {
-  const frac = r / (ROOF_H - 1);
-  const w = Math.round(MIN_RW + (MAX_RW - MIN_RW) * Math.sqrt(frac));
+  let w;
+  if (r < RIDGE_ROWS) {
+    // Flat ridge section — constant width
+    w = RIDGE_W;
+  } else {
+    // Linear slope from ridge width to max width
+    const slopeFrac = (r - RIDGE_ROWS) / (ROOF_H - 1 - RIDGE_ROWS);
+    w = Math.round(RIDGE_W + (MAX_RW - RIDGE_W) * slopeFrac);
+  }
   const x1 = Math.floor((GW - w) / 2);
   const x2 = x1 + w - 1;
 
+  // Base thatch fill
   hline(r, x1, x2, "T");
 
+  // Dark edges (2px border)
   set(x1, r, "t"); if (w > 2) set(x1 + 1, r, "t");
   set(x2, r, "t"); if (w > 2) set(x2 - 1, r, "t");
 
-  const off = (r % 2) * 2;
-  for (let x = x1 + 3 + off; x < x2 - 2; x += 5) set(x, r, "U");
+  // Ridge beam detail — visible wood beam across top rows
+  if (r < RIDGE_ROWS) {
+    // Top and bottom border of ridge use beam color
+    if (r === 0 || r === RIDGE_ROWS - 1) {
+      hline(r, x1 + 2, x2 - 2, "R");
+    }
+    // Straw highlights on ridge body
+    const off = (r % 2) * 2;
+    for (let x = x1 + 3 + off; x < x2 - 2; x += 4) set(x, r, "U");
+  } else {
+    // Scattered straw highlights on slope (staggered every other row)
+    const off = (r % 2) * 2;
+    for (let x = x1 + 3 + off; x < x2 - 2; x += 5) set(x, r, "U");
 
-  if (r > 0 && r % 5 === 0) {
-    for (let x = x1 + 2; x <= x2 - 2; x++) {
-      if ((x + r) % 3 !== 0) set(x, r, "t");
+    // Horizontal thatch layer lines every 4 rows on slope (tighter than dome)
+    if (r > RIDGE_ROWS && (r - RIDGE_ROWS) % 4 === 0) {
+      for (let x = x1 + 2; x <= x2 - 2; x++) {
+        if ((x + r) % 3 !== 0) set(x, r, "t");
+      }
     }
   }
 }
@@ -233,5 +263,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets");
 const outPath = join(outDir, "large_hut_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Large hut: 80×48 native (5×3 tiles), 3 doorways");
-console.log("Elongated thatch dome roof, bamboo walls, 3 arched doorways with pandas");
+console.log("Large hut: 96×48 native (6×3 tiles), 3 doorways");
+console.log("Ridge beam longhouse roof, bamboo walls, 3 arched doorways with pandas");
