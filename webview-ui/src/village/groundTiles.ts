@@ -108,41 +108,22 @@ const grass3 = toSprite([
 // =====================
 
 const path1 = toSprite([
-  'sswwwwwssswwwwss',
-  'wwwwwswwwwwswwww',
-  'wwwswwwwwwwwwwsw',
-  'swwwwwwswwwwwwww',
-  'wwwwwwwwwwswwwww',
-  'wwswwwwwwwwwwsww',
-  'swwwwswwwwwwwwww',
-  'wwwwwwwwswwwwwww',
-  'wwwwwwwwwwwwswww',
-  'swwwswwwwwwwwwww',
-  'wwwwwwwwswwwswww',
-  'wwswwwwwwwwwwwsw',
-  'wwwwwwswwwwwwwww',
-  'swwwwwwwwwswwwww',
-  'wwwwswwwwwwwwsww',
-  'wwwwwwwwswwwwwww',
-])
-
-const path2 = toSprite([
-  'sssswsssssswssss',
-  'sssssssspssssssw',
-  'sspsssssssssspss',
-  'sssssswssssssssw',
-  'sssssssssspssssw',
-  'swsspssssssssssw',
-  'ssssssssssspssss',
-  'sspsssswssssssps',
-  'sssssssssssswsss',
-  'sssssspssssssssw',
-  'spsssssssspssssw',
-  'sssswssssssssssw',
-  'sssssssspssssssw',
-  'sspsssssssswspss',
-  'sssssswsssssssss',
-  'swsssssssspssssw',
+  'wswwwwwkwwwswwww',
+  'wwswwswwwwwswwpw',
+  'wwwswpwwwswwwwsw',
+  'swwwwwwswkwwwwww',
+  'wpwwswwwwwswwwkw',
+  'wwswwkwwwswwwsww',
+  'swwpwswwwwwkwwww',
+  'wwwwswwwswwwwpww',
+  'wkwwwwpwwswwswww',
+  'swwwswwwwwwkwwpw',
+  'wwpwwwwwswwwswww',
+  'wwswwkwwwwpwwwsw',
+  'wpwwwwswwwwwkwww',
+  'swwpwwwwwwswwwww',
+  'wwwwswwkwwwwwsww',
+  'wkwwwwwwswwwwwpw',
 ])
 
 const path3 = toSprite([
@@ -497,7 +478,7 @@ const cook4 = toSprite([
 // =====================
 
 const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
-const pathVariants: readonly SpriteData[] = [path1, path2, path3]
+const pathVariants: readonly SpriteData[] = [path1]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 
@@ -595,37 +576,40 @@ function blendEdges(
     const palette = BLEND_PALETTE[neighborType]
     if (!palette) continue
 
-    for (let depth = 0; depth < 3; depth++) {
-      for (let i = 0; i < 16; i++) {
-        let pixelRow: number
-        let pixelCol: number
-        if (axis === 0) {
-          // N/S edge: modify rows near the edge
-          pixelCol = i
-          if (dr === -1) pixelRow = depth          // N: rows 0,1,2
-          else pixelRow = 15 - depth                // S: rows 15,14,13
-        } else {
-          // E/W edge: modify cols near the edge
-          pixelRow = i
-          if (dc === 1) pixelCol = 15 - depth       // E: cols 15,14,13
-          else pixelCol = depth                      // W: cols 0,1,2
-        }
+    // Coarse clumping: divide edge into ~4px chunks, only blend in active chunks
+    for (let chunk = 0; chunk < 4; chunk++) {
+      let chunkHash = (col * 173 + row * 349 + chunk * 571 + dr * 37 + dc * 59) | 0
+      chunkHash = Math.imul((chunkHash >> 16) ^ chunkHash, 0x2c1b3c6d)
+      if ((chunkHash & 0x7FFFFFFF) % 5 < 2) continue // ~40% of chunks stay clear
 
-        // Skip transparent pixels
-        if (!result[pixelRow][pixelCol]) continue
+      for (let depth = 0; depth < 3; depth++) {
+        for (let i = chunk * 4; i < chunk * 4 + 4; i++) {
+          let pixelRow: number
+          let pixelCol: number
+          if (axis === 0) {
+            pixelCol = i
+            if (dr === -1) pixelRow = depth          // N: rows 0,1,2
+            else pixelRow = 15 - depth                // S: rows 15,14,13
+          } else {
+            pixelRow = i
+            if (dc === 1) pixelCol = 15 - depth       // E: cols 15,14,13
+            else pixelCol = depth                      // W: cols 0,1,2
+          }
 
-        // Deterministic hash for replacement decision + color selection
-        const hash = ((col * 7 + row * 13 + pixelRow * 3 + pixelCol * 5) & 0x7FFFFFFF) // positive
-        // Depth 0: 75% (replace if hash%4 !== 0)
-        // Depth 1: 50% (replace if hash%2 === 0)
-        // Depth 2: 25% (replace if hash%4 === 0)
-        let replace = false
-        if (depth === 0) replace = hash % 4 !== 0
-        else if (depth === 1) replace = hash % 2 === 0
-        else replace = hash % 4 === 0
+          if (!result[pixelRow][pixelCol]) continue
 
-        if (replace) {
-          result[pixelRow][pixelCol] = palette[hash % palette.length]
+          let hash = (col * 374761393 + row * 668265263 + pixelRow * 2654435761 + pixelCol * 1103515245) | 0
+          hash = Math.imul((hash >> 16) ^ hash, 0x45d9f3b)
+          hash = ((hash >> 16) ^ hash) & 0x7FFFFFFF
+          // Depth 0: ~38%, Depth 1: ~19%, Depth 2: ~6%
+          let replace = false
+          if (depth === 0) replace = hash % 8 < 3
+          else if (depth === 1) replace = hash % 16 < 3
+          else replace = hash % 16 === 0
+
+          if (replace) {
+            result[pixelRow][pixelCol] = palette[hash % palette.length]
+          }
         }
       }
     }
@@ -641,7 +625,24 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   const idx = variantIndex(col, row)
 
   if (tileType === TileType.GRASS) return grassVariants[idx]
-  if (tileType === TileType.PATH) return pathVariants[idx]
+  if (tileType === TileType.PATH) {
+    const pathColors = [P.s, P.k, P.w, P.p]
+    const base = path1.map((r) => [...r])
+    // Per-tile pixel swaps to break tiling repetition
+    let h = (col * 374761393 + row * 668265263) | 0
+    for (let pr = 0; pr < 16; pr++) {
+      for (let pc = 0; pc < 16; pc++) {
+        if (!base[pr][pc]) continue
+        h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
+        h = (h >> 16) ^ h
+        // ~25% of pixels get a color swap
+        if ((h & 0x7FFFFFFF) % 4 === 0) {
+          base[pr][pc] = pathColors[(h >>> 2) & 3]
+        }
+      }
+    }
+    return base
+  }
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
 
   // Zone fill tiles — solid interior
