@@ -529,8 +529,28 @@ const water_lily3 = toSprite([
   'WWWWSWWWWWWLWWWW',
 ])
 
-// Four cattails — staggered heights across tile
+// Four cattails — horizontal band across tile
 const water_reeds = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WooWWWWLWWooWWWW',
+  'WooWooWWWooWWooW',
+  'WWiWooSWWWiWWooW',
+  'WLWWWiWWWWWWSWiW',
+  'WWWSWWWWLWWWWWWW',
+  'WWWWWWWWWWLWWWWW',
+  'WWLWWWSWWWWWWWWW',
+  'WWWWWWWWSWWWWLWW',
+  'WSWWLWWWWWWWWWWW',
+  'WWWWWWWWWLWWWWWW',
+  'WWWWLWWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Four cattails — staggered heights across tile
+const water_reeds2 = toSprite([
   'WWWLWWWWSWWWWLWW',
   'WWooWWLWWWWWWWWW',
   'WSooWWWWWWLWWWWW',
@@ -549,19 +569,19 @@ const water_reeds = toSprite([
   'WWWWSWWWWWWLWWWW',
 ])
 
-// Four cattails — different stagger from water_reeds
-const water_reeds2 = toSprite([
+// Three cattails — scattered, different quadrants
+const water_reeds3 = toSprite([
   'WWWLWWWWSWWWWLWW',
   'WWWWWWLWWWWooWWW',
-  'WSWWWWWWWWoooWWW',
-  'WWWWLWWWWWWoiSWW',
-  'WWWooWWWWWWWWWWL',
-  'WLWooWSWWWWWLWWW',
-  'WWWWoiLWWWWWWWWW',
-  'WWWSWiWWWWoWWWLW',
+  'WSWWWWWWWWWooWWW',
+  'WWWWLWWWWWWWiSWW',
+  'WWWWWWSWWWWWWWWL',
+  'WLWWWWWWWWWWLWWW',
+  'WWWWWWLWWWWWWWWW',
+  'WWWSWWWWWWooWWLW',
   'WooWWWWWWWooWWWW',
-  'WooWWSWWWWooSWWW',
-  'WWiWWWWWWLWiWWWW',
+  'WooWWSWWWWWiSWWW',
+  'WWiWWWWWWLWWWWWW',
   'WWWWLWWWWWWWWWLW',
   'WSWWWWWWWWLWWWWW',
   'WWWWWWLWWWWWWSWW',
@@ -711,7 +731,7 @@ const pathVariants: readonly SpriteData[] = [path1]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
-const waterLandmarks: readonly SpriteData[] = [water_lily, water_lily2, water_lily3, water_reeds, water_reeds2]
+const waterLandmarks: readonly SpriteData[] = [water_lily, water_lily2, water_lily3, water_reeds, water_reeds2, water_reeds3]
 /** Centroid of the garden zone — single scarecrow placement. */
 const gardenCenter: { col: number; row: number } | null = (() => {
   let sumCol = 0, sumRow = 0, count = 0
@@ -752,6 +772,23 @@ function isZoneEdge(type: TileType, col: number, row: number): boolean {
 function isLandmarkSpot(col: number, row: number): boolean {
   return ((col * 11 + row * 17) % 4) === 0
 }
+
+/**
+ * Precompute scan-order index for each water landmark spot.
+ * Cycling through variants in scan order guarantees even distribution
+ * regardless of how (col+row) parity or hashing lands.
+ */
+const waterLandmarkIdx = new Map<string, number>()
+;(() => {
+  let n = 0
+  for (let r = 0; r < VILLAGE_ROWS; r++) {
+    for (let c = 0; c < VILLAGE_COLS; c++) {
+      if (tileMap[r][c] === TileType.WATER && !isZoneEdge(TileType.WATER, c, r) && isLandmarkSpot(c, r)) {
+        waterLandmarkIdx.set(`${c},${r}`, n++)
+      }
+    }
+  }
+})()
 
 // =====================
 // Edge compositing infrastructure
@@ -914,7 +951,7 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   }
   if (tileType === TileType.WATER) {
     if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      const waterIdx = ((col + row * 2) % 5 + 5) % 5
+      const waterIdx = (waterLandmarkIdx.get(`${col},${row}`) ?? 0) % waterLandmarks.length
       return waterLandmarks[waterIdx]
     }
     return water1
