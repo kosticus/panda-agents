@@ -114,13 +114,13 @@ export function renderFrame(
         sprite: SLEEP_SPRITE,
         x: hutX + doorPx,
         y: (hut.row + 1) * TILE_SIZE,
-        zY: (hut.row + 2) * TILE_SIZE + 8,
+        zY: (hut.row + 2) * TILE_SIZE + 16,
       })
 
       drawables.push({
         sprite: currentZzz,
-        x: hutX + doorPx + 12,
-        y: (hut.row + 1) * TILE_SIZE + 4,
+        x: hutX + doorPx + 24,
+        y: (hut.row + 1) * TILE_SIZE + 8,
         zY: (hut.row + hut.heightTiles) * TILE_SIZE + 1,
       })
     }

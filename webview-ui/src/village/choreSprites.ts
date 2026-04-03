@@ -712,12 +712,12 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
-  cook:   [{ col: 22, row: 13 }, { col: 23, row: 14 }],
-  chop:   [{ col: 8,  row: 3 },  { col: 6,  row: 5 }],
-  fish:   [{ col: 34, row: 23 }, { col: 36, row: 25 }],
-  water:  [{ col: 36, row: 3 },  { col: 35, row: 5 }],
-  bamboo: [{ col: 1,  row: 12 }, { col: 3,  row: 27 }],
-  sweep:  [{ col: 4,  row: 20 }, { col: 6,  row: 22 }],
-  build:  [{ col: 11, row: 2 },  { col: 5,  row: 4 }],
-  dig:    [{ col: 3,  row: 21 }, { col: 5,  row: 23 }],
+  cook:   [],
+  chop:   [],
+  fish:   [],
+  water:  [],
+  bamboo: [],
+  sweep:  [],
+  build:  [],
+  dig:    [],
 }

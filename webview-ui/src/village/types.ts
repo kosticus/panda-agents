@@ -1,4 +1,4 @@
-export const TILE_SIZE = 16
+export const TILE_SIZE = 32
 
 export const TileType = {
   BAMBOO: 0,
