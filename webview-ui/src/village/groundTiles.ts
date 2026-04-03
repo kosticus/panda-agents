@@ -62,7 +62,7 @@ const P: Record<string, string> = {
   '=': '#6B4420',               // broom bristle brown
 }
 
-/** Convert a 16-row character grid into SpriteData (16×16 hex array). */
+/** Convert a character grid into SpriteData (hex color array). */
 function toSprite(rows: readonly string[]): SpriteData {
   return rows.map((row) =>
     Array.from(row, (ch) => P[ch] ?? ''),
@@ -74,60 +74,108 @@ function toSprite(rows: readonly string[]): SpriteData {
 // =====================
 
 const grass1 = toSprite([
-  'ggggtgggggdggggg',
-  'gdgggggdgggggggt',
-  'ggggggggggggtggg',
-  'ggtggdggggggggdg',
-  'gggggggggdgggggg',
-  'gggdggggggggtggg',
-  'gggggggtgggggggd',
-  'ggtggggggggggggg',
-  'gggggdggggggtggg',
-  'ggggggggdggggggg',
-  'gdgggtggggggdggg',
-  'gggggggggdgggggg',
-  'gggdgggggggggggt',
-  'ggggggggggggtggg',
-  'gtgggdggggggggdg',
-  'ggggggtggdgggggg',
+  'gtggtggggtggggggtgggggggggdggggg',
+  'dgtggdgdgggggggggggggggdgggggggg',
+  'gdggggggtggggggggdgggggggggggggg',
+  'gggggggggggggggggtgggtgggggggggg',
+  'gggtgggggggggggggggtgggggggggtgg',
+  'gggtgggtggggtggdgggggggggggggtgg',
+  'gggggggggdgggggtgggggggdgggggtgd',
+  'gtgggggggggggggggggtgggtgggggggg',
+  'gggggggggdgtgggggggdgdgggggggggd',
+  'gggdgggdggggdgtgggggggggtgtggggg',
+  'ggggggggggggggggggggggdgggdggggg',
+  'gggggggggggggggggggggggtggtggggg',
+  'gggggggggggdgggggggggggggggdgggg',
+  'ggggdgdggggggggdggggggtggggggggg',
+  'gggdggdggdgggggdggggdggggtgggggg',
+  'ggtggggggggggggdgggggtgggggggggg',
+  'ggggdgdggtggtggggggdgggggggggggg',
+  'ggggggggggggggtgggggggtggggggggt',
+  'gdggdgggggdggggggggggggggtgtgggg',
+  'gggggggdgggggggdgggggggggggggggg',
+  'ggggggggggtggggdggggggggtggggggg',
+  'ggtggggggggggdggggggdgdggdggtggg',
+  'gggggggggggggdgtgdgggdggggggggdg',
+  'gggggdgggtggggdggggggggdggggggtg',
+  'gggggggdgggggggggggggggggggggtgg',
+  'ggggggggggggggggggggggggggggggdg',
+  'gggdgggggggdgggtggtggggggdgtgggg',
+  'ggggggggggdgggggggggdggggggtgggg',
+  'ggggggggggggtgtggggggdgggtggggdg',
+  'ggggggggdgggtgggggdgggggggtggtgg',
+  'ggggggggggggggggtggggggggggtggdg',
+  'dgggggtggggggggggggggggggggggggg',
 ])
 
 const grass2 = toSprite([
-  'ggtgggggdgggtggg',
-  'gttggdggggggdggg',
-  'gtgggggggtggggdg',
-  'ggdgggggtttggggg',
-  'ggggggtgggtggggg',
-  'gdgggtggggdggggg',
-  'ggggggdggggggtgg',
-  'ggtgggggggdggggg',
-  'gggdggtggggtgggg',
-  'gggggddgggggggdg',
-  'gtgggdggggdggggg',
-  'gggggggggddggggt',
-  'gdgggtggggggdggg',
-  'ggggggdggggtgggg',
-  'ggdgggggggggtggg',
-  'ggtggdggggggdggg',
+  'tgggggggggggggggggggtggtgtgggggd',
+  'ggdggtggggtggggggggggggggggggggg',
+  'gggggtgggggtgggtgggtgggtgtgggggg',
+  'gggggggggggtggdggtgggtgggtgggtgg',
+  'dggtgggggggggtggggggdggggggtgggg',
+  'gggggggggggggggdggtgtggggtggggtg',
+  'gtgtggggggdgdggggtggggtgtggggtgg',
+  'ggdggdgtgggggtgggtggggtgtggtgggg',
+  'ggtggggggtgggggtggggggtgggdggtgt',
+  'gggggtgtggtgggggggggtgdgtggggtgg',
+  'ggggtggdgggtgggdgggtggtggtgggggg',
+  'ggtggtgggtggggtgggtgggggggtgtgtg',
+  'gggggdggggtggdgtgtggggggtggggtgg',
+  'ggdggggggdggggtgggtgggtgggtgggtg',
+  'gtgggtgggggggggtgggggtggtgtggggg',
+  'tgggggggggtgggggggggggtggggggtgg',
+  'gggggtgtgggggtgggtggggggtgtgtggg',
+  'gggggggdgggggtgggggggggggggggggg',
+  'ggtgggggggggggggggggggggggtgggtg',
+  'ggdggtgggdgtggdgggggggggtgtggggg',
+  'gggggggtgggggggtggtgggggggggggtg',
+  'gggggtggggtggggdgggggggggggdgggg',
+  'gtgtggggtggggggggggggggggggggtgt',
+  'gggggggdgtgggggggtgggggggggggtgg',
+  'ggggggtgggtgtgtgggggtggggggggggg',
+  'ggdggggggtgggggggggggtgggggggggg',
+  'dgggggggtgggggtgggggggtgggggggtg',
+  'gdgtgggtggggggggggtgggggggggggtg',
+  'ggggdgggtggtggtggggggdggdggdgggd',
+  'ggtggggtggggtgdggggggggggggggtgg',
+  'gggggggggtgggggggggggdgdgdggtggg',
+  'dggtggtgggggtggggggtgtgggggggggg',
 ])
 
 const grass3 = toSprite([
-  'gdgmgggdggmggdgg',
-  'gmggdggmgggdgggg',
-  'ggggdggdggggggmg',
-  'gdgmggggggdmgggg',
-  'gggdggmgggggggdg',
-  'gmgggdgggmdggggg',
-  'gggdggmggggggdgm',
-  'gdggggggdggmgggg',
-  'gggmgdggggdgggdg',
-  'ggggggmggggggmgg',
-  'gmgdgggggdgmgggg',
-  'gggggmgdggggdggg',
-  'gdggggmgggmdgggg',
-  'gggdggggdggggmgg',
-  'gmgggdgggggdgggg',
-  'gggmggggmdggggdg',
+  'gmgggmggmggmggmgggggdgdggmggdggg',
+  'dgggggggggdggggggmgggggggdgggggg',
+  'gggggmgmggggggggmgdggggggggggdgg',
+  'mgggmggdgmgggggggdgggggggmgggggg',
+  'ggggdgdggdgggdggmgggggggggggdggg',
+  'gggmgdgggggmgggggggggdgmgggggggg',
+  'gdgdggggggggmggdgggggggggggggggg',
+  'ggggggggmgdgggggggmggggdggggdggg',
+  'gggggggdgggggggdgggggdggggggggmg',
+  'gggdgggggggmggmggggggggggggggggg',
+  'gdggggggggggggggggggggggggggdgdg',
+  'gmgdggdgdgmgggggdgdgmggggggggdgm',
+  'mggmgggggggdggggmggdgggggmgdgggg',
+  'dgmggggggggggggdggdgggggggggggdg',
+  'ggdggmggggggdgdggggggdgggdgggggg',
+  'gggggggmggmggggmgggggggggggmgggg',
+  'ggmggggggmggmgmgmggdggggdggmgggg',
+  'gmgggmgdgggggggmgggggggggggggggg',
+  'ggggggggdggggggggdgdgggggggggmgg',
+  'dgggggdggggmggdggdgggggggggdgggg',
+  'gggggggggdggdggggggggggmgggggggm',
+  'ggmgggggggggggggdgggmgggggmggggg',
+  'gdggdggggggggggggdgggmgggggggmgg',
+  'dggggdgggdgggggggggggdggmgggggdg',
+  'gmgmgmggdggggmggggggggdggggggggg',
+  'mgggmgggggmgggggggggggggmgggggmg',
+  'ggmggggggggggdggggggggggmgggmggg',
+  'ggggmgggggdgdgmgggmggggggggggggg',
+  'ggggggggggdgggggggdgggggmggggmgg',
+  'ggggmgggmgdgggggggggggggdggggggg',
+  'gggmgdggggggggggggdggggggmgggggg',
+  'ggmgggdgdggggdggggmgggggggmggmgd',
 ])
 
 // =====================
@@ -135,22 +183,38 @@ const grass3 = toSprite([
 // =====================
 
 const path1 = toSprite([
-  'wswwwwwkwwwswwww',
-  'wwswwswwwwwswwpw',
-  'wwwswpwwwswwwwsw',
-  'swwwwwwswkwwwwww',
-  'wpwwswwwwwswwwkw',
-  'wwswwkwwwswwwsww',
-  'swwpwswwwwwkwwww',
-  'wwwwswwwswwwwpww',
-  'wkwwwwpwwswwswww',
-  'swwwswwwwwwkwwpw',
-  'wwpwwwwwswwwswww',
-  'wwswwkwwwwpwwwsw',
-  'wpwwwwswwwwwkwww',
-  'swwpwwwwwwswwwww',
-  'wwwwswwkwwwwwsww',
-  'wkwwwwwwswwwwwpw',
+  'wswwwwwkwwwswwwwwswwwwkwwwswwwww',
+  'wwswwswwwwwswwpwwwswwswwwwswwpww',
+  'wwwswpwwwswwwwswwwwswpwwwswwwwsw',
+  'swwwwwwswkwwwwwwswwwwwwswkwwwwww',
+  'wpwwswwwwwswwwkwwpwwswwwwwswwwkw',
+  'wwswwkwwwswwwswwwwswwkwwwswwwsww',
+  'swwpwswwwwwkwwwwswwpwswwwwwkwwww',
+  'wwwwswwwswwwwpwwwwwwswwwswwwwpww',
+  'wkwwwwpwwswwswwwwkwwwwpwwswwswww',
+  'swwwswwwwwwkwwpwswwwswwwwwwkwwpw',
+  'wwpwwwwwswwwswwwwwpwwwwwswwwswww',
+  'wwswwkwwwwpwwwswwwswwkwwwwpwwwsw',
+  'wpwwwwswwwwwkwwwwpwwwwswwwwwkwww',
+  'swwpwwwwwwswwwwwswwpwwwwwwswwwww',
+  'wwwwswwkwwwwwswwwwwwswwkwwwwwsww',
+  'wkwwwwwwswwwwwpwwkwwwwwwswwwwwpw',
+  'wswwwwkwwwwswwwwwswwwkwwwwswwwww',
+  'wwswwswwwwswwpwwwwswwswwwwwswpww',
+  'wwwswpwwswwwwswwwwwswpwwwswwwwsw',
+  'swwwwwwswkwwwwwswwwwwwwswkwwwwww',
+  'wpwwswwwwwswwwkwwpwwswwwwwswwkww',
+  'wwswwkwwwswwwswwwwswwkwwwswwwsww',
+  'swwpwswwwwwkwwwwswwpwswwwwwkwwww',
+  'wwwwswwwswwwwpwwwwwwswwwswwwwpww',
+  'wkwwwwpwwswwswwwwkwwwwpwwswwswww',
+  'swwwswwwwwwkwwpwswwwswwwwwwkwwpw',
+  'wwpwwwwwswwwswwwwwpwwwwwswwwswww',
+  'wwswwkwwwwpwwwswwwswwkwwwwpwwwsw',
+  'wpwwwwswwwwwkwwwwpwwwwswwwwwkwww',
+  'swwpwwwwwwswwwwwswwpwwwwwwswwwww',
+  'wwwwswwkwwwwwswwwwwwswwkwwwwwsww',
+  'wkwwwwwwswwwwwpwwkwwwwwwswwwwwpw',
 ])
 
 // =====================
@@ -928,8 +992,8 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
     const base = path1.map((r) => [...r])
     // Per-tile pixel swaps to break tiling repetition
     let h = (col * 374761393 + row * 668265263) | 0
-    for (let pr = 0; pr < 16; pr++) {
-      for (let pc = 0; pc < 16; pc++) {
+    for (let pr = 0; pr < 32; pr++) {
+      for (let pc = 0; pc < 32; pc++) {
         if (!base[pr][pc]) continue
         h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
         h = (h >> 16) ^ h
@@ -941,45 +1005,13 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
     }
     return base
   }
-  if (tileType === TileType.BAMBOO) return bambooVariants[idx]
-
-  // Zone fill tiles with landmark variants at interior spots
-  if (tileType === TileType.GATHERING) {
-    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      return idx === 0 ? gatherLandmarks[0] : gatherLandmarks[1]
-    }
-    return gather1
-  }
-  if (tileType === TileType.WATER) {
-    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      const waterIdx = (waterLandmarkIdx.get(`${col},${row}`) ?? 0) % waterLandmarks.length
-      return waterLandmarks[waterIdx]
-    }
-    return water1
-  }
-  if (tileType === TileType.GARDEN) {
-    if (gardenCenter && col === gardenCenter.col && row === gardenCenter.row) {
-      return garden_scarecrow
-    }
-    return garden1
-  }
-
-  // Landmark tiles: variants at deterministic interior spots, base elsewhere
-  if (tileType === TileType.WOODCUTTING) {
-    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      return idx === 0 ? woodLandmarks[0] : woodLandmarks[1]
-    }
-    return wood1
-  }
-  if (tileType === TileType.COOKING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? cookLandmarks[idx] : cook1
-
-  // Groundskeeping: no edge check — decoration IS the differentiation from grass
-  if (tileType === TileType.GROUNDSKEEPING) {
-    if (isLandmarkSpot(col, row)) {
-      return groundLandmarks[idx]
-    }
-    return grass1
-  }
+  if (tileType === TileType.BAMBOO) return grass1
+  if (tileType === TileType.GATHERING) return grass1
+  if (tileType === TileType.WATER) return grass1
+  if (tileType === TileType.GARDEN) return grass1
+  if (tileType === TileType.WOODCUTTING) return grass1
+  if (tileType === TileType.COOKING) return grass1
+  if (tileType === TileType.GROUNDSKEEPING) return grass1
 
   // Fallback: void or unknown
   return grass1
@@ -995,10 +1027,7 @@ for (let row = 0; row < VILLAGE_ROWS; row++) {
   for (let col = 0; col < VILLAGE_COLS; col++) {
     const tileType = tileMap[row][col]
     const base = selectBaseSprite(tileType, col, row)
-    const edges = getEdgeFlags(tileType, col, row)
-    spriteCache[row][col] = edges !== 0
-      ? blendEdges(base, edges, col, row, tileType)
-      : base
+    spriteCache[row][col] = base
   }
 }
 

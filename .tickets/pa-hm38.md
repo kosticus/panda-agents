@@ -1,6 +1,6 @@
 ---
 id: pa-hm38
-status: open
+status: in_progress
 deps: [pa-ee7g]
 links: []
 created: 2026-04-03T20:44:52Z
@@ -67,3 +67,17 @@ At 32x32, each tile has 4x the pixel budget. Use this for:
 - Run `npx tsc --noEmit` to verify compilation
 - User evaluates tile appearance via the village webview
 
+
+## Notes
+
+**2026-04-03T21:03:15Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T21:09:04Z**
+
+Approved approach: Create 32x32 grass (3 variants) + path sprites using existing palette. Strip zone branches in selectBaseSprite to return grass1. Bypass blendEdges in cache loop. Update path pixel-swap to < 32. Verify with tsc --noEmit.
+
+**2026-04-03T21:23:29Z**
+
+Replaced grass1/2/3 and path1 with 32x32 character grids. Stripped zone branches in selectBaseSprite to return grass1. Fixed path pixel-swap loop bounds to 32x32. Bypassed edge blending in sprite cache. Updated toSprite JSDoc.
