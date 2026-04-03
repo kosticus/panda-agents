@@ -80,10 +80,10 @@ const COOK_1: string[] = [
   '...KKKKPPKKKK...',
   '...KKKPP.KKKVV..',
   '..KKKPP..KKKVV..',
-  '....PPRRRRRR....',
-  '....RRRRRRRR....',
-  '...SOOYYYOOS....',
-  '...SSSSSSSS.....',
+  '....PP..........',
+  '................',
+  '................',
+  '................',
 ]
 
 const COOK_2: string[] = [
@@ -113,10 +113,10 @@ const COOK_2: string[] = [
   '...KKKKPPKKKKVV.',
   '...KKKK.PPKKKVV.',
   '..KKKKK..PPKKK..',
-  '....RRRRRRPP....',
-  '....RRRRRRRR....',
-  '...SOOYYYOOS....',
-  '...SSSSSSSS.....',
+  '..........PP....',
+  '................',
+  '................',
+  '................',
 ]
 
 // ============================================================
@@ -711,8 +711,8 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
   dig:    [toSprite(DIG_1, DIG_PAL), toSprite(DIG_2, DIG_PAL)],
 }
 
-export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number }>> = {
-  cook:   [{ col: 21, row: 14 }, { col: 22, row: 16 }],
+export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
+  cook:   [{ col: 22, row: 13 }, { col: 23, row: 14 }],
   chop:   [{ col: 8,  row: 3 },  { col: 6,  row: 5 }],
   fish:   [{ col: 34, row: 23 }, { col: 36, row: 25 }],
   water:  [{ col: 36, row: 3 },  { col: 35, row: 5 }],

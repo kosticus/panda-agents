@@ -140,7 +140,7 @@ export function renderFrame(
       drawables.push({
         sprite: frames[choreFrameIndex],
         x: placement.col * TILE_SIZE,
-        y: placement.row * TILE_SIZE,
+        y: placement.row * TILE_SIZE + (placement.dy ?? 0),
         zY: (placement.row + 2) * TILE_SIZE,
       })
     }
