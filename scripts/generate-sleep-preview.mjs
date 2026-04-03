@@ -16,13 +16,12 @@ const C = {
   K: [30, 30, 30],        // black fur
   W: [245, 245, 245],     // white fur
   G: [215, 215, 215],     // gray belly
-  E: [255, 255, 255],     // eye glint
   Z: [130, 180, 240],     // zzz (light blue)
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const EMPTY = "................................";
 
 function n(frame) {
   while (frame.length < FRAME_H) frame.push(EMPTY);
@@ -33,81 +32,120 @@ function n(frame) {
   });
 }
 
-// === SLEEP FRAME 1: Sitting slump, head slightly forward ===
-// Based on the sitting/typing pose but:
-// - No bamboo (paws resting on lap/ground)
-// - Eyes closed (no glint, eye patches become solid dark)
-// - Head shifted down 1 row vs normal sitting (slight droop)
-// - Body hunched (slightly compressed)
+// === SLEEP FRAME 1: Sitting slump, head up (light nod) ===
+// Eyes closed, paws resting. ZZZ in top rows.
 
 const sleep1 = n([
-  "............ZZZ.",  // big z: top bar
-  "..............Z.",  // big z: right
-  ".............Z..",  // big z: center
-  "............ZZZ.",  // big z: bottom bar
-  // Ears + head (normal position)
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base into head
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW..",  // head widest
-  // Face — eyes CLOSED (solid dark patches, no glint)
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKKKKWKKKKWW.",  // eyes shut
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
-  // Band
-  "..KKKKKKKKKKKK..",  // band 1
-  ".KKKKKKKKKKKKKKK",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Hunched body, paws resting on lap
-  "KKKKWWWGGWWWKKKK",  // body
-  "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  ".KKKWWWGGWWWKKK.",  // body narrows
-  "..KKWWWWWWWWKK..",  // lap/paws
-  "..WWWWWWWWWWWW..",  // base
-  // Legs tucked
-  "...KKKK..KKKK...",  // legs
-  "...KKKK..KKKK...",  // legs
-  "..KKKKK..KKKKK..",  // feet
+  // Zzz overlay — top rows
+  "..........................ZZZZZZ",  // z: top bar
+  "............................ZZ..",  // z: diagonal
+  "...........................ZZ...",  // z: diagonal
+  "..........................ZZ....",  // z: diagonal
+  ".........................ZZ.....",  // z: diagonal
+  "........................ZZ......",  // z: diagonal
+  "..........................ZZZZZZ",  // z: bottom bar
+  "................................",
+  // Ears — two rounded ear shapes
+  "....KKKKKK......KKKKKK..........",
+  "...KKKKKKKK....KKKKKKKK.........",
+  "..KKKKKKKKKKK.KKKKKKKKKKK.......",
+  "..KKKKKKKKKKKKKKKKKKKKKKKK......",
+  "...KKKKKKKKKKKKKKKKKKKKKKK......",
+  // Head — white face
+  "....KKWWWWWWWWWWWWWWKK..........",
+  "...KWWWWWWWWWWWWWWWWWWK.........",
+  "..WWWWWWWWWWWWWWWWWWWWWW........",
+  "..WWWWWWWWWWWWWWWWWWWWWWW.......",
+  ".WWWWWWWWWWWWWWWWWWWWWWWWWW.....",
+  ".WWWWWWWWWWWWWWWWWWWWWWWWWWW....",
+  ".WWWWWGWWWWWWWWWWWWWWGWWWWWW....",
+  // Eye patches — eyes CLOSED (solid K)
+  ".WWWWKKKKKKWWWWKKKKKKWWWWWW.....",
+  ".WWWKKKKKKKWWWWKKKKKKKWWWWW.....",
+  ".WWWKKKKKKKKKWWKKKKKKKWWWWW.....",
+  ".WWWWKKKKKKWWWWKKKKKKWWWWWW.....",
+  // Nose + lower face
+  "..WWWWWWWWWKKKKWWWWWWWWWWW......",
+  "..WWWWWWWWWWKKWWWWWWWWWWWW......",
+  "...WWWWWWWWWWWWWWWWWWWWW........",
+  "....WWWWWWWWWWWWWWWWWWWW........",
+  ".....WWWWWWWWWWWWWWWWW..........",
+  // Black fur band
+  "....KKKKKKKKKKKKKKKKKKKKKK......",
+  "...KKKKKKKKKKKKKKKKKKKKKKKKK....",
+  "..KKKKKKKKKKKKKKKKKKKKKKKKKK....",
+  ".KKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+  // Body — white belly with gray shading
+  "KKKKKKKKWWWWWGGGGWWWWWKKKKKKKKKK",
+  "KKKKKKKWWWWGGGGGGGGWWWWKKKKKKKKK",
+  "KKKKKKKWWWGGGGGGGGGWWWWKKKKKKKKK",
+  "KKKKKKKWWWWGGGGGGGGWWWWKKKKKKKKK",
+  ".KKKKKKKWWWWWGGGGWWWWWKKKKKKKK..",
+  "..KKKKKKWWWWWWWWWWWWWKKKKKKK....",
+  "...KKKWWWWWWWWWWWWWWWWWKKKK.....",
+  // Legs/feet
+  "....WWWWWWWWWWWWWWWWWWWWW.......",
+  "....KKKKKKKK....KKKKKKKK........",
+  "....KKKKKKKK....KKKKKKKK........",
+  "...KKKKKKKKK....KKKKKKKKK.......",
+  "...KKKKKKKKKK..KKKKKKKKKK.......",
 ]);
 
 // === SLEEP FRAME 2: Deep nod — head drops 2 rows, ears flatten, body tilts forward ===
 
 const sleep2 = n([
-  "...........ZZZ..",  // big z: top bar (shifted left from frame 1)
-  ".............Z..",  // big z: right
-  "............Z...",  // big z: center
-  "...........ZZZ..",  // big z: bottom bar
-  // Ears flattened (head drooping forward)
-  "..KKKK..KKKK....",  // ear top
-  "..KKWWWWWWKK....",  // ears compressed — skip straight to base
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW..",  // head widest
-  // Face — eyes closed, lower on frame
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKKKKWKKKKWW.",  // eyes shut
-  "..WWWWWKKWWWWW..",  // nose (chin row removed — head compressed)
-  "..WWWWWWWWWWWW..",  // lower face
-  // Band (shifted down with head)
-  "..KKKKKKKKKKKK..",  // band 1
-  ".KKKKKKKKKKKKKKK",  // band 2
-  "KKKKKKKKKKKKKKKK",  // band 3
-  // Body tilts forward slightly (paws further out)
-  "KKKKWWWGGWWWKKKK",  // body
-  "KKKWWWGGGGWWWKKK",  // belly (wider — leaning)
-  "KKKWWWGGGGWWWKKK",  // belly
-  ".KKWWWWGGWWWWKK.",  // body leans forward
-  "..KWWWWWWWWWWK..",  // paws out further
-  "..WWWWWWWWWWWW..",  // base
-  // Legs same
-  "...KKKK..KKKK...",  // legs
-  "...KKKK..KKKK...",  // legs
-  "..KKKKK..KKKKK..",  // feet
+  // Zzz overlay — shifted left from frame 1
+  "........................ZZZZZZ..",  // z: top bar
+  "..........................ZZ....",  // z: diagonal
+  ".........................ZZ.....",  // z: diagonal
+  "........................ZZ......",  // z: diagonal
+  ".......................ZZ.......",  // z: diagonal
+  "......................ZZ........",  // z: diagonal
+  "........................ZZZZZZ..",  // z: bottom bar
+  "................................",
+  "................................",
+  "................................",
+  // Ears flattened (head drooping)
+  "....KKKKKK......KKKKKK..........",
+  "...KKKKKKKKKKKKKKKKKKKKKK.......",
+  // Head compressed — ears merge straight into face
+  "....KKWWWWWWWWWWWWWWKK..........",
+  "...KWWWWWWWWWWWWWWWWWWK.........",
+  "..WWWWWWWWWWWWWWWWWWWWWW........",
+  "..WWWWWWWWWWWWWWWWWWWWWWW.......",
+  ".WWWWWWWWWWWWWWWWWWWWWWWWWW.....",
+  ".WWWWWWWWWWWWWWWWWWWWWWWWWWW....",
+  // Eye patches — eyes CLOSED
+  ".WWWWKKKKKKWWWWKKKKKKWWWWWW.....",
+  ".WWWKKKKKKKWWWWKKKKKKKWWWWW.....",
+  ".WWWKKKKKKKKKWWKKKKKKKWWWWW.....",
+  // Nose — chin row removed (head compressed)
+  "..WWWWWWWWWKKKKWWWWWWWWWWW......",
+  "..WWWWWWWWWWKKWWWWWWWWWWWW......",
+  "...WWWWWWWWWWWWWWWWWWWWW........",
+  // Black fur band
+  "....KKKKKKKKKKKKKKKKKKKKKK......",
+  "...KKKKKKKKKKKKKKKKKKKKKKKKK....",
+  "..KKKKKKKKKKKKKKKKKKKKKKKKKK....",
+  ".KKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..",
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+  // Body tilts forward (wider belly — leaning)
+  "KKKKKKKWWWWWGGGGWWWWWKKKKKKKKKKK",
+  "KKKKKKWWWWGGGGGGGGWWWWKKKKKKKKKK",
+  "KKKKKKWWWGGGGGGGGGWWWWKKKKKKKKKK",
+  "KKKKKKWWWWGGGGGGGGWWWWKKKKKKKKKK",
+  ".KKKKKWWWWWWGGGGWWWWWKKKKKKKK...",
+  "..KKKKWWWWWWWWWWWWWWKKKKKKK.....",
+  "...KWWWWWWWWWWWWWWWWWWWKKK......",
+  // Legs/feet
+  "....WWWWWWWWWWWWWWWWWWWWW.......",
+  "....KKKKKKKK....KKKKKKKK........",
+  "....KKKKKKKK....KKKKKKKK........",
+  "...KKKKKKKKK....KKKKKKKKK.......",
+  "...KKKKKKKKKK..KKKKKKKKKK.......",
 ]);
 
 // === Render: 2 frames side by side ===

@@ -1,6 +1,6 @@
 ---
 id: pa-s7kv
-status: open
+status: in_progress
 deps: [pa-ee7g]
 links: []
 created: 2026-04-03T20:45:34Z
@@ -59,3 +59,13 @@ Scale up proportionally from current 3-5px to ~6-10px. Two frames for the bobbin
 - User runs `node scripts/generate-sleep-preview.mjs` and evaluates the sprite visually
 - User views sleeping pandas in hut doorways in the village webview
 
+
+## Notes
+
+**2026-04-03T21:37:00Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T21:41:27Z**
+
+Approved approach: Keep existing K/W/G palette (no E/N — eyes closed). Update FRAME_W=32, FRAME_H=64, design new 32x64 SLEEP_BODY, scale ZZZ_FRAMES to ~6-10px. Update renderer.ts pixel offsets (+16, +24, +8) for 2x positioning. Update preview script dimensions and both character grids. Verify with tsc --noEmit.
