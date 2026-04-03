@@ -5,23 +5,23 @@ export const VILLAGE_ROWS = 15
 
 /**
  * Raw village layout grid — 25 columns × 15 rows.
- * Temporary scale-validation layout: grass, paths, hut markers only.
+ * Three anchor zones (gathering, fishing pond, building) with organic path.
  */
 const LAYOUT_ROWS: readonly string[] = [
   'GGGGGGGGGGGGGGGGGGGGGGGGG',  // row 0
-  'GGGGGGGGGGGPGGGGGGGGGGGGG',  // row 1
-  'GGGHGGGGGGPPGGGGGGGGGGGGG',  // row 2
-  'GGGGGGGGGPPGGGGGGGHGGGGGG',  // row 3
-  'GGGGGGGGPPGGGGGGGGGGGGGGG',  // row 4
-  'GGGGGGGPPGGGGGGGGGGGGGGGG',  // row 5
-  'GGGGGGPPGGGGGGGGGGGGGGGGG',  // row 6
-  'GGGGGPPPPPPPPPPPPPPGGGGGG',  // row 7
-  'GGGGGGPPGGGGGGGGGGGGGGGGG',  // row 8
-  'GGGGGGGPPGGGGGGGGHGGGGGGG',  // row 9
-  'GGGHGGGGPPGGGGGGGGGGGGGGG',  // row 10
-  'GGGGGGGGGPPGGGGGGGGGGGGGG',  // row 11
-  'GGGGGGGGGGPPGGGGGGGGGGGGG',  // row 12
-  'GGGGGGGGGGGPGGGGGGGGGGGGG',  // row 13
+  'GGGGGGGGGGGGGGGGGGGGHGGGG',  // row 1  — hut NE
+  'GGHGGGGGGGGGGGBBBBGGGGGGG',  // row 2  — hut NW + building
+  'GGGGGGGPGGGGGGBBBBGGGGGGG',  // row 3  — path begins
+  'GGGGGGPPGGGGGBBBGGGGGGGGG',  // row 4  — building tapers
+  'GGGGGPPGAAAAAAGGGGGGGGGGG',  // row 5  — path meets gathering
+  'GGGGGPAAAAAAAAAAAGGGGGGGG',  // row 6  — gathering widens
+  'GGGGGGAAAAAAAAAAAAGGGGGGG',  // row 7  — gathering widest
+  'GGHGGGGGAAAAAAAAGGGGGGGGG',  // row 8  — hut W
+  'GGGGGGGGAAGGGGGGWWGGGGGGG',  // row 9  — gathering tapers, pond starts
+  'GGGGGGGGGGGGGGGWWWWWGGGGG',  // row 10 — pond widens
+  'GGGGGGGGGGGGGGWWWWWWGHGGG',  // row 11 — pond widest + hut SE
+  'GGGGGGGGGGGGGGGWWWWGGGGGG',  // row 12 — pond narrows
+  'GGGGGGGGGGGGGGGGWWGGGGGGG',  // row 13 — pond tapers
   'GGGGGGGGGGGGGGGGGGGGGGGGG',  // row 14
 ]
 
@@ -29,6 +29,9 @@ const CHAR_TO_TILE: Record<string, TileType> = {
   G: TileType.GRASS,
   P: TileType.PATH,
   H: TileType.GRASS, // hut positions render as grass; structure placement is separate
+  A: TileType.GATHERING,
+  B: TileType.WOODCUTTING,
+  W: TileType.WATER,
 }
 
 /** Parsed tile grid — VILLAGE_ROWS rows, each VILLAGE_COLS wide. */
@@ -38,10 +41,10 @@ export const tileMap: TileType[][] = LAYOUT_ROWS.map((row) =>
 
 /** All H marker positions in the source layout (small huts only at 25×15 scale). */
 export const HUT_POSITIONS: ReadonlyArray<{ col: number; row: number }> = [
-  { col: 3, row: 2 },
-  { col: 18, row: 3 },
-  { col: 17, row: 9 },
-  { col: 3, row: 10 },
+  { col: 2, row: 2 },
+  { col: 20, row: 1 },
+  { col: 2, row: 8 },
+  { col: 21, row: 11 },
 ]
 
 /**

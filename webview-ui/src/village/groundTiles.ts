@@ -788,11 +788,124 @@ const ground_broom = toSprite([
 ])
 
 // =====================
+// ZONE COLORBLOCK TILES (32x32)
+// Simple solid fills for layout validation — not detailed art.
+// =====================
+
+const gatherBlock = toSprite([
+  'cvccccvccccccccvcccccvcccccccccc',
+  'ccvcccccccccvcccccccccccvccccccc',
+  'ccccccvcccccccccccccvcccccccvccc',
+  'cccccccccccccccvccccccccccvccccc',
+  'cvccccccccvcccccccvccccccccccccv',
+  'cccccvccccccccccccccccccvccccccc',
+  'cccccccccccvcccccccccccccccccvcc',
+  'cvccccccvccccccccccccvccccccvccc',
+  'ccccvcccccccccccvccccccccccccccv',
+  'cccccccccvccccccccccccvcccccvccc',
+  'cvccccccccccccccccvccccccccccccv',
+  'cccccccvccccvcccccccccccccvccccc',
+  'ccccvccccccccccccccccvcccccccccv',
+  'cccccccccccccvcccccccccvcccccccv',
+  'cvccccvccccccccccccccccccccccccv',
+  'ccccccccccvcccccccvccccvccccvccc',
+  'ccvccccccccccvcccccccccccccccccv',
+  'ccccccvccccccccccccvcccccccccvcc',
+  'cccccccccccvccccccccccvcccvccccv',
+  'cvccccccccccccccvccccccccccccccv',
+  'ccccccccvccccccccccccccccvcccccc',
+  'ccccvccccccccccvccccvccccccccccv',
+  'ccccccccccvccccccccccccccccvcccc',
+  'cvcccccccccccccccvccccccvccccccv',
+  'ccccccvccccccvccccccccccccccvccc',
+  'ccccccccccccccccccvccccccccccccv',
+  'ccvccccccccvccccccccccccccvccccc',
+  'ccccccccvccccccccccvcccccccccvcc',
+  'ccvccccccccccvcccccccccccccccccv',
+  'cccccccccccccccvcccccccccvcccccc',
+  'ccccvccccvcccccccccccvcccccccccc',
+  'ccccccccccccvccccccccccccvcccccc',
+])
+
+const waterBlock = toSprite([
+  'WWLWWWWWWLWWWWDWWWWWLWWWWWWWWDWW',
+  'WWWWWDWWWWWWWWWWLWWWWWWDWWWWWWWW',
+  'WLWWWWWWWWWDWWWWWWWWWWWWWWLWWWWW',
+  'WWWWWWWLWWWWWWLWWWWWDWWWWWWWWWWL',
+  'WWWDWWWWWWWWWWWWWWWWWWWLWWWWWWWW',
+  'WWWWWWWWWWLWWWWWDWWWWWWWWWWDWWWW',
+  'WLWWWWDWWWWWWWWWWWWWWLWWWWWWWWWL',
+  'WWWWWWWWWWWWDWWWWWWWWWWWWDWWWWWW',
+  'WWWWLWWWWWWWWWWLWWWWDWWWWWWWWWWW',
+  'WDWWWWWWWLWWWWWWWWWWWWWWWWWLWWWW',
+  'WWWWWWDWWWWWWWWWWLWWWWWWDWWWWWWW',
+  'WWWWWWWWWWWDWWWWWWWWWWWWWWWWWWDW',
+  'WLWWWWWWWWWWWWLWWWWWWDWWWWWWWWWW',
+  'WWWWWDWWWWWWWWWWWWWWWWWLWWWWWDWW',
+  'WWWWWWWWLWWWWDWWWWWWWWWWWWWWWWWW',
+  'WDWWWWWWWWWWWWWWLWWWWWWWWWDWWWWL',
+  'WWWWWLWWWWWWWWWWWWWWDWWWWWWWWWWW',
+  'WWWWWWWWWWDWWWWLWWWWWWWWWWWLWWWW',
+  'WLWWWWWWWWWWWWWWWWDWWWWWWWWWWWWW',
+  'WWWWWWDWWWWWWLWWWWWWWWWWDWWWWWLW',
+  'WWWWWWWWWLWWWWWWWWWWWLWWWWWWWWWW',
+  'WDWWWWWWWWWWWWWDWWWWWWWWWWWWDWWW',
+  'WWWWLWWWWWWDWWWWWWWWLWWWWWWWWWWW',
+  'WWWWWWWWWWWWWWWWWDWWWWWWWLWWWWWW',
+  'WLWWWWWDWWWWWWLWWWWWWWWWWWWWDWWW',
+  'WWWWWWWWWWWWWWWWWWWWDWWWWWWWWWWL',
+  'WWWDWWWWWWLWWWWWWWWWWWWWLWWWWWWW',
+  'WWWWWWWWWWWWWDWWWLWWWWWWWWWWWDWW',
+  'WLWWWWWWWWWWWWWWWWWWWWWDWWWWWWWW',
+  'WWWWWDWWWWWWLWWWWWWDWWWWWWWWWLWW',
+  'WWWWWWWWWDWWWWWWWWWWWWWWWWDWWWWW',
+  'WDWWWWLWWWWWWWWDWWWWWLWWWWWWWWWW',
+])
+
+const woodBlock = toSprite([
+  'EEEEFEEEEFEEEEEEFEEEEEFEEEEEEEJJ',
+  'EEFEEEEEEEEEEFEEEEEEEEEEFEEEEJJJ',
+  'EEEEEEEFEEEEEEEEEEEEEFEEEEEEFEEE',
+  'EEEEEEEEEEEEEEEEFEEEEEEEEEEFEEJJ',
+  'EFEEEEEEEEFEEEEEEEEFEEEEEEEEEEJJ',
+  'EEEEEEFEEEEEEEEEEEEEEEEEEFEEEEJJ',
+  'EEEEEEEEEEEEFEEEEEEEEEEEEEEEEEJJ',
+  'EFEEEEEEFEEEEEEEEEEEEFEEEEEFEEJJ',
+  'EEEEEFEEEEEEEEEEFEEEEEEEEEEEEEJJ',
+  'EEEEEEEEEEFEEEEEEEEEEEEFEEEEFEJJ',
+  'EFEEEEEEEEEEEEEEEEEFEEEEEEEEEEJJ',
+  'EEEEEEEEFEEEEFEEEEEEEEEEEEEFEEJJ',
+  'EEEEFEEEEEEEEEEEEEEEEFEEEEEEEEJJ',
+  'EEEEEEEEEEEEEEFEEEEEEEEEEFEEEEJJ',
+  'EFEEEEFEEEEEEEEEEEEEEEEEEEEEEEJJ',
+  'EEEEEEEEEEFEEEEEEEFEEEEFEEEEFEJJ',
+  'EEEFEEEEEEEEEEFEEEEEEEEEEEEEEJJJ',
+  'EEEEEEFEEEEEEEEEEEEEEFEEEEEEEEJJ',
+  'EEEEEEEEEEEEFEEEEEEEEEEFEEEFEEJJ',
+  'EFEEEEEEEEEEEEEEEFEEEEEEEEEEEEJJ',
+  'EEEEEEEEFEEEEEEEEEEEEEEEEFEEEEJJ',
+  'EEEEFEEEEEEEEEEFEEEEFEEEEEEEEEJJ',
+  'EEEEEEEEEEEFEEEEEEEEEEEEEEEEFEEE',
+  'EFEEEEEEEEEEEEEEEEFEEEEEEFEEEEJJ',
+  'EEEEEEFEEEEEEFEEEEEEEEEEEEEEEFJJ',
+  'EEEEEEEEEEEEEEEEEEEFEEEEEEEEEEJJ',
+  'EEFEEEEEEEEFEEEEEEEEEEEEEFEEEEJJ',
+  'EEEEEEEEFEEEEEEEEEEEFEEEEEEEEFJJ',
+  'EEEFEEEEEEEEEEFEEEEEEEEEEEEEEJJJ',
+  'EEEEEEEEEEEEEEEEFEEEEEEEEEFEEEJJ',
+  'EEEEFEEEEFEEEEEEEEEEEEFEEEEEEEJJ',
+  'EEEEEEEEEEEEEFEEEEEEEEEEEEFEEEJJ',
+])
+
+// =====================
 // Variant lookup tables
 // =====================
 
 const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1]
+const gatherVariants: readonly SpriteData[] = [gatherBlock]
+const waterVariants: readonly SpriteData[] = [waterBlock]
+const woodVariants: readonly SpriteData[] = [woodBlock]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
@@ -1006,10 +1119,10 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
     return base
   }
   if (tileType === TileType.BAMBOO) return grass1
-  if (tileType === TileType.GATHERING) return grass1
-  if (tileType === TileType.WATER) return grass1
+  if (tileType === TileType.GATHERING) return gatherVariants[idx % gatherVariants.length]
+  if (tileType === TileType.WATER) return waterVariants[idx % waterVariants.length]
   if (tileType === TileType.GARDEN) return grass1
-  if (tileType === TileType.WOODCUTTING) return grass1
+  if (tileType === TileType.WOODCUTTING) return woodVariants[idx % woodVariants.length]
   if (tileType === TileType.COOKING) return grass1
   if (tileType === TileType.GROUNDSKEEPING) return grass1
 
