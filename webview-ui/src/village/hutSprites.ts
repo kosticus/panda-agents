@@ -16,15 +16,15 @@ const Rb = '#785F32' // ridge beam (darker wood, longhouse only)
 const _  = ''        // transparent
 
 // --- Geometry constants shared across all sizes ---
-const GH = 48
-const ROOF_H = 21
-const MIN_RW = 6
-const WT = 22
-const WB = 43
+const GH = 96
+const ROOF_H = 42
+const MIN_RW = 12
+const WT = 44
+const WB = 86
 
 /**
  * Compute doorway boundaries for a given hut width and doorway count.
- * Each doorway is 16px wide. Doorways are evenly distributed within the wall area.
+ * Each doorway is 32px wide. Doorways are evenly distributed within the wall area.
  * Returns array of { dl, dr } (left/right x coords for each doorway).
  */
 function computeDoorways(
@@ -34,7 +34,7 @@ function computeDoorways(
   count: number,
 ): Array<{ dl: number; dr: number }> {
   const wallWidth = wr - wl + 1
-  const doorWidth = 16 // each doorway span in pixels
+  const doorWidth = 32 // each doorway span in pixels
   // Total width consumed by all doorways
   const totalDoorWidth = count * doorWidth
   // Remaining wall space for dividers and margins
@@ -101,7 +101,7 @@ function buildFrontSprite(
   doorFull: number,
 ): SpriteData {
   const sprite: SpriteData = Array.from({ length: GH }, () => Array<string>(gw).fill(_))
-  const maxRw = gw - 4 // roof width proportional to hut width
+  const maxRw = gw - 8 // roof width proportional to hut width
 
   // 1. Thatch dome roof (rows 0-20)
   for (let r = 0; r < ROOF_H; r++) {
@@ -127,10 +127,10 @@ function buildFrontSprite(
     }
   }
 
-  // 2. Eave shadow (row 21) — spans full width with small margin
-  for (let x = 2; x <= gw - 3; x++) sprite[21][x] = Te
+  // 2. Eave shadow (row 42) — spans full width with small margin
+  for (let x = 4; x <= gw - 5; x++) sprite[42][x] = Te
 
-  // 3. Bamboo walls + doorway frames (rows 22-43)
+  // 3. Bamboo walls + doorway frames (rows 44-86)
   for (let r = WT; r <= WB; r++) {
     for (let x = wl; x <= wr; x++) {
       if (inAnyDoorway(x, r, doors, doorFull)) {
@@ -161,8 +161,8 @@ function buildFrontSprite(
     }
   }
 
-  // 4. Stone foundation (rows 44-47)
-  for (let r = 44; r < GH; r++) {
+  // 4. Stone foundation (rows 87-95)
+  for (let r = 87; r < GH; r++) {
     const color = r % 2 === 0 ? S : Sd
     for (let x = wl - 1; x <= wr + 1; x++) sprite[r][x] = color
   }
@@ -174,8 +174,8 @@ function buildFrontSprite(
 // Large hut front sprite — ridge beam / longhouse roof
 // ---------------------------------------------------------------------------
 
-const RIDGE_W = 24    // flat ridge width at peak
-const RIDGE_ROWS = 5  // rows of flat ridge (0-4)
+const RIDGE_W = 48    // flat ridge width at peak
+const RIDGE_ROWS = 10 // rows of flat ridge (0-9)
 
 function buildLargeFrontSprite(
   gw: number,
@@ -185,7 +185,7 @@ function buildLargeFrontSprite(
   doorFull: number,
 ): SpriteData {
   const sprite: SpriteData = Array.from({ length: GH }, () => Array<string>(gw).fill(_))
-  const maxRw = gw - 4
+  const maxRw = gw - 8
 
   // 1. Ridge beam roof (rows 0-20) — flat ridge then linear slopes
   for (let r = 0; r < ROOF_H; r++) {
@@ -229,7 +229,7 @@ function buildLargeFrontSprite(
   }
 
   // 2. Eave shadow
-  for (let x = 2; x <= gw - 3; x++) sprite[21][x] = Te
+  for (let x = 4; x <= gw - 5; x++) sprite[42][x] = Te
 
   // 3. Bamboo walls + doorway frames (same as dome huts)
   for (let r = WT; r <= WB; r++) {
@@ -261,8 +261,8 @@ function buildLargeFrontSprite(
     }
   }
 
-  // 4. Stone foundation (rows 44-47)
-  for (let r = 44; r < GH; r++) {
+  // 4. Stone foundation (rows 87-95)
+  for (let r = 87; r < GH; r++) {
     const color = r % 2 === 0 ? S : Sd
     for (let x = wl - 1; x <= wr + 1; x++) sprite[r][x] = color
   }
@@ -283,9 +283,9 @@ function createHut(
   widthTiles: number,
   doorCount: number,
 ): Structure {
-  const wl = 6
-  const wr = gw - 7
-  const doorFull = 26
+  const wl = 12
+  const wr = gw - 13
+  const doorFull = 52
 
   const doors = computeDoorways(gw, wl, wr, doorCount)
   const back = buildBackSprite(gw, doors, doorFull)
@@ -305,9 +305,9 @@ function createHut(
 }
 
 // Pre-compute the small hut sprites once at module load (preserves existing perf)
-const smallDoors = computeDoorways(48, 6, 41, 1)
-const smallBack = buildBackSprite(48, smallDoors, 26)
-const smallFront = buildFrontSprite(48, 6, 41, smallDoors, 26)
+const smallDoors = computeDoorways(96, 12, 83, 1)
+const smallBack = buildBackSprite(96, smallDoors, 52)
+const smallFront = buildFrontSprite(96, 12, 83, smallDoors, 52)
 
 export function createSmallHut(id: string, col: number, row: number): Structure {
   return {
@@ -324,16 +324,16 @@ export function createSmallHut(id: string, col: number, row: number): Structure 
 }
 
 export function createMediumHut(id: string, col: number, row: number): Structure {
-  return createHut(id, col, row, 'medium_hut', 80, 5, 2)
+  return createHut(id, col, row, 'medium_hut', 160, 5, 2)
 }
 
 export function createLargeHut(id: string, col: number, row: number): Structure {
-  const gw = 96
+  const gw = 192
   const widthTiles = 6
   const doorCount = 3
-  const wl = 6
-  const wr = gw - 7
-  const doorFull = 26
+  const wl = 12
+  const wr = gw - 13
+  const doorFull = 52
 
   const doors = computeDoorways(gw, wl, wr, doorCount)
   const back = buildBackSprite(gw, doors, doorFull)

@@ -1,6 +1,6 @@
 ---
 id: pa-ckg8
-status: open
+status: in_progress
 deps: [pa-ee7g]
 links: []
 created: 2026-04-03T20:45:15Z
@@ -70,3 +70,13 @@ If any look wrong after visual evaluation, double them (% 14, % 8, x += 10, % 10
 - Run `npx tsc --noEmit` to verify compilation
 - User evaluates hut appearance in the village webview
 
+
+## Notes
+
+**2026-04-03T21:25:27Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T21:33:25Z**
+
+Approved approach: Double all named constants, fix all hardcoded values per ticket. Correct computeDoorways — 4th arg is doorCount=1 (keep as-is), update doorFull=26→52 separately in buildBackSprite/buildFrontSprite calls. Add missing gw updates: medium 80→160, large 96→192. Leave texture moduli unchanged. Defer renderer pixel offsets to pa-s7kv.
