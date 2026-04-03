@@ -1,6 +1,6 @@
 ---
 id: pa-pi5x
-status: open
+status: in_progress
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -40,3 +40,13 @@ Palette entries currently assigned (can be reassigned):
 - Strong color contrast against blue water base
 - Features use dark-outline + bright-interior pattern
 - Water/aquatic theme
+
+## Notes
+
+**2026-04-03T01:45:08Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T01:48:45Z**
+
+Approved approach: Replace only the two 16x16 sprite grids for water_lily and water_reeds. Keep existing palette chars (Y/Z/i/o) and all wiring unchanged. Design: bigger/bolder centered features using dark-outline + bright-interior pattern (~30-40px feature area). water_lily gets one large centered pad (~7x5) with thick outline and pink flower. water_reeds gets irregular cluster of 3-4 cattails at varying heights/spacing with bulkier 2px stems. Both use W/L/S for background fill.
