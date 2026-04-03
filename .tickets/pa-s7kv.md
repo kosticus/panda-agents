@@ -1,6 +1,6 @@
 ---
 id: pa-s7kv
-status: in_progress
+status: closed
 deps: [pa-ee7g]
 links: []
 created: 2026-04-03T20:45:34Z
@@ -69,3 +69,7 @@ Started by Kimberly Kost
 **2026-04-03T21:41:27Z**
 
 Approved approach: Keep existing K/W/G palette (no E/N — eyes closed). Update FRAME_W=32, FRAME_H=64, design new 32x64 SLEEP_BODY, scale ZZZ_FRAMES to ~6-10px. Update renderer.ts pixel offsets (+16, +24, +8) for 2x positioning. Update preview script dimensions and both character grids. Verify with tsc --noEmit.
+
+**2026-04-03T21:59:16Z**
+
+Implementation complete: FRAME_W=32, FRAME_H=64, new 39-row SLEEP_BODY grid, ZZZ frames scaled to 6px-wide diagonal Z shapes (8 and 10 rows), renderer offsets doubled (+32, +48, +16), preview script updated with matching grids and E palette removed. tsc --noEmit passes clean.
