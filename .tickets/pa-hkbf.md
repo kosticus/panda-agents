@@ -1,7 +1,7 @@
 ---
 id: pa-hkbf
 status: in_progress
-deps: [pa-51oa]
+deps: [pa-51oa, pa-f1px, pa-pi5x, pa-98ky, pa-0hto, pa-p4d5]
 links: []
 created: 2026-04-02T23:02:56Z
 type: task
@@ -141,3 +141,15 @@ Started by Kimberly Kost
 **2026-04-03T00:51:12Z**
 
 Approved approach: (1) Add ~15-20 new palette entries to P using unused chars, (2) Define 11 landmark sprites following wood2/cook2 pattern, (3) Create variant arrays, (4) Update selectBaseSprite for GATHERING/WATER/GARDEN with !isZoneEdge && isLandmarkSpot guard, expand WOODCUTTING to 2-variant, add GROUNDSKEEPING without edge check, (5) Commit. No open questions.
+
+**2026-04-03T00:57:31Z**
+
+Added 15 new palette entries (C,G,T,U,V,X,Y,Z,i,o,0,2,3,4,5) and 11 landmark sprites: gather_basket, gather_stones, water_lily, water_reeds, garden_tall, garden_tool, wood_logs, ground_dirt, ground_leaves, ground_broom. Updated selectBaseSprite: GATHERING/WATER/GARDEN use !isZoneEdge && isLandmarkSpot guard with 2-variant idx split; WOODCUTTING expanded to 2 variants (wood2 + wood_logs); GROUNDSKEEPING uses isLandmarkSpot only (no edge check) with 3 variants. All sprites verified 16x16. tsc --noEmit passes clean.
+
+**2026-04-03T01:27:03Z**
+
+Reworked 10 of 11 landmark sprites for readability (wood_logs unchanged). Renamed: gather_basket→gather_flowers (colorful flower patch), gather_stones→gather_toy (red ball), garden_tall→garden_produce (red/orange tomatoes/peppers in crop rows), garden_tool→garden_scarecrow (cross-shaped scarecrow). Redesigned: water_lily (2 spread lily pads with bright green/pink), water_reeds (3 bold cattails spanning full height), ground_dirt (8x6 irregular earth patch with 2 shades), ground_leaves (mounded 6x5 pile in 3 colors), ground_broom (diagonal with 3x4 bristle fan). Added 10 new palette entries (1,6,7,8,9,~,-,=, and reassigned C,G,T,U,V,X,Y,Z,i,o,0,5). All sprites verified 16x16. tsc --noEmit clean.
+
+**2026-04-03T01:43:58Z**
+
+Sprite art rejected after 2 iterations — features too small/scattered, colors don't contrast, shapes unrecognizable. Wiring infrastructure (selectBaseSprite dispatch, variant arrays, palette structure) is correct. Decomposed into 5 per-zone sprite design tickets: pa-f1px (gathering), pa-pi5x (water), pa-98ky (garden), pa-0hto (groundskeeping), pa-p4d5 (woodcutting). pa-hkbf blocked until all zone tickets resolve.
