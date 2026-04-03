@@ -1,6 +1,6 @@
 ---
 id: pa-51oa
-status: open
+status: closed
 deps: [pa-36k1]
 links: []
 created: 2026-04-02T23:02:13Z
@@ -84,3 +84,17 @@ Build and visually inspect:
 - All zone-to-grass transitions
 - Verify no runtime errors from removed sprite references
 
+
+## Notes
+
+**2026-04-02T23:48:23Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T00:21:37Z**
+
+Approved approach: (1) Add tileType param to blendEdges and thread from call site. (2) Add SKIP_BLEND set for COOKING↔GATHERING pairs — skip dither. (3) Add SPECIAL_PALETTE map for GARDEN→WATER — damp dark soil colors, checked before BLEND_PALETTE fallback. (4) Remove dead gather2/water2/garden2 sprite defs (lines 221-238, 265-282, 309-326). No test/preview changes.
+
+**2026-04-03T00:24:44Z**
+
+Implemented all 4 changes: (1) Added tileType param to blendEdges, threaded from cache call site. (2) Added SKIP_BLEND set for COOKING↔GATHERING pairs. (3) Added SPECIAL_PALETTE map for GARDEN→WATER with damp soil colors. (4) Removed dead gather2/water2/garden2 sprite defs. tsc --noEmit passes clean.

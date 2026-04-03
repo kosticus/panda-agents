@@ -217,26 +217,6 @@ const gather1 = toSprite([
   'ccxcccccccvcxccc',
 ])
 
-// Edge — grass border transitioning to packed earth center
-const gather2 = toSprite([
-  'gggtggdggggtgggg',
-  'gdggggggdgggggdg',
-  'ggggdgggggdggggg',
-  'ggdggcccccccggdg',
-  'ggggcccxcccccggg',
-  'gdgccxcccvccccgg',
-  'gggccccvcccxccgg',
-  'ggccvccccxccccgg',
-  'ggcccxcccccvccgd',
-  'ggccccccxcccccgg',
-  'gdgcccvcccxcccgg',
-  'ggggccccccccgggg',
-  'gggdgccccccdgggg',
-  'ggggggdggggggtgg',
-  'gdggtggggdgggggg',
-  'ggggggggtgggggdg',
-])
-
 // =====================
 // WATER TILES
 // =====================
@@ -261,26 +241,6 @@ const water1 = toSprite([
   'WWWWSWWWWWWLWWWW',
 ])
 
-// Edge — grass border transitioning to pond center
-const water2 = toSprite([
-  'ggggddgtggdggggg',
-  'gdggggddgggggtgg',
-  'gggdgDDDDDDggggg',
-  'ggggDDWWWWDDdggg',
-  'gdgDWWWWWWWDgggg',
-  'gggDWWLWWWWDgtgg',
-  'gggDWWWWLWWDgggg',
-  'ggDWWWWWWWLDgggg',
-  'ggDWWSWWWWWDggdg',
-  'ggDWWWWWLWWDgggg',
-  'gggDWWWWWWDdgggg',
-  'gggDDWWWWDDggggg',
-  'gdgggDDDDDgggtgg',
-  'gggtggggggdggggg',
-  'gggggdggggggggdg',
-  'ggdgggggtggggggg',
-])
-
 // =====================
 // GARDEN TILES
 // =====================
@@ -303,26 +263,6 @@ const garden1 = toSprite([
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
-])
-
-// Edge — grass border transitioning to tilled soil
-const garden2 = toSprite([
-  'gggtggggdggtgggg',
-  'gdggggtggggggdgg',
-  'gggggdggggggtggg',
-  'gdgggggKBBKgggdg',
-  'gggggKBBHBBKgggg',
-  'ggdgKBHBBHBBKggg',
-  'ggggKBPQBBPQKggg',
-  'gggKBBHBBHBBKggg',
-  'gggKBPQBBPQBKgdg',
-  'ggdKBBHBBHBBKggg',
-  'gggKBPQBBPQBKggg',
-  'ggggKBBBBBBKgggg',
-  'gdgggKKKKKKggdgg',
-  'ggggtgggggggtggg',
-  'ggdgggggdgggggdg',
-  'gggggtgggggtgggg',
 ])
 
 // =====================
@@ -531,6 +471,18 @@ const BLEND_PALETTE: Record<number, readonly string[]> = {
   [TileType.GROUNDSKEEPING]: ['#64913E', '#487330', '#82A555'],
 }
 
+/** Override palettes for specific zone→neighbor transitions. */
+const SPECIAL_PALETTE: Record<string, readonly string[]> = {
+  [`${TileType.GARDEN}-${TileType.WATER}`]: ['#4A3A24', '#3D3020', '#5C4A32', '#4A3D28'],
+}
+
+/** Density multiplier for edge blending (default 1.0). <1 = subtler, >1 = denser. */
+const BLEND_DENSITY: Record<string, number> = {
+  [`${TileType.COOKING}-${TileType.GATHERING}`]: 0.55,
+  [`${TileType.GATHERING}-${TileType.COOKING}`]: 0.55,
+  [`${TileType.GARDEN}-${TileType.WATER}`]: 2.0,
+}
+
 /**
  * Clone a base sprite and dither neighbor-colored pixels into its edges.
  * 3-pixel graduated transition: depth 0 = 75%, depth 1 = 50%, depth 2 = 25%.
@@ -540,6 +492,7 @@ function blendEdges(
   edges: number,
   col: number,
   row: number,
+  tileType: TileType,
 ): SpriteData {
   const result = base.map((r) => [...r])
 
@@ -554,14 +507,17 @@ function blendEdges(
 
   for (const [_flag, dc, dr, axis] of dirs) {
     const neighborType = getNeighborType(col, row, dc, dr)
-    const palette = BLEND_PALETTE[neighborType]
+    const pairKey = `${tileType}-${neighborType}`
+    const palette = SPECIAL_PALETTE[pairKey] ?? BLEND_PALETTE[neighborType]
     if (!palette) continue
 
     // Coarse clumping: divide edge into ~4px chunks, only blend in active chunks
+    const hasSpecialPalette = pairKey in SPECIAL_PALETTE
     for (let chunk = 0; chunk < 4; chunk++) {
       let chunkHash = (col * 173 + row * 349 + chunk * 571 + dr * 37 + dc * 59) | 0
       chunkHash = Math.imul((chunkHash >> 16) ^ chunkHash, 0x2c1b3c6d)
-      if ((chunkHash & 0x7FFFFFFF) % 5 < 2) continue // ~40% of chunks stay clear
+      const skipChance = hasSpecialPalette ? 1 : 2 // ~20% vs ~40% of chunks stay clear
+      if ((chunkHash & 0x7FFFFFFF) % 5 < skipChance) continue
 
       for (let depth = 0; depth < 3; depth++) {
         for (let i = chunk * 4; i < chunk * 4 + 4; i++) {
@@ -582,11 +538,12 @@ function blendEdges(
           let hash = (col * 374761393 + row * 668265263 + pixelRow * 2654435761 + pixelCol * 1103515245) | 0
           hash = Math.imul((hash >> 16) ^ hash, 0x45d9f3b)
           hash = ((hash >> 16) ^ hash) & 0x7FFFFFFF
-          // Depth 0: ~38%, Depth 1: ~19%, Depth 2: ~6%
+          // Depth 0: ~38%, Depth 1: ~19%, Depth 2: ~6% (at default density)
+          const density = BLEND_DENSITY[pairKey] ?? 1.0
           let replace = false
-          if (depth === 0) replace = hash % 8 < 3
-          else if (depth === 1) replace = hash % 16 < 3
-          else replace = hash % 16 === 0
+          if (depth === 0) replace = hash % 8 < Math.max(1, Math.round(3 * density))
+          else if (depth === 1) replace = hash % 16 < Math.max(1, Math.round(3 * density))
+          else replace = hash % 16 < Math.round(1 * density)
 
           if (replace) {
             result[pixelRow][pixelCol] = palette[hash % palette.length]
@@ -651,7 +608,7 @@ for (let row = 0; row < VILLAGE_ROWS; row++) {
     const base = selectBaseSprite(tileType, col, row)
     const edges = getEdgeFlags(tileType, col, row)
     spriteCache[row][col] = edges !== 0
-      ? blendEdges(base, edges, col, row)
+      ? blendEdges(base, edges, col, row, tileType)
       : base
   }
 }
