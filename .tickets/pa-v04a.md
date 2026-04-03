@@ -1,6 +1,6 @@
 ---
 id: pa-v04a
-status: open
+status: closed
 deps: [pa-ee7g, pa-hm38, pa-ckg8, pa-s7kv]
 links: []
 created: 2026-04-03T20:44:10Z
