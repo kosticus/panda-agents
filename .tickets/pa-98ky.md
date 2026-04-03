@@ -1,6 +1,6 @@
 ---
 id: pa-98ky
-status: open
+status: in_progress
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -42,3 +42,13 @@ Palette entries currently assigned (can be reassigned):
 - Strong color contrast against tilled soil base
 - Scarecrow reads as scarecrow (cross shape with hat, wider than 1px)
 - Garden theme
+
+## Notes
+
+**2026-04-03T16:08:20Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T16:20:04Z**
+
+Approved approach: 5-variant expansion following water zone pattern. 3 produce variants (clustered tomatoes/peppers, each ~30-40px contiguous, offset positions for variety) + 2 scarecrow variants (wider 2-3px cross, 4x3 hat, different rag positions). Update gardenLandmarks array to 5 entries, add garden-specific mod-5 hash like water zone. Reuse/reassign palette chars 0,6,7,8,9 — add more if needed. Keep bold centered feature + dark outline + bright interior design language.

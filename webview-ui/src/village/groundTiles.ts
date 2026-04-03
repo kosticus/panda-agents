@@ -44,8 +44,10 @@ const P: Record<string, string> = {
   i: '#4A8844',                  // reed stem green
   o: '#6E4420',                  // cattail brown
   // Garden landmarks (produce + scarecrow)
-  '0': '#D04020',               // produce red (tomato)
-  '6': '#E08030',               // produce orange (pepper)
+  '0': '#D04020',               // produce red (tomato body)
+  '6': '#E08030',               // produce orange (pepper / highlight)
+  '+': '#8C2010',               // produce dark red (outline / shadow)
+  '#': '#3C7830',               // produce stem green
   '7': '#C8A050',               // scarecrow post tan
   '8': '#5A3818',               // scarecrow hat dark brown
   '9': '#A07030',               // scarecrow rag color
@@ -570,41 +572,101 @@ const water_reeds2 = toSprite([
 // GARDEN LANDMARKS
 // =====================
 
-// Crop rows with visible red/orange produce (tomatoes/peppers)
+// Tomato + pepper cluster — centered
 const garden_produce = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'KKK0QKKKKK06KKKK',
-  'BHBBKBBHBBKBBHBB',
+  'KKKPQ##KK##QKKKK',
+  'BHBB+000+660BHBB',
+  'KPQK00060660QKKK',
+  'BKBB+000+660BKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBKBBKBBHBB',
+  'KPQKK#+0KKKPQKKK',
+  'BKBBH+000BBHBKBB',
+  'KKKPQ+060KPQKKKK',
+  'BHBBKB+00BBKBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'KK60QKKKKK0QKKKK',
-  'BHBBKBBHBBKBBHBB',
+  'KKKPQKKKKKPQKKKK',
+])
+
+// Tomato + pepper cluster — upper-right offset
+const garden_produce2 = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKKKPQK##PQKKK',
+  'BKBBHBBK+000BKBB',
+  'KKKPQKKK00060KKK',
+  'BHBBKBBK+000BHBB',
+  'KPQKKKPQK##PQKKK',
+  'BKBBHBBK+660BKBB',
+  'KKKPQKKK0660KKKK',
+  'BHBBKBBK+660BHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'KKK06KKKKKPQKKKK',
+  'KKKPQKKKKKPQKKKK',
   'BHBBKBBHBBKBBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
 ])
 
-// Small scarecrow silhouette on tilled soil
-const garden_scarecrow = toSprite([
+// Tomato + pepper cluster — lower-left offset
+const garden_produce3 = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQKKKPQKKK',
-  'BKBBHB8888HBBKBB',
-  'KKKPQKK7KKPQKKKK',
-  'BHBBKBB7BBKBBHBB',
-  'KPQ777777KKPQKKK',
-  'BKBB9BB7BB9BBKBB',
-  'KKKP9KK7KK9QKKKK',
-  'BHBBK9B7BBKBBHBB',
-  'KPQKKKP7KKKPQKKK',
-  'BKBBHBB7BBHBBKBB',
-  'KKKPQKK7KKPQKKKK',
-  'BHBBKBB7BBKBBHBB',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'K##PQKKKKKPQKKKK',
+  'B+000BBHBBKBBHBB',
+  'K00060PQKKKPQKKK',
+  'B+000BBKBBHBBKBB',
+  'KK##QKKKKKPQKKKK',
+  'B+660BBHBBKBBHBB',
+  'K0660KKPQKKKQKKK',
+  'B+660BBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+])
+
+// Scarecrow — wide post, hat, rag on left
+const garden_scarecrow = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKK88888KPQKKK',
+  'BKBBH88888HBBKBB',
+  'KKKPK88888KQKKKK',
+  'BHBBKB877BKBBHBB',
+  'K9977777779PQKKK',
+  'B9977777779BBKBB',
+  'KKKP9K77K9PQKKKK',
+  'BHBBK9K77KKBBHBB',
+  'KPQKKK77KKKPQKKK',
+  'BKBBHB77BBHBBKBB',
+  'KKKPQK77KKPQKKKK',
+  'BHBBKB77BBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+])
+
+// Scarecrow variant — rag on right, arms angled
+const garden_scarecrow2 = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKK88888KPQKKK',
+  'BKBBH88888HBBKBB',
+  'KKKPK88888KQKKKK',
+  'BHBBKB877BKBBHBB',
+  'K7777777799PQKKK',
+  'B7777777799BBKBB',
+  'KKKP9K77K9PQKKKK',
+  'BHBBKK77K9KBBHBB',
+  'KPQKKK77KKKPQKKK',
+  'BKBBHB77BBHBBKBB',
+  'KKKPQK77KKPQKKKK',
+  'BHBBKB77BBKBBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
@@ -708,7 +770,7 @@ const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
 const waterLandmarks: readonly SpriteData[] = [water_lily, water_lily2, water_lily3, water_reeds, water_reeds2]
-const gardenLandmarks: readonly SpriteData[] = [garden_produce, garden_scarecrow]
+const gardenLandmarks: readonly SpriteData[] = [garden_produce, garden_produce2, garden_produce3, garden_scarecrow, garden_scarecrow2]
 const woodLandmarks: readonly SpriteData[] = [wood2, wood_logs]
 const groundLandmarks: readonly SpriteData[] = [ground_dirt, ground_leaves, ground_broom]
 
@@ -908,7 +970,8 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   }
   if (tileType === TileType.GARDEN) {
     if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      return idx === 0 ? gardenLandmarks[0] : gardenLandmarks[1]
+      const gardenIdx = ((col + row * 2) % 5 + 5) % 5
+      return gardenLandmarks[gardenIdx]
     }
     return garden1
   }
