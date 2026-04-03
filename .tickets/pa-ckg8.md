@@ -1,6 +1,6 @@
 ---
 id: pa-ckg8
-status: in_progress
+status: closed
 deps: [pa-ee7g]
 links: []
 created: 2026-04-03T20:45:15Z
@@ -80,3 +80,7 @@ Started by Kimberly Kost
 **2026-04-03T21:33:25Z**
 
 Approved approach: Double all named constants, fix all hardcoded values per ticket. Correct computeDoorways — 4th arg is doorCount=1 (keep as-is), update doorFull=26→52 separately in buildBackSprite/buildFrontSprite calls. Add missing gw updates: medium 80→160, large 96→192. Leave texture moduli unchanged. Defer renderer pixel offsets to pa-s7kv.
+
+**2026-04-03T21:35:47Z**
+
+Doubled all geometry constants (GH, ROOF_H, MIN_RW, WT, WB, RIDGE_W, RIDGE_ROWS, doorWidth) and all hardcoded pixel values (eave row, eave margins, foundation start, maxRw, wl/wr/doorFull in createHut/createLargeHut, and pre-computed small hut args). Scaled gw for medium (80→160) and large (96→192) huts. tsc passes clean. Texture moduli, widthTiles, and heightTiles unchanged.
