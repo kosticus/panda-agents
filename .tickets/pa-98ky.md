@@ -52,3 +52,7 @@ Started by Kimberly Kost
 **2026-04-03T16:20:04Z**
 
 Approved approach: 5-variant expansion following water zone pattern. 3 produce variants (clustered tomatoes/peppers, each ~30-40px contiguous, offset positions for variety) + 2 scarecrow variants (wider 2-3px cross, 4x3 hat, different rag positions). Update gardenLandmarks array to 5 entries, add garden-specific mod-5 hash like water zone. Reuse/reassign palette chars 0,6,7,8,9 — add more if needed. Keep bold centered feature + dark outline + bright interior design language.
+
+**2026-04-03T16:31:22Z**
+
+Replaced garden_produce and garden_scarecrow with 5 readable landmark sprites: 3 produce variants (centered, upper-right, lower-left offset clusters of tomatoes/peppers with dark-red outlines and green stems) + 2 scarecrow variants (wide 2px post, 5x3 hat, 9x2 arms, rag on left vs right). Added palette chars + (#8C2010 dark red outline) and # (#3C7830 stem green). Updated gardenLandmarks array to 5 entries and selectBaseSprite to use mod-5 hash: ((col + row * 2) % 5 + 5) % 5. TypeScript compiles clean.

@@ -45,12 +45,12 @@ const P: Record<string, string> = {
   o: '#6E4420',                  // cattail brown
   // Garden landmarks (produce + scarecrow)
   '0': '#D04020',               // produce red (tomato body)
-  '6': '#E08030',               // produce orange (pepper / highlight)
-  '+': '#8C2010',               // produce dark red (outline / shadow)
+  '6': '#E88040',               // produce orange (highlight spot)
+  '+': '#601808',               // produce dark red (outline / shadow)
   '#': '#3C7830',               // produce stem green
-  '7': '#C8A050',               // scarecrow post tan
-  '8': '#5A3818',               // scarecrow hat dark brown
-  '9': '#A07030',               // scarecrow rag color
+  '7': '#E8D050',               // scarecrow post bright straw yellow
+  '8': '#3848A0',               // scarecrow hat blue (pops on brown)
+  '9': '#CC3030',               // scarecrow rag bright red
   // Groundskeeping landmarks (dirt + leaves + broom)
   '2': '#6B4E2A',               // turned earth brown
   '~': '#4A3218',               // turned earth dark
@@ -572,37 +572,37 @@ const water_reeds2 = toSprite([
 // GARDEN LANDMARKS
 // =====================
 
-// Tomato + pepper cluster — centered
+// Large tomato — centered, single ~6px round fruit
 const garden_produce = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'KKKPQ##KK##QKKKK',
-  'BHBB+000+660BHBB',
-  'KPQK00060660QKKK',
-  'BKBB+000+660BKBB',
+  'KKKPQK##KKPQKKKK',
+  'BHBBK+0000KBBHBB',
+  'KPQK+060000PQKKK',
+  'BKBB+0060000BKBB',
+  'KKKP+0000000KKKK',
+  'BHBBK+00000BBHBB',
+  'KPQKKK+00KKPQKKK',
+  'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
-  'BHBBKBBKBBKBBHBB',
-  'KPQKK#+0KKKPQKKK',
-  'BKBBH+000BBHBKBB',
-  'KKKPQ+060KPQKKKK',
-  'BHBBKB+00BBKBHBB',
+  'BHBBKBBHBBKBBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
 ])
 
-// Tomato + pepper cluster — upper-right offset
+// Large tomato — upper-right, single ~6px round fruit
 const garden_produce2 = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQK##PQKKK',
-  'BKBBHBBK+000BKBB',
-  'KKKPQKKK00060KKK',
-  'BHBBKBBK+000BHBB',
-  'KPQKKKPQK##PQKKK',
-  'BKBBHBBK+660BKBB',
-  'KKKPQKKK0660KKKK',
-  'BHBBKBBK+660BHBB',
+  'BKBBHBBK+0000KBB',
+  'KKKPQK+060000KKK',
+  'BHBBKB+0060000BB',
+  'KPQKKK+0000000KK',
+  'BKBBHBK+00000KBB',
+  'KKKPQKKK+00QKKKK',
+  'BHBBKBBHBBKBBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
@@ -612,7 +612,7 @@ const garden_produce2 = toSprite([
   'KKKPQKKKKKPQKKKK',
 ])
 
-// Tomato + pepper cluster — lower-left offset
+// Large tomato — lower-left, single ~6px round fruit
 const garden_produce3 = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQKKKPQKKK',
@@ -620,19 +620,19 @@ const garden_produce3 = toSprite([
   'KKKPQKKKKKPQKKKK',
   'BHBBKBBHBBKBBHBB',
   'KPQKKKPQKKKPQKKK',
+  'BKBB##BKBBHBBKBB',
+  'KK+0000KKKPQKKKK',
+  'B+060000BBKBBHBB',
+  'K+0060000KKPQKKK',
+  'B+0000000BHBBKBB',
+  'KK+00000KKPQKKKK',
+  'BBK+00KBBHKBBHBB',
+  'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'K##PQKKKKKPQKKKK',
-  'B+000BBHBBKBBHBB',
-  'K00060PQKKKPQKKK',
-  'B+000BBKBBHBBKBB',
-  'KK##QKKKKKPQKKKK',
-  'B+660BBHBBKBBHBB',
-  'K0660KKPQKKKQKKK',
-  'B+660BBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
 ])
 
-// Scarecrow — wide post, hat, rag on left
+// Scarecrow — blue hat, yellow post, red rag on left
 const garden_scarecrow = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKK88888KPQKKK',
@@ -652,7 +652,7 @@ const garden_scarecrow = toSprite([
   'KKKPQKKKKKPQKKKK',
 ])
 
-// Scarecrow variant — rag on right, arms angled
+// Scarecrow variant — blue hat, yellow post, red rag on right
 const garden_scarecrow2 = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKK88888KPQKKK',
