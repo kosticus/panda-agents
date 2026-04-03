@@ -1,6 +1,6 @@
 ---
 id: pa-pi5x
-status: in_progress
+status: closed
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -58,3 +58,7 @@ Replaced both water landmark sprites. water_lily: single large centered lily pad
 **2026-04-03T01:59:09Z**
 
 Reworked water_reeds sprite: left cattail now 1px stem with wobble (shifts col 4->3 partway down) and tall 1x3 head; right-center cattail has wider 2px stem with rounder 3x2 head; far-right cattail is small 1px with 1x2 head. Stems are no longer uniform width or evenly spaced. Total feature area ~33px.
+
+**2026-04-03T16:07:34Z**
+
+Final: 5 water landmark sprites — water_lily (large centered pad), water_lily2 (offset pair), water_lily3 (medium pad lower-left + tiny bud upper-right), water_reeds (4 cattails staggered), water_reeds2 (4 cattails different arrangement). waterLandmarks array expanded to 5 entries with water-specific mod-5 hash ((col+row*2)%5) for even distribution across the zone. Committed as 8f15c15.
