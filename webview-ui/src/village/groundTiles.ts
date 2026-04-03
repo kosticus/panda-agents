@@ -33,21 +33,30 @@ const P: Record<string, string> = {
   r: '#4A2E14', u: '#D4A858', z: '#8C5E28',
   // Fire landmark (warm flame colors)
   a: '#CC3C10', q: '#E87828', n: '#F0C030',
-  // Gathering landmarks (basket + stones)
-  C: '#C8A870', G: '#8C6030',   // basket weave tan, basket rim brown
-  T: '#8C8C82', U: '#B0AFA0',   // stone gray, stone highlight
+  // Gathering landmarks (flowers + toy)
+  C: '#E85090', G: '#E8D040',   // flower pink, flower yellow
+  T: '#F0E8E0', U: '#50A840',   // flower white, flower/stem green
+  // Toy landmark
+  V: '#D03030', X: '#E85050',   // ball red, ball highlight
+  '1': '#901818',               // ball shadow
   // Water landmarks (lily + reeds)
-  V: '#3C8C3C', X: '#E0A0B0',   // lily pad green, flower pink
-  Y: '#8C6840', Z: '#5A8C4A',   // reed brown, reed green
-  // Garden landmarks (tall crop + tool)
-  i: '#3A6E2C',                  // darker mature crop green
-  o: '#9C9C96',                  // metal gray (tool head)
-  '0': '#A08050',                // tool handle brown (shared garden/ground)
+  Y: '#40B848', Z: '#E0A0B0',   // bright lily pad green, lily flower pink
+  i: '#4A8844',                  // reed stem green
+  o: '#6E4420',                  // cattail brown
+  // Garden landmarks (produce + scarecrow)
+  '0': '#D04020',               // produce red (tomato)
+  '6': '#E08030',               // produce orange (pepper)
+  '7': '#C8A050',               // scarecrow post tan
+  '8': '#5A3818',               // scarecrow hat dark brown
+  '9': '#A07030',               // scarecrow rag color
   // Groundskeeping landmarks (dirt + leaves + broom)
   '2': '#6B4E2A',               // turned earth brown
+  '~': '#4A3218',               // turned earth dark
   '3': '#C8A030',               // dry leaf gold
   '4': '#8C6828',               // dry leaf brown
-  '5': '#7A6030',               // bristle brown
+  '5': '#D08830',               // dry leaf orange
+  '-': '#A08050',               // broom handle tan
+  '=': '#6B4420',               // broom bristle brown
 }
 
 /** Convert a 16-row character grid into SpriteData (16×16 hex array). */
@@ -413,40 +422,40 @@ const cook4 = toSprite([
 // GATHERING LANDMARKS
 // =====================
 
-// Woven basket on packed earth
-const gather_basket = toSprite([
+// Colorful flower patch on packed earth (play area)
+const gather_flowers = toSprite([
   'ccxccvcccxcccvcc',
   'cvccccxccccxcccc',
-  'cccvcccccvcccxcc',
-  'cxccccvcccccccvc',
-  'ccccxcGGGccccccx',
-  'cvcccGCCCGcvccxc',
-  'ccccvGCGCGcccccc',
-  'cxcccGCCCGcccxcc',
-  'cccxcGGGGGcccccc',
-  'cvccccccxcvccccv',
-  'ccccxcccccccxccc',
-  'cxcccvcccxcccccc',
-  'ccvccccxcccvcccx',
+  'cccvccccGvcccxcc',
+  'cxccccvGGcccccvc',
+  'ccccxcUUcxcccccc',
+  'cvCCcccxcccvccxc',
+  'cUUcvcccccTTcccv',
+  'cxccccccvcUUxccc',
+  'cccxcvccccGGcccx',
+  'cvccCCccxcUUcccv',
+  'ccccUUccccccxccc',
+  'cxcccvcTTxcccccc',
+  'ccvccccUUccvcccx',
   'cccccxcccccccvcc',
   'cvcccccvcxcccccc',
   'ccxcccccccvcxccc',
 ])
 
-// Scattered stone pile on packed earth
-const gather_stones = toSprite([
+// Bright red ball toy on packed earth (play area)
+const gather_toy = toSprite([
   'ccxccvcccxcccvcc',
   'cvccccxccccxcccc',
   'cccvcccccvcccxcc',
   'cxccccvcccccccvc',
-  'ccccxccTUccccccc',
-  'cvccccTTcccvccxc',
-  'ccccvcccUTcccccc',
-  'cxccccUTTccccxcc',
-  'cccxcccTcccccccc',
+  'ccccxcXXXccccccx',
+  'cvcccXXVVVcvccxc',
+  'ccccvXVVVVcccccc',
+  'cxcccVVVV1cccxcc',
+  'cccxcc111ccccccc',
   'cvccccccxcvccccv',
   'ccccxcccccccxccc',
-  'cxcccvcccxcccccc',
+  'cxccVvcccxcccccc',
   'ccvccccxcccvcccx',
   'cccccxcccccccvcc',
   'cvcccccvcxcccccc',
@@ -457,41 +466,41 @@ const gather_stones = toSprite([
 // WATER LANDMARKS
 // =====================
 
-// Lily pad with flower on water surface
+// Multiple lily pads spread across water surface
 const water_lily = toSprite([
   'WWWLWWWWSWWWWLWW',
-  'WWWWWWLWWWWWWWWW',
-  'WSWWWWWWWWLWWWWW',
-  'WWWWLWWWWWWWWSWW',
-  'WWWWWVVVWWWWWWWL',
-  'WLWWVVVVVWWWLWWW',
-  'WWWWVVXVVWWWWWWW',
-  'WWWSVVVVVWWWWWLW',
-  'WWWWWVVVWLWWWWWW',
+  'WWWYSWLWWWWWWWWW',
+  'WSWYYYWWWWLWWWWW',
+  'WWWYZZYYWWWWWSWW',
+  'WWWYYYYYSWWWWWWL',
+  'WLWWYYYWWWWWLWWW',
+  'WWWWWWLWWSWWWWWW',
+  'WWWSWWWWWWWWWWLW',
+  'WWWWWWWWLWWWWWWW',
   'WLWWWSWWWWWWSWWW',
-  'WWWWWWWWWLWWWWWW',
-  'WWWWLWWWWWWWWWLW',
-  'WSWWWWWWWWLWWWWW',
+  'WWWWWWWWWYWYSWWW',
+  'WWWWLWWWYYZYYSLW',
+  'WSWWWWWWWYYYWWWW',
   'WWWWWWLWWWWWWSWW',
   'WWLWWWWWSWWWWWWW',
   'WWWWSWWWWWWLWWWW',
 ])
 
-// Cattails/reeds on water
+// Bold cattails/reeds on water
 const water_reeds = toSprite([
   'WWWLWWWWSWWWWLWW',
   'WWWWWWLWWWWWWWWW',
-  'WSWWWYWWWWLWWWWW',
-  'WWWWLYWWYWWWWSWW',
-  'WWWWWZWWYWWWWWWL',
-  'WLWWWZWWZWWWLWWW',
-  'WWWWWZWWZWSWWWWW',
-  'WWWSWZWWZWWWWWLW',
-  'WWWWWZWWZLWWWWWW',
-  'WLWWWZWWZWWWSWWW',
-  'WWWWWZWWZWLWWWWW',
-  'WWWWLWWWWWWWWWLW',
-  'WSWWWWWWWWLWWWWW',
+  'WSWWooWWooLWooWW',
+  'WWWLooWWooWWooWW',
+  'WWWWooWWooWWooWL',
+  'WLWWiWWWiWWWiWWW',
+  'WWWWiWLWiWSWiWWW',
+  'WWWSiWWWiWWWiWLW',
+  'WWWWiWWWiWWWiWWW',
+  'WLWWiSWWiWWWiWWW',
+  'WWWWiWWWiWLWiWWW',
+  'WWWWiWWWiWWWiWLW',
+  'WSWWiWWWiWLWiWWW',
   'WWWWWWLWWWWWWSWW',
   'WWLWWWWWSWWWWWWW',
   'WWWWSWWWWWWLWWWW',
@@ -501,41 +510,41 @@ const water_reeds = toSprite([
 // GARDEN LANDMARKS
 // =====================
 
-// Mature/bushy crop variant — darker, taller greens in crop row positions
-const garden_tall = toSprite([
-  'BKBBHBBKBBHBBKBB',
-  'KiQKKKiQKKKiQKKK',
-  'BKBBHBBKBBHBBKBB',
-  'KKKiQKKKKKiQKKKK',
-  'BHBBKBBHBBKBBHBB',
-  'KiQKKKiQKKKiQKKK',
-  'BKBBHBBKBBHBBKBB',
-  'KKKiQKKKKKiQKKKK',
-  'BHBBKBBHBBKBBHBB',
-  'KiQKKKiQKKKiQKKK',
-  'BKBBHBBKBBHBBKBB',
-  'KKKiQKKKKKiQKKKK',
-  'BHBBKBBHBBKBBHBB',
-  'KiQKKKiQKKKiQKKK',
-  'BKBBHBBKBBHBBKBB',
-  'KKKiQKKKKKiQKKKK',
-])
-
-// Garden fork/hoe leaning on soil
-const garden_tool = toSprite([
+// Crop rows with visible red/orange produce (tomatoes/peppers)
+const garden_produce = toSprite([
   'BKBBHBBKBBHBBKBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
-  'KKKPQKKK0KPQKKKK',
-  'BHBBKBBH0BKBBHBB',
-  'KPQKKKP0KKKPQKKo',
-  'BKBBHBB0BBHBBKBo',
-  'KKKPQK0KKKPQKKoo',
-  'BHBBKB0HBBKBBHBB',
-  'KPQKKK0QKKKPQKKK',
+  'KKK0QKKKKK06KKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KK60QKKKKK0QKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKK06KKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
-  'BHBBKBBHBBKBBHBB',
+])
+
+// Small scarecrow silhouette on tilled soil
+const garden_scarecrow = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHB8888HBBKBB',
+  'KKKPQKK7KKPQKKKK',
+  'BHBBKBB7BBKBBHBB',
+  'KPQ777777KKPQKKK',
+  'BKBB9BB7BB9BBKBB',
+  'KKKP9KK7KK9QKKKK',
+  'BHBBK9B7BBKBBHBB',
+  'KPQKKKP7KKKPQKKK',
+  'BKBBHBB7BBHBBKBB',
+  'KKKPQKK7KKPQKKKK',
+  'BHBBKBB7BBKBBHBB',
   'KPQKKKPQKKKPQKKK',
   'BKBBHBBKBBHBBKBB',
   'KKKPQKKKKKPQKKKK',
@@ -569,18 +578,18 @@ const wood_logs = toSprite([
 // GROUNDSKEEPING LANDMARKS
 // =====================
 
-// Freshly dug earth patch on grass
+// Large freshly dug earth patch on grass
 const ground_dirt = toSprite([
   'ggggtgggggdggggg',
   'gdgggggdgggggggt',
   'ggggggggggggtggg',
   'ggtggdggggggggdg',
-  'gggggggggdgggggg',
-  'gggdgg222ggtgggg',
-  'ggggg22222gggggd',
-  'ggtgg22222gggggg',
-  'ggggg22222ggtggg',
-  'gggggg222ggggggg',
+  'ggggg22~2dgggggg',
+  'gggd~2~22~22tggg',
+  'ggg2~22~2~22gggg',
+  'ggt~2~2~22~2gggd',
+  'gggg2~22~2~2tggg',
+  'ggggg~22~2gggggg',
   'gdgggtggggggdggg',
   'gggggggggdgggggg',
   'gggdgggggggggggt',
@@ -589,19 +598,19 @@ const ground_dirt = toSprite([
   'ggggggtggdgggggg',
 ])
 
-// Small swept leaf pile on grass
+// Large mounded leaf pile on grass
 const ground_leaves = toSprite([
   'ggggtgggggdggggg',
   'gdgggggdgggggggt',
   'ggggggggggggtggg',
   'ggtggdggggggggdg',
-  'gggggggggdgggggg',
-  'gggdggggggggtggg',
-  'gggggg34gggggggd',
-  'ggtggg3434gggggg',
-  'gggggg4334ggtggg',
-  'gggggg34gggggggg',
-  'gdgggtggggggdggg',
+  'ggggg3gggggggggg',
+  'gggdggg345ggtggg',
+  'ggggg34534gggggd',
+  'ggt4g345345ggggg',
+  'ggggg534534gtggg',
+  'gggggg3453gggggg',
+  'gdgggtggg5ggdggg',
   'gggggggggdgggggg',
   'gggdgggggggggggt',
   'ggggggggggggtggg',
@@ -609,21 +618,21 @@ const ground_leaves = toSprite([
   'ggggggtggdgggggg',
 ])
 
-// Broom/rake prop on grass
+// Wider broom leaning diagonally on grass
 const ground_broom = toSprite([
   'ggggtgggggdggggg',
   'gdgggggdgggggggt',
   'ggggggggggggtggg',
-  'ggtggdgg0gggggdg',
-  'gggggggg0dgggggg',
-  'gggdgggg0gggtggg',
-  'ggggggg0gggggggd',
-  'ggtgggg0gggggggg',
-  'ggggggg0ggggtggg',
-  'ggggggg0gggggggg',
-  'gdgggt55ggggdggg',
-  'gggggg55gggdgggg',
-  'gggdgggggggggggt',
+  'ggtggdggggg-ggdg',
+  'gggggggggd-ggggg',
+  'gggdggggg-ggtggg',
+  'gggggggt-ggggggd',
+  'ggtgggg-gggggggg',
+  'gggggd-gggggtggg',
+  'gggg===gdggggggg',
+  'gdg====gggggdggg',
+  'ggg====ggdgggggg',
+  'gggd===ggggggggt',
   'ggggggggggggtggg',
   'gtgggdggggggggdg',
   'ggggggtggdgggggg',
@@ -637,9 +646,9 @@ const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
-const gatherLandmarks: readonly SpriteData[] = [gather_basket, gather_stones]
+const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
 const waterLandmarks: readonly SpriteData[] = [water_lily, water_reeds]
-const gardenLandmarks: readonly SpriteData[] = [garden_tall, garden_tool]
+const gardenLandmarks: readonly SpriteData[] = [garden_produce, garden_scarecrow]
 const woodLandmarks: readonly SpriteData[] = [wood2, wood_logs]
 const groundLandmarks: readonly SpriteData[] = [ground_dirt, ground_leaves, ground_broom]
 
