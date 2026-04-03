@@ -486,19 +486,79 @@ const water_lily = toSprite([
   'WWWWSWWWWWWLWWWW',
 ])
 
-// Irregular cattail cluster at varying heights
+// Offset lily pad pair — small upper-right, tiny lower-left
+const water_lily2 = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWWWWWW',
+  'WSWWWWWWWYYYYYYW',
+  'WWWWLWWWYYYYYSWW',
+  'WWWWWWWWYZZYYWWL',
+  'WLWWWWWWYYYYLWWW',
+  'WWWWWWLWWWSWWWWW',
+  'WWWSWWWWWWWWWWLW',
+  'WWWWWWWWLWWWWWWW',
+  'WLWWWSWWWWWWSWWW',
+  'WWYYYWWWWLWWWWWW',
+  'WWYYZWWWWWWWWWLW',
+  'WSWWYWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Medium lily pad lower-left, tiny bud upper-right
+const water_lily3 = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWWWWWW',
+  'WSWWWWWWWWLYYYWW',
+  'WWWWLWWWWWWYZSWW',
+  'WWWWWWWSWWWWWWWL',
+  'WLWWWWWWWWWWLWWW',
+  'WWWWWWLWWSWWWWWW',
+  'WWWSWWWWWWWWWWLW',
+  'WYYYYYWWLWWWWWWW',
+  'WYYYYYYWWWWWSWWW',
+  'WYYYYZZWWLWWWWWW',
+  'WWYYYYWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Four cattails — staggered heights across tile
 const water_reeds = toSprite([
   'WWWLWWWWSWWWWLWW',
-  'WWWWoWLWWWWWWWWW',
-  'WSWooWWWWoLWWWWW',
-  'WWWoiWWWoooWWSWW',
-  'WWLoiWWWoooWWWWL',
-  'WLWWiWWWWiiWWWWW',
-  'WWWWiWLWiiSWWoWW',
-  'WWWiWWWWiiWWoWWW',
-  'WWSiWWWWWiiWiWLW',
-  'WLWiWWWWWWiiWWWW',
-  'WWWWWSWWWLWiWWWW',
+  'WWooWWLWWWWWWWWW',
+  'WSooWWWWWWLWWWWW',
+  'WWWiWWWWWWWWoSWW',
+  'WWWWWWooWWWooWWL',
+  'WLWWWWooWWWooWWW',
+  'WWWWWWWiWWWWiWWW',
+  'WWWSWWWWWooWWWLW',
+  'WWWWWWWWWooWWWWW',
+  'WLWWWSWWWWiWSWWW',
+  'WWWWWWWWWLWWWWWW',
+  'WWWWLWWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Four cattails — different stagger from water_reeds
+const water_reeds2 = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWooWWW',
+  'WSWWWWWWWWoooWWW',
+  'WWWWLWWWWWWoiSWW',
+  'WWWooWWWWWWWWWWL',
+  'WLWooWSWWWWWLWWW',
+  'WWWWoiLWWWWWWWWW',
+  'WWWSWiWWWWoWWWLW',
+  'WooWWWWWWWooWWWW',
+  'WooWWSWWWWooSWWW',
+  'WWiWWWWWWLWiWWWW',
   'WWWWLWWWWWWWWWLW',
   'WSWWWWWWWWLWWWWW',
   'WWWWWWLWWWWWWSWW',
@@ -647,7 +707,7 @@ const pathVariants: readonly SpriteData[] = [path1]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
-const waterLandmarks: readonly SpriteData[] = [water_lily, water_reeds]
+const waterLandmarks: readonly SpriteData[] = [water_lily, water_lily2, water_lily3, water_reeds, water_reeds2]
 const gardenLandmarks: readonly SpriteData[] = [garden_produce, garden_scarecrow]
 const woodLandmarks: readonly SpriteData[] = [wood2, wood_logs]
 const groundLandmarks: readonly SpriteData[] = [ground_dirt, ground_leaves, ground_broom]
@@ -841,7 +901,8 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   }
   if (tileType === TileType.WATER) {
     if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
-      return idx === 0 ? waterLandmarks[0] : waterLandmarks[1]
+      const waterIdx = ((col + row * 2) % 5 + 5) % 5
+      return waterLandmarks[waterIdx]
     }
     return water1
   }

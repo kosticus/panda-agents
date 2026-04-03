@@ -54,3 +54,7 @@ Approved approach: Replace only the two 16x16 sprite grids for water_lily and wa
 **2026-04-03T01:54:28Z**
 
 Replaced both water landmark sprites. water_lily: single large centered lily pad (~8x7 oval, rows 3-9) with 4px pink flower (ZZ), ~47 feature pixels. water_reeds: 3 cattails at irregular heights (left cols 2-3 rows 3-8, center cols 6-8 rows 2-8, right cols 11-12 rows 6-10), 2px-wide stems (ii), 3-wide center head (ooo) and 2-wide side heads (oo), ~40 feature pixels. Non-feature rows match water1 exactly. tsc --noEmit passes clean.
+
+**2026-04-03T01:59:09Z**
+
+Reworked water_reeds sprite: left cattail now 1px stem with wobble (shifts col 4->3 partway down) and tall 1x3 head; right-center cattail has wider 2px stem with rounder 3x2 head; far-right cattail is small 1px with 1x2 head. Stems are no longer uniform width or evenly spaced. Total feature area ~33px.
