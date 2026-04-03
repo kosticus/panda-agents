@@ -33,6 +33,21 @@ const P: Record<string, string> = {
   r: '#4A2E14', u: '#D4A858', z: '#8C5E28',
   // Fire landmark (warm flame colors)
   a: '#CC3C10', q: '#E87828', n: '#F0C030',
+  // Gathering landmarks (basket + stones)
+  C: '#C8A870', G: '#8C6030',   // basket weave tan, basket rim brown
+  T: '#8C8C82', U: '#B0AFA0',   // stone gray, stone highlight
+  // Water landmarks (lily + reeds)
+  V: '#3C8C3C', X: '#E0A0B0',   // lily pad green, flower pink
+  Y: '#8C6840', Z: '#5A8C4A',   // reed brown, reed green
+  // Garden landmarks (tall crop + tool)
+  i: '#3A6E2C',                  // darker mature crop green
+  o: '#9C9C96',                  // metal gray (tool head)
+  '0': '#A08050',                // tool handle brown (shared garden/ground)
+  // Groundskeeping landmarks (dirt + leaves + broom)
+  '2': '#6B4E2A',               // turned earth brown
+  '3': '#C8A030',               // dry leaf gold
+  '4': '#8C6828',               // dry leaf brown
+  '5': '#7A6030',               // bristle brown
 }
 
 /** Convert a 16-row character grid into SpriteData (16×16 hex array). */
@@ -395,6 +410,226 @@ const cook4 = toSprite([
 ])
 
 // =====================
+// GATHERING LANDMARKS
+// =====================
+
+// Woven basket on packed earth
+const gather_basket = toSprite([
+  'ccxccvcccxcccvcc',
+  'cvccccxccccxcccc',
+  'cccvcccccvcccxcc',
+  'cxccccvcccccccvc',
+  'ccccxcGGGccccccx',
+  'cvcccGCCCGcvccxc',
+  'ccccvGCGCGcccccc',
+  'cxcccGCCCGcccxcc',
+  'cccxcGGGGGcccccc',
+  'cvccccccxcvccccv',
+  'ccccxcccccccxccc',
+  'cxcccvcccxcccccc',
+  'ccvccccxcccvcccx',
+  'cccccxcccccccvcc',
+  'cvcccccvcxcccccc',
+  'ccxcccccccvcxccc',
+])
+
+// Scattered stone pile on packed earth
+const gather_stones = toSprite([
+  'ccxccvcccxcccvcc',
+  'cvccccxccccxcccc',
+  'cccvcccccvcccxcc',
+  'cxccccvcccccccvc',
+  'ccccxccTUccccccc',
+  'cvccccTTcccvccxc',
+  'ccccvcccUTcccccc',
+  'cxccccUTTccccxcc',
+  'cccxcccTcccccccc',
+  'cvccccccxcvccccv',
+  'ccccxcccccccxccc',
+  'cxcccvcccxcccccc',
+  'ccvccccxcccvcccx',
+  'cccccxcccccccvcc',
+  'cvcccccvcxcccccc',
+  'ccxcccccccvcxccc',
+])
+
+// =====================
+// WATER LANDMARKS
+// =====================
+
+// Lily pad with flower on water surface
+const water_lily = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWWWWWW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWLWWWWWWWWSWW',
+  'WWWWWVVVWWWWWWWL',
+  'WLWWVVVVVWWWLWWW',
+  'WWWWVVXVVWWWWWWW',
+  'WWWSVVVVVWWWWWLW',
+  'WWWWWVVVWLWWWWWW',
+  'WLWWWSWWWWWWSWWW',
+  'WWWWWWWWWLWWWWWW',
+  'WWWWLWWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// Cattails/reeds on water
+const water_reeds = toSprite([
+  'WWWLWWWWSWWWWLWW',
+  'WWWWWWLWWWWWWWWW',
+  'WSWWWYWWWWLWWWWW',
+  'WWWWLYWWYWWWWSWW',
+  'WWWWWZWWYWWWWWWL',
+  'WLWWWZWWZWWWLWWW',
+  'WWWWWZWWZWSWWWWW',
+  'WWWSWZWWZWWWWWLW',
+  'WWWWWZWWZLWWWWWW',
+  'WLWWWZWWZWWWSWWW',
+  'WWWWWZWWZWLWWWWW',
+  'WWWWLWWWWWWWWWLW',
+  'WSWWWWWWWWLWWWWW',
+  'WWWWWWLWWWWWWSWW',
+  'WWLWWWWWSWWWWWWW',
+  'WWWWSWWWWWWLWWWW',
+])
+
+// =====================
+// GARDEN LANDMARKS
+// =====================
+
+// Mature/bushy crop variant — darker, taller greens in crop row positions
+const garden_tall = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KiQKKKiQKKKiQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKiQKKKKKiQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KiQKKKiQKKKiQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKiQKKKKKiQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KiQKKKiQKKKiQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKiQKKKKKiQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KiQKKKiQKKKiQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKiQKKKKKiQKKKK',
+])
+
+// Garden fork/hoe leaning on soil
+const garden_tool = toSprite([
+  'BKBBHBBKBBHBBKBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKK0KPQKKKK',
+  'BHBBKBBH0BKBBHBB',
+  'KPQKKKP0KKKPQKKo',
+  'BKBBHBB0BBHBBKBo',
+  'KKKPQK0KKKPQKKoo',
+  'BHBBKB0HBBKBBHBB',
+  'KPQKKK0QKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+  'BHBBKBBHBBKBBHBB',
+  'KPQKKKPQKKKPQKKK',
+  'BKBBHBBKBBHBBKBB',
+  'KKKPQKKKKKPQKKKK',
+])
+
+// =====================
+// WOODCUTTING LANDMARKS (additional)
+// =====================
+
+// Stacked log pile — 3 cut rounds using stump palette (r/u/z)
+const wood_logs = toSprite([
+  'EEgEEFEEgEEEJEgE',
+  'EgEEEEJEEEFEEEEE',
+  'EEEFrrrrrreeEgEE',
+  'gEEEruuzurEEEEJE',
+  'EEJEruzuurFEEEEE',
+  'EEEEruzuurEEgEEE',
+  'EgEEruuzurEEEFEE',
+  'ErrrrrrrrrrrrrzE',
+  'ruuzrrEEErruzurE',
+  'ruzzrEEFEEruzurE',
+  'ruzzrEgEErzuzurE',
+  'ruuzrEEEEEruuzrE',
+  'ErrrrrEJErrrrrEE',
+  'EgEEJEEFEEEEJEEE',
+  'EEFEEEEEEgEEEEFE',
+  'EEEEgEJEEEEFEEEE',
+])
+
+// =====================
+// GROUNDSKEEPING LANDMARKS
+// =====================
+
+// Freshly dug earth patch on grass
+const ground_dirt = toSprite([
+  'ggggtgggggdggggg',
+  'gdgggggdgggggggt',
+  'ggggggggggggtggg',
+  'ggtggdggggggggdg',
+  'gggggggggdgggggg',
+  'gggdgg222ggtgggg',
+  'ggggg22222gggggd',
+  'ggtgg22222gggggg',
+  'ggggg22222ggtggg',
+  'gggggg222ggggggg',
+  'gdgggtggggggdggg',
+  'gggggggggdgggggg',
+  'gggdgggggggggggt',
+  'ggggggggggggtggg',
+  'gtgggdggggggggdg',
+  'ggggggtggdgggggg',
+])
+
+// Small swept leaf pile on grass
+const ground_leaves = toSprite([
+  'ggggtgggggdggggg',
+  'gdgggggdgggggggt',
+  'ggggggggggggtggg',
+  'ggtggdggggggggdg',
+  'gggggggggdgggggg',
+  'gggdggggggggtggg',
+  'gggggg34gggggggd',
+  'ggtggg3434gggggg',
+  'gggggg4334ggtggg',
+  'gggggg34gggggggg',
+  'gdgggtggggggdggg',
+  'gggggggggdgggggg',
+  'gggdgggggggggggt',
+  'ggggggggggggtggg',
+  'gtgggdggggggggdg',
+  'ggggggtggdgggggg',
+])
+
+// Broom/rake prop on grass
+const ground_broom = toSprite([
+  'ggggtgggggdggggg',
+  'gdgggggdgggggggt',
+  'ggggggggggggtggg',
+  'ggtggdgg0gggggdg',
+  'gggggggg0dgggggg',
+  'gggdgggg0gggtggg',
+  'ggggggg0gggggggd',
+  'ggtgggg0gggggggg',
+  'ggggggg0ggggtggg',
+  'ggggggg0gggggggg',
+  'gdgggt55ggggdggg',
+  'gggggg55gggdgggg',
+  'gggdgggggggggggt',
+  'ggggggggggggtggg',
+  'gtgggdggggggggdg',
+  'ggggggtggdgggggg',
+])
+
+// =====================
 // Variant lookup tables
 // =====================
 
@@ -402,6 +637,11 @@ const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
+const gatherLandmarks: readonly SpriteData[] = [gather_basket, gather_stones]
+const waterLandmarks: readonly SpriteData[] = [water_lily, water_reeds]
+const gardenLandmarks: readonly SpriteData[] = [garden_tall, garden_tool]
+const woodLandmarks: readonly SpriteData[] = [wood2, wood_logs]
+const groundLandmarks: readonly SpriteData[] = [ground_dirt, ground_leaves, ground_broom]
 
 /** Deterministic variant index from grid position. */
 function variantIndex(col: number, row: number): number {
@@ -583,16 +823,44 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   }
   if (tileType === TileType.BAMBOO) return bambooVariants[idx]
 
-  // Zone fill tiles — solid interior
-  if (tileType === TileType.GATHERING) return gather1
-  if (tileType === TileType.WATER) return water1
-  if (tileType === TileType.GARDEN) return garden1
+  // Zone fill tiles with landmark variants at interior spots
+  if (tileType === TileType.GATHERING) {
+    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
+      return idx === 0 ? gatherLandmarks[0] : gatherLandmarks[1]
+    }
+    return gather1
+  }
+  if (tileType === TileType.WATER) {
+    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
+      return idx === 0 ? waterLandmarks[0] : waterLandmarks[1]
+    }
+    return water1
+  }
+  if (tileType === TileType.GARDEN) {
+    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
+      return idx === 0 ? gardenLandmarks[0] : gardenLandmarks[1]
+    }
+    return garden1
+  }
 
-  // Landmark tiles: *2 at deterministic interior spots, *1 elsewhere
-  if (tileType === TileType.WOODCUTTING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? wood2 : wood1
+  // Landmark tiles: variants at deterministic interior spots, base elsewhere
+  if (tileType === TileType.WOODCUTTING) {
+    if (!isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row)) {
+      return idx === 0 ? woodLandmarks[0] : woodLandmarks[1]
+    }
+    return wood1
+  }
   if (tileType === TileType.COOKING) return !isZoneEdge(tileType, col, row) && isLandmarkSpot(col, row) ? cookLandmarks[idx] : cook1
 
-  // Fallback: GROUNDSKEEPING, void, or unknown
+  // Groundskeeping: no edge check — decoration IS the differentiation from grass
+  if (tileType === TileType.GROUNDSKEEPING) {
+    if (isLandmarkSpot(col, row)) {
+      return groundLandmarks[idx]
+    }
+    return grass1
+  }
+
+  // Fallback: void or unknown
   return grass1
 }
 

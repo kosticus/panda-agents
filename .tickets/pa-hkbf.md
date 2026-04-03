@@ -1,6 +1,6 @@
 ---
 id: pa-hkbf
-status: open
+status: in_progress
 deps: [pa-51oa]
 links: []
 created: 2026-04-02T23:02:56Z
@@ -131,3 +131,13 @@ Build and visually inspect:
 - All landmarks are at interior positions only (not at zone edges)
 - Edge blending still works correctly around landmark tiles
 
+
+## Notes
+
+**2026-04-03T00:47:47Z**
+
+Started by Kimberly Kost
+
+**2026-04-03T00:51:12Z**
+
+Approved approach: (1) Add ~15-20 new palette entries to P using unused chars, (2) Define 11 landmark sprites following wood2/cook2 pattern, (3) Create variant arrays, (4) Update selectBaseSprite for GATHERING/WATER/GARDEN with !isZoneEdge && isLandmarkSpot guard, expand WOODCUTTING to 2-variant, add GROUNDSKEEPING without edge check, (5) Commit. No open questions.
