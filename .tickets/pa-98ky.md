@@ -1,6 +1,6 @@
 ---
 id: pa-98ky
-status: in_progress
+status: closed
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -56,3 +56,11 @@ Approved approach: 5-variant expansion following water zone pattern. 3 produce v
 **2026-04-03T16:31:22Z**
 
 Replaced garden_produce and garden_scarecrow with 5 readable landmark sprites: 3 produce variants (centered, upper-right, lower-left offset clusters of tomatoes/peppers with dark-red outlines and green stems) + 2 scarecrow variants (wide 2px post, 5x3 hat, 9x2 arms, rag on left vs right). Added palette chars + (#8C2010 dark red outline) and # (#3C7830 stem green). Updated gardenLandmarks array to 5 entries and selectBaseSprite to use mod-5 hash: ((col + row * 2) % 5 + 5) % 5. TypeScript compiles clean.
+
+**2026-04-03T17:39:54Z**
+
+Reworked garden landmark palette and shapes for contrast: scarecrow now uses blue hat (#3848A0), bright yellow post (#E8D050), red rag (#CC3030) — all high-contrast against brown soil. Produce sprites redesigned as single large ~6px round tomatoes with darker outline (#601808), placed at different offsets per variant. Scarecrow shapes unchanged structurally. tsc --noEmit passes clean.
+
+**2026-04-03T18:24:14Z**
+
+Replaced rejected garden landmarks with single centered scarecrow. Dark charcoal hat with wide brim, straw yellow arms, cream shirt, blue pants. Placed at garden zone centroid (computed dynamically, offset 1 tile left). Produce sprites removed per user direction — palette entries orphaned but harmless. garden_scarecrow2 variant defined but unused (only scarecrow v1 placed at centroid). Wiring changed from isLandmarkSpot scatter to single gardenCenter placement.
