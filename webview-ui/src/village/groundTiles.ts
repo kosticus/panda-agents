@@ -1052,9 +1052,16 @@ const BLEND_DENSITY: Record<string, number> = {
   [`${TileType.GARDEN}-${TileType.WATER}`]: 2.0,
 }
 
+/** Per-pixel hash for blend decisions. */
+function blendHash(col: number, row: number, pr: number, pc: number): number {
+  let h = (col * 374761393 + row * 668265263 + pr * 2654435761 + pc * 1103515245) | 0
+  h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
+  return ((h >> 16) ^ h) & 0x7FFFFFFF
+}
+
 /**
- * Clone a base sprite and dither neighbor-colored pixels into its edges.
- * 6-pixel graduated transition scaled for 32x32 tiles.
+ * Clone a base sprite and blend neighbor-colored pixels into its edges.
+ * Sparse dithering on straight edges, quarter-circle arc mask on corners.
  */
 function blendEdges(
   base: SpriteData,
@@ -1065,61 +1072,89 @@ function blendEdges(
 ): SpriteData {
   const result = base.map((r) => [...r])
 
-  // Each entry: [edgeFlag, dc, dr, axis]
-  //   axis 0 = horizontal edge (N/S) → modifies rows
-  //   axis 1 = vertical edge (E/W) → modifies cols
-  const dirs: Array<[number, number, number, number]> = []
-  if (edges & EDGE_N) dirs.push([EDGE_N, 0, -1, 0])
-  if (edges & EDGE_S) dirs.push([EDGE_S, 0, 1, 0])
-  if (edges & EDGE_E) dirs.push([EDGE_E, 1, 0, 1])
-  if (edges & EDGE_W) dirs.push([EDGE_W, -1, 0, 1])
+  // --- Straight edge dithering (skip for paths) ---
+  const edgeDirs: Array<[number, number, number, 'h' | 'v']> = [
+    [EDGE_N, 0, -1, 'h'], [EDGE_S, 0, 1, 'h'],
+    [EDGE_E, 1, 0, 'v'],  [EDGE_W, -1, 0, 'v'],
+  ]
 
-  for (const [_flag, dc, dr, axis] of dirs) {
+  for (const [flag, dc, dr, axis] of edgeDirs) {
+    if (!(edges & flag)) continue
     const neighborType = getNeighborType(col, row, dc, dr)
     const pairKey = `${tileType}-${neighborType}`
     const palette = SPECIAL_PALETTE[pairKey] ?? BLEND_PALETTE[neighborType]
     if (!palette) continue
+    const density = BLEND_DENSITY[pairKey] ?? 1.0
+    const isPathEdge = tileType === TileType.PATH || neighborType === TileType.PATH
+    const maxDepth = isPathEdge ? 4 : 8
 
-    // Coarse clumping: divide edge into ~4px chunks, only blend in active chunks
-    const hasSpecialPalette = pairKey in SPECIAL_PALETTE
-    for (let chunk = 0; chunk < 8; chunk++) {
-      let chunkHash = (col * 173 + row * 349 + chunk * 571 + dr * 37 + dc * 59) | 0
-      chunkHash = Math.imul((chunkHash >> 16) ^ chunkHash, 0x2c1b3c6d)
-      const skipChance = hasSpecialPalette ? 1 : 2 // ~20% vs ~40% of chunks stay clear
-      if ((chunkHash & 0x7FFFFFFF) % 5 < skipChance) continue
+    for (let depth = 0; depth < maxDepth; depth++) {
+      for (let i = 0; i < 32; i++) {
+        let pr: number, pc: number
+        if (axis === 'h') { pc = i; pr = dr === -1 ? depth : 31 - depth }
+        else { pr = i; pc = dc === 1 ? 31 - depth : depth }
+        if (!result[pr][pc]) continue
+        const hash = blendHash(col, row, pr, pc)
+        let replace = false
+        if (isPathEdge) {
+          // Paths: sparser — ~16% / ~9% / ~5% / ~3%
+          if (depth < 1) replace = hash % 32 < Math.max(1, Math.round(5 * density))
+          else if (depth < 2) replace = hash % 32 < Math.max(1, Math.round(3 * density))
+          else replace = hash % 32 < Math.round(1 * density)
+        } else {
+          if (depth < 2) replace = hash % 32 < Math.max(1, Math.round(8 * density))
+          else if (depth < 4) replace = hash % 32 < Math.max(1, Math.round(5 * density))
+          else if (depth < 6) replace = hash % 32 < Math.max(1, Math.round(3 * density))
+          else replace = hash % 32 < Math.round(1 * density)
+        }
+        if (replace) result[pr][pc] = palette[hash % palette.length]
+      }
+    }
+  }
 
-      for (let depth = 0; depth < 6; depth++) {
-        for (let i = chunk * 4; i < chunk * 4 + 4; i++) {
-          let pixelRow: number
-          let pixelCol: number
-          if (axis === 0) {
-            pixelCol = i
-            if (dr === -1) pixelRow = depth          // N: rows 0..5
-            else pixelRow = 31 - depth                // S: rows 31..26
-          } else {
-            pixelRow = i
-            if (dc === 1) pixelCol = 31 - depth       // E: cols 31..26
-            else pixelCol = depth                      // W: cols 0..5
-          }
+  // --- Corner rounding with quarter-circle arc ---
+  // At convex corners (two adjacent edges active), replace pixels outside
+  // a rounded-rect arc with the diagonal neighbor's color.
+  const cornerConfigs: Array<[number, number, number, number]> = [
+    // [vertEdge, horizEdge, cornerRow, cornerCol]
+    [EDGE_N, EDGE_W, 0, 0],  [EDGE_N, EDGE_E, 0, 31],
+    [EDGE_S, EDGE_W, 31, 0], [EDGE_S, EDGE_E, 31, 31],
+  ]
 
-          if (!result[pixelRow][pixelCol]) continue
+  for (const [vEdge, hEdge, cRow, cCol] of cornerConfigs) {
+    if (!(edges & vEdge) || !(edges & hEdge)) continue
 
-          let hash = (col * 374761393 + row * 668265263 + pixelRow * 2654435761 + pixelCol * 1103515245) | 0
-          hash = Math.imul((hash >> 16) ^ hash, 0x45d9f3b)
-          hash = ((hash >> 16) ^ hash) & 0x7FFFFFFF
-          const density = BLEND_DENSITY[pairKey] ?? 1.0
-          let replace = false
-          if (depth < 2) replace = hash % 8 < Math.max(1, Math.round(3 * density))
-          else if (depth < 4) replace = hash % 16 < Math.max(1, Math.round(3 * density))
-          else replace = hash % 16 < Math.round(1 * density)
+    // Use diagonal neighbor's palette
+    const dc = cCol === 0 ? -1 : 1
+    const dr = cRow === 0 ? -1 : 1
+    const diagType = getNeighborType(col, row, dc, dr)
+    const pairKey = `${tileType}-${diagType}`
+    const palette = SPECIAL_PALETTE[pairKey] ?? BLEND_PALETTE[diagType]
+    if (!palette) continue
 
-          if (replace) {
-            result[pixelRow][pixelCol] = palette[hash % palette.length]
-          }
+    const isPathCorner = tileType === TileType.PATH || diagType === TileType.PATH
+    const R = isPathCorner ? 6 : 8
+    // Arc center sits R pixels in from the corner
+    const arcR = cRow === 0 ? R : 31 - R
+    const arcC = cCol === 0 ? R : 31 - R
+
+    for (let pr = (cRow === 0 ? 0 : 32 - R); pr < (cRow === 0 ? R : 32); pr++) {
+      for (let pc = (cCol === 0 ? 0 : 32 - R); pc < (cCol === 0 ? R : 32); pc++) {
+        if (!result[pr][pc]) continue
+        const dist = Math.sqrt((pr - arcR) ** 2 + (pc - arcC) ** 2)
+        if (dist <= R) continue // inside the arc — keep original
+        // Outside the arc — replace with neighbor color
+        const hash = blendHash(col, row, pr, pc)
+        // Solid replacement near the corner, light dither at arc boundary
+        if (dist > R + 1.5) {
+          result[pr][pc] = palette[hash % palette.length]
+        } else if (hash % 3 === 0) {
+          result[pr][pc] = palette[hash % palette.length]
         }
       }
     }
   }
+
   return result
 }
 
