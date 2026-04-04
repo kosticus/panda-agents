@@ -20,7 +20,7 @@ const P: Record<string, string> = {
   // Path (warm sandy — unchanged from r1)
   s: '#C3AF8C', k: '#AA9678', w: '#D7C3A5', p: '#9B8C78',
   // Gathering (packed earth / sun-baked clay)
-  c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834',
+  c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834', X: '#AD8350',
   // Water (cool blues — pond/stream)
   W: '#4678AA', L: '#5A91C3', D: '#325F8C', R: '#6EA5D2', S: '#3C6C9B',
   // Garden (warm brown soil + green sprouts)
@@ -792,109 +792,39 @@ const ground_broom = toSprite([
 // Simple solid fills for layout validation — not detailed art.
 // =====================
 
-const gather_a = toSprite([
-  'ccccccccccccccvvxcccccccccccvccv',
-  'ccccccccccccccccccccvxccccvvcccc',
-  'cccccccccccccccccccvvvccccccccvx',
-  'ccccccyvcccccccvcccccccccccccccc',
-  'ccccccyccccccccvccccccccvvcccccc',
-  'ccvvxcccccccccccccccccccyycccccc',
-  'cccvccccccccccvccccccccyyvcccccc',
-  'ccccccccccvccccccccccccccccccccv',
-  'ccccccccccvccccccccvvccccccvvxcc',
-  'ccvyccccccvcccccccccccccccccvxcc',
-  'ccccccccccccccvvccccccccxccccccc',
-  'ccccccccvyccccvxccccccccxccccccc',
-  'ccccccyccccccccccccccvcccccccccc',
-  'ccvycccccccccccccccvvccccccccccv',
+const gather_base = toSprite([
   'cccccccccccccccccccccccccccccccc',
-  'ccccccccvvcccccccccccyvvcccccccv',
-  'ccvccccccccccccccccccccccccvvycc',
-  'ccccccccccccvccccccccccccccvcccc',
-  'cccccccccccvccccvcccccccccccccvv',
-  'ccccccxxcccvccccccxvyccccccccccc',
-  'ccccccxccccccccccccccccccccccccc',
-  'ccccccccccccvxccccvccccccccvcccc',
-  'ccccvccccccccxccccccccccccyvyccc',
-  'ccccvccccvcccccccccccccyyvcccccc',
-  'cccccccccccvccccccccccccvccccccc',
-  'cccyccccccccvvxccccccccccccvcccc',
-  'ccyccccccccccccccccccccccccvcccc',
-  'ccccccccvxcccccccccccycccccccccc',
-  'ccccccccccvvvcccccccyvcccvcccccc',
-  'ccccccccccccccccccccccccccvxcccc',
-  'ccccvyccccccccccccvxcccccxxccccc',
-  'ccccccccccvccccccccccccccxcccccv',
-])
-
-const gather_b = toSprite([
-  'ccccccvccccccvccccccccccccvvcccc',
-  'ccccvccccccvcccccccccccccccccccc',
-  'ccccccccccccccccccccccccccccvccv',
-  'ccccvvyccccccccccccvvvcccccccccc',
-  'cccccvccccccccccccccvccccccccccx',
-  'ccccccccccvyccccccccccccccvccccv',
-  'ccccccccccvccccccccccxxccccccccc',
-  'ccccccccccccccvvccccxxcccccvcccc',
-  'ccccccccccccccvcccccccccvvccccxv',
-  'ccvccccccccccccccccccccccyyvcccc',
-  'ccvyccccccccccvccccccccccyvvcccc',
-  'cccvxccccccccccccccccccccccccccc',
-  'cccxccccccccccvvcccccccccccccccc',
-  'cccccvccccccccccccyycccccvyvcccc',
-  'ccccvccccccvccccccccccccvccccccc',
-  'ccccccccccccccccccvccccccvvccccv',
-  'ccccccccvccccvccccccccccccxccccc',
-  'cvvccccccccccccxcccccccccccccccv',
-  'ccvcccccccccccccccccccccccccccvv',
-  'cccccccccccccccccyycccvccccccvvv',
-  'ccccccccccccxvccccyvccccvvxccccc',
-  'cccccccccccvvccccccccvccccxxcccc',
-  'cccccccccyyyvccccccccccccccvcccc',
-  'cccccccccccyccccccccccccvccccccx',
-  'cccvccccccccccvccccccccccccvcccc',
-  'ccccvccccccccccccvcvvycccccccccc',
-  'ccxxcccccxcccccccccccccvcccccccc',
-  'cccccccccvvcccccccccccccccvycccv',
-  'ccccccccccvycccccccccccccccycccc',
-  'ccccccccccccccccccvccccvyccccccv',
-  'ccccccccvvccccccccccccccvvcccccc',
-  'cccccccccvcvvccccccccccvcccccccc',
-])
-
-const gather_c = toSprite([
-  'ccccccccccccccccccccxxcccccccccc',
-  'cccccccyccccccccccccvccccvvvcccc',
-  'ccxxccccccccccxccccccyvccccccccc',
-  'ccccccccccccvvxcccccccccyvcccccv',
-  'ccccccccccccvcccccccccccvvcccccv',
+  'cccccccccccccccccccccXcccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'cccccyvcccccccccccvccccccccccccv',
-  'ccccxyvcccccyvccccccccccccvycccc',
-  'cccccxyvccccccccccccvvycccvvcccc',
-  'ccyycccccccccccccccccccccccccccv',
-  'ccccccccccxcccccxxcccccccccvcccc',
-  'cccccccccyxcccccxccccccccccccccv',
-  'ccvccccccccccccccccccccccccvyccv',
-  'ccccvvycccccccccxvvccccccccccccv',
-  'cccccccccccvccccccvccccccccvcccc',
-  'cccccccccccccccyvccccccccyvccccx',
-  'cccccccccccccccccvccccccvccccvvv',
-  'cccccccccyccccccccccccccvccccccv',
-  'ccccccccccccccccccccvccccvyccccv',
-  'cyvccccccccccvcccccvyccccccccccc',
-  'cccccccccccvcccccccccvccccvvcccc',
-  'ccccccccccccccvxcccccccccccxvccc',
-  'ccccccccccccccvccccvxccccccccccv',
-  'ccccccccccccccccccccvccccvcccccc',
-  'ccccccccccvccccccccccccccccvcccc',
-  'ccccvcccccccvxvcccccccccccxvcccc',
-  'ccccccccccccxcccccccvccvcccccccc',
-  'ccccccyxxcccccccccccvccccccccccv',
-  'cccccvvcccccccvccccccccccccvcccc',
-  'ccccccccccccccvcccccccccvccccccc',
-  'ccccccccccccccccccccvcccyvxxcccv',
-  'ccccccccccvcccccccccccccccxccccc',
+  'ccccccccccccxXcccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccccccccccccccccccccvccccccc',
+  'ccccccXccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccccccccccccccxXcccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccXcccccc',
+  'ccccvccccccccccccccccccccccccccv',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccxcccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccXcccccccXcccc',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccxXcccccccccccccccccccccccv',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccccccccccccXccccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'cccccccccccccccccccccccccxcccccc',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccccccccXXcccccccccccccccccc',
+  'ccvccccccccccccccccccccccccccccv',
+  'cccccccccccccccccccccccccccccccc',
+  'ccccccccccccccccccxccccccccccccc',
+  'cccccccccccccccccccccccccccccccc',
 ])
 
 const water_a = toSprite([
@@ -1078,7 +1008,6 @@ const gardenBlock = toSprite([
 
 const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1]
-const gatherVariants: readonly SpriteData[] = [gather_a, gather_b, gather_c]
 const waterVariants: readonly SpriteData[] = [water_a, water_b, water_c]
 const woodVariants: readonly SpriteData[] = [woodBlock]
 const gardenVariants: readonly SpriteData[] = [gardenBlock]
@@ -1295,7 +1224,22 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
     return base
   }
   if (tileType === TileType.BAMBOO) return grass1
-  if (tileType === TileType.GATHERING) return gatherVariants[idx % gatherVariants.length]
+  if (tileType === TileType.GATHERING) {
+    const gatherColors = [P.c, P.x, P.X, P.c]
+    const base = gather_base.map((r) => [...r])
+    let h = (col * 374761393 + row * 668265263) | 0
+    for (let pr = 0; pr < 32; pr++) {
+      for (let pc = 0; pc < 32; pc++) {
+        if (!base[pr][pc]) continue
+        h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
+        h = (h >> 16) ^ h
+        if ((h & 0x7FFFFFFF) % 5 === 0) {
+          base[pr][pc] = gatherColors[(h >>> 2) & 3]
+        }
+      }
+    }
+    return base
+  }
   if (tileType === TileType.WATER) return waterVariants[idx % waterVariants.length]
   if (tileType === TileType.GARDEN) return gardenVariants[idx % gardenVariants.length]
   if (tileType === TileType.WOODCUTTING) return woodVariants[idx % woodVariants.length]
