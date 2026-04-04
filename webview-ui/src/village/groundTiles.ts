@@ -20,7 +20,7 @@ const P: Record<string, string> = {
   // Path (warm sandy — unchanged from r1)
   s: '#C3AF8C', k: '#AA9678', w: '#D7C3A5', p: '#9B8C78',
   // Gathering (packed earth / sun-baked clay)
-  c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834', X: '#AD8350',
+  c: '#A57844', v: '#87663A', x: '#B4915F', y: '#735834', '&': '#AD8350',
   // Water (cool blues — pond/stream)
   W: '#4678AA', L: '#5A91C3', D: '#325F8C', R: '#6EA5D2', S: '#3C6C9B',
   // Garden (warm brown soil + green sprouts)
@@ -794,33 +794,33 @@ const ground_broom = toSprite([
 
 const gather_base = toSprite([
   'cccccccccccccccccccccccccccccccc',
-  'cccccccccccccccccccccXcccccccccc',
+  'ccccccccccccccccccccc&cccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'ccccccccccccxXcccccccccccccccccc',
+  'ccccccccccccx&cccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
   'ccccccccccccccccccccccccvccccccc',
-  'ccccccXccccccccccccccccccccccccc',
+  'cccccc&ccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'ccccccccccccccccccxXcccccccccccc',
+  'ccccccccccccccccccx&cccccccccccc',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'cccccccccccccccccccccccccXcccccc',
+  'ccccccccccccccccccccccccc&cccccc',
   'ccccvccccccccccccccccccccccccccv',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccxcccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'cccccccccccccccccccXcccccccXcccc',
+  'ccccccccccccccccccc&ccccccc&cccc',
   'cccccccccccccccccccccccccccccccc',
-  'ccccccxXcccccccccccccccccccccccv',
+  'ccccccx&cccccccccccccccccccccccv',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
-  'ccccccccccccccccXccccccccccccccc',
+  'cccccccccccccccc&ccccccccccccccc',
   'cccccccccccccccccccccccccccccccc',
   'cccccccccccccccccccccccccxcccccc',
   'cccccccccccccccccccccccccccccccc',
-  'ccccccccccccXXcccccccccccccccccc',
+  'cccccccccccc&&cccccccccccccccccc',
   'ccvccccccccccccccccccccccccccccv',
   'cccccccccccccccccccccccccccccccc',
   'ccccccccccccccccccxccccccccccccc',
@@ -1225,7 +1225,7 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   }
   if (tileType === TileType.BAMBOO) return grass1
   if (tileType === TileType.GATHERING) {
-    const gatherColors = [P.c, P.x, P.X, P.c]
+    const gatherColors = [P.c, P['&'], P.c, P['&']]
     const base = gather_base.map((r) => [...r])
     let h = (col * 374761393 + row * 668265263) | 0
     for (let pr = 0; pr < 32; pr++) {
@@ -1233,7 +1233,7 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
         if (!base[pr][pc]) continue
         h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
         h = (h >> 16) ^ h
-        if ((h & 0x7FFFFFFF) % 5 === 0) {
+        if ((h & 0x7FFFFFFF) % 15 === 0) {
           base[pr][pc] = gatherColors[(h >>> 2) & 3]
         }
       }
