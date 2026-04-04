@@ -26,7 +26,7 @@ const P: Record<string, string> = {
   // Garden (warm brown soil + green sprouts)
   B: '#8C6941', K: '#735532', H: '#A58255', P: '#64A050', Q: '#4B823C',
   // Woodcutting (trampled mud + sawdust)
-  E: '#786946', F: '#B49B6E', J: '#645032', M: '#877D55',
+  E: '#7A5E3E', F: '#8E7350', J: '#5C4430', M: '#866A48',
   // Cooking (ashy packed earth + charcoal — cool gray, distinct from warm gathering clay)
   A: '#7D766C', I: '#645C52', N: '#9B968C', O: '#373028',
   // Stump landmark (distinct from woodcutting base)
