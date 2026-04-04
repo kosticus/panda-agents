@@ -34,3 +34,11 @@ Started by Kimberly Kost
 **2026-04-04T01:21:35Z**
 
 Approved approach: Create 3 gathering sprites (gather_a, gather_b, gather_c) as 32x32 grids using all 4 palette chars (c/v/x/y). Multi-pixel features (2-3px shadow patches, highlight streaks, dirt texture clusters). Irregular clustering, varied density. Update gatherVariants to [gather_a, gather_b, gather_c], remove gatherBlock.
+
+**2026-04-04T01:29:29Z**
+
+Replaced gatherBlock with gather_a/gather_b/gather_c — three 32x32 detailed earth sprites using all 4 palette chars (c/v/x/y). Multi-pixel accent clusters (vv, vy, xx, yy, vv) at 16-18% coverage. gatherVariants updated to reference new sprites, gatherBlock removed. tsc --noEmit passes clean.
+
+**2026-04-04T02:03:24Z**
+
+Fixed regularity: varied accents per row (0-3), mixed cluster sizes (1-3px), added vertical adjacency, irregular spacing. ~12-15% accent density.
