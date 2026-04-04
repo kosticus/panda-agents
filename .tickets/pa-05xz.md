@@ -1,6 +1,6 @@
 ---
 id: pa-05xz
-status: in_progress
+status: closed
 deps: [pa-03lk]
 links: []
 created: 2026-04-04T00:50:17Z
@@ -39,3 +39,7 @@ Started by Kimberly Kost
 **2026-04-04T01:16:28Z**
 
 Approved approach: Create 3 new water sprites (water_a, water_b, water_c) as 32x32 grids using all 5 palette chars (W/L/D/R/S). Multi-pixel features (2-3px ripple streaks, reflection clusters) instead of single dots. Vary density/placement across variants. Update waterVariants to [water_a, water_b, water_c], remove waterBlock.
+
+**2026-04-04T01:19:49Z**
+
+Implemented 3 water ground tile variants (water_a, water_b, water_c) replacing waterBlock. Each is 32x32 using all 5 palette chars. Features: 2-3px ripple streaks (LL), reflection clusters (RR on adjacent rows), shadow patches (SS/SD). Accent density ~10-12%, irregular placement varies across variants. waterVariants updated to [water_a, water_b, water_c]. TypeScript compiles clean.
