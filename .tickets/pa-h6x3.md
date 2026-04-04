@@ -1,6 +1,6 @@
 ---
 id: pa-h6x3
-status: in_progress
+status: closed
 deps: [pa-03lk]
 links: []
 created: 2026-04-04T00:50:16Z
@@ -42,3 +42,7 @@ Replaced gatherBlock with gather_a/gather_b/gather_c — three 32x32 detailed ea
 **2026-04-04T02:03:24Z**
 
 Fixed regularity: varied accents per row (0-3), mixed cluster sizes (1-3px), added vertical adjacency, irregular spacing. ~12-15% accent density.
+
+**2026-04-04T02:15:26Z**
+
+Reworked: single gather_base sprite + runtime pixel randomization (like PATH). Added mid-tone X=#AD8350. ~20% pixel swap rate using c/x/X. Dropped dark accents (v/y). No more tile grid seams.
