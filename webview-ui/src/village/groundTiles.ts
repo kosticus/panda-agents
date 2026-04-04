@@ -1054,7 +1054,7 @@ const BLEND_DENSITY: Record<string, number> = {
 
 /**
  * Clone a base sprite and dither neighbor-colored pixels into its edges.
- * 3-pixel graduated transition: depth 0 = 75%, depth 1 = 50%, depth 2 = 25%.
+ * 6-pixel graduated transition scaled for 32x32 tiles.
  */
 function blendEdges(
   base: SpriteData,
@@ -1082,24 +1082,24 @@ function blendEdges(
 
     // Coarse clumping: divide edge into ~4px chunks, only blend in active chunks
     const hasSpecialPalette = pairKey in SPECIAL_PALETTE
-    for (let chunk = 0; chunk < 4; chunk++) {
+    for (let chunk = 0; chunk < 8; chunk++) {
       let chunkHash = (col * 173 + row * 349 + chunk * 571 + dr * 37 + dc * 59) | 0
       chunkHash = Math.imul((chunkHash >> 16) ^ chunkHash, 0x2c1b3c6d)
       const skipChance = hasSpecialPalette ? 1 : 2 // ~20% vs ~40% of chunks stay clear
       if ((chunkHash & 0x7FFFFFFF) % 5 < skipChance) continue
 
-      for (let depth = 0; depth < 3; depth++) {
+      for (let depth = 0; depth < 6; depth++) {
         for (let i = chunk * 4; i < chunk * 4 + 4; i++) {
           let pixelRow: number
           let pixelCol: number
           if (axis === 0) {
             pixelCol = i
-            if (dr === -1) pixelRow = depth          // N: rows 0,1,2
-            else pixelRow = 15 - depth                // S: rows 15,14,13
+            if (dr === -1) pixelRow = depth          // N: rows 0..5
+            else pixelRow = 31 - depth                // S: rows 31..26
           } else {
             pixelRow = i
-            if (dc === 1) pixelCol = 15 - depth       // E: cols 15,14,13
-            else pixelCol = depth                      // W: cols 0,1,2
+            if (dc === 1) pixelCol = 31 - depth       // E: cols 31..26
+            else pixelCol = depth                      // W: cols 0..5
           }
 
           if (!result[pixelRow][pixelCol]) continue
@@ -1107,11 +1107,10 @@ function blendEdges(
           let hash = (col * 374761393 + row * 668265263 + pixelRow * 2654435761 + pixelCol * 1103515245) | 0
           hash = Math.imul((hash >> 16) ^ hash, 0x45d9f3b)
           hash = ((hash >> 16) ^ hash) & 0x7FFFFFFF
-          // Depth 0: ~38%, Depth 1: ~19%, Depth 2: ~6% (at default density)
           const density = BLEND_DENSITY[pairKey] ?? 1.0
           let replace = false
-          if (depth === 0) replace = hash % 8 < Math.max(1, Math.round(3 * density))
-          else if (depth === 1) replace = hash % 16 < Math.max(1, Math.round(3 * density))
+          if (depth < 2) replace = hash % 8 < Math.max(1, Math.round(3 * density))
+          else if (depth < 4) replace = hash % 16 < Math.max(1, Math.round(3 * density))
           else replace = hash % 16 < Math.round(1 * density)
 
           if (replace) {
@@ -1231,7 +1230,9 @@ for (let row = 0; row < VILLAGE_ROWS; row++) {
   spriteCache[row] = []
   for (let col = 0; col < VILLAGE_COLS; col++) {
     const tileType = tileMap[row][col]
-    const base = selectBaseSprite(tileType, col, row)
+    let base = selectBaseSprite(tileType, col, row)
+    const edges = getEdgeFlags(tileType, col, row)
+    if (edges) base = blendEdges(base, edges, col, row, tileType)
     spriteCache[row][col] = base
   }
 }
