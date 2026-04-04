@@ -897,6 +897,41 @@ const woodBlock = toSprite([
   'EEEEEEEEEEEEEFEEEEEEEEEEEEFEEEJJ',
 ])
 
+const gardenBlock = toSprite([
+  'BKBBBBKBBBBBBBBKBBBBBKBBBBBBBBBB',
+  'BBKBBBBBBBBBBKBBBBBBBBBBBKBBBBBB',
+  'BBBBBBKBBBBBBBBBBBBBBKBBBBBBBBKB',
+  'BBBBBBBBBBBBBBBKBBBBBBBBBBKBBBBB',
+  'BKBBBBBBBBKBBBBBBBBKBBBBBBBBBBBB',
+  'BBBBBKBBBBBBBBBBBBBBBBBBKBBBBBBB',
+  'BBBBBBBBBBBKBBBBBBBBBBBBBBBBBBKB',
+  'BKBBBBBBKBBBBBBBBBBBBKBBBBBBKBBB',
+  'BBBBKBBBBBBBBBBBKBBBBBBBBBBBBBBK',
+  'BBBBBBBBBKBBBBBBBBBBBBKBBBBBKBBB',
+  'BKBBBBBBBBBBBBBBBBKBBBBBBBBBBBBK',
+  'BBBBBBBKBBBBKBBBBBBBBBBBBBKBBBBB',
+  'BBBBKBBBBBBBBBBBBBBBBKBBBBBBBBBK',
+  'BBBBBBBBBBBBBKBBBBBBBBBKBBBBBBBK',
+  'BKBBBBKBBBBBBBBBBBBBBBBBBBBBBBBK',
+  'BBBBBBBBBBKBBBBBBBKBBBBKBBBBKBBB',
+  'BBKBBBBBBBBBBKBBBBBBBBBBBBBBBBBK',
+  'BBBBBBKBBBBBBBBBBBBKBBBBBBBBBKBB',
+  'BBBBBBBBBBBKBBBBBBBBBBKBBBKBBBBK',
+  'BKBBBBBBBBBBBBBBKBBBBBBBBBBBBBBK',
+  'BBBBBBBBKBBBBBBBBBBBBBBBBKBBBBBB',
+  'BBBBKBBBBBBBBBBKBBBBKBBBBBBBBBBK',
+  'BBBBBBBBBBKBBBBBBBBBBBBBBBBKBBBB',
+  'BKBBBBBBBBBBBBBBBKBBBBBBKBBBBBBK',
+  'BBBBBBKBBBBBBKBBBBBBBBBBBBBBKBBB',
+  'BBBBBBBBBBBBBBBBBBKBBBBBBBBBBBBK',
+  'BBKBBBBBBBBKBBBBBBBBBBBBBBKBBBBB',
+  'BBBBBBBBKBBBBBBBBBBKBBBBBBBBBKBB',
+  'BBKBBBBBBBBBBKBBBBBBBBBBBBBBBBBK',
+  'BBBBBBBBBBBBBBBKBBBBBBBBBKBBBBBB',
+  'BBBBKBBBBKBBBBBBBBBBBKBBBBBBBBBB',
+  'BBBBBBBBBBBBKBBBBBBBBBBBBKBBBBBB',
+])
+
 // =====================
 // Variant lookup tables
 // =====================
@@ -906,6 +941,7 @@ const pathVariants: readonly SpriteData[] = [path1]
 const gatherVariants: readonly SpriteData[] = [gatherBlock]
 const waterVariants: readonly SpriteData[] = [waterBlock]
 const woodVariants: readonly SpriteData[] = [woodBlock]
+const gardenVariants: readonly SpriteData[] = [gardenBlock]
 const bambooVariants: readonly SpriteData[] = [bamboo1, bamboo2, bamboo3]
 const cookLandmarks: readonly SpriteData[] = [cook2, cook3, cook4]
 const gatherLandmarks: readonly SpriteData[] = [gather_flowers, gather_toy]
@@ -1121,7 +1157,7 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
   if (tileType === TileType.BAMBOO) return grass1
   if (tileType === TileType.GATHERING) return gatherVariants[idx % gatherVariants.length]
   if (tileType === TileType.WATER) return waterVariants[idx % waterVariants.length]
-  if (tileType === TileType.GARDEN) return grass1
+  if (tileType === TileType.GARDEN) return gardenVariants[idx % gardenVariants.length]
   if (tileType === TileType.WOODCUTTING) return woodVariants[idx % woodVariants.length]
   if (tileType === TileType.COOKING) return grass1
   if (tileType === TileType.GROUNDSKEEPING) return grass1

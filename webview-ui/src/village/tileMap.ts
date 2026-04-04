@@ -5,24 +5,24 @@ export const VILLAGE_ROWS = 15
 
 /**
  * Raw village layout grid — 25 columns × 15 rows.
- * Three anchor zones (gathering, fishing pond, building) with organic path.
+ * Central gathering clearing, woodcutting NE, pond SW touching garden, organic branching paths.
  */
 const LAYOUT_ROWS: readonly string[] = [
-  'GGGGGGGGGGGGGGGGGGGGGGGGG',  // row 0
-  'GGGGGGGGGGGGGGGGGGGGHGGGG',  // row 1  — hut NE
-  'GGHGGGGGGGGGGGBBBBGGGGGGG',  // row 2  — hut NW + building
-  'GGGGGGGPGGGGGGBBBBGGGGGGG',  // row 3  — path begins
-  'GGGGGGPPGGGGGBBBGGGGGGGGG',  // row 4  — building tapers
-  'GGGGGPPGAAAAAAGGGGGGGGGGG',  // row 5  — path meets gathering
-  'GGGGGPAAAAAAAAAAAGGGGGGGG',  // row 6  — gathering widens
-  'GGGGGGAAAAAAAAAAAAGGGGGGG',  // row 7  — gathering widest
-  'GGHGGGGGAAAAAAAAGGGGGGGGG',  // row 8  — hut W
-  'GGGGGGGGAAGGGGGGWWGGGGGGG',  // row 9  — gathering tapers, pond starts
-  'GGGGGGGGGGGGGGGWWWWWGGGGG',  // row 10 — pond widens
-  'GGGGGGGGGGGGGGWWWWWWGHGGG',  // row 11 — pond widest + hut SE
-  'GGGGGGGGGGGGGGGWWWWGGGGGG',  // row 12 — pond narrows
-  'GGGGGGGGGGGGGGGGWWGGGGGGG',  // row 13 — pond tapers
-  'GGGGGGGGGGGGGGGGGGGGGGGGG',  // row 14
+  'GGGGGGGGGGGGGGGGGBBBGGGGG',  // row 0  — woodcutting NE
+  'GGGGGGGGGGGGPPGBBBBGGGGGG',  // row 1  — path toward woodcutting
+  'GGHGGGGGGGGPPBBBBGGGGGGGG',  // row 2  — hut NW + path + woodcutting
+  'GGGGGGGGGGPPGBBBGGGGGHGGG',  // row 3  — path + woodcutting tapers + hut NE
+  'GGGGGGGGGPPGGGGGGGGGGGGGG',  // row 4  — path descends
+  'GGGGGGGGPPAAAAAGGGGGGGGGG',  // row 5  — path into gathering
+  'GGGGGGGAAAAAAAAAGGGGGGGGG',  // row 6  — gathering core
+  'GGGGGGGAAAAAAAAAGGGGGGGGG',  // row 7  — gathering core
+  'GGGGGGPPAAAAAAGGGPGGGGGGG',  // row 8  — path W + gathering + SE branch
+  'GGGGGPPGAAAGGGGPGGGGGGGGG',  // row 9  — paths + gathering tail
+  'GGGGPPGGGGGGGPGGGGGGGGGGG',  // row 10 — SW + SE paths
+  'GGGPWWWWDDDDGPGGGGGGGGGGG',  // row 11 — pond + garden + path
+  'GHWWWWWDDDDDPGGGGGGGGGGGG',  // row 12 — hut SW + pond + garden + path
+  'GWWWWWWDDDDDDGGGHHGGGGGGG',  // row 13 — pond + garden + large hut SE
+  'GWWWWWDDDDDGGGGGHHGGGGGGG',  // row 14 — pond + garden + large hut SE
 ]
 
 const CHAR_TO_TILE: Record<string, TileType> = {
@@ -32,6 +32,7 @@ const CHAR_TO_TILE: Record<string, TileType> = {
   A: TileType.GATHERING,
   B: TileType.WOODCUTTING,
   W: TileType.WATER,
+  D: TileType.GARDEN,
 }
 
 /** Parsed tile grid — VILLAGE_ROWS rows, each VILLAGE_COLS wide. */
@@ -41,10 +42,13 @@ export const tileMap: TileType[][] = LAYOUT_ROWS.map((row) =>
 
 /** All H marker positions in the source layout (small huts only at 25×15 scale). */
 export const HUT_POSITIONS: ReadonlyArray<{ col: number; row: number }> = [
-  { col: 2, row: 2 },
-  { col: 20, row: 1 },
-  { col: 2, row: 8 },
-  { col: 21, row: 11 },
+  { col: 2, row: 2 },    // small — NW
+  { col: 21, row: 3 },   // small — NE near woodcutting
+  { col: 1, row: 12 },   // small — SW near pond
+  { col: 16, row: 13 },  // large (2x2 cluster) — SE
+  { col: 17, row: 13 },
+  { col: 16, row: 14 },
+  { col: 17, row: 14 },
 ]
 
 /**
