@@ -1,6 +1,6 @@
 ---
 id: pa-h6x3
-status: open
+status: in_progress
 deps: [pa-03lk]
 links: []
 created: 2026-04-04T00:50:16Z
@@ -26,3 +26,11 @@ Follow grass1/grass2/grass3 pattern — each variant is a 32-row × 32-column ch
 Update gatherVariants array
 
 This ground type may also be used for cooking zone if cooking shares the same cleared-earth surface.
+
+**2026-04-04T01:21:04Z**
+
+Started by Kimberly Kost
+
+**2026-04-04T01:21:35Z**
+
+Approved approach: Create 3 gathering sprites (gather_a, gather_b, gather_c) as 32x32 grids using all 4 palette chars (c/v/x/y). Multi-pixel features (2-3px shadow patches, highlight streaks, dirt texture clusters). Irregular clustering, varied density. Update gatherVariants to [gather_a, gather_b, gather_c], remove gatherBlock.
