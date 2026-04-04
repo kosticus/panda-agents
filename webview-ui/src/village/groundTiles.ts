@@ -108,76 +108,6 @@ const grass1 = toSprite([
   'dgggggtggggggggggggggggggggggggg',
 ])
 
-const grass2 = toSprite([
-  'tgggggggggggggggggggtggtgtgggggd',
-  'ggdggtggggtggggggggggggggggggggg',
-  'gggggtgggggtgggtgggtgggtgtgggggg',
-  'gggggggggggtggdggtgggtgggtgggtgg',
-  'dggtgggggggggtggggggdggggggtgggg',
-  'gggggggggggggggdggtgtggggtggggtg',
-  'gtgtggggggdgdggggtggggtgtggggtgg',
-  'ggdggdgtgggggtgggtggggtgtggtgggg',
-  'ggtggggggtgggggtggggggtgggdggtgt',
-  'gggggtgtggtgggggggggtgdgtggggtgg',
-  'ggggtggdgggtgggdgggtggtggtgggggg',
-  'ggtggtgggtggggtgggtgggggggtgtgtg',
-  'gggggdggggtggdgtgtggggggtggggtgg',
-  'ggdggggggdggggtgggtgggtgggtgggtg',
-  'gtgggtgggggggggtgggggtggtgtggggg',
-  'tgggggggggtgggggggggggtggggggtgg',
-  'gggggtgtgggggtgggtggggggtgtgtggg',
-  'gggggggdgggggtgggggggggggggggggg',
-  'ggtgggggggggggggggggggggggtgggtg',
-  'ggdggtgggdgtggdgggggggggtgtggggg',
-  'gggggggtgggggggtggtgggggggggggtg',
-  'gggggtggggtggggdgggggggggggdgggg',
-  'gtgtggggtggggggggggggggggggggtgt',
-  'gggggggdgtgggggggtgggggggggggtgg',
-  'ggggggtgggtgtgtgggggtggggggggggg',
-  'ggdggggggtgggggggggggtgggggggggg',
-  'dgggggggtgggggtgggggggtgggggggtg',
-  'gdgtgggtggggggggggtgggggggggggtg',
-  'ggggdgggtggtggtggggggdggdggdgggd',
-  'ggtggggtggggtgdggggggggggggggtgg',
-  'gggggggggtgggggggggggdgdgdggtggg',
-  'dggtggtgggggtggggggtgtgggggggggg',
-])
-
-const grass3 = toSprite([
-  'gmgggmggmggmggmgggggdgdggmggdggg',
-  'dgggggggggdggggggmgggggggdgggggg',
-  'gggggmgmggggggggmgdggggggggggdgg',
-  'mgggmggdgmgggggggdgggggggmgggggg',
-  'ggggdgdggdgggdggmgggggggggggdggg',
-  'gggmgdgggggmgggggggggdgmgggggggg',
-  'gdgdggggggggmggdgggggggggggggggg',
-  'ggggggggmgdgggggggmggggdggggdggg',
-  'gggggggdgggggggdgggggdggggggggmg',
-  'gggdgggggggmggmggggggggggggggggg',
-  'gdggggggggggggggggggggggggggdgdg',
-  'gmgdggdgdgmgggggdgdgmggggggggdgm',
-  'mggmgggggggdggggmggdgggggmgdgggg',
-  'dgmggggggggggggdggdgggggggggggdg',
-  'ggdggmggggggdgdggggggdgggdgggggg',
-  'gggggggmggmggggmgggggggggggmgggg',
-  'ggmggggggmggmgmgmggdggggdggmgggg',
-  'gmgggmgdgggggggmgggggggggggggggg',
-  'ggggggggdggggggggdgdgggggggggmgg',
-  'dgggggdggggmggdggdgggggggggdgggg',
-  'gggggggggdggdggggggggggmgggggggm',
-  'ggmgggggggggggggdgggmgggggmggggg',
-  'gdggdggggggggggggdgggmgggggggmgg',
-  'dggggdgggdgggggggggggdggmgggggdg',
-  'gmgmgmggdggggmggggggggdggggggggg',
-  'mgggmgggggmgggggggggggggmgggggmg',
-  'ggmggggggggggdggggggggggmgggmggg',
-  'ggggmgggggdgdgmgggmggggggggggggg',
-  'ggggggggggdgggggggdgggggmggggmgg',
-  'ggggmgggmgdgggggggggggggdggggggg',
-  'gggmgdggggggggggggdggggggmgggggg',
-  'ggmgggdgdggggdggggmgggggggmggmgd',
-])
-
 // =====================
 // PATH TILES
 // =====================
@@ -1006,7 +936,6 @@ const gardenBlock = toSprite([
 // Variant lookup tables
 // =====================
 
-const grassVariants: readonly SpriteData[] = [grass1, grass2, grass3]
 const pathVariants: readonly SpriteData[] = [path1]
 const waterVariants: readonly SpriteData[] = [water_a, water_b, water_c]
 const woodVariants: readonly SpriteData[] = [woodBlock]
@@ -1204,7 +1133,22 @@ function blendEdges(
 function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteData {
   const idx = variantIndex(col, row)
 
-  if (tileType === TileType.GRASS) return grassVariants[idx]
+  if (tileType === TileType.GRASS) {
+    const grassColors = [P.g, P.g, P.d, P.t, P.g, P.m, P.g, P.g]
+    const base = grass1.map((r) => [...r])
+    let h = (col * 374761393 + row * 668265263) | 0
+    for (let pr = 0; pr < 32; pr++) {
+      for (let pc = 0; pc < 32; pc++) {
+        if (!base[pr][pc]) continue
+        h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
+        h = (h >> 16) ^ h
+        if ((h & 0x7FFFFFFF) % 9 === 0) {
+          base[pr][pc] = grassColors[(h >>> 2) & 7]
+        }
+      }
+    }
+    return base
+  }
   if (tileType === TileType.PATH) {
     const pathColors = [P.s, P.k, P.w, P.p]
     const base = path1.map((r) => [...r])
