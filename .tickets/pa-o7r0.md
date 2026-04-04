@@ -1,6 +1,6 @@
 ---
 id: pa-o7r0
-status: open
+status: closed
 deps: [pa-03lk]
 links: []
 created: 2026-04-04T00:50:19Z
@@ -25,3 +25,7 @@ Pattern: tilled soil / garden bed surface with furrow texture, richer soil color
 Update gardenVariants array
 
 This ground type might also be used for digging zone (unsure yet).
+
+**2026-04-04T02:53:46Z**
+
+Started by Kimberly Kost
