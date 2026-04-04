@@ -74,38 +74,38 @@ function toSprite(rows: readonly string[]): SpriteData {
 // =====================
 
 const grass1 = toSprite([
-  'gtggtggggtggggggtgggggggggdggggg',
-  'dgtggdgdgggggggggggggggdgggggggg',
-  'gdggggggtggggggggdgggggggggggggg',
-  'gggggggggggggggggtgggtgggggggggg',
-  'gggtgggggggggggggggtgggggggggtgg',
-  'gggtgggtggggtggdgggggggggggggtgg',
-  'gggggggggdgggggtgggggggdgggggtgd',
-  'gtgggggggggggggggggtgggtgggggggg',
-  'gggggggggdgtgggggggdgdgggggggggd',
-  'gggdgggdggggdgtgggggggggtgtggggg',
-  'ggggggggggggggggggggggdgggdggggg',
-  'gggggggggggggggggggggggtggtggggg',
-  'gggggggggggdgggggggggggggggdgggg',
-  'ggggdgdggggggggdggggggtggggggggg',
-  'gggdggdggdgggggdggggdggggtgggggg',
-  'ggtggggggggggggdgggggtgggggggggg',
-  'ggggdgdggtggtggggggdgggggggggggg',
-  'ggggggggggggggtgggggggtggggggggt',
-  'gdggdgggggdggggggggggggggtgtgggg',
-  'gggggggdgggggggdgggggggggggggggg',
-  'ggggggggggtggggdggggggggtggggggg',
-  'ggtggggggggggdggggggdgdggdggtggg',
-  'gggggggggggggdgtgdgggdggggggggdg',
-  'gggggdgggtggggdggggggggdggggggtg',
-  'gggggggdgggggggggggggggggggggtgg',
-  'ggggggggggggggggggggggggggggggdg',
-  'gggdgggggggdgggtggtggggggdgtgggg',
-  'ggggggggggdgggggggggdggggggtgggg',
-  'ggggggggggggtgtggggggdgggtggggdg',
-  'ggggggggdgggtgggggdgggggggtggtgg',
-  'ggggggggggggggggtggggggggggtggdg',
-  'dgggggtggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
+  'gggggggggggggggggggggggggggggggg',
 ])
 
 // =====================
@@ -1142,7 +1142,7 @@ function selectBaseSprite(tileType: TileType, col: number, row: number): SpriteD
         if (!base[pr][pc]) continue
         h = Math.imul((h >> 16) ^ h, 0x45d9f3b)
         h = (h >> 16) ^ h
-        if ((h & 0x7FFFFFFF) % 9 === 0) {
+        if ((h & 0x7FFFFFFF) % 4 === 0) {
           base[pr][pc] = grassColors[(h >>> 2) & 7]
         }
       }
