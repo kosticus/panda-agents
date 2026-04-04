@@ -1,6 +1,6 @@
 ---
 id: pa-03lk
-status: in_progress
+status: closed
 deps: []
 links: []
 created: 2026-04-03T22:55:24Z

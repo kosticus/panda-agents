@@ -16,13 +16,13 @@ const LAYOUT_ROWS: readonly string[] = [
   'GGGGGGGGPPAAAAAGGGGGGGGGG',  // row 5  — path into gathering
   'GGGGGGGAAAAAAAAAGGGGGGGGG',  // row 6  — gathering core
   'GGGGGGGAAAAAAAAAGGGGGGGGG',  // row 7  — gathering core
-  'GGGGGGPPAAAAAAGGGPGGGGGGG',  // row 8  — path W + gathering + SE branch
-  'GGGGGPPGAAAGGGGPGGGGGGGGG',  // row 9  — paths + gathering tail
-  'GGGGPPGGGGGGGPGGGGGGGGGGG',  // row 10 — SW + SE paths
-  'GGGPWWWWDDDDGPGGGGGGGGGGG',  // row 11 — pond + garden + path
-  'GHWWWWWDDDDDPGGGGGGGGGGGG',  // row 12 — hut SW + pond + garden + path
-  'GWWWWWWDDDDDDGGGHHGGGGGGG',  // row 13 — pond + garden + large hut SE
-  'GWWWWWDDDDDGGGGGHHGGGGGGG',  // row 14 — pond + garden + large hut SE
+  'GGGGGGPPAAAAAAPPPPPGGGGGG',  // row 8  — path W + gathering + path to SE
+  'GGGGGPPGAAAGGGGGGGPPGGGGG',  // row 9  — paths diverge + SE path continues
+  'GGHGPPGGGGGGGGGGGGPHHGGGG',  // row 10 — hut SW + path + SE path + hut SE (2×2)
+  'GGGGPWWWWDDDDGGGGGGGHHGGG',  // row 11 — pond + garden + hut SE continues
+  'GGGWWWWWWDDDDDGGGGGGGGGGG',  // row 12 — pond + garden
+  'GGWWWWWWWDDDDDDGGGGGGGGGG',  // row 13 — pond widens + garden
+  'GGWWWWWWDDDDDDGGGGGGGGGGG',  // row 14 — pond + garden
 ]
 
 const CHAR_TO_TILE: Record<string, TileType> = {
@@ -44,11 +44,11 @@ export const tileMap: TileType[][] = LAYOUT_ROWS.map((row) =>
 export const HUT_POSITIONS: ReadonlyArray<{ col: number; row: number }> = [
   { col: 2, row: 2 },    // small — NW
   { col: 21, row: 3 },   // small — NE near woodcutting
-  { col: 1, row: 12 },   // small — SW near pond
-  { col: 16, row: 13 },  // large (2x2 cluster) — SE
-  { col: 17, row: 13 },
-  { col: 16, row: 14 },
-  { col: 17, row: 14 },
+  { col: 2, row: 10 },   // small — SW above pond
+  { col: 19, row: 10 },  // large (2x2 cluster) — SE
+  { col: 20, row: 10 },
+  { col: 19, row: 11 },
+  { col: 20, row: 11 },
 ]
 
 /**
