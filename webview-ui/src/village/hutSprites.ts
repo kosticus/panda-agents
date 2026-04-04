@@ -19,7 +19,7 @@ const _  = ''        // transparent
 const GH = 96
 const ROOF_H = 42
 const MIN_RW = 12
-const WT = 44
+const WT = 43
 const WB = 86
 
 /**
