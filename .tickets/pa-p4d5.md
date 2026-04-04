@@ -1,6 +1,6 @@
 ---
 id: pa-p4d5
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -41,3 +41,9 @@ Palette: currently reuses stump palette (r/u/z). May add new entries if needed.
 - Consistent with wood2's palette style
 - Dark-outline + bright-interior pattern
 - References the chopping preview script design
+
+## Notes
+
+**2026-04-04T01:00:12Z**
+
+Superseded by pa-zyes (woodcutting 32x32 landmarks) — designing directly at 32x32 instead of 16x16

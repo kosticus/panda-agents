@@ -1,7 +1,7 @@
 ---
 id: pa-hkbf
 status: in_progress
-deps: [pa-51oa, pa-f1px, pa-pi5x, pa-98ky, pa-0hto, pa-p4d5]
+deps: [pa-51oa, pa-f1px, pa-pi5x, pa-98ky, pa-0hto, pa-p4d5, pa-djhk]
 links: []
 created: 2026-04-02T23:02:56Z
 type: task

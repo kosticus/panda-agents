@@ -1,6 +1,6 @@
 ---
 id: pa-0hto
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -44,3 +44,9 @@ Palette entries currently assigned (can be reassigned):
 - Strong color contrast against grass base
 - Groundskeeping area visually distinct from regular grass
 - variantIndex returns 0/1/2 — all 3 variants mapped in groundLandmarks array
+
+## Notes
+
+**2026-04-04T01:00:11Z**
+
+Superseded by pa-aw4a (groundskeeping 32x32 landmarks) — designing directly at 32x32 instead of 16x16

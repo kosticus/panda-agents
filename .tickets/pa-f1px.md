@@ -1,6 +1,6 @@
 ---
 id: pa-f1px
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-04-03T01:42:52Z
@@ -46,3 +46,9 @@ Palette entries currently assigned (can be reassigned):
 - Strong color contrast against packed earth base
 - Features use dark-outline + bright-interior pattern
 - Play area theme (flowers, toys, playground elements)
+
+## Notes
+
+**2026-04-04T01:00:10Z**
+
+Superseded by pa-6qil (gathering 32x32 landmarks) — designing directly at 32x32 instead of 16x16
