@@ -408,6 +408,7 @@ const WATER_BIG_PAL: Record<string, string> = {
   L: '#8cbe64',  // sprout green (lighter)
   B: '#a07846',  // soil brown
   Q: '#5082b4',  // watering can (blue-gray)
+  H: '#3a6088',  // can handle/rim (dark blue-gray)
   D: '#64aadc',  // water drops
 }
 
@@ -465,13 +466,13 @@ const WATER_BIG_1: string[] = [
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 41  belly
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKQQ.',  // 42  spout tip (2Q) above can
-  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',  // 43  arm taper, can top (4Q)
-  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',  // 44  wrist, can widens (6Q)
-  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 45  hips, can body (6Q)
-  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 46  taper, can body (6Q)
-  '....KKKKKKKKWWWWWWWWKKKKK..QQQQ.',  // 47  taper, can base (4Q)
-  '.....KKKKKKKWWWWWWWWKKKKK.......',  // 48  taper
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK..HH.',  // 42  handle top arc
+  'KKKKKKKWWWWWWWGGGGWWWWWWKK.HQQH.',  // 43  handle meets can rim
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.HQQQQH',  // 44  wrist, can body outlined
+  '..KKKKKKKKKKWWWWWWWWKKKK.HQQQQH.',  // 45  hips, can body
+  '...KKKKKKKKKWWWWWWWWKKKK.HQQQQH.',  // 46  taper, can body
+  '....KKKKKKKKWWWWWWWWKKKKK..HQQH.',  // 47  taper, can tapers
+  '.....KKKKKKKWWWWWWWWKKKKK...HH..',  // 48  can bottom
   // --- Legs (6 rows) ---
   '......KKKKKKKK....KKKKKKKK......',  // 49
   '......KKKKKKKK....KKKKKKKK......',  // 50
@@ -479,11 +480,11 @@ const WATER_BIG_1: string[] = [
   '.....KKKKKKKKK....KKKKKKKKK.....',  // 52
   '....KKKKKKKKKK....KKKKKKKKKK....',  // 53
   '....KKKKKKKKKK....KKKKKKKKKK....',  // 54
-  // --- Crops: dry (6 rows) ---
-  '..LL.NN.LL.NN.LL.NN.LL.NN.LL....',  // 55  crop tops
-  '..NL.LN.NL.LN.NL.LN.NL.LN.NL....',  // 56  crop mid
-  '..L..NL..L.NL..L..NL..L..NL.....',  // 57  crop sparse
-  '..N..LN..N.LN..N..LN..N..LN.....',  // 58  crop sparse
+  // --- Crops: dry (4 rows of plants + 2 soil) ---
+  '...LL....NN....LL....NN....LL...',  // 55  leaf tips
+  '..NLLN..LNNL..NLLN..LNNL..NLLN..',  // 56  leaf canopy
+  '...NL....LN....NL....LN....NL...',  // 57  lower leaves
+  '....N.....L.....N.....L.....N...',  // 58  stems
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 59  soil
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 60  soil
   // --- Padding (4 rows) ---
@@ -549,9 +550,9 @@ const WATER_BIG_2: string[] = [
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  chest
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 42  belly
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 43  belly taper
-  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',  // 44  arm extends, can tilted, drip
-  'KKKKKKWWWWWWWWWWWWWWWWK.QQQQQ.D.',  // 45  wrist, can body, drip falls
-  '..KKKKKKKKKWWWWWWWWKKKKK..QQQ.DD',  // 46  hips, can base, water falls
+  'KKKKKKKWWWWWWGGGGWWWWWKK.HQQQHD.',  // 44  can tilted with outline, drip
+  'KKKKKKWWWWWWWWWWWWWWWWK..HQQH.D.',  // 45  wrist, can outlined, drip
+  '..KKKKKKKKKWWWWWWWWKKKKK..HH..DD',  // 46  can base, water falls
   '...KKKKKKKKWWWWWWWWKKKK.....DDD.',  // 47  taper, water stream
   '....KKKKKKKWWWWWWWWKKKKK....DD..',  // 48  taper, water falling
   // --- Legs (4 rows — slightly compressed from 6) ---
@@ -563,10 +564,10 @@ const WATER_BIG_2: string[] = [
   '..........................DDD...',  // 53  stream falling
   '...........................DD...',  // 54  drips hitting crops
   // --- Crops with water splash (4 rows — ground at same position as frame 1) ---
-  '..LL.NNDLL.DNNDDL.DNDLLD.DDLL...',  // 55  water hits crops, splash
-  '..NL.LNDNL..LNDNL.DLNDNLD.NL....',  // 56  water among crops
-  '..L..NL.DL..NLDNL..DNLD.DD.L....',  // 57  water drips in crops
-  '..N..LN..N..LNDDL..LN.D.N.N.....',  // 58  sparse crops + drips
+  '...LLD...NN....LL....NND..DLLD..',  // 55  water on right plants
+  '..NLLN..LNNL..NLLN..LNDL.DNLLN..',  // 56  water among right leaves
+  '...NL....LN....NL....DLN..D.NL..',  // 57  drips on right stems
+  '....N.....L.....N.....DL..D..N..',  // 58  drips falling
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 59  soil (wet)
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 60  soil
   // --- Padding (4 rows) ---

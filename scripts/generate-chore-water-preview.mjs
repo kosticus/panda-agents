@@ -24,6 +24,7 @@ const C = {
   L: [140, 190, 100],     // plant green (lighter / sprout)
   B: [160, 120, 70],      // soil/dirt brown
   Q: [80, 130, 180],      // watering can (blue-gray)
+  H: [58, 96, 136],       // can handle/rim (dark blue-gray)
   D: [100, 170, 220],     // water drops
 };
 
@@ -88,13 +89,13 @@ const water1 = n([
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKQQ',
-  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',
-  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',
-  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
-  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
-  '....KKKKKKKKWWWWWWWWKKKKK..QQQQ.',
-  '.....KKKKKKKWWWWWWWWKKKKK.......',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK..HH.',
+  'KKKKKKKWWWWWWWGGGGWWWWWWKK.HQQH.',
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.HQQQQH',
+  '..KKKKKKKKKKWWWWWWWWKKKK.HQQQQH.',
+  '...KKKKKKKKKWWWWWWWWKKKK.HQQQQH.',
+  '....KKKKKKKKWWWWWWWWKKKKK..HQQH.',
+  '.....KKKKKKKWWWWWWWWKKKKK...HH..',
   // --- Legs (6 rows) ---
   '......KKKKKKKK....KKKKKKKK......',
   '......KKKKKKKK....KKKKKKKK......',
@@ -102,11 +103,11 @@ const water1 = n([
   '.....KKKKKKKKK....KKKKKKKKK.....',
   '....KKKKKKKKKK....KKKKKKKKKK....',
   '....KKKKKKKKKK....KKKKKKKKKK....',
-  // --- Crops: dry (6 rows) ---
-  '..LL.NN.LL.NN.LL.NN.LL.NN.LL..',
-  '..NL.LN.NL.LN.NL.LN.NL.LN.NL.',
-  '..L..NL..L.NL..L..NL..L..NL...',
-  '..N..LN..N.LN..N..LN..N..LN...',
+  // --- Crops: dry (4 rows of plants + 2 soil) ---
+  '...LL....NN....LL....NN....LL...',
+  '..NLLN..LNNL..NLLN..LNNL..NLLN..',
+  '...NL....LN....NL....LN....NL...',
+  '....N.....L.....N.....L.....N...',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   // --- Padding (4 rows) ---
@@ -158,9 +159,9 @@ const water2 = n([
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
-  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',
-  'KKKKKKWWWWWWWWWWWWWWWWK.QQQQQ.D.',
-  '..KKKKKKKKKWWWWWWWWKKKKK..QQQ.DD',
+  'KKKKKKKWWWWWWGGGGWWWWWKK.HQQQHD.',
+  'KKKKKKWWWWWWWWWWWWWWWWK..HQQH.D.',
+  '..KKKKKKKKKWWWWWWWWKKKKK..HH..DD',
   '...KKKKKKKKWWWWWWWWKKKK.....DDD.',
   '....KKKKKKKWWWWWWWWKKKKK....DD..',
   // --- Legs (4 rows — slightly compressed from 6) ---
@@ -172,10 +173,10 @@ const water2 = n([
   '..........................DDD...',
   '...........................DD...',
   // --- Crops with water splash (4 rows — ground fixed) ---
-  '..LL.NNDLL.DNNDDL.DNDLLD.DDLL...',
-  '..NL.LNDNL..LNDNL.DLNDNLD.NL....',
-  '..L..NL.DL..NLDNL..DNLD.DD.L....',
-  '..N..LN..N..LNDDL..LN.D.N.N.....',
+  '...LLD...NN....LL....NND..DLLD..',
+  '..NLLN..LNNL..NLLN..LNDL.DNLLN..',
+  '...NL....LN....NL....DLN..D.NL..',
+  '....N.....L.....N.....DL..D..N..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   // --- Padding (6 rows) ---
