@@ -413,7 +413,7 @@ const WATER_BIG_PAL: Record<string, string> = {
 
 // Frame 1: standing upright, watering can at right hip (not pouring)
 // Body anatomy matches canonical BASE_32 template.
-// Watering can (Q) on RIGHT side at hip level, tapered shape.
+// Watering can (Q) on RIGHT side at hip level, outlined 4×4 body with handle arch.
 // Bottom 6 rows: dry crops (N/L) over soil (B).
 const WATER_BIG_1: string[] = [
   // --- Padding (6 rows) ---
@@ -464,14 +464,14 @@ const WATER_BIG_1: string[] = [
   'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 38  shoulder (8K+16W+8K)
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKK.QQ',  // 41  belly + spout tip
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKK.QQ.',  // 42  spout shaft
-  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',  // 43  spout widens to can top
-  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',  // 44  wrist, can body (6Q)
-  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 45  hips, can body (6Q)
-  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 46  taper, can body (6Q)
-  '....KKKKKKKKWWWWWWWWKKKKK.QQQQ..',  // 47  taper, can base (4Q)
-  '.....KKKKKKKWWWWWWWWKKKKK..QQ...',  // 48  can bottom (2Q)
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKK...',  // 41  belly (no can)
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKK.QQ.',  // 42  handle top (2Q arch)
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.Q..Q',  // 43  handle sides
+  'KKKKKKWWWWWWWWWWWWWWWWWKK...QQQQ',  // 44  body top (solid 4×4)
+  '..KKKKKKKKKKWWWWWWWWKKKK....QQQQ',  // 45  body
+  '...KKKKKKKKKWWWWWWWWKKKK....QQQQ',  // 46  body
+  '....KKKKKKKKWWWWWWWWKKKKK...QQQQ',  // 47  body bottom
+  '.....KKKKKKKWWWWWWWWKKKKK.......',  // 48  (no can)
   // --- Legs (6 rows) ---
   '......KKKKKKKK....KKKKKKKK......',  // 49
   '......KKKKKKKK....KKKKKKKK......',  // 50
@@ -495,8 +495,8 @@ const WATER_BIG_1: string[] = [
 
 // Frame 2: bent forward (~4 rows drop), can tilted, water pouring onto crops
 // Body drops 4 rows from frame 1. Ears compress, band compresses slightly.
-// Arm extends right with tilted can. Water (D) cascades from spout through
-// leg area into crop splash. Stream shows drips leaving spout, falling, splash.
+// Outlined can body pours water (D) which cascades through leg area into
+// crop splash. Stream shows water falling from body, narrowing, then splashing.
 const WATER_BIG_2: string[] = [
   // --- Padding (10 rows — body drops 4 from frame 1) ---
   '................................',  //  1
@@ -549,19 +549,19 @@ const WATER_BIG_2: string[] = [
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  chest
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 42  belly
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 43  belly taper
-  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',  // 44  can tilted (5Q), drip start
-  'KKKKKKWWWWWWWWWWWWWWWWK..QQQQDD.',  // 45  can body (4Q), water falls
-  '..KKKKKKKKKWWWWWWWWKKKKK..QQ.DDD',  // 46  can spout down (2Q), water
-  '...KKKKKKKKWWWWWWWWKKKK.....DDD.',  // 47  taper, water stream
-  '....KKKKKKKWWWWWWWWKKKKK....DD..',  // 48  taper, water falling
+  'KKKKKKKWWWWWWGGGGWWWWWKK...QQQQ.',  // 44  body top (solid 4×4)
+  'KKKKKKWWWWWWWWWWWWWWWWK....QQQQ.',  // 45  body
+  '..KKKKKKKKKWWWWWWWWKKKKK...QQQQ.',  // 46  body
+  '...KKKKKKKKWWWWWWWWKKKK.....QQ..',  // 47  spout (centered, pointing down)
+  '....KKKKKKKWWWWWWWWKKKKK...DDD..',  // 48  water pours from body
   // --- Legs (4 rows — slightly compressed from 6) ---
-  '.....KKKKKKKK....KKKKKKKK.D.D...',  // 49  water drops through leg area
-  '.....KKKKKKKK....KKKKKKKKD..D...',  // 50  water drops
-  '....KKKKKKKKK....KKKKKKKKK.DD...',  // 51  water gathering
-  '....KKKKKKKKKK..KKKKKKKKKK.D....',  // 52  feet, water
+  '.....KKKKKKKK....KKKKKKKK..DD...',  // 49  water through leg gap
+  '.....KKKKKKKK....KKKKKKKK..D....',  // 50  water narrows
+  '....KKKKKKKKK....KKKKKKKKK.DD...',  // 51  water widening near ground
+  '....KKKKKKKKKK..KKKKKKKKKK.D....',  // 52  drip reaching ground
   // --- Water stream falling (2 rows — keeps ground fixed at same rows as frame 1) ---
-  '........................DDDDD...',  // 53  wide stream falling
-  '.........................DDDD...',  // 54  drips spreading
+  '........................DDDDD...',  // 53  splash spreading
+  '.........................DDDD...',  // 54  drips
   // --- Crops with water splash (4 rows — ground at same position as frame 1) ---
   '...LLD...NN...DLL..D.NND.DDLLD..',  // 55  water on 3 right plants
   '..NLLN..LNNL.DNLLN.DLNDL.DNLLN..',  // 56  water spreading in canopy
