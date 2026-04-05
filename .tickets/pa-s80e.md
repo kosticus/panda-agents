@@ -14,3 +14,9 @@ tags: [sprite, landmark]
 
 Redesign garden_produce and garden_scarecrow landmarks at 32x32. Currently 16x16.
 
+
+## Notes
+
+**2026-04-05T17:34:07Z**
+
+Started by Kimberly Kost
