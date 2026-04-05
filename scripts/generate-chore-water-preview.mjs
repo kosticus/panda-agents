@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 // Generates watering/tending crops animation preview: 2 frames side by side at 8× scale.
+// 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
 // Frame 1 (left): standing upright — full canonical pose, can at hip with spout visible, dry crops.
-// Frame 2 (right): bent forward — head 2 rows lower, can tilted, water stream to crops.
+// Frame 2 (right): bent forward — head 4 rows lower, can tilted, water stream to crops.
 // Feet same vertical position in both frames. Head height difference sells the bend.
 // Watering can has shaped profile (Q color) with spout. Water stream (D) in bent frame only.
+// Body anatomy matches the canonical BASE_32 template (generate-base-panda-32-preview.mjs).
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -25,12 +27,12 @@ const C = {
   D: [100, 170, 220],     // water drops
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const E = '................................';
 
 function n(frame) {
-  while (frame.length < FRAME_H) frame.push(EMPTY);
+  while (frame.length < FRAME_H) frame.push(E);
   return frame.map(row => {
     if (row.length < FRAME_W) return row + ".".repeat(FRAME_W - row.length);
     if (row.length > FRAME_W) return row.slice(0, FRAME_W);
@@ -38,93 +40,150 @@ function n(frame) {
   });
 }
 
-// === WATER FRAME 1: Bent forward — head 2 rows lower, can tilted, water pours ===
-// 5 empty + 5 ears + 6 face + 2 band + 6 body+can + 3 legs + 3 crops/water = 30 + 2 pad = 32
+// === WATER FRAME 1: Standing upright, can at right hip (not pouring) ===
+// Body anatomy matches canonical BASE_32 template.
+// Watering can (Q) on RIGHT side at hip level, tapered shape.
+// Bottom 6 rows: dry crops (N/L) over soil (B).
 const water1 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Ears — 5 rows (compressed: drop one hold row), centered
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — 6 rows, centered
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
-  // Band — 2 rows (compressed: drop top row)
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // Body bent, arm extends with tilted can — 6 rows
-  "KKKKKWWWWWWKKKKK",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWK.QQQ",  // arm extends, can rim (tilted out)
-  ".KKKWWWGGWWKQQQQ",  // body narrows, can body (widest)
-  "..KKKWWWWWKK.QQD",  // body base, can spout + drip
-  "...KKWWWWKKK..DD",  // water falls from spout
-  // Legs + water stream — 3 rows
-  "...KKKK..KKKK.D.",  // water stream beside right leg
-  "...KKKK..KKKK.D.",  // water continues
-  "..KKKKK..KKKKKD.",  // water beside right foot
-  // Crops with water — 2 rows + soil
-  "..LDNL.DL..DDDDD",  // water drops on crops + stream lands
-  "..LDNL.DL..DD.L.",  // water drops among crops
-  "..BBBBBBBBBBBBBB",  // soil
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',
+  '.....KKKKKK..........KKKKKK.....',
+  '....KKKKKKKK........KKKKKKKK....',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — can at right hip) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKQQ',
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',
+  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
+  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
+  '....KKKKKKKKWWWWWWWWKKKKK..QQQQ.',
+  '.....KKKKKKKWWWWWWWWKKKKK.......',
+  // --- Legs (6 rows) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Crops: dry (6 rows) ---
+  '..LL.NN.LL.NN.LL.NN.LL.NN.LL..',
+  '..NL.LN.NL.LN.NL.LN.NL.LN.NL.',
+  '..L..NL..L.NL..L..NL..L..NL...',
+  '..N..LN..N.LN..N..LN..N..LN...',
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
+  // --- Padding (4 rows) ---
+  E,E,E,E,
 ]);
 
-// === WATER FRAME 2: Standing upright, can at hip (not pouring) ===
-// 3 empty + 6 ears + 6 face + 3 band + 6 body+can + 3 legs + 3 ground + 2 pad = 32
+// === WATER FRAME 2: Bent forward (~4 rows drop), can tilted, water pouring ===
+// Body drops 4 rows from frame 1. Ears compress, band compresses slightly.
+// Arm extends right with tilted can. Water (D) cascades from spout.
 const water2 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD centered — full 6 rows
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // DN_FACE centered — 6 rows
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWWW.",  // eyes with glint
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  "..WWWWWKKWWWWW..",  // nose
-  "..WWWWWWWWWWWW..",  // lower face
-  "...WWWWWWWWWW...",  // chin
-  // DN_BAND centered — 3 rows
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY upright, can at right hip with spout — 6 rows
-  "KKKKKWWWWWWKKKKK",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKQ",  // belly, spout tip rises above can
-  ".KKKKWWGGWWWKQQQ",  // body narrows, can top (3px)
-  "..KKKKWWWWWKQQQQ",  // body base, can body (4px, widest)
-  // Legs — 3 rows (can base visible in first row)
-  "...KKKK..KKKKQQQ",  // can base (3px) tapers below body
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  // Crops + soil (no water) — 3 rows
-  "..L.NL..L...N.L.",  // dry crops
-  "..L.NL..L..N..L.",  // dry crops
-  "..BBBBBBBBBBBBBB",  // soil
+  E,E,E,E,E,E,E,E,E,E,
+  // --- Ears (4 rows — compressed, drop 1 hold row) ---
+  '......KKKK............KKKK......',
+  '.....KKKKKK..........KKKKKK.....',
+  '....KKKKKKKK........KKKKKKKK....',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  // --- Band (5 rows — compressed: drop top row) ---
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (10 rows — arm extends, can tilted, water pours) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
+  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',
+  'KKKKKKWWWWWWWWWWWWWWWWK.QQQQQ.D.',
+  '..KKKKKKKKKWWWWWWWWKKKKK..QQQ.DD',
+  '...KKKKKKKKWWWWWWWWKKKK.....DDD.',
+  '....KKKKKKKWWWWWWWWKKKKK....DD..',
+  // --- Legs (4 rows — slightly compressed from 6) ---
+  '.....KKKKKKKK....KKKKKKKK.D.D..',
+  '.....KKKKKKKK....KKKKKKKKD..D..',
+  '....KKKKKKKKK....KKKKKKKKK.DD..',
+  '....KKKKKKKKKK..KKKKKKKKKK.D...',
+  // --- Crops with water splash (6 rows) ---
+  'LL.NNDLL.DNNDDL.DNDLLD.DDDD.D..',
+  'NL.LNDNL..LNDNL.DLNDNLD.DD.D..',
+  'L..NL.DL..NLDNL..DNLD.DD.......',
+  'N..LN..N..LNDDL..LN.D.N........',
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
+  // --- Padding (6 rows) ---
+  E,E,E,E,E,E,
 ]);
 
 // === Render: 2 frames side by side ===
 const COLS = 2;
 const IMG_W = FRAME_W * COLS;
 const IMG_H = FRAME_H;
-const frames = [water2, water1];
+const frames = [water1, water2];
 
 const png = new PNG({ width: IMG_W, height: IMG_H });
 for (let i = 0; i < png.data.length; i += 4) {
@@ -175,8 +234,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_water_preview_8x.png");
+const outPath = join(outDir, "panda_water_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
 console.log("Frame 1 (left): standing upright — can at hip with spout, dry crops");
-console.log("Frame 2 (right): bent forward — head lower, can tilted, water stream to crops");
+console.log("Frame 2 (right): bent forward — head 4 rows lower, can tilted, water stream to crops");

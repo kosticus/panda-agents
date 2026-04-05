@@ -395,6 +395,187 @@ const WATER_2: string[] = [
 ]
 
 // ============================================================
+// WATER (32×64) — scaled water/crop animation
+// ============================================================
+
+const WATER_BIG_PAL: Record<string, string> = {
+  '.': '',
+  K: '#1e1e1e',  // black fur
+  W: '#f5f5f5',  // white fur
+  G: '#d7d7d7',  // gray belly
+  E: '#ffffff',   // eye glint
+  N: '#64a050',  // plant green (darker)
+  L: '#8cbe64',  // sprout green (lighter)
+  B: '#a07846',  // soil brown
+  Q: '#5082b4',  // watering can (blue-gray)
+  D: '#64aadc',  // water drops
+}
+
+// Frame 1: standing upright, watering can at right hip (not pouring)
+// Body anatomy matches canonical BASE_32 template.
+// Watering can (Q) on RIGHT side at hip level, tapered shape.
+// Bottom 6 rows: dry crops (N/L) over soil (B).
+const WATER_BIG_1: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',  //  7  4px dome tip
+  '.....KKKKKK..........KKKKKK.....',  //  8  6px
+  '....KKKKKKKK........KKKKKKKK....',  //  9  8px
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 10  10px (max)
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 11  10px
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 12  ear-head bridge
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',  // 13  20px
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',  // 14  22px
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 15  24px
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',  // 16  26px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 17  28px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 18  28px
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 19  rounded top (5K)
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 20  full patch (6K)
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 21  eyes + glint
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 22  eyes + glint
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 23  full patch (6K)
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',  // 25  26px
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',  // 26  24px
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 27  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',  // 28  22px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 29  20px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 30  20px
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 31  24K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 32  26K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 33  28K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 34  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  32K
+  // --- Body (12 rows — can at right hip) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 37  shoulder (9K+14W+9K)
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 38  shoulder (8K+16W+8K)
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 41  belly
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKQQ.',  // 42  spout tip (2Q) above can
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',  // 43  arm taper, can top (4Q)
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',  // 44  wrist, can widens (6Q)
+  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 45  hips, can body (6Q)
+  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 46  taper, can body (6Q)
+  '....KKKKKKKKWWWWWWWWKKKKK..QQQQ.',  // 47  taper, can base (4Q)
+  '.....KKKKKKKWWWWWWWWKKKKK.......',  // 48  taper
+  // --- Legs (6 rows) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 49
+  '......KKKKKKKK....KKKKKKKK......',  // 50
+  '......KKKKKKKK....KKKKKKKK......',  // 51
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54
+  // --- Crops: dry (6 rows) ---
+  '..LL.NN.LL.NN.LL.NN.LL.NN.LL....',  // 55  crop tops
+  '..NL.LN.NL.LN.NL.LN.NL.LN.NL....',  // 56  crop mid
+  '..L..NL..L.NL..L..NL..L..NL.....',  // 57  crop sparse
+  '..N..LN..N.LN..N..LN..N..LN.....',  // 58  crop sparse
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 59  soil
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 60  soil
+  // --- Padding (4 rows) ---
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// Frame 2: bent forward (~4 rows drop), can tilted, water pouring onto crops
+// Body drops 4 rows from frame 1. Ears compress, band compresses slightly.
+// Arm extends right with tilted can. Water (D) cascades from spout through
+// leg area into crop splash. Stream shows drips leaving spout, falling, splash.
+const WATER_BIG_2: string[] = [
+  // --- Padding (10 rows — body drops 4 from frame 1) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  '................................',  //  7
+  '................................',  //  8
+  '................................',  //  9
+  '................................',  // 10
+  // --- Ears (4 rows — compressed, drop 1 hold row) ---
+  '......KKKK............KKKK......',  // 11  4px dome tip
+  '.....KKKKKK..........KKKKKK.....',  // 12  6px
+  '....KKKKKKKK........KKKKKKKK....',  // 13  8px
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 14  10px (max)
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 15  ear-head bridge
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',  // 16  20px
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',  // 17  22px
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 18  24px
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',  // 19  26px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 20  28px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 21  28px
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 22  rounded top (5K)
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 23  full patch (6K)
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 24  eyes + glint
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 25  eyes + glint
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 26  full patch (6K)
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 27  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',  // 28  26px
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',  // 29  24px
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 30  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',  // 31  22px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 32  20px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 33  20px
+  // --- Band (5 rows — compressed: drop top row) ---
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 34  26K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 35  28K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 36  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 37  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 38  32K
+  // --- Body (10 rows — arm extends right with tilted can, water pours) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 39  shoulder (9K+14W+9K)
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 40  shoulder (8K+16W+8K)
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  chest
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 42  belly
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 43  belly taper
+  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',  // 44  arm extends, can tilted, drip
+  'KKKKKKWWWWWWWWWWWWWWWWK.QQQQQ.D.',  // 45  wrist, can body, drip falls
+  '..KKKKKKKKKWWWWWWWWKKKKK..QQQ.DD',  // 46  hips, can base, water falls
+  '...KKKKKKKKWWWWWWWWKKKK.....DDD.',  // 47  taper, water stream
+  '....KKKKKKKWWWWWWWWKKKKK....DD..',  // 48  taper, water falling
+  // --- Legs (4 rows — slightly compressed from 6) ---
+  '.....KKKKKKKK....KKKKKKKK.D.D...',  // 49  water drops through leg area
+  '.....KKKKKKKK....KKKKKKKKD..D...',  // 50  water drops
+  '....KKKKKKKKK....KKKKKKKKK.DD...',  // 51  water gathering
+  '....KKKKKKKKKK..KKKKKKKKKK.D....',  // 52  feet, water
+  // --- Crops with water splash (6 rows) ---
+  'LL.NNDLL.DNNDDL.DNDLLD.DDDD.D...',  // 53  water hits crops, splash
+  'NL.LNDNL..LNDNL.DLNDNLD.DD.D....',  // 54  water among crops
+  'L..NL.DL..NLDNL..DNLD.DD........',  // 55  water drips in crops
+  'N..LN..N..LNDDL..LN.D.N.........',  // 56  sparse crops + drips
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 57  soil (wet)
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 58  soil
+  // --- Padding (6 rows) ---
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// ============================================================
 // BAMBOO — harvesting bamboo
 // ============================================================
 
@@ -1089,6 +1270,7 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
 export const CHORE_SPRITES_BIG: Partial<Record<ChoreId, [SpriteData, SpriteData]>> = {
   sweep: [toSpriteBig(SWEEP_BIG_1, SWEEP_BIG_PAL), toSpriteBig(SWEEP_BIG_2, SWEEP_BIG_PAL)],
   build: [toSpriteBig(BUILD_BIG_1, BUILD_BIG_PAL), toSpriteBig(BUILD_BIG_2, BUILD_BIG_PAL)],
+  water: [toSpriteBig(WATER_BIG_1, WATER_BIG_PAL), toSpriteBig(WATER_BIG_2, WATER_BIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
