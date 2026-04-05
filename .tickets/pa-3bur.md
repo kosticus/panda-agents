@@ -1,13 +1,13 @@
 ---
 id: pa-3bur
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-03-28T01:04:25Z
 type: task
 priority: 2
 parent: pa-x3tb
-tags: [planned, migrated]
+tags: [planned, migrated, shelved]
 ---
 # Complete multi-view accessory sprites for sprout and bow
 
