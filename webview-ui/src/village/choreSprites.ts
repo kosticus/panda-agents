@@ -964,19 +964,19 @@ const BUILD_BIG_2: string[] = [
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 50  narrows
   'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 51  body base
   '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 52  hips
-  // --- Legs (4 rows — crouched, compressed) ---
-  '......KKKKKKKK....KKKKKKKK......',  // 53  8px per leg
-  '.....KKKKKKKKK....KKKKKKKKK.....',  // 54  9px
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 55  10px feet
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 56  10px feet
-  // --- Wall (6 rows — plank placed on top) ---
-  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 57  freshly placed plank
-  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 58  freshly placed plank
-  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 59  existing wall
-  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 60  wall grain
-  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 61  wall plank
-  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 62  wall grain
-  // --- Padding (2 rows) ---
+  // --- Legs (2 rows — crouched, compressed) ---
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 53  9px
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
+  // --- Wall (6 rows — fresh plank on TOP of existing wall) ---
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 55  freshly placed plank
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 56  freshly placed plank
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 57  existing wall plank (same pos as frame 1)
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 58  existing wall grain
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 59  existing wall plank
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 60  existing wall grain
+  // --- Padding (4 rows) ---
+  '................................',  // 61
+  '................................',  // 62
   '................................',  // 63
   '................................',  // 64
 ]

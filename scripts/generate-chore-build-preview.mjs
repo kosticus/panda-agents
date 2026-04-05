@@ -154,12 +154,10 @@ const build2 = n([
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
   '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',
-  // --- Legs (4 rows — crouched) ---
-  '......KKKKKKKK....KKKKKKKK......',
+  // --- Legs (2 rows — crouched, compressed) ---
   '.....KKKKKKKKK....KKKKKKKKK.....',
   '....KKKKKKKKKK....KKKKKKKKKK....',
-  '....KKKKKKKKKK....KKKKKKKKKK....',
-  // --- Wall (6 rows — plank placed on top) ---
+  // --- Wall (6 rows — fresh plank on TOP of existing wall) ---
   '....TTTTTTTTDDDDDDDDTTTTTTTT....',
   '....TTTTTTTTDDDDDDDDTTTTTTTT....',
   '....TTTTTTTTDDDDDDDDTTTTTTTT....',
