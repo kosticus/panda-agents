@@ -667,7 +667,7 @@ const BAMBOO_BIG_PAL: Record<string, string> = {
   D: '#A05A30',  // dirt (warm red-brown)
 }
 
-// Frame 1: body leans LEFT (~2px) to grip bamboo stalk. Stalk (NNVV, 4px) at
+// Frame 1: body leans LEFT (~2px) to grip bamboo stalk. Stalk (NNNV, 4px) at
 // cols 27-30, planted in ground. Paw grips stalk where arm meets it.
 // Body anatomy matches canonical BASE_32 template (shifted 2px left).
 // Ground at rows 55-56 (dirt D).
@@ -720,25 +720,24 @@ const BAMBOO_BIG_1: string[] = [
   'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 38  shoulder (8K+16W+8K)
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient
-  // --- Body with stalk (4 rows — NNVV at cols 28-31) ---
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNVV',  // 41  belly — stalk appears
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNVV',  // 42  belly taper
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNVV',  // 43  arm taper (7W+4G+7W symmetric)
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNVV',  // 44  wrist (6K+20W+1K)
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNNV',  // 41  belly — stalk (4W+3K)
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNNV',  // 42  belly taper (5W+3K)
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNNV',  // 43  forearm (7W+2K)
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNNV',  // 44  wrist (20W+1K)
   // --- Hips/taper (4 rows — centered, stalk alongside) ---
-  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 45  hips (10K+8W+7K)
-  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 46  taper (9K+8W+7K)
-  '....KKKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 47  taper (8K+8W+7K)
-  '.....KKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 48  taper (7K+8W+7K symmetric)
+  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 45  hips (10K+8W+7K)
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 46  taper (9K+8W+7K)
+  '....KKKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 47  taper (8K+8W+7K)
+  '.....KKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 48  taper (7K+8W+7K symmetric)
   // --- Legs (6 rows — centered, stalk alongside) ---
-  '......KKKKKKKK....KKKKKKKK..NNVV',  // 49  8px per leg
-  '......KKKKKKKK....KKKKKKKK..NNVV',  // 50  8px
-  '......KKKKKKKK....KKKKKKKK..JNVV',  // 51  J node
-  '.....KKKKKKKKK....KKKKKKKKK.NNVV',  // 52  9px smooth step
-  '....KKKKKKKKKK....KKKKKKKKKKNNVV',  // 53  10px feet (stalk flush)
-  '....KKKKKKKKKK....KKKKKKKKKKNNVV',  // 54  10px feet
+  '......KKKKKKKK....KKKKKKKK..NNNV',  // 49  8px per leg
+  '......KKKKKKKK....KKKKKKKK..NNNV',  // 50  8px
+  '......KKKKKKKK....KKKKKKKK..JNNV',  // 51  J node
+  '.....KKKKKKKKK....KKKKKKKKK.NNNV',  // 52  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKKNNNV',  // 53  10px feet (stalk flush)
+  '....KKKKKKKKKK....KKKKKKKKKKNNNV',  // 54  10px feet
   // --- Ground (2 rows — stalk planted in dirt) ---
-  '............................NNVV',  // 55  stalk at ground level
+  '............................NNNV',  // 55  stalk at ground level
   '..........................DDDDDD',  // 56  dirt at stalk base
   // --- Padding (8 rows) ---
   '................................',  // 57
@@ -752,7 +751,7 @@ const BAMBOO_BIG_1: string[] = [
 ]
 
 // Frame 2: body leans RIGHT (~2px), stalk pulled UP ~8 rows. Air gap between
-// stalk bottom and ground. Stalk (NNVV, 4px) from band (row 31) through row 46.
+// stalk bottom and ground. Stalk (NNNV, 4px) from band (row 31) through row 46.
 // Ground at rows 55-56 (same as frame 1). Disturbed dirt where stalk was pulled.
 const BAMBOO_BIG_2: string[] = [
   // --- Padding (6 rows) ---
@@ -791,24 +790,24 @@ const BAMBOO_BIG_2: string[] = [
   '.......WWWWWWWWWWWWWWWWWWWWWW...',  // 28  22px
   '........WWWWWWWWWWWWWWWWWWWW....',  // 29  20px
   '........WWWWWWWWWWWWWWWWWWWW....',  // 30  20px
-  // --- Band (6 rows — transition from shifted head to centered body, stalk) ---
+  // --- Band (6 rows — shifted right like head, stalk alongside) ---
   '......KKKKKKKKKKKKKKKKKKKKKKKK..',  // 31  24K (no stalk yet)
-  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 32  24K + stalk
-  '...KKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 33  25K + stalk
-  '..KKKKKKKKKKKKKKKKKKKKKKKKKKJNVV',  // 34  26K + J node
-  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 35  27K + stalk
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 36  28K + stalk (full left)
-  // --- Body (10 rows — centered, stalk alongside from band to row 46) ---
-  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',  // 37  shoulder (9K+14W+5K+NNVV)
-  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',  // 38  shoulder (8K+16W+4K+NNVV)
-  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKNNVV',  // 39  chest
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKJNVV',  // 40  gradient + J node
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKNNVV',  // 41  belly
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKNNVV',  // 42  belly taper
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNVV',  // 43  arm taper (7W+4G+7W symmetric)
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNVV',  // 44  wrist (6K+20W+1K)
-  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 45  hips (10K+8W+7K)
-  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNVV',  // 46  taper + stalk bottom (9K+8W+7K)
+  '.....KKKKKKKKKKKKKKKKKKKKKKKNNNV',  // 32  23K + stalk
+  '....KKKKKKKKKKKKKKKKKKKKKKKKNNNV',  // 33  24K + stalk
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKJNNV',  // 34  25K + J node
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNNV',  // 35  26K + stalk
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNNV',  // 36  26K + stalk
+  // --- Body upper (8 rows — shifted 2px right, arm tapers toward stalk) ---
+  '..KKKKKKKWWWWWWWWWWWWWWWWKKKNNNV',  // 37  shoulder (7K+16W+3K+NNNV)
+  '..KKKKKKWWWWWWWWWWWWWWWWWKKKNNNV',  // 38  upper arm (6K+17W+3K+NNNV)
+  '..KKKKKKWWWWWWGGGGWWWWWWWKKKNNNV',  // 39  chest (7W right — arm extends)
+  '..KKKKKKWWWWWGGGGGGWWWWWWWKKJNNV',  // 40  gradient + J node (7W+2K)
+  '..KKKKKKWWWWGGGGGGGGWWWWWWKKNNNV',  // 41  belly (6W+2K)
+  '..KKKKKKWWWWWGGGGGGWWWWWWWKKNNNV',  // 42  belly taper (7W+2K)
+  '..KKKKKWWWWWWWGGGGWWWWWWWWK.NNNV',  // 43  forearm (8W+1K)
+  '..KKKKWWWWWWWWWWWWWWWWWWWWW.NNNV',  // 44  wrist (21W — reaches stalk)
+  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 45  hips (10K+8W+7K)
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNNV',  // 46  taper + stalk bottom (9K+8W+7K)
   // --- Body taper (2 rows — centered, no stalk, air gap) ---
   '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 47  taper (8K+8W+8K BASE_32)
   '.....KKKKKKKWWWWWWWWKKKKKKK.....',  // 48  taper (7K+8W+7K BASE_32)

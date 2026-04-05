@@ -3,7 +3,7 @@
 // 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
 // Frame 1 (left): body leans left, arms reach right to grip bamboo stalk. Stalk planted in ground.
 // Frame 2 (right): body leans right, stalk pulled up ~8 rows. Air gap between stalk bottom and ground.
-// Bamboo stalk is 4px wide (NNVV) with J-color node. Body anatomy matches canonical BASE_32 template.
+// Bamboo stalk is 4px wide (NNNV) with J-color node. Body anatomy matches canonical BASE_32 template.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -38,7 +38,7 @@ function n(frame) {
 }
 
 // === BAMBOO FRAME 1: Body leans LEFT (~2px), stalk planted at right side ===
-// Stalk (NNVV, 4px) at cols 27-30. Body anatomy matches BASE_32 shifted 2px left.
+// Stalk (NNNV, 4px) at cols 28-31. Body anatomy matches BASE_32 shifted 2px left.
 // Ground at rows 55-56 (dirt D).
 const bamboo1 = n([
   E,E,E,E,E,E,
@@ -83,32 +83,31 @@ const bamboo1 = n([
   'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
-  // --- Body with stalk (4 rows — NNVV at cols 28-31) ---
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNVV',
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNVV',
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNVV',
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNVV',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNNV',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNNV',
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNNV',
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNNV',
   // --- Hips/taper (4 rows — centered, stalk alongside) ---
-  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNVV',
-  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNVV',
-  '....KKKKKKKKWWWWWWWWKKKKKKK.NNVV',
-  '.....KKKKKKKWWWWWWWWKKKKKKK.NNVV',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNNV',
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNNV',
+  '....KKKKKKKKWWWWWWWWKKKKKKK.NNNV',
+  '.....KKKKKKKWWWWWWWWKKKKKKK.NNNV',
   // --- Legs (6 rows — centered, stalk alongside) ---
-  '......KKKKKKKK....KKKKKKKK..NNVV',
-  '......KKKKKKKK....KKKKKKKK..NNVV',
-  '......KKKKKKKK....KKKKKKKK..JNVV',
-  '.....KKKKKKKKK....KKKKKKKKK.NNVV',
-  '....KKKKKKKKKK....KKKKKKKKKKNNVV',
-  '....KKKKKKKKKK....KKKKKKKKKKNNVV',
+  '......KKKKKKKK....KKKKKKKK..NNNV',
+  '......KKKKKKKK....KKKKKKKK..NNNV',
+  '......KKKKKKKK....KKKKKKKK..JNNV',
+  '.....KKKKKKKKK....KKKKKKKKK.NNNV',
+  '....KKKKKKKKKK....KKKKKKKKKKNNNV',
+  '....KKKKKKKKKK....KKKKKKKKKKNNNV',
   // --- Ground (2 rows — stalk planted in dirt) ---
-  '............................NNVV',
+  '............................NNNV',
   '..........................DDDDDD',
   // --- Padding (8 rows) ---
   E,E,E,E,E,E,E,E,
 ]);
 
 // === BAMBOO FRAME 2: Body leans RIGHT (~2px), stalk pulled UP ~8 rows ===
-// Stalk (NNVV, 4px) from band (row 32) through row 46. Air gap from 47 to ground.
+// Stalk (NNNV, 4px) from band (row 32) through row 46. Air gap from 47 to ground.
 // Ground at rows 55-56 (same as frame 1). Disturbed dirt where stalk was pulled.
 const bamboo2 = n([
   E,E,E,E,E,E,
@@ -141,24 +140,24 @@ const bamboo2 = n([
   '.......WWWWWWWWWWWWWWWWWWWWWW...',
   '........WWWWWWWWWWWWWWWWWWWW....',
   '........WWWWWWWWWWWWWWWWWWWW....',
-  // --- Band (6 rows — transition from shifted head to centered body, stalk) ---
+  // --- Band (6 rows — shifted right like head, stalk alongside) ---
   '......KKKKKKKKKKKKKKKKKKKKKKKK..',
-  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',
-  '...KKKKKKKKKKKKKKKKKKKKKKKKKNNVV',
-  '..KKKKKKKKKKKKKKKKKKKKKKKKKKJNVV',
-  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',
-  // --- Body (10 rows — centered, stalk alongside from band to row 46) ---
-  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',
-  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',
-  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKNNVV',
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKJNVV',
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKNNVV',
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKNNVV',
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNVV',
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNVV',
-  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNVV',
-  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNVV',
+  '.....KKKKKKKKKKKKKKKKKKKKKKKNNNV',
+  '....KKKKKKKKKKKKKKKKKKKKKKKKNNNV',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKJNNV',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNNV',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNNV',
+  // --- Body upper (8 rows — shifted 2px right, arm tapers toward stalk) ---
+  '..KKKKKKKWWWWWWWWWWWWWWWWKKKNNNV',
+  '..KKKKKKWWWWWWWWWWWWWWWWWKKKNNNV',
+  '..KKKKKKWWWWWWGGGGWWWWWWWKKKNNNV',
+  '..KKKKKKWWWWWGGGGGGWWWWWWWKKJNNV',
+  '..KKKKKKWWWWGGGGGGGGWWWWWWKKNNNV',
+  '..KKKKKKWWWWWGGGGGGWWWWWWWKKNNNV',
+  '..KKKKKWWWWWWWGGGGWWWWWWWWK.NNNV',
+  '..KKKKWWWWWWWWWWWWWWWWWWWWW.NNNV',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKK.NNNV',
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.NNNV',
   // --- Body taper (2 rows — centered, no stalk, air gap) ---
   '....KKKKKKKKWWWWWWWWKKKKKKKK....',
   '.....KKKKKKKWWWWWWWWKKKKKKK.....',
@@ -234,5 +233,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_bamboo_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean left — stalk planted in ground, NNVV at cols 27-30");
+console.log("Frame 1 (left): lean left — stalk planted in ground, NNNV at cols 28-31");
 console.log("Frame 2 (right): lean right — stalk pulled up ~8 rows, air gap to ground");
