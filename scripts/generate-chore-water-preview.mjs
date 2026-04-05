@@ -24,7 +24,6 @@ const C = {
   L: [140, 190, 100],     // plant green (lighter / sprout)
   B: [160, 120, 70],      // soil/dirt brown
   Q: [80, 130, 180],      // watering can (blue-gray)
-  H: [58, 96, 136],       // can handle/rim (dark blue-gray)
   D: [100, 170, 220],     // water drops
 };
 
@@ -88,14 +87,14 @@ const water1 = n([
   'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKK..HH.',
-  'KKKKKKKWWWWWWWGGGGWWWWWWKK.HQQH.',
-  'KKKKKKWWWWWWWWWWWWWWWWWKK.HQQQQH',
-  '..KKKKKKKKKKWWWWWWWWKKKK.HQQQQH.',
-  '...KKKKKKKKKWWWWWWWWKKKK.HQQQQH.',
-  '....KKKKKKKKWWWWWWWWKKKKK..HQQH.',
-  '.....KKKKKKKWWWWWWWWKKKKK...HH..',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKK.QQ',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKK.QQ.',
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',
+  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
+  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',
+  '....KKKKKKKKWWWWWWWWKKKKK.QQQQ..',
+  '.....KKKKKKKWWWWWWWWKKKKK..QQ...',
   // --- Legs (6 rows) ---
   '......KKKKKKKK....KKKKKKKK......',
   '......KKKKKKKK....KKKKKKKK......',
@@ -159,9 +158,9 @@ const water2 = n([
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
-  'KKKKKKKWWWWWWGGGGWWWWWKK.HQQQHD.',
-  'KKKKKKWWWWWWWWWWWWWWWWK..HQQH.D.',
-  '..KKKKKKKKKWWWWWWWWKKKKK..HH..DD',
+  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',
+  'KKKKKKWWWWWWWWWWWWWWWWK..QQQQDD.',
+  '..KKKKKKKKKWWWWWWWWKKKKK..QQ.DDD',
   '...KKKKKKKKWWWWWWWWKKKK.....DDD.',
   '....KKKKKKKWWWWWWWWKKKKK....DD..',
   // --- Legs (4 rows — slightly compressed from 6) ---
@@ -170,13 +169,13 @@ const water2 = n([
   '....KKKKKKKKK....KKKKKKKKK.DD...',
   '....KKKKKKKKKK..KKKKKKKKKK.D....',
   // --- Water stream falling (2 rows — keeps ground at same pos as frame 1) ---
-  '..........................DDD...',
-  '...........................DD...',
+  '........................DDDDD...',
+  '.........................DDDD...',
   // --- Crops with water splash (4 rows — ground fixed) ---
-  '...LLD...NN....LL....NND..DLLD..',
-  '..NLLN..LNNL..NLLN..LNDL.DNLLN..',
-  '...NL....LN....NL....DLN..D.NL..',
-  '....N.....L.....N.....DL..D..N..',
+  '...LLD...NN...DLL..D.NND.DDLLD..',
+  '..NLLN..LNNL.DNLLN.DLNDL.DNLLN..',
+  '...NL....LN..D.NL..D.DLN.DD.NL..',
+  '....N.....L..D..N..D..DL.D...N..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   // --- Padding (6 rows) ---

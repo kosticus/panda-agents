@@ -408,7 +408,6 @@ const WATER_BIG_PAL: Record<string, string> = {
   L: '#8cbe64',  // sprout green (lighter)
   B: '#a07846',  // soil brown
   Q: '#5082b4',  // watering can (blue-gray)
-  H: '#3a6088',  // can handle/rim (dark blue-gray)
   D: '#64aadc',  // water drops
 }
 
@@ -465,14 +464,14 @@ const WATER_BIG_1: string[] = [
   'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 38  shoulder (8K+16W+8K)
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 41  belly
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKK..HH.',  // 42  handle top arc
-  'KKKKKKKWWWWWWWGGGGWWWWWWKK.HQQH.',  // 43  handle meets can rim
-  'KKKKKKWWWWWWWWWWWWWWWWWKK.HQQQQH',  // 44  wrist, can body outlined
-  '..KKKKKKKKKKWWWWWWWWKKKK.HQQQQH.',  // 45  hips, can body
-  '...KKKKKKKKKWWWWWWWWKKKK.HQQQQH.',  // 46  taper, can body
-  '....KKKKKKKKWWWWWWWWKKKKK..HQQH.',  // 47  taper, can tapers
-  '.....KKKKKKKWWWWWWWWKKKKK...HH..',  // 48  can bottom
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKK.QQ',  // 41  belly + spout tip
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKK.QQ.',  // 42  spout shaft
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.QQQQ',  // 43  spout widens to can top
+  'KKKKKKWWWWWWWWWWWWWWWWWKK.QQQQQQ',  // 44  wrist, can body (6Q)
+  '..KKKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 45  hips, can body (6Q)
+  '...KKKKKKKKKWWWWWWWWKKKK.QQQQQQ.',  // 46  taper, can body (6Q)
+  '....KKKKKKKKWWWWWWWWKKKKK.QQQQ..',  // 47  taper, can base (4Q)
+  '.....KKKKKKKWWWWWWWWKKKKK..QQ...',  // 48  can bottom (2Q)
   // --- Legs (6 rows) ---
   '......KKKKKKKK....KKKKKKKK......',  // 49
   '......KKKKKKKK....KKKKKKKK......',  // 50
@@ -550,9 +549,9 @@ const WATER_BIG_2: string[] = [
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  chest
   'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 42  belly
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 43  belly taper
-  'KKKKKKKWWWWWWGGGGWWWWWKK.HQQQHD.',  // 44  can tilted with outline, drip
-  'KKKKKKWWWWWWWWWWWWWWWWK..HQQH.D.',  // 45  wrist, can outlined, drip
-  '..KKKKKKKKKWWWWWWWWKKKKK..HH..DD',  // 46  can base, water falls
+  'KKKKKKKWWWWWWGGGGWWWWWKK.QQQQQD.',  // 44  can tilted (5Q), drip start
+  'KKKKKKWWWWWWWWWWWWWWWWK..QQQQDD.',  // 45  can body (4Q), water falls
+  '..KKKKKKKKKWWWWWWWWKKKKK..QQ.DDD',  // 46  can spout down (2Q), water
   '...KKKKKKKKWWWWWWWWKKKK.....DDD.',  // 47  taper, water stream
   '....KKKKKKKWWWWWWWWKKKKK....DD..',  // 48  taper, water falling
   // --- Legs (4 rows — slightly compressed from 6) ---
@@ -561,13 +560,13 @@ const WATER_BIG_2: string[] = [
   '....KKKKKKKKK....KKKKKKKKK.DD...',  // 51  water gathering
   '....KKKKKKKKKK..KKKKKKKKKK.D....',  // 52  feet, water
   // --- Water stream falling (2 rows — keeps ground fixed at same rows as frame 1) ---
-  '..........................DDD...',  // 53  stream falling
-  '...........................DD...',  // 54  drips hitting crops
+  '........................DDDDD...',  // 53  wide stream falling
+  '.........................DDDD...',  // 54  drips spreading
   // --- Crops with water splash (4 rows — ground at same position as frame 1) ---
-  '...LLD...NN....LL....NND..DLLD..',  // 55  water on right plants
-  '..NLLN..LNNL..NLLN..LNDL.DNLLN..',  // 56  water among right leaves
-  '...NL....LN....NL....DLN..D.NL..',  // 57  drips on right stems
-  '....N.....L.....N.....DL..D..N..',  // 58  drips falling
+  '...LLD...NN...DLL..D.NND.DDLLD..',  // 55  water on 3 right plants
+  '..NLLN..LNNL.DNLLN.DLNDL.DNLLN..',  // 56  water spreading in canopy
+  '...NL....LN..D.NL..D.DLN.DD.NL..',  // 57  drips widening on stems
+  '....N.....L..D..N..D..DL.D...N..',  // 58  drips scattering
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 59  soil (wet)
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 60  soil
   // --- Padding (4 rows) ---
