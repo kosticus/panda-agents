@@ -708,26 +708,26 @@ const BAMBOO_BIG_1: string[] = [
   '...WWWWWWWWWWWWWWWWWWWWWW.......',  // 28  22px
   '....WWWWWWWWWWWWWWWWWWWW........',  // 29  20px
   '....WWWWWWWWWWWWWWWWWWWW........',  // 30  20px
-  // --- Band (6 rows — 24→26→28→30→32→32, shifted 2px left) ---
+  // --- Band (6 rows — shifted 2px left) ---
   '..KKKKKKKKKKKKKKKKKKKKKKKK......',  // 31  24K
   '.KKKKKKKKKKKKKKKKKKKKKKKKKK.....',  // 32  26K
   'KKKKKKKKKKKKKKKKKKKKKKKKKKKK....',  // 33  28K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 34  30K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  32K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 34  29K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 35  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 36  30K
   // --- Body (12 rows — shifted 2px left, arm reaches right to stalk) ---
-  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder (9K+14W+7K)
-  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder (8K+16W+6K)
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder
   'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKK..',  // 39  chest
   'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 40  gradient
   'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNVV',  // 41  belly — stalk appears
   'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNVV',  // 42  belly taper
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKK.NNVV',  // 43  arm taper (7K+7W+4G+7W+2K)
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWK.NNVV',  // 44  wrist (6K+20W+1K)
-  'KKKKKKKKKKWWWWWWWWKKKKKKKKK.NNVV',  // 45  hips (10K+8W+9K)
-  '.KKKKKKKKKWWWWWWWWKKKKKKKKK.NNVV',  // 46  taper (9K+8W+9K)
-  '..KKKKKKKKWWWWWWWWKKKKKKKK..NNVV',  // 47  taper (8K+8W+8K)
-  '...KKKKKKKWWWWWWWWKKKKKKK...NNVV',  // 48  taper (7K+8W+7K)
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.NNVV',  // 43  arm taper — grip near stalk
+  'KKKKKKWWWWWWWWWWWWWWWWWWKK..NNVV',  // 44  wrist — white break
+  '..KKKKKKKKKKWWWWWWWWKKKKKK..NNVV',  // 45  hips
+  '...KKKKKKKKKWWWWWWWWKKKKK...NNVV',  // 46  taper
+  '....KKKKKKKKWWWWWWWWKKKKKK..NNVV',  // 47  taper
+  '.....KKKKKKKWWWWWWWWKKKKK...NNVV',  // 48  taper
   // --- Legs (6 rows — stalk continues alongside) ---
   '....KKKKKKKK....KKKKKKKK....NNVV',  // 49  8px per leg
   '....KKKKKKKK....KKKKKKKK....NNVV',  // 50  8px
@@ -789,33 +789,33 @@ const BAMBOO_BIG_2: string[] = [
   '.......WWWWWWWWWWWWWWWWWWWWWW...',  // 28  22px
   '........WWWWWWWWWWWWWWWWWWWW....',  // 29  20px
   '........WWWWWWWWWWWWWWWWWWWW....',  // 30  20px
-  // --- Band (6 rows — 24→26→28→30→32→32, shifted 2px right, stalk from row 32) ---
+  // --- Band (6 rows — shifted 2px right, stalk peeks at right edge) ---
   '......KKKKKKKKKKKKKKKKKKKKKKKK..',  // 31  24K
-  '.....KKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 32  23K + stalk (26K band)
-  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 33  24K + stalk (28K band)
-  '..KKKKKKKKKKKKKKKKKKKKKKKKKKJNVV',  // 34  26K + J node (30K band)
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 35  28K + stalk (32K band)
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 36  28K + stalk (32K band)
+  '.....KKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 32  24K + stalk
+  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 33  26K + stalk
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKJNVV',  // 34  27K + J node
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 35  28K + stalk
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 36  28K + stalk
   // --- Body (12 rows — shifted 2px right, stalk alongside, grip) ---
-  '..KKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',  // 37  shoulder (7K+14W+5K) + stalk
-  '..KKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',  // 38  shoulder (6K+16W+4K) + stalk
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',  // 37  shoulder + stalk
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',  // 38  shoulder + stalk
   '..KKKKKKWWWWWWGGGGWWWWWWKKKKNNVV',  // 39  chest + stalk
   '..KKKKKKWWWWWGGGGGGWWWWWKKKKJNVV',  // 40  gradient + J node
   '..KKKKKKWWWWGGGGGGGGWWWWKKKKNNVV',  // 41  belly + stalk
   '..KKKKKKWWWWWGGGGGGWWWWWKKKKNNVV',  // 42  belly taper + stalk
-  '..KKKKKWWWWWWWGGGGWWWWWWWKKKNNVV',  // 43  arm taper (5K+7W+4G+7W+3K) + stalk
-  '..KKKKWWWWWWWWWWWWWWWWWWWWKKNNVV',  // 44  wrist (4K+20W+2K) + stalk
-  '....KKKKKKKKKKWWWWWWWWKKKKK.NNVV',  // 45  hips (10K+8W+5K) + stalk
-  '.....KKKKKKKKKWWWWWWWWKKKKK.NNVV',  // 46  taper (9K+8W+5K) + stalk bottom
-  '......KKKKKKKKWWWWWWWWKKKKKKKK..',  // 47  taper (8K+8W+8K) — air gap starts
-  '.......KKKKKKKWWWWWWWWKKKKKKK...',  // 48  taper (7K+8W+7K)
+  '..KKKKKWWWWWWWGGGGWWWWWWKKKK.NVV',  // 43  arm taper + stalk thins
+  '...KKKKWWWWWWWWWWWWWWWWWWKKK.NVV',  // 44  wrist + stalk
+  '....KKKKKKKKWWWWWWWWKKKKKKKK.NVV',  // 45  hips + stalk
+  '....KKKKKKKWWWWWWWWKKKKKKK..NNVV',  // 46  taper + stalk bottom
+  '.....KKKKKKWWWWWWWWKKKKKK.......',  // 47  taper — air gap starts
+  '......KKKKKWWWWWWWWKKKKK........',  // 48  taper
   // --- Legs (6 rows — no stalk, air gap) ---
-  '........KKKKKKKK....KKKKKKKK....',  // 49  8px per leg
-  '........KKKKKKKK....KKKKKKKK....',  // 50  8px
-  '........KKKKKKKK....KKKKKKKK....',  // 51  8px
-  '.......KKKKKKKKK....KKKKKKKKK...',  // 52  9px smooth step
-  '......KKKKKKKKKK....KKKKKKKKKK..',  // 53  10px feet
-  '......KKKKKKKKKK....KKKKKKKKKK..',  // 54  10px feet
+  '......KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
+  '......KKKKKKKK....KKKKKKKK......',  // 50  8px
+  '......KKKKKKKK....KKKKKKKK......',  // 51  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
   // --- Ground (2 rows — disturbed dirt where stalk was) ---
   '..........................DDDDDD',  // 55  dirt where stalk was
   '..........................DDDDDD',  // 56  dirt
