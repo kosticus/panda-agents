@@ -126,6 +126,7 @@
       { name: 'bamboo',    file: 'panda_bamboo_preview_8x.png',    frames: 2 },
       { name: 'sweep',     file: 'panda_sweep_preview_8x.png',     frames: 2 },
       { name: 'dig',       file: 'panda_dig_preview_8x.png',       frames: 2 },
+      { name: 'sweep 32×64', file: 'panda_sweep_32x64_preview_8x.png', frames: 2, fw: 256, fh: 512 },
     ];
 
     const BASE_PATH = '../webview-ui/public/assets/characters/';
@@ -142,16 +143,19 @@
       label.className = 'anim-label';
       label.textContent = anim.name;
 
+      const fw = anim.fw || FRAME_W;
+      const fh = anim.fh || FRAME_H;
+
       const canvas = document.createElement('canvas');
-      canvas.width = FRAME_W;
-      canvas.height = FRAME_H;
+      canvas.width = fw;
+      canvas.height = fh;
 
       cell.appendChild(label);
       cell.appendChild(canvas);
       grid.appendChild(cell);
 
       const img = new Image();
-      const entry = { canvas, img, loaded: false, error: false, frame: 0, frameCount: anim.frames };
+      const entry = { canvas, img, loaded: false, error: false, frame: 0, frameCount: anim.frames, fw, fh };
       canvases.push(entry);
 
       img.onload = () => { entry.loaded = true; };
@@ -192,12 +196,12 @@
       const ctx = entry.canvas.getContext('2d');
       ctx.imageSmoothingEnabled = false;
       if (!entry.loaded) {
-        ctx.clearRect(0, 0, FRAME_W, FRAME_H);
+        ctx.clearRect(0, 0, entry.fw, entry.fh);
         return;
       }
-      const sx = entry.frame * FRAME_W;
-      ctx.clearRect(0, 0, FRAME_W, FRAME_H);
-      ctx.drawImage(entry.img, sx, 0, FRAME_W, FRAME_H, 0, 0, FRAME_W, FRAME_H);
+      const sx = entry.frame * entry.fw;
+      ctx.clearRect(0, 0, entry.fw, entry.fh);
+      ctx.drawImage(entry.img, sx, 0, entry.fw, entry.fh, 0, 0, entry.fw, entry.fh);
     }
 
     function loop(ts) {

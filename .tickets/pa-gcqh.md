@@ -1,6 +1,6 @@
 ---
 id: pa-gcqh
-status: open
+status: closed
 deps: [pa-x4zj]
 links: []
 created: 2026-04-04T15:58:03Z
@@ -23,3 +23,13 @@ Approach:
 - Update choreSprites.ts with new frames
 - Update scripts/generate-chore-sweep-preview.mjs for visual validation
 
+
+## Notes
+
+**2026-04-05T15:51:04Z**
+
+Started by Kimberly Kost
+
+**2026-04-05T15:55:16Z**
+
+Approved approach: Add SWEEP_BIG_PAL/SWEEP_BIG_1/SWEEP_BIG_2 alongside originals in choreSprites.ts (no replacement). Pixel-double 16x32 frames, refine using BASE_32 body reference. Update generate-chore-sweep-preview.mjs to render 32x64 frames only. No renderer changes.

@@ -693,18 +693,18 @@ const SWEEP_BIG_2: string[] = [
   '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  30K
   '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  30K
   // --- Body (12 rows — shifted 2px right, broom enters right) ---
-  '..KKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder (7K+14W+7K)
-  '..KKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder (6K+16W+6K)
-  '..KKKKKKWWWWWWGGGGWWWWWWKKKKKK..',  // 39  chest
-  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 40  gradient
-  '..KKKKKKWWWWGGGGGGGGWWWWKKKKKK..',  // 41  belly
-  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKKHH',  // 42  broom handle enters
-  '..KKKKKWWWWWWWGGGGWWWWWWWKKKKKHK',  // 43  arm taper
-  '...KKKKKWWWWWWWWWWWWWWWWWWKKKKHH',  // 44  wrist — white break
-  '....KKKKKKKKWWWWWWWWKKKKKKKKK.HH',  // 45  hips
-  '.....KKKKKKKWWWWWWWWKKKKKKKK..HH',  // 46  taper
-  '......KKKKKKWWWWWWWWKKKKKKK...HH',  // 47  taper
-  '.......KKKKKWWWWWWWWKKKKKK....HH',  // 48  taper
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 37  shoulder (7K+14W+9K)
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 38  shoulder (6K+16W+8K)
+  '..KKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 39  chest (6K+6W+4G+6W+8K)
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  gradient (6K+5W+6G+5W+8K)
+  '..KKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 41  belly (6K+4W+8G+4W+8K)
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKKHH',  // 42  broom enters (6K+5W+6G+5W+6K+HH)
+  '..KKKKKWWWWWWGGGGWWWWWWWKKKKKKHK',  // 43  arm taper — grip (5K+6W+4G+7W+6K+HK)
+  '...KKKKWWWWWWWWWWWWWWWWWWKKKKKHH',  // 44  wrist (4K+18W+5K+HH)
+  '....KKKKKKKKWWWWWWWWKKKKKKKK..HH',  // 45  hips (8K+8W+8K)
+  '.....KKKKKKKWWWWWWWWKKKKKKK...HH',  // 46  taper (7K+8W+7K)
+  '......KKKKKKWWWWWWWWKKKKKK....HH',  // 47  taper (6K+8W+6K)
+  '.......KKKKKWWWWWWWWKKKKK.....HH',  // 48  taper (5K+8W+5K)
   // --- Legs (6 rows — with broom handle on right) ---
   '......KKKKKKKK....KKKKKKKK....HH',  // 49  8px per leg
   '......KKKKKKKK....KKKKKKKK....HH',  // 50  8px
