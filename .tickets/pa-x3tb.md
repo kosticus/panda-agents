@@ -1,12 +1,12 @@
 ---
 id: pa-x3tb
-status: open
+status: closed
 deps: [pa-3bur, pa-qaog]
 links: []
 created: 2026-03-28T01:04:25Z
 type: feature
 priority: 2
-tags: [planned, migrated]
+tags: [planned, migrated, shelved]
 ---
 # Panda character reskin with randomizable variants
 
