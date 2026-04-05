@@ -652,6 +652,185 @@ const BAMBOO_2: string[] = [
 ]
 
 // ============================================================
+// BAMBOO (32×64) — scaled bamboo harvesting animation
+// ============================================================
+
+const BAMBOO_BIG_PAL: Record<string, string> = {
+  '.': '',
+  K: '#1e1e1e',  // black fur
+  W: '#f5f5f5',  // white fur
+  G: '#d7d7d7',  // gray belly
+  E: '#ffffff',   // eye glint
+  N: '#7CC820',  // bamboo green (bright lime)
+  V: '#A0E040',  // bamboo green (bright yellow-green)
+  J: '#5AA010',  // bamboo node (lime-dark)
+  D: '#A05A30',  // dirt (warm red-brown)
+}
+
+// Frame 1: body leans LEFT (~2px) to grip bamboo stalk. Stalk (NNVV, 4px) at
+// cols 27-30, planted in ground. Paw grips stalk where arm meets it.
+// Body anatomy matches canonical BASE_32 template (shifted 2px left).
+// Ground at rows 55-56 (dirt D).
+const BAMBOO_BIG_1: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — shifted 2px left) ---
+  '....KKKK............KKKK........',  //  7  4px dome tip
+  '...KKKKKK..........KKKKKK.......',  //  8  6px
+  '..KKKKKKKK........KKKKKKKK......',  //  9  8px
+  '.KKKKKKKKKK......KKKKKKKKKK.....',  // 10  10px (max)
+  '.KKKKKKKKKK......KKKKKKKKKK.....',  // 11  10px
+  // --- Forehead (3 rows — shifted 2px left) ---
+  '..KKKKKKKKWWWWWWWWKKKKKKKK......',  // 12  ear-head bridge
+  '..KKKKKKWWWWWWWWWWWWKKKKKK......',  // 13  20px
+  '...KKWWWWWWWWWWWWWWWWWWKK.......',  // 14  22px
+  // --- Head (4 rows — shifted 2px left) ---
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',  // 15  24px
+  '.WWWWWWWWWWWWWWWWWWWWWWWWWW.....',  // 16  26px
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',  // 17  28px
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',  // 18  28px
+  // --- Face: eye patches (6 rows — shifted 2px left) ---
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',  // 19  rounded top (5K)
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',  // 20  full patch (6K)
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',  // 21  eyes + glint
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',  // 22  eyes + glint
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',  // 23  full patch (6K)
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — shifted 2px left) ---
+  '.WWWWWWWWWWWKKKKWWWWWWWWWWW.....',  // 25  26px
+  '..WWWWWWWWWWKKKKWWWWWWWWWW......',  // 26  24px
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',  // 27  24px
+  '...WWWWWWWWWWWWWWWWWWWWWW.......',  // 28  22px
+  '....WWWWWWWWWWWWWWWWWWWW........',  // 29  20px
+  '....WWWWWWWWWWWWWWWWWWWW........',  // 30  20px
+  // --- Band (6 rows — shifted 2px left) ---
+  '..KKKKKKKKKKKKKKKKKKKKKKKK......',  // 31  24K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKK.....',  // 32  26K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKK....',  // 33  28K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 34  29K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 35  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 36  30K
+  // --- Body (12 rows — shifted 2px left, arm reaches right to stalk) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKK..',  // 39  chest
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 40  gradient
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNVV',  // 41  belly — stalk appears
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNVV',  // 42  belly taper
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.NNVV',  // 43  arm taper — grip near stalk
+  'KKKKKKWWWWWWWWWWWWWWWWWWKK..NNVV',  // 44  wrist — white break
+  '..KKKKKKKKKKWWWWWWWWKKKKKK..NNVV',  // 45  hips
+  '...KKKKKKKKKWWWWWWWWKKKKK...NNVV',  // 46  taper
+  '....KKKKKKKKWWWWWWWWKKKKKK..NNVV',  // 47  taper
+  '.....KKKKKKKWWWWWWWWKKKKK...NNVV',  // 48  taper
+  // --- Legs (6 rows — stalk continues alongside) ---
+  '....KKKKKKKK....KKKKKKKK....NNVV',  // 49  8px per leg
+  '....KKKKKKKK....KKKKKKKK....NNVV',  // 50  8px
+  '....KKKKKKKK....KKKKKKKK....JNVV',  // 51  J node
+  '...KKKKKKKKK....KKKKKKKKK...NNVV',  // 52  9px smooth step
+  '..KKKKKKKKKK....KKKKKKKKKK..NNVV',  // 53  10px feet
+  '..KKKKKKKKKK....KKKKKKKKKK..NNVV',  // 54  10px feet
+  // --- Ground (2 rows — stalk planted in dirt) ---
+  '............................NNVV',  // 55  stalk at ground level
+  '..........................DDDDDD',  // 56  dirt at stalk base
+  // --- Padding (8 rows) ---
+  '................................',  // 57
+  '................................',  // 58
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// Frame 2: body leans RIGHT (~2px), stalk pulled UP ~8 rows. Air gap between
+// stalk bottom and ground. Stalk (NNVV, 4px) from band (row 31) through row 46.
+// Ground at rows 55-56 (same as frame 1). Disturbed dirt where stalk was pulled.
+const BAMBOO_BIG_2: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — shifted 2px right) ---
+  '........KKKK............KKKK....',  //  7  4px dome tip
+  '.......KKKKKK..........KKKKKK...',  //  8  6px
+  '......KKKKKKKK........KKKKKKKK..',  //  9  8px
+  '.....KKKKKKKKKK......KKKKKKKKKK.',  // 10  10px (max)
+  '.....KKKKKKKKKK......KKKKKKKKKK.',  // 11  10px
+  // --- Forehead (3 rows — shifted 2px right) ---
+  '......KKKKKKKKWWWWWWWWKKKKKKKK..',  // 12  ear-head bridge
+  '......KKKKKKWWWWWWWWWWWWKKKKKK..',  // 13  20px
+  '.......KKWWWWWWWWWWWWWWWWWWKK...',  // 14  22px
+  // --- Head (4 rows — shifted 2px right) ---
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',  // 15  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWWWWWW.',  // 16  26px
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',  // 17  28px
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',  // 18  28px
+  // --- Face: eye patches (6 rows — shifted 2px right) ---
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',  // 19  rounded top (5K)
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',  // 20  full patch (6K)
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',  // 21  eyes + glint
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',  // 22  eyes + glint
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',  // 23  full patch (6K)
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — shifted 2px right) ---
+  '.....WWWWWWWWWWWKKKKWWWWWWWWWWW.',  // 25  26px
+  '......WWWWWWWWWWKKKKWWWWWWWWWW..',  // 26  24px
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',  // 27  24px
+  '.......WWWWWWWWWWWWWWWWWWWWWW...',  // 28  22px
+  '........WWWWWWWWWWWWWWWWWWWW....',  // 29  20px
+  '........WWWWWWWWWWWWWWWWWWWW....',  // 30  20px
+  // --- Band (6 rows — shifted 2px right, stalk peeks at right edge) ---
+  '......KKKKKKKKKKKKKKKKKKKKKKKK..',  // 31  24K
+  '.....KKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 32  24K + stalk
+  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 33  26K + stalk
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKJNVV',  // 34  27K + J node
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 35  28K + stalk
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',  // 36  28K + stalk
+  // --- Body (12 rows — shifted 2px right, stalk alongside, grip) ---
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',  // 37  shoulder + stalk
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',  // 38  shoulder + stalk
+  '..KKKKKKWWWWWWGGGGWWWWWWKKKKNNVV',  // 39  chest + stalk
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKJNVV',  // 40  gradient + J node
+  '..KKKKKKWWWWGGGGGGGGWWWWKKKKNNVV',  // 41  belly + stalk
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKNNVV',  // 42  belly taper + stalk
+  '..KKKKKWWWWWWWGGGGWWWWWWKKKK.NVV',  // 43  arm taper + stalk thins
+  '...KKKKWWWWWWWWWWWWWWWWWWKKK.NVV',  // 44  wrist + stalk
+  '....KKKKKKKKWWWWWWWWKKKKKKKK.NVV',  // 45  hips + stalk
+  '....KKKKKKKWWWWWWWWKKKKKKK..NNVV',  // 46  taper + stalk bottom
+  '.....KKKKKKWWWWWWWWKKKKKK.......',  // 47  taper — air gap starts
+  '......KKKKKWWWWWWWWKKKKK........',  // 48  taper
+  // --- Legs (6 rows — no stalk, air gap) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
+  '......KKKKKKKK....KKKKKKKK......',  // 50  8px
+  '......KKKKKKKK....KKKKKKKK......',  // 51  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
+  // --- Ground (2 rows — disturbed dirt where stalk was) ---
+  '..........................DDDDDD',  // 55  dirt where stalk was
+  '..........................DDDDDD',  // 56  dirt
+  // --- Padding (8 rows) ---
+  '................................',  // 57
+  '................................',  // 58
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// ============================================================
 // SWEEP — sweeping with broom
 // ============================================================
 
@@ -1272,6 +1451,7 @@ export const CHORE_SPRITES_BIG: Partial<Record<ChoreId, [SpriteData, SpriteData]
   sweep: [toSpriteBig(SWEEP_BIG_1, SWEEP_BIG_PAL), toSpriteBig(SWEEP_BIG_2, SWEEP_BIG_PAL)],
   build: [toSpriteBig(BUILD_BIG_1, BUILD_BIG_PAL), toSpriteBig(BUILD_BIG_2, BUILD_BIG_PAL)],
   water: [toSpriteBig(WATER_BIG_1, WATER_BIG_PAL), toSpriteBig(WATER_BIG_2, WATER_BIG_PAL)],
+  bamboo: [toSpriteBig(BAMBOO_BIG_1, BAMBOO_BIG_PAL), toSpriteBig(BAMBOO_BIG_2, BAMBOO_BIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {

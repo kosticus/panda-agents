@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates bamboo harvesting animation preview: 2 frames side by side at 8× scale.
-// Frame 1: body leans forward, arms reach down to grip bamboo stalk at ground. Stalk at right side.
-// Frame 2: body leans back, stalk pulled up ~4 rows. Air gap between stalk bottom and ground.
-// Bamboo stalk is 2px wide (NV) with J-color node. Paw (K) grips at single contact point.
+// 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
+// Frame 1 (left): body leans left, arms reach right to grip bamboo stalk. Stalk planted in ground.
+// Frame 2 (right): body leans right, stalk pulled up ~8 rows. Air gap between stalk bottom and ground.
+// Bamboo stalk is 4px wide (NNVV) with J-color node. Body anatomy matches canonical BASE_32 template.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -23,12 +24,12 @@ const C = {
   D: [160, 90, 48],       // dirt (warm red-brown)
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const E = '................................';
 
 function n(frame) {
-  while (frame.length < FRAME_H) frame.push(EMPTY);
+  while (frame.length < FRAME_H) frame.push(E);
   return frame.map(row => {
     if (row.length < FRAME_W) return row + ".".repeat(FRAME_W - row.length);
     if (row.length > FRAME_W) return row.slice(0, FRAME_W);
@@ -36,82 +37,140 @@ function n(frame) {
   });
 }
 
-// === BAMBOO FRAME 1: Body leans forward (shifted left), stalk planted at right side ===
-// Stalk (NV, 2px) at cols 14-15 consistently. Arm dissolves where stalk appears.
-// 3 pad + 5 ears + 6 face + 2 band + 5 body + 1 hips + 3 legs + 2 ground + 5 pad = 32
+// === BAMBOO FRAME 1: Body leans LEFT (~2px), stalk planted at right side ===
+// Stalk (NNVV, 4px) at cols 27-30. Body anatomy matches BASE_32 shifted 2px left.
+// Ground at rows 55-56 (dirt D).
 const bamboo1 = n([
-  EMPTY,                     // row 0: pad
-  EMPTY,                     // row 1: pad
-  EMPTY,                     // row 2: pad
-  // Ears shifted left — 5 rows
-  ".KKKK..KKKK.....",       // row 3: ear tops
-  "KKKKK..KKKKK....",       // row 4: ear widens
-  "KKKKK..KKKKK....",       // row 5: ear holds
-  ".KKWWWWWWKK.....",       // row 6: ear base
-  ".WWWWWWWWWWWW...",       // row 7: head
-  // Face shifted left — 6 rows
-  "WWWWWWWWWWWWWW..",       // row 8: head widest
-  "WWWKKKWWKKKWWW..",       // row 9: eye patches
-  "WWKKEKWWKEKWWW..",       // row 10: eyes with glint
-  "WWWKKKWWKKKWWW..",       // row 11: eye patches
-  ".WWWWWKKWWWWW...",       // row 12: nose
-  ".WWWWWWWWWWWW...",       // row 13: lower face
-  // Band — 2 rows
-  "KKKKKKKKKKKKKK..",       // row 14: band
-  "KKKKKKKKKKKKKKK.",       // row 15: band wide
-  // Body leaned forward — 5 rows
-  "KKKKKWWWWWWKKKK.",       // row 16: body top
-  "KKKKWWWGGWWWKKK.",       // row 17: belly
-  "KKKKWWGGGGWWK.NV",       // row 18: belly, arm thins to K(12), stalk appears
-  ".KKKWWWGGWWWW.NV",       // row 19: narrows, arm dissolved into body W
-  "..KKKWWGGWWWW.NV",       // row 20: body base
-  // Hips + legs — 4 rows
-  "...KKKKWWKKKK.NV",       // row 21: hips (pure W like attention panda)
-  "...KKKK..KKKK.NV",       // row 22: legs + stalk
-  "...KKKK..KKKK.JV",       // row 23: legs + J node
-  "..KKKKK..KKKKKNV",       // row 24: feet + stalk
-  // Ground — 2 rows
-  "..............NV",       // row 25: stalk at ground level
-  ".............DDD",       // row 26: dirt at stalk base
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — shifted 2px left) ---
+  '....KKKK............KKKK........',
+  '...KKKKKK..........KKKKKK.......',
+  '..KKKKKKKK........KKKKKKKK......',
+  '.KKKKKKKKKK......KKKKKKKKKK.....',
+  '.KKKKKKKKKK......KKKKKKKKKK.....',
+  // --- Forehead (3 rows — shifted 2px left) ---
+  '..KKKKKKKKWWWWWWWWKKKKKKKK......',
+  '..KKKKKKWWWWWWWWWWWWKKKKKK......',
+  '...KKWWWWWWWWWWWWWWWWWWKK.......',
+  // --- Head (4 rows — shifted 2px left) ---
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',
+  '.WWWWWWWWWWWWWWWWWWWWWWWWWW.....',
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',
+  // --- Face: eye patches (6 rows — shifted 2px left) ---
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',
+  // --- Muzzle / Jaw (6 rows — shifted 2px left) ---
+  '.WWWWWWWWWWWKKKKWWWWWWWWWWW.....',
+  '..WWWWWWWWWWKKKKWWWWWWWWWW......',
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',
+  '...WWWWWWWWWWWWWWWWWWWWWW.......',
+  '....WWWWWWWWWWWWWWWWWWWW........',
+  '....WWWWWWWWWWWWWWWWWWWW........',
+  // --- Band (6 rows — shifted 2px left) ---
+  '..KKKKKKKKKKKKKKKKKKKKKKKK......',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKK.....',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKK....',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  // --- Body (12 rows — shifted 2px left, arm reaches right to stalk) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKK..',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKK.NNVV',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKK.NNVV',
+  'KKKKKKKWWWWWWWGGGGWWWWWWKKK.NNVV',
+  'KKKKKKWWWWWWWWWWWWWWWWWWKK..NNVV',
+  '..KKKKKKKKKKWWWWWWWWKKKKKK..NNVV',
+  '...KKKKKKKKKWWWWWWWWKKKKK...NNVV',
+  '....KKKKKKKKWWWWWWWWKKKKKK..NNVV',
+  '.....KKKKKKKWWWWWWWWKKKKK...NNVV',
+  // --- Legs (6 rows — stalk continues alongside) ---
+  '....KKKKKKKK....KKKKKKKK....NNVV',
+  '....KKKKKKKK....KKKKKKKK....NNVV',
+  '....KKKKKKKK....KKKKKKKK....JNVV',
+  '...KKKKKKKKK....KKKKKKKKK...NNVV',
+  '..KKKKKKKKKK....KKKKKKKKKK..NNVV',
+  '..KKKKKKKKKK....KKKKKKKKKK..NNVV',
+  // --- Ground (2 rows — stalk planted in dirt) ---
+  '............................NNVV',
+  '..........................DDDDDD',
+  // --- Padding (8 rows) ---
+  E,E,E,E,E,E,E,E,
 ]);
 
-// === BAMBOO FRAME 2: Body leans back (shifted right), stalk pulled UP 4 rows ===
-// Stalk (NV, 2px) at cols 14-15, from band (row 14) to hips (row 21) = 8 rows (same as frame 1).
-// Air gap: rows 22-24 (legs/feet) have no stalk. Disturbed dirt at ground.
+// === BAMBOO FRAME 2: Body leans RIGHT (~2px), stalk pulled UP ~8 rows ===
+// Stalk (NNVV, 4px) from band (row 32) through row 46. Air gap from 47 to ground.
+// Ground at rows 55-56 (same as frame 1). Disturbed dirt where stalk was pulled.
 const bamboo2 = n([
-  EMPTY,                     // row 0: pad
-  EMPTY,                     // row 1: pad
-  EMPTY,                     // row 2: pad
-  // Ears shifted right — 5 rows
-  "...KKKK..KKKK...",       // row 3: ear tops
-  "..KKKKK..KKKKK..",       // row 4: ear widens
-  "..KKKKK..KKKKK..",       // row 5: ear holds
-  "...KKWWWWWWKK...",       // row 6: ear base
-  "...WWWWWWWWWWWW.",       // row 7: head
-  // Face shifted right — 6 rows
-  "..WWWWWWWWWWWWWW",       // row 8: head widest
-  "..WWWKKKWWKKKWWW",       // row 9: eye patches
-  "..WWKKEKWWKEKWWW",       // row 10: eyes with glint
-  "..WWWKKKWWKKKWWW",       // row 11: eye patches
-  "...WWWWWKKWWWWW.",       // row 12: nose
-  "...WWWWWWWWWWWW.",       // row 13: lower face
-  // Band — stalk peeks out at right edge — 2 rows
-  "..KKKKKKKKKKKKNV",       // row 14: band, stalk NV(14-15)
-  ".KKKKKKKKKKKKKNV",       // row 15: band wide, stalk
-  // Body shifted right, stalk alongside — 5 rows
-  "..KKKKKWWWWWWWNV",       // row 16: body top, W extends to 13, NV(14-15)
-  "..KKKKWWWGGWWWJV",       // row 17: belly, J node JV(14-15)
-  "..KKKKWWGGGGWWNV",       // row 18: belly wide
-  "...KKKWWWGGWWWNV",       // row 19: narrows
-  "....KKWWWGGWWWNV",       // row 20: body base
-  // Hips + stalk bottom — 1 row
-  "...KKKKWWWWWW.NV",       // row 21: hips (pure W), stalk bottom
-  // Legs — no stalk, air gap — 3 rows
-  "...KKKK..KKKK...",       // row 22: legs
-  "...KKKK..KKKK...",       // row 23: legs
-  "..KKKKK..KKKKK..",       // row 24: feet
-  // Ground — disturbed dirt
-  ".............DDD",       // row 25: dirt where stalk was
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — shifted 2px right) ---
+  '........KKKK............KKKK....',
+  '.......KKKKKK..........KKKKKK...',
+  '......KKKKKKKK........KKKKKKKK..',
+  '.....KKKKKKKKKK......KKKKKKKKKK.',
+  '.....KKKKKKKKKK......KKKKKKKKKK.',
+  // --- Forehead (3 rows — shifted 2px right) ---
+  '......KKKKKKKKWWWWWWWWKKKKKKKK..',
+  '......KKKKKKWWWWWWWWWWWWKKKKKK..',
+  '.......KKWWWWWWWWWWWWWWWWWWKK...',
+  // --- Head (4 rows — shifted 2px right) ---
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',
+  '.....WWWWWWWWWWWWWWWWWWWWWWWWWW.',
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+  // --- Face: eye patches (6 rows — shifted 2px right) ---
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',
+  // --- Muzzle / Jaw (6 rows — shifted 2px right) ---
+  '.....WWWWWWWWWWWKKKKWWWWWWWWWWW.',
+  '......WWWWWWWWWWKKKKWWWWWWWWWW..',
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',
+  '.......WWWWWWWWWWWWWWWWWWWWWW...',
+  '........WWWWWWWWWWWWWWWWWWWW....',
+  '........WWWWWWWWWWWWWWWWWWWW....',
+  // --- Band (6 rows — shifted 2px right, stalk peeks at right edge) ---
+  '......KKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.....KKKKKKKKKKKKKKKKKKKKKKKNNVV',
+  '....KKKKKKKKKKKKKKKKKKKKKKKKNNVV',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKJNVV',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKNNVV',
+  // --- Body (12 rows — shifted 2px right, stalk alongside, grip) ---
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKNNVV',
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKNNVV',
+  '..KKKKKKWWWWWWGGGGWWWWWWKKKKNNVV',
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKJNVV',
+  '..KKKKKKWWWWGGGGGGGGWWWWKKKKNNVV',
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKNNVV',
+  '..KKKKKWWWWWWWGGGGWWWWWWKKKK.NVV',
+  '...KKKKWWWWWWWWWWWWWWWWWWKKK.NVV',
+  '....KKKKKKKKWWWWWWWWKKKKKKKK.NVV',
+  '....KKKKKKKWWWWWWWWKKKKKKK..NNVV',
+  '.....KKKKKKWWWWWWWWKKKKKK.......',
+  '......KKKKKWWWWWWWWKKKKK........',
+  // --- Legs (6 rows — no stalk, air gap) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Ground (2 rows — disturbed dirt where stalk was) ---
+  '..........................DDDDDD',
+  '..........................DDDDDD',
+  // --- Padding (8 rows) ---
+  E,E,E,E,E,E,E,E,
 ]);
 
 // === Render: 2 frames side by side ===
@@ -169,8 +228,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_bamboo_preview_8x.png");
+const outPath = join(outDir, "panda_bamboo_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean forward — stalk planted in ground, NV at cols 14-15");
-console.log("Frame 2 (right): lean back — stalk pulled up 4 rows, same length, air gap to ground");
+console.log("Frame 1 (left): lean left — stalk planted in ground, NNVV at cols 27-30");
+console.log("Frame 2 (right): lean right — stalk pulled up ~8 rows, air gap to ground");
