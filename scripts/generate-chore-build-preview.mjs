@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates building/repairing animation preview: 2 frames side by side at 8× scale.
+// 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
 // Frame 1: panda standing upright, holding wide plank across belly.
-// Frame 2: panda crouched (drops 3 rows), plank placed on wall.
-// Motion signal: panda drops vertically + plank moves from belly to wall.
+// Frame 2: panda crouched (drops 6 rows), plank placed on wall.
+// Body anatomy matches the canonical BASE_32 template (generate-base-panda-32-preview.mjs).
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -21,9 +22,9 @@ const C = {
   D: [160, 120, 64],      // dark wood grain (golden-amber)
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const EMPTY = '................................';
 
 function n(frame) {
   while (frame.length < FRAME_H) frame.push(EMPTY);
@@ -35,85 +36,136 @@ function n(frame) {
 }
 
 // === BUILD FRAME 1: Standing, holding plank across belly ===
-// Layout: 2 empty + 6 ears + 6 face + 3 band + 8 body + 3 legs + 2 wall + 2 empty = 32
+// Uses BASE_32 anatomy centered. Plank (T/D) across belly rows 41-44.
 const build1 = n([
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD — canonical — 6 rows
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  // DN_FACE — canonical — 6 rows
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  // DN_BAND — canonical — 3 rows
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY — plank across belly, full width — 8 rows
-  "KKKKKWWWWWWKKKKK",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKTTTTDDDDTTTTKK",  // plank held by paws (K at edges)
-  "KKTTTTDDDDTTTTKK",  // plank
-  "KKKKWWWGGWWWKKKK",  // belly below plank
-  "KKKKKWWWWWWKKKKK",  // body base
-  ".KKKKKWWWWKKKKK.",
-  "..KKKKWWWWKKKK..",
-  // DN_LEGS_IDLE — canonical — 3 rows
-  "...KKKK..KKKK..",
-  "...KKKK..KKKK..",
-  "..KKKKK..KKKKK.",
-  // Wall — 2 rows
-  "..TTTTDDDDTTTT..",
-  "..TDTTTTTTTTTD..",
+  // --- Padding (8 rows) ---
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',
+  '.....KKKKKK..........KKKKKK.....',
+  '....KKKKKKKK........KKKKKKKK....',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — plank across belly) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',
+  '...KKKKKKKKKWWWWWWWWKKKKKKKKK...',
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  // --- Legs (6 rows) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Wall (4 rows) ---
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',
 ]);
 
 // === BUILD FRAME 2: Crouched, plank placed on wall ===
-// Layout: 5 empty + 6 ears + 6 face + 3 band + 5 body + 2 legs + 3 wall + 2 empty = 32
+// Body drops ~6 rows, body compressed. Wall gains plank on top.
 const build2 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD — canonical — 6 rows
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  // DN_FACE — canonical — 6 rows
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  // DN_BAND — canonical — 3 rows
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  // DN_BODY — crouched, compressed to 5 rows — no plank
-  "KKKKKWWWWWWKKKKK",  // body top
-  "KKKKWWWGGWWWKKKK",  // belly
-  "KKKKWWGGGGWWKKKK",  // belly
-  "KKKKWWWGGWWWKKKK",  // narrows
-  "KKKKKWWWWWWKKKKK",  // base
-  // DN_LEGS — crouched, 2 rows
-  "...KKKK..KKKK..",
-  "..KKKKK..KKKKK.",
-  // Wall — 3 rows (plank placed on top)
-  "..TTTTDDDDTTTT..",  // freshly placed plank
-  "..TTTTDDDDTTTT..",
-  "..TDTTTTTTTTTD..",
+  // --- Padding (14 rows) ---
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',
+  '.....KKKKKK..........KKKKKK.....',
+  '....KKKKKKKK........KKKKKKKK....',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (8 rows — compressed, no plank) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',
+  // --- Legs (4 rows — crouched) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Wall (6 rows — plank placed on top) ---
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',
 ]);
 
 // === Render: 2 frames side by side ===
@@ -171,8 +223,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_build_preview_8x.png");
+const outPath = join(outDir, "panda_build_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): standing, holding wide plank across belly");
-console.log("Frame 2 (right): crouched (dropped 3 rows), plank placed on wall");
+console.log("Frame 1 (left): standing, holding wide plank across belly (32×64)");
+console.log("Frame 2 (right): crouched (dropped 6 rows), plank placed on wall (32×64)");

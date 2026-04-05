@@ -807,6 +807,181 @@ const BUILD_2: string[] = [
 ]
 
 // ============================================================
+// BUILD (32×64) — scaled build animation
+// ============================================================
+
+const BUILD_BIG_PAL: Record<string, string> = {
+  '.': '',
+  K: '#1e1e1e',  // black fur
+  W: '#f5f5f5',  // white fur
+  G: '#d7d7d7',  // gray belly
+  E: '#ffffff',   // eye glint
+  T: '#C8A060',  // plank wood (golden-amber)
+  D: '#A07840',  // dark wood grain (golden-amber)
+}
+
+// Frame 1: standing panda holding plank across belly
+// Body anatomy matches canonical BASE_32 template.
+// Plank (T/D pattern) held across belly area, rows 41-44.
+const BUILD_BIG_1: string[] = [
+  // --- Padding (8 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  '................................',  //  7
+  '................................',  //  8
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',  //  9  4px dome tip
+  '.....KKKKKK..........KKKKKK.....',  // 10  6px
+  '....KKKKKKKK........KKKKKKKK....',  // 11  8px
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 12  10px (max)
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 13  10px
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 14  ear-head bridge
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',  // 15  20px
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',  // 16  22px
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 17  24px
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',  // 18  26px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 19  28px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 20  28px
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 21  rounded top (5K)
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 22  full patch (6K)
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 23  eyes + glint
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 24  eyes + glint
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 25  full patch (6K)
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 26  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',  // 27  26px
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',  // 28  24px
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 29  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',  // 30  22px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 31  20px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 32  20px
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 33  24K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 34  26K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 35  28K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 36  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 37  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 38  32K
+  // --- Body (12 rows — plank across belly) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 39  shoulder (9K+14W+9K)
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 40  shoulder (8K+16W+8K)
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',  // 41  plank row 1 (4K grip + plank + 4K grip)
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',  // 42  plank row 2
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',  // 43  plank row 3
+  'KKKKTTTTTTTTDDDDDDDDTTTTTTTTKKKK',  // 44  plank row 4
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 45  belly below plank
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',  // 46  arm taper
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',  // 47  wrist — white break
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 48  hips (28px)
+  '...KKKKKKKKKWWWWWWWWKKKKKKKKK...',  // 49  taper (26px)
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 50  taper (24px)
+  // --- Legs (6 rows) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 51  8px per leg
+  '......KKKKKKKK....KKKKKKKK......',  // 52  8px
+  '......KKKKKKKK....KKKKKKKK......',  // 53  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 54  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 55  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 56  10px feet
+  // --- Wall (4 rows — scaled from 2 rows) ---
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 57  wall plank
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 58  wall grain
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 59  wall plank
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 60  wall grain
+  // --- Padding (4 rows) ---
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// Frame 2: crouched panda placing plank on wall
+// Body drops ~6 rows, body compressed (no plank). Wall gains plank on top.
+const BUILD_BIG_2: string[] = [
+  // --- Padding (14 rows — body drops 6 from frame 1) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  '................................',  //  7
+  '................................',  //  8
+  '................................',  //  9
+  '................................',  // 10
+  '................................',  // 11
+  '................................',  // 12
+  '................................',  // 13
+  '................................',  // 14
+  // --- Ears (5 rows — round dome) ---
+  '......KKKK............KKKK......',  // 15  4px dome tip
+  '.....KKKKKK..........KKKKKK.....',  // 16  6px
+  '....KKKKKKKK........KKKKKKKK....',  // 17  8px
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 18  10px (max)
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 19  10px
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 20  ear-head bridge
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',  // 21  20px
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',  // 22  22px
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 23  24px
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',  // 24  26px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 25  28px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 26  28px
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 27  rounded top (5K)
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 28  full patch (6K)
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 29  eyes + glint
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 30  eyes + glint
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 31  full patch (6K)
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 32  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',  // 33  26px
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',  // 34  24px
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 35  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',  // 36  22px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 37  20px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 38  20px
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 39  24K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 40  26K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 41  28K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 42  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 43  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 44  32K
+  // --- Body (8 rows — compressed, no plank) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 45  shoulder (9K+14W+9K)
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 46  shoulder (8K+16W+8K)
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 47  chest
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 48  belly
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 49  belly taper
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 50  narrows
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 51  body base
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 52  hips
+  // --- Legs (4 rows — crouched, compressed) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 53  8px per leg
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 54  9px
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 55  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 56  10px feet
+  // --- Wall (6 rows — plank placed on top) ---
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 57  freshly placed plank
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 58  freshly placed plank
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 59  existing wall
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 60  wall grain
+  '....TTTTTTTTDDDDDDDDTTTTTTTT....',  // 61  wall plank
+  '....TDTTTTTTTTTTTTTTTTTTTTTD....',  // 62  wall grain
+  // --- Padding (2 rows) ---
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// ============================================================
 // DIG — digging with shovel
 // ============================================================
 
@@ -913,6 +1088,7 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
 
 export const CHORE_SPRITES_BIG: Partial<Record<ChoreId, [SpriteData, SpriteData]>> = {
   sweep: [toSpriteBig(SWEEP_BIG_1, SWEEP_BIG_PAL), toSpriteBig(SWEEP_BIG_2, SWEEP_BIG_PAL)],
+  build: [toSpriteBig(BUILD_BIG_1, BUILD_BIG_PAL), toSpriteBig(BUILD_BIG_2, BUILD_BIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
