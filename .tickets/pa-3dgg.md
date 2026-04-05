@@ -7,7 +7,7 @@ created: 2026-04-04T15:57:54Z
 type: task
 priority: 2
 assignee: Kimberly Kost
-tags: [village, sprites, 32x64]
+tags: [village, sprites, 32x64, planned]
 ---
 # Scale chop animation to 32x64
 
