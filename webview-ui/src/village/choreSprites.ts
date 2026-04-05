@@ -559,16 +559,17 @@ const WATER_BIG_2: string[] = [
   '.....KKKKKKKK....KKKKKKKKD..D...',  // 50  water drops
   '....KKKKKKKKK....KKKKKKKKK.DD...',  // 51  water gathering
   '....KKKKKKKKKK..KKKKKKKKKK.D....',  // 52  feet, water
-  // --- Crops with water splash (6 rows) ---
-  'LL.NNDLL.DNNDDL.DNDLLD.DDDD.D...',  // 53  water hits crops, splash
-  'NL.LNDNL..LNDNL.DLNDNLD.DD.D....',  // 54  water among crops
-  'L..NL.DL..NLDNL..DNLD.DD........',  // 55  water drips in crops
-  'N..LN..N..LNDDL..LN.D.N.........',  // 56  sparse crops + drips
-  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 57  soil (wet)
-  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 58  soil
-  // --- Padding (6 rows) ---
-  '................................',  // 59
-  '................................',  // 60
+  // --- Water stream falling (2 rows — keeps ground fixed at same rows as frame 1) ---
+  '..........................DDD...',  // 53  stream falling
+  '...........................DD...',  // 54  drips hitting crops
+  // --- Crops with water splash (4 rows — ground at same position as frame 1) ---
+  '..LL.NNDLL.DNNDDL.DNDLLD.DDLL...',  // 55  water hits crops, splash
+  '..NL.LNDNL..LNDNL.DLNDNLD.NL....',  // 56  water among crops
+  '..L..NL.DL..NLDNL..DNLD.DD.L....',  // 57  water drips in crops
+  '..N..LN..N..LNDDL..LN.D.N.N.....',  // 58  sparse crops + drips
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 59  soil (wet)
+  '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',  // 60  soil
+  // --- Padding (4 rows) ---
   '................................',  // 61
   '................................',  // 62
   '................................',  // 63

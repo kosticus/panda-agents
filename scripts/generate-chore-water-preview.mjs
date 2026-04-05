@@ -164,15 +164,18 @@ const water2 = n([
   '...KKKKKKKKWWWWWWWWKKKK.....DDD.',
   '....KKKKKKKWWWWWWWWKKKKK....DD..',
   // --- Legs (4 rows — slightly compressed from 6) ---
-  '.....KKKKKKKK....KKKKKKKK.D.D..',
-  '.....KKKKKKKK....KKKKKKKKD..D..',
-  '....KKKKKKKKK....KKKKKKKKK.DD..',
-  '....KKKKKKKKKK..KKKKKKKKKK.D...',
-  // --- Crops with water splash (6 rows) ---
-  'LL.NNDLL.DNNDDL.DNDLLD.DDDD.D..',
-  'NL.LNDNL..LNDNL.DLNDNLD.DD.D..',
-  'L..NL.DL..NLDNL..DNLD.DD.......',
-  'N..LN..N..LNDDL..LN.D.N........',
+  '.....KKKKKKKK....KKKKKKKK.D.D...',
+  '.....KKKKKKKK....KKKKKKKKD..D...',
+  '....KKKKKKKKK....KKKKKKKKK.DD...',
+  '....KKKKKKKKKK..KKKKKKKKKK.D....',
+  // --- Water stream falling (2 rows — keeps ground at same pos as frame 1) ---
+  '..........................DDD...',
+  '...........................DD...',
+  // --- Crops with water splash (4 rows — ground fixed) ---
+  '..LL.NNDLL.DNNDDL.DNDLLD.DDLL...',
+  '..NL.LNDNL..LNDNL.DLNDNLD.NL....',
+  '..L..NL.DL..NLDNL..DNLD.DD.L....',
+  '..N..LN..N..LNDDL..LN.D.N.N.....',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   '..BBBBBBBBBBBBBBBBBBBBBBBBBBBB..',
   // --- Padding (6 rows) ---
