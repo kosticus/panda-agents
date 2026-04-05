@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // Generates sweeping/cleaning animation preview: 2 frames side by side at 8× scale.
+// 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
 // Frame 1: broom sweeps LEFT — panda leans left, broom angled left low
 // Frame 2: broom sweeps RIGHT — panda leans right, broom angled right low
-// Head uses FULL 6-row canonical ears/head shifted left/right (like cooking does).
-// Bent posture comes from body/legs area, not from compressing the head.
+// Body anatomy matches the canonical BASE_32 template (generate-base-panda-32-preview.mjs).
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -24,12 +24,12 @@ const C = {
   D: [120, 100, 60],      // dirt/dust being swept
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const E = '................................';
 
 function n(frame) {
-  while (frame.length < FRAME_H) frame.push(EMPTY);
+  while (frame.length < FRAME_H) frame.push(E);
   return frame.map(row => {
     if (row.length < FRAME_W) return row + ".".repeat(FRAME_W - row.length);
     if (row.length > FRAME_W) return row.slice(0, FRAME_W);
@@ -37,85 +37,141 @@ function n(frame) {
   });
 }
 
-// === SWEEP FRAME 1: Body leans LEFT, broom sweeps left along ground ===
-// Full 6-row ears/head shifted 1px LEFT. Body tilts left.
-// Layout: 3 empty + 6 ears + 6 face + 2 band + 7 body + 3 legs + 2 ground = 29 + 3 pad = 32
+// === SWEEP FRAME 1: Body leans LEFT (~2px), broom sweeps left along ground ===
+// Ears/head/face use BASE_32 anatomy shifted 2px left.
+// Broom handle (HH) runs down left edge; bristles (RRRRRRRR) at bottom-left.
 const sweep1 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD shifted 1px LEFT — 6 rows
-  ".KKKK..KKKK.....",
-  "KKKKK..KKKKK....",
-  "KKKKK..KKKKK....",
-  ".KKWWWWWWKK.....",
-  ".WWWWWWWWWWWWW..",
-  "WWWWWWWWWWWWWW..",
-  // DN_FACE shifted left — 6 rows
-  "WWWKKKWWKKKWWW..",
-  "WWKKEKWWKEKWWW..",
-  "WWWKKKWWKKKWWW..",
-  ".WWWWWKKWWWWW...",
-  ".WWWWWWWWWWWW...",
-  "..WWWWWWWWWW....",
-  // DN_BAND shifted left — 2 rows
-  ".KKKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKK.",
-  // Body shifted left, left arm holds broom — 7 rows
-  "KKKKKWWWWWWKKKK.",
-  "KKKKWWWGGWWWKKK.",
-  "KKKKWWGGGGWWKKK.",
-  "HHKKWWGGGGWWKKK.",
-  "KHKKWWWGGWWWKKK.",
-  "HHKKWWWWWWWKKK..",
-  "HH.KKWWWWKKKK..",
-  // Legs + broom shaft — 3 rows
-  "HH.KKKK..KKKK..",
-  "RH.KKKK..KKKK..",
-  "R.KKKKK..KKKKK..",
-  // Broom on ground — 2 rows
-  "RRRR............",
-  "SSSS............",
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — shifted 2px left) ---
+  '....KKKK............KKKK........',
+  '...KKKKKK..........KKKKKK.......',
+  '..KKKKKKKK........KKKKKKKK......',
+  '.KKKKKKKKKK......KKKKKKKKKK.....',
+  '.KKKKKKKKKK......KKKKKKKKKK.....',
+  // --- Forehead (3 rows) ---
+  '..KKKKKKKKWWWWWWWWKKKKKKKK......',
+  '..KKKKKKWWWWWWWWWWWWKKKKKK......',
+  '...KKWWWWWWWWWWWWWWWWWWKK.......',
+  // --- Head (4 rows) ---
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',
+  '.WWWWWWWWWWWWWWWWWWWWWWWWWW.....',
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',
+  // --- Face: eye patches (6 rows) ---
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',
+  // --- Muzzle / Jaw (6 rows) ---
+  '.WWWWWWWWWWWKKKKWWWWWWWWWWW.....',
+  '..WWWWWWWWWWKKKKWWWWWWWWWW......',
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',
+  '...WWWWWWWWWWWWWWWWWWWWWW.......',
+  '....WWWWWWWWWWWWWWWWWWWW........',
+  '....WWWWWWWWWWWWWWWWWWWW........',
+  // --- Band (6 rows) ---
+  '..KKKKKKKKKKKKKKKKKKKKKKKK......',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKK.....',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKK....',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  // --- Body (12 rows — broom enters left) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKK..',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKK..',
+  'HHKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',
+  'KHKKKKKKWWWWWWWGGGGWWWWWWKKKKK..',
+  'HHKKKKKWWWWWWWWWWWWWWWWWWKKKK...',
+  'HH..KKKKKKKKWWWWWWWWKKKKKKKK....',
+  'HH...KKKKKKKWWWWWWWWKKKKKKK.....',
+  'HH....KKKKKKWWWWWWWWKKKKKK......',
+  'HH.....KKKKKWWWWWWWWKKKKK.......',
+  // --- Legs (6 rows) ---
+  'HH....KKKKKKKK....KKKKKKKK......',
+  'HH....KKKKKKKK....KKKKKKKK......',
+  'RH....KKKKKKKK....KKKKKKKK......',
+  'RH...KKKKKKKKK....KKKKKKKKK.....',
+  'RR..KKKKKKKKKK....KKKKKKKKKK....',
+  'RR..KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Broom bristles (4 rows) ---
+  'RRRRRRRR........................',
+  'RRRRRRRR........................',
+  'SSSSSSSS........................',
+  'SSSSSSSS........................',
+  E,E,E,E,E,E,
 ]);
 
-// === SWEEP FRAME 2: Body leans RIGHT, broom sweeps right along ground ===
-// Full 6-row ears/head shifted 1px RIGHT. Body tilts right.
+// === SWEEP FRAME 2: Body leans RIGHT (~2px), broom sweeps right along ground ===
+// Mirror of frame 1. Broom handle (HH) on right edge; bristles at bottom-right.
 const sweep2 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // DN_EARS_HEAD shifted 1px RIGHT — 6 rows
-  "...KKKK..KKKK...",
-  "..KKKKK..KKKKK..",
-  "..KKKKK..KKKKK..",
-  "...KKWWWWWWKK...",
-  "...WWWWWWWWWWWW.",
-  "..WWWWWWWWWWWWWW",
-  // DN_FACE shifted right — 6 rows
-  "..WWWKKKWWKKKWWW",
-  "..WWKKEKWWKEKWWW",
-  "..WWWKKKWWKKKWWW",
-  "...WWWWWKKWWWWW.",
-  "...WWWWWWWWWWWW.",
-  "....WWWWWWWWWW..",
-  // DN_BAND shifted right — 2 rows
-  "..KKKKKKKKKKKKK.",
-  ".KKKKKKKKKKKKKK.",
-  // Body shifted right, right arm holds broom — 7 rows
-  ".KKKKKWWWWWWKKKK",
-  ".KKKKWWWGGWWWKKK",
-  ".KKKKWWGGGGWWKKK",
-  ".KKKKWWGGGGWWKHH",
-  ".KKKKWWWGGWWWKHK",
-  "..KKKWWWWWWWKKHH",
-  "...KKKKWWWWKK.HH",
-  // Legs + broom shaft — 3 rows
-  "..KKKK..KKKK..HH",
-  "..KKKK..KKKK..HR",
-  ".KKKKK..KKKKK.RR",
-  // Broom on ground — 2 rows
-  "............RRRR",
-  "............SSSS",
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — shifted 2px right) ---
+  '........KKKK............KKKK....',
+  '.......KKKKKK..........KKKKKK...',
+  '......KKKKKKKK........KKKKKKKK..',
+  '.....KKKKKKKKKK......KKKKKKKKKK.',
+  '.....KKKKKKKKKK......KKKKKKKKKK.',
+  // --- Forehead (3 rows) ---
+  '......KKKKKKKKWWWWWWWWKKKKKKKK..',
+  '......KKKKKKWWWWWWWWWWWWKKKKKK..',
+  '.......KKWWWWWWWWWWWWWWWWWWKK...',
+  // --- Head (4 rows) ---
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',
+  '.....WWWWWWWWWWWWWWWWWWWWWWWWWW.',
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',
+  // --- Face: eye patches (6 rows) ---
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',
+  // --- Muzzle / Jaw (6 rows) ---
+  '.....WWWWWWWWWWWKKKKWWWWWWWWWWW.',
+  '......WWWWWWWWWWKKKKWWWWWWWWWW..',
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',
+  '.......WWWWWWWWWWWWWWWWWWWWWW...',
+  '........WWWWWWWWWWWWWWWWWWWW....',
+  '........WWWWWWWWWWWWWWWWWWWW....',
+  // --- Band (6 rows) ---
+  '......KKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.....KKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  '....KKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — broom enters right) ---
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKKK..',
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKKK..',
+  '..KKKKKKWWWWWWGGGGWWWWWWKKKKKK..',
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKK..',
+  '..KKKKKKWWWWGGGGGGGGWWWWKKKKKK..',
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKKHH',
+  '..KKKKKWWWWWWWGGGGWWWWWWWKKKKKHK',
+  '...KKKKKWWWWWWWWWWWWWWWWWWKKKKHH',
+  '....KKKKKKKKWWWWWWWWKKKKKKKKK.HH',
+  '.....KKKKKKKWWWWWWWWKKKKKKKK..HH',
+  '......KKKKKKWWWWWWWWKKKKKKK...HH',
+  '.......KKKKKWWWWWWWWKKKKKK....HH',
+  // --- Legs (6 rows) ---
+  '......KKKKKKKK....KKKKKKKK....HH',
+  '......KKKKKKKK....KKKKKKKK....HH',
+  '......KKKKKKKK....KKKKKKKK....HR',
+  '.....KKKKKKKKK....KKKKKKKKK...HR',
+  '....KKKKKKKKKK....KKKKKKKKKK..RR',
+  '....KKKKKKKKKK....KKKKKKKKKK..RR',
+  // --- Broom bristles (4 rows) ---
+  '........................RRRRRRRR',
+  '........................RRRRRRRR',
+  '........................SSSSSSSS',
+  '........................SSSSSSSS',
+  E,E,E,E,E,E,
 ]);
 
 // === Render: 2 frames side by side ===
@@ -173,8 +229,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_sweep_preview_8x.png");
+const outPath = join(outDir, "panda_sweep_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): lean left — full canonical head shifted left, broom sweeps left along ground");
-console.log("Frame 2 (right): lean right — full canonical head shifted right, broom sweeps right along ground");
+console.log("Frame 1 (left): lean left — BASE_32 anatomy shifted left, broom sweeps left along ground");
+console.log("Frame 2 (right): lean right — BASE_32 anatomy shifted right, broom sweeps right along ground");

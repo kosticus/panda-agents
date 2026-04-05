@@ -35,6 +35,29 @@ function toSprite(rows: string[], palette: Record<string, string>): SpriteData {
   )
 }
 
+// ---------------------------------------------------------------------------
+// Helpers for 32×64 frames
+// ---------------------------------------------------------------------------
+
+const BIG_FRAME_W = 32
+const BIG_FRAME_H = 64
+
+function normalizeBig(rows: string[]): string[] {
+  const out = rows.map(r => {
+    if (r.length < BIG_FRAME_W) return r + '.'.repeat(BIG_FRAME_W - r.length)
+    if (r.length > BIG_FRAME_W) return r.slice(0, BIG_FRAME_W)
+    return r
+  })
+  while (out.length < BIG_FRAME_H) out.unshift('.'.repeat(BIG_FRAME_W))
+  return out
+}
+
+function toSpriteBig(rows: string[], palette: Record<string, string>): SpriteData {
+  return normalizeBig(rows).map(row =>
+    Array.from(row).map(ch => palette[ch] ?? ''),
+  )
+}
+
 // ============================================================
 // COOK — cooking over fire pit
 // ============================================================
@@ -527,6 +550,183 @@ const SWEEP_2: string[] = [
 ]
 
 // ============================================================
+// SWEEP (32×64) — scaled sweep animation
+// ============================================================
+
+const SWEEP_BIG_PAL: Record<string, string> = {
+  '.': '',
+  K: '#1e1e1e',  // black fur
+  W: '#f5f5f5',  // white fur
+  G: '#d7d7d7',  // gray belly
+  E: '#ffffff',   // eye glint
+  H: '#963020',  // broom handle (reddish wood)
+  R: '#f0d060',  // broom bristles (straw)
+  S: '#dcbc48',  // broom bristle tips
+  D: '#78643c',  // dirt/dust being swept
+}
+
+// Frame 1: panda leans LEFT (~2px), broom sweeps left along ground
+// Ears/head/face use BASE_32 anatomy shifted 2px left.
+// Broom handle (HH) runs down left edge; bristles (RRRRRRRR) at bottom-left.
+const SWEEP_BIG_1: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — shifted 2px left) ---
+  '....KKKK............KKKK........',  //  7  4px dome tip
+  '...KKKKKK..........KKKKKK.......',  //  8  6px
+  '..KKKKKKKK........KKKKKKKK......',  //  9  8px
+  '.KKKKKKKKKK......KKKKKKKKKK.....',  // 10  10px (max)
+  '.KKKKKKKKKK......KKKKKKKKKK.....',  // 11  10px
+  // --- Forehead (3 rows — shifted 2px left) ---
+  '..KKKKKKKKWWWWWWWWKKKKKKKK......',  // 12  ear-head bridge
+  '..KKKKKKWWWWWWWWWWWWKKKKKK......',  // 13  20px
+  '...KKWWWWWWWWWWWWWWWWWWKK.......',  // 14  22px
+  // --- Head (4 rows — shifted 2px left) ---
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',  // 15  24px
+  '.WWWWWWWWWWWWWWWWWWWWWWWWWW.....',  // 16  26px
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',  // 17  28px
+  'WWWWWWWWWWWWWWWWWWWWWWWWWWWW....',  // 18  28px
+  // --- Face: eye patches (6 rows — shifted 2px left) ---
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',  // 19  rounded top (5K)
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',  // 20  full patch (6K)
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',  // 21  eyes + glint
+  'WWWWKKKKEEKKWWWWKKEEKKWWWWWW....',  // 22  eyes + glint
+  'WWWWWWKKKKKKWWWWKKKKKKWWWWWW....',  // 23  full patch (6K)
+  'WWWWWWWKKKKKWWWWKKKKKWWWWWWW....',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — shifted 2px left) ---
+  '.WWWWWWWWWWWKKKKWWWWWWWWWWW.....',  // 25  26px
+  '..WWWWWWWWWWKKKKWWWWWWWWWW......',  // 26  24px
+  '..WWWWWWWWWWWWWWWWWWWWWWWW......',  // 27  24px
+  '...WWWWWWWWWWWWWWWWWWWWWW.......',  // 28  22px
+  '....WWWWWWWWWWWWWWWWWWWW........',  // 29  20px
+  '....WWWWWWWWWWWWWWWWWWWW........',  // 30  20px
+  // --- Band (6 rows — shifted 2px left) ---
+  '..KKKKKKKKKKKKKKKKKKKKKKKK......',  // 31  24K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKK.....',  // 32  26K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKK....',  // 33  28K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 34  29K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 35  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 36  30K
+  // --- Body (12 rows — shifted 2px left, broom enters left) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKK..',  // 39  chest
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 40  gradient
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKK..',  // 41  belly
+  'HHKKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 42  broom handle enters
+  'KHKKKKKKWWWWWWWGGGGWWWWWWKKKKK..',  // 43  arm taper
+  'HHKKKKKWWWWWWWWWWWWWWWWWWKKKK...',  // 44  wrist — white break
+  'HH..KKKKKKKKWWWWWWWWKKKKKKKK....',  // 45  hips
+  'HH...KKKKKKKWWWWWWWWKKKKKKK.....',  // 46  taper
+  'HH....KKKKKKWWWWWWWWKKKKKK......',  // 47  taper
+  'HH.....KKKKKWWWWWWWWKKKKK.......',  // 48  taper
+  // --- Legs (6 rows — with broom handle on left) ---
+  'HH....KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
+  'HH....KKKKKKKK....KKKKKKKK......',  // 50  8px
+  'RH....KKKKKKKK....KKKKKKKK......',  // 51  8px
+  'RH...KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
+  'RR..KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
+  'RR..KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
+  // --- Broom bristles on ground (4 rows) ---
+  'RRRRRRRR........................',  // 55  bristles 8px
+  'RRRRRRRR........................',  // 56  bristles 8px
+  'SSSSSSSS........................',  // 57  bristle tips 8px
+  'SSSSSSSS........................',  // 58  bristle tips 8px
+  // --- Padding (6 rows) ---
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// Frame 2: panda leans RIGHT (~2px), broom sweeps right along ground
+// Mirror of frame 1. Broom handle (HH) on right edge; bristles at bottom-right.
+const SWEEP_BIG_2: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — shifted 2px right) ---
+  '........KKKK............KKKK....',  //  7  4px dome tip
+  '.......KKKKKK..........KKKKKK...',  //  8  6px
+  '......KKKKKKKK........KKKKKKKK..',  //  9  8px
+  '.....KKKKKKKKKK......KKKKKKKKKK.',  // 10  10px (max)
+  '.....KKKKKKKKKK......KKKKKKKKKK.',  // 11  10px
+  // --- Forehead (3 rows — shifted 2px right) ---
+  '......KKKKKKKKWWWWWWWWKKKKKKKK..',  // 12  ear-head bridge
+  '......KKKKKKWWWWWWWWWWWWKKKKKK..',  // 13  20px
+  '.......KKWWWWWWWWWWWWWWWWWWKK...',  // 14  22px
+  // --- Head (4 rows — shifted 2px right) ---
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',  // 15  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWWWWWW.',  // 16  26px
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',  // 17  28px
+  '....WWWWWWWWWWWWWWWWWWWWWWWWWWWW',  // 18  28px
+  // --- Face: eye patches (6 rows — shifted 2px right) ---
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',  // 19  rounded top (5K)
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',  // 20  full patch (6K)
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',  // 21  eyes + glint
+  '....WWWWKKKKEEKKWWWWKKEEKKWWWWWW',  // 22  eyes + glint
+  '....WWWWWWKKKKKKWWWWKKKKKKWWWWWW',  // 23  full patch (6K)
+  '....WWWWWWWKKKKKWWWWKKKKKWWWWWWW',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — shifted 2px right) ---
+  '.....WWWWWWWWWWWKKKKWWWWWWWWWWW.',  // 25  26px
+  '......WWWWWWWWWWKKKKWWWWWWWWWW..',  // 26  24px
+  '......WWWWWWWWWWWWWWWWWWWWWWWW..',  // 27  24px
+  '.......WWWWWWWWWWWWWWWWWWWWWW...',  // 28  22px
+  '........WWWWWWWWWWWWWWWWWWWW....',  // 29  20px
+  '........WWWWWWWWWWWWWWWWWWWW....',  // 30  20px
+  // --- Band (6 rows — shifted 2px right) ---
+  '......KKKKKKKKKKKKKKKKKKKKKKKK..',  // 31  24K
+  '.....KKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 32  26K
+  '....KKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 33  28K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 34  29K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  30K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  30K
+  // --- Body (12 rows — shifted 2px right, broom enters right) ---
+  '..KKKKKKKWWWWWWWWWWWWWWKKKKKKK..',  // 37  shoulder (7K+14W+7K)
+  '..KKKKKKWWWWWWWWWWWWWWWWKKKKKK..',  // 38  shoulder (6K+16W+6K)
+  '..KKKKKKWWWWWWGGGGWWWWWWKKKKKK..',  // 39  chest
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKK..',  // 40  gradient
+  '..KKKKKKWWWWGGGGGGGGWWWWKKKKKK..',  // 41  belly
+  '..KKKKKKWWWWWGGGGGGWWWWWKKKKKKHH',  // 42  broom handle enters
+  '..KKKKKWWWWWWWGGGGWWWWWWWKKKKKHK',  // 43  arm taper
+  '...KKKKKWWWWWWWWWWWWWWWWWWKKKKHH',  // 44  wrist — white break
+  '....KKKKKKKKWWWWWWWWKKKKKKKKK.HH',  // 45  hips
+  '.....KKKKKKKWWWWWWWWKKKKKKKK..HH',  // 46  taper
+  '......KKKKKKWWWWWWWWKKKKKKK...HH',  // 47  taper
+  '.......KKKKKWWWWWWWWKKKKKK....HH',  // 48  taper
+  // --- Legs (6 rows — with broom handle on right) ---
+  '......KKKKKKKK....KKKKKKKK....HH',  // 49  8px per leg
+  '......KKKKKKKK....KKKKKKKK....HH',  // 50  8px
+  '......KKKKKKKK....KKKKKKKK....HR',  // 51  8px
+  '.....KKKKKKKKK....KKKKKKKKK...HR',  // 52  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK..RR',  // 53  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK..RR',  // 54  10px feet
+  // --- Broom bristles on ground (4 rows) ---
+  '........................RRRRRRRR',  // 55  bristles 8px
+  '........................RRRRRRRR',  // 56  bristles 8px
+  '........................SSSSSSSS',  // 57  bristle tips 8px
+  '........................SSSSSSSS',  // 58  bristle tips 8px
+  // --- Padding (6 rows) ---
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// ============================================================
 // BUILD — building / repairing
 // ============================================================
 
@@ -709,6 +909,10 @@ export const CHORE_SPRITES: Record<ChoreId, [SpriteData, SpriteData]> = {
   sweep:  [toSprite(SWEEP_1, SWEEP_PAL), toSprite(SWEEP_2, SWEEP_PAL)],
   build:  [toSprite(BUILD_1, BUILD_PAL), toSprite(BUILD_2, BUILD_PAL)],
   dig:    [toSprite(DIG_1, DIG_PAL), toSprite(DIG_2, DIG_PAL)],
+}
+
+export const CHORE_SPRITES_BIG: Partial<Record<ChoreId, [SpriteData, SpriteData]>> = {
+  sweep: [toSpriteBig(SWEEP_BIG_1, SWEEP_BIG_PAL), toSpriteBig(SWEEP_BIG_2, SWEEP_BIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
