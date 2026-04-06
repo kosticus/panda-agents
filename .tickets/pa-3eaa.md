@@ -1,6 +1,6 @@
 ---
 id: pa-3eaa
-status: open
+status: closed
 deps: [pa-x4zj]
 links: []
 created: 2026-04-04T15:58:07Z
@@ -33,3 +33,7 @@ Session 2026-04-06: Initial 32x64 frames created. Frame 1: standard BASE_32 upri
 **2026-04-06T16:00:19Z**
 
 Session 2026-04-06: First pass done. Remaining: arms need to look like they're actually holding the shovel and moving up between frames (currently arms are standard BASE_32 pose, not gripping the handle). Needs arm/hand refinement in both frames.
+
+**2026-04-06T17:18:48Z**
+
+Arm grip refinement done. Frame 1: arms converge 9K-12K rows 39-43, 3W paw pads at handle. Frame 2: grip at shoulder 11K-12K rows 37-39, taper to idle belly below. Preview script synced. Accepted for in-app validation.
