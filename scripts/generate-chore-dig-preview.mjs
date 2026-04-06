@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Generates dig animation preview: 2 frames side by side at 8× scale.
-// Frame 1: standing upright, shovel raised to right side
-// Frame 2: bent forward, shovel blade in ground with displaced earth
-// Matches choreSprites.ts DIG_1/DIG_2 exactly.
+// 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
+// Frame 1 (left): standing upright, shovel handle runs from body through legs to blade in ground
+// Frame 2 (right): standing upright, shovel raised overhead with blade at top
+// Body anatomy matches the canonical BASE_32 template.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -23,12 +24,12 @@ const C = {
   B: [115, 85, 50],       // displaced earth (dark brown)
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const E = '................................';
 
 function n(frame) {
-  while (frame.length < FRAME_H) frame.push(EMPTY);
+  while (frame.length < FRAME_H) frame.push(E);
   return frame.map(row => {
     if (row.length < FRAME_W) return row + ".".repeat(FRAME_W - row.length);
     if (row.length > FRAME_W) return row.slice(0, FRAME_W);
@@ -36,76 +37,143 @@ function n(frame) {
   });
 }
 
-// === DIG FRAME 1: Bent forward, shovel blade in ground, earth displaced ===
-// HH handle through belly center and legs to blade
+// === DIG FRAME 1: Standing upright, shovel handle through body to blade in ground ===
+// HH at cols 15-16 runs from upper body through leg gap to blade/earth at bottom.
 const dig1 = n([
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
-  ".KKKKK..KKKKK...",
-  "..KKWWWWWWKK....",
-  "..WWWWWWWWWWWW..",
-  ".WWWWWWWWWWWWWW.",
-  ".WWWKKKWWKKKWWW.",
-  ".WWKKEKWWKEKWWW.",
-  ".WWWKKKWWKKKWWW.",
-  "..WWWWWKKWWWWW..",
-  "..WWWWWWWWWWWW..",
-  "...WWWWWWWWWW...",
-  "..KKKKKKKKKKKK..",
-  ".KKKKKKKKKKKKKKK",
-  "KKKKKKKKKKKKKKKK",
-  "KKKKKWWHHWWKKKKK",
-  "KKKKWWWHHWWWKKKK",
-  "KKKWWWGHHGWWWKKK",
-  ".KKWWWWHHWWWWKK.",
-  "..KWWWWHHWWWWK..",
-  "..KKKKWHHWKKKK..",
-  "...KKKKHHKKKK...",
-  "...KKKKHHKKKK...",
-  "..KKKKKHHKKKKK..",
-  "....BAAHHAAB....",
-  "....BDDDDDDB....",
+  E,E,E,E,E,E,
+  // --- Ears (5 rows — BASE_32 anatomy) ---
+  '......KKKK............KKKK......',
+  '.....KKKKKK..........KKKKKK.....',
+  '....KKKKKKKK........KKKKKKKK....',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  '...KKKKKKKKKK......KKKKKKKKKK...',
+  // --- Forehead (3 rows) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',
+  // --- Head (4 rows) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  '......WWWWWWWWWWWWWWWWWWWW......',
+  // --- Band (6 rows) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — HH enters at shoulder) ---
+  'KKKKKKKKKWWWWWWHHWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWHHWWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGHHGWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWGGGHHGGGWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',
+  'KKKKKKKWWWWWWWGHHGWWWWWWWKKKKKKK',
+  'KKKKKKWWWWWWWWWHHWWWWWWWWWKKKKKK',
+  '..KKKKKKKKKKWWWHHWWWKKKKKKKK....',
+  '...KKKKKKKKKWWWHHWWWKKKKKKK.....',
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',
+  '.....KKKKKKKWWWHHWWWKKKKKKK.....',
+  // --- Legs (6 rows — HH through center gap) ---
+  '......KKKKKKKK.HH.KKKKKKKK......',
+  '......KKKKKKKK.HH.KKKKKKKK......',
+  '......KKKKKKKK.HH.KKKKKKKK......',
+  '.....KKKKKKKKK.HH.KKKKKKKKK.....',
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',
+  // --- Blade + earth (2 rows) ---
+  '........BBBAAAAHHAAAABBB........',
+  '........BBBDDDDDDDDDDBBB........',
+  // --- Padding (8 rows) ---
+  E,E,E,E,E,E,E,E,
 ]);
 
 // === DIG FRAME 2: Standing upright, shovel raised overhead ===
-// Tapered blade at top, HH handle continuous through entire body at cols 7-8
+// Blade (A) at top, HH at cols 15-16 through head/face/band/upper body.
+// Ears compressed (4 rows), band compressed (5 rows) to fit blade above.
 const dig2 = n([
-  ".......AA.......",
-  "......AAAA......",
-  ".....AAAAAA.....",
-  ".....AAAAAA.....",
-  "....AAAAAAAA....",
-  "....AAAAAAAA....",
-  ".......HH.......",
-  "...KKKKHHKKKK...",
-  "..KKKKKHHKKKKK..",
-  "..KKKKKHHKKKKK..",
-  "...KKWWHHWWKK...",
-  "..WWWWWHHWWWWW..",
-  ".WWWWWWHHWWWWWW.",
-  ".WWWKKKHHKKKWWW.",
-  ".WWKKEKHHKEKWWW.",
-  ".WWWKKKHHKKKWWW.",
-  "..WWWWWHHWWWWW..",
-  "..WWWWWHHWWWWW..",
-  "...WWWWHHWWWW...",
-  "..KKKKKHHKKKKK..",
-  ".KKKKKKHHKKKKKKK",
-  "KKKKKKKHHKKKKKKK",
-  "KKKKKWWHHWWKKKKK",
-  "KKKKWWWHHWWWKKKK",
-  "KKKWWWGGGGWWWKKK",
-  ".KKWWWWGGWWWWKK.",
-  "..KWWWWWWWWWWK..",
-  "...WWWWWWWWWW...",
-  "..KKKK..KKKK....",
-  "..KKKK..KKKK....",
-  ".KKKKK..KKKKK...",
+  // --- Blade overhead (6 rows — tapered) ---
+  '..............AAAA..............',
+  '............AAAAAAAA............',
+  '..........AAAAAAAAAAAA..........',
+  '..........AAAAAAAAAAAA..........',
+  '........AAAAAAAAAAAAAAAA........',
+  '........AAAAAAAAAAAAAAAA........',
+  // --- Handle gap (2 rows) ---
+  '...............HH...............',
+  '...............HH...............',
+  // --- Ears (4 rows — compressed, grow inward to meet handle) ---
+  '.....KKKKKKKK..HH..KKKKKKKK.....',
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  // --- Forehead (3 rows — HH through center) ---
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',
+  '....KKKKKKWWWWWHHWWWWWKKKKKK....',
+  '.....KKWWWWWWWWHHWWWWWWWWKK.....',
+  // --- Head (4 rows — HH through white) ---
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWHHWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows — HH splits nose bridge) ---
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows — HH through nose/center) ---
+  '...WWWWWWWWWWWKHHKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKHHKWWWWWWWWWW....',
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',
+  '.....WWWWWWWWWWHHWWWWWWWWWW.....',
+  '......WWWWWWWWWHHWWWWWWWWW......',
+  '......WWWWWWWWWHHWWWWWWWWW......',
+  // --- Band (5 rows — compressed, HH through center) ---
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — HH through shoulder/chest, stops at belly) ---
+  'KKKKKKKKKWWWWWWHHWWWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWWHHWWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWWGHHGWWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKK....',
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.....',
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '.....KKKKKKKWWWWWWWWKKKKKKK.....',
+  // --- Legs (6 rows — standard stance) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Padding (10 rows) ---
+  E,E,E,E,E,E,E,E,E,E,
 ]);
 
 // === Render: 2 frames side by side ===
@@ -163,8 +231,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_dig_preview_8x.png");
+const outPath = join(outDir, "panda_dig_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): bent forward, shovel blade in ground, earth displaced");
+console.log("Frame 1 (left): standing upright, shovel handle through body to blade in ground");
 console.log("Frame 2 (right): standing upright, shovel raised overhead");

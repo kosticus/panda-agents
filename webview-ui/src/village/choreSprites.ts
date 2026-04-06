@@ -1433,6 +1433,185 @@ const DIG_2: string[] = [
 ]
 
 // ============================================================
+// DIG (32×64) — scaled dig animation
+// ============================================================
+
+const DIG_BIG_PAL: Record<string, string> = {
+  '.': '',
+  K: '#1e1e1e',  // black fur
+  W: '#f5f5f5',  // white fur
+  G: '#d7d7d7',  // gray belly
+  E: '#ffffff',   // eye glint
+  A: '#a0a0aa',  // shovel blade (steel gray)
+  H: '#785032',  // shovel handle (wood)
+  D: '#8C6941',  // displaced earth (warm brown)
+  B: '#735532',  // displaced earth (dark brown)
+}
+
+// Frame 1: standing upright, shovel handle (HH) runs from upper body
+// down through leg gap into the ground. Blade (A) and earth (B/D) at bottom.
+// Body anatomy matches canonical BASE_32 template.
+const DIG_BIG_1: string[] = [
+  // --- Padding (6 rows) ---
+  '................................',  //  1
+  '................................',  //  2
+  '................................',  //  3
+  '................................',  //  4
+  '................................',  //  5
+  '................................',  //  6
+  // --- Ears (5 rows — BASE_32 anatomy) ---
+  '......KKKK............KKKK......',  //  7  4px dome tip
+  '.....KKKKKK..........KKKKKK.....',  //  8  6px
+  '....KKKKKKKK........KKKKKKKK....',  //  9  8px
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 10  10px (max)
+  '...KKKKKKKKKK......KKKKKKKKKK...',  // 11  10px
+  // --- Forehead (3 rows — BASE_32) ---
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 12  ear-head bridge
+  '....KKKKKKWWWWWWWWWWWWKKKKKK....',  // 13  20px
+  '.....KKWWWWWWWWWWWWWWWWWWKK.....',  // 14  22px
+  // --- Head (4 rows — BASE_32) ---
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 15  24px
+  '...WWWWWWWWWWWWWWWWWWWWWWWWWW...',  // 16  26px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 17  28px
+  '..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..',  // 18  28px
+  // --- Face: eye patches (6 rows — BASE_32) ---
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 19  rounded top (5K)
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 20  full patch (6K)
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 21  eyes + glint
+  '..WWWWKKKKEEKKWWWWKKEEKKWWWWWW..',  // 22  eyes + glint
+  '..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..',  // 23  full patch (6K)
+  '..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..',  // 24  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — BASE_32) ---
+  '...WWWWWWWWWWWKKKKWWWWWWWWWWW...',  // 25  26px
+  '....WWWWWWWWWWKKKKWWWWWWWWWW....',  // 26  24px
+  '....WWWWWWWWWWWWWWWWWWWWWWWW....',  // 27  24px
+  '.....WWWWWWWWWWWWWWWWWWWWWW.....',  // 28  22px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 29  20px
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 30  20px
+  // --- Band (6 rows — BASE_32) ---
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 31  24K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 32  26K
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 33  28K
+  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 34  30K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  32K
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  32K
+  // --- Body (12 rows — HH handle enters at shoulder, runs through belly) ---
+  'KKKKKKKKKWWWWWWHHWWWWWWKKKKKKKKK',  // 37  shoulder (6W+HH+6W)
+  'KKKKKKKKWWWWWWWHHWWWWWWWKKKKKKKK',  // 38  shoulder (7W+HH+7W)
+  'KKKKKKKKWWWWWWGHHGWWWWWWKKKKKKKK',  // 39  chest (G flanks HH)
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',  // 40  belly grows around HH
+  'KKKKKKKKWWWWGGGHHGGGWWWWKKKKKKKK',  // 41  belly (3G+HH+3G)
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',  // 42  belly taper
+  'KKKKKKKWWWWWWWGHHGWWWWWWWKKKKKKK',  // 43  arm taper
+  'KKKKKKWWWWWWWWWHHWWWWWWWWWKKKKKK',  // 44  wrist
+  '..KKKKKKKKKKWWWHHWWWKKKKKKKK....',  // 45  hips
+  '...KKKKKKKKKWWWHHWWWKKKKKKK.....',  // 46  taper
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',  // 47  taper
+  '.....KKKKKKKWWWHHWWWKKKKKKK.....',  // 48  taper
+  // --- Legs (6 rows — standard stance, HH through center gap) ---
+  '......KKKKKKKK.HH.KKKKKKKK......',  // 49  8px per leg
+  '......KKKKKKKK.HH.KKKKKKKK......',  // 50  8px
+  '......KKKKKKKK.HH.KKKKKKKK......',  // 51  8px
+  '.....KKKKKKKKK.HH.KKKKKKKKK.....',  // 52  9px smooth step
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',  // 53  10px feet
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',  // 54  10px feet
+  // --- Blade + earth (2 rows) ---
+  '........BBBAAAAHHAAAABBB........',  // 55  blade in ground
+  '........BBBDDDDDDDDDDBBB........',  // 56  displaced earth
+  // --- Padding (8 rows) ---
+  '................................',  // 57
+  '................................',  // 58
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// Frame 2: standing upright, shovel raised overhead. Tapered blade (A) at top,
+// handle (HH) at cols 15-16 runs through entire head/face/band/upper body.
+// Ears compressed (4 rows), band compressed (5 rows) to fit blade above.
+// Body anatomy matches canonical BASE_32 template.
+const DIG_BIG_2: string[] = [
+  // --- Blade overhead (6 rows — tapered) ---
+  '..............AAAA..............',  //  1  4A blade tip
+  '............AAAAAAAA............',  //  2  8A
+  '..........AAAAAAAAAAAA..........',  //  3  12A
+  '..........AAAAAAAAAAAA..........',  //  4  12A
+  '........AAAAAAAAAAAAAAAA........',  //  5  16A (max)
+  '........AAAAAAAAAAAAAAAA........',  //  6  16A
+  // --- Handle gap (2 rows) ---
+  '...............HH...............',  //  7  bare handle
+  '...............HH...............',  //  8  bare handle
+  // --- Ears (4 rows — compressed, grow inward to meet handle) ---
+  '.....KKKKKKKK..HH..KKKKKKKK.....',  //  9  8K ears
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',  // 10  10K
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 11  ears meet handle (12K)
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 12  ears meet handle
+  // --- Forehead (3 rows — HH through center) ---
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',  // 13  bridge
+  '....KKKKKKWWWWWHHWWWWWKKKKKK....',  // 14  20px
+  '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 15  22px
+  // --- Head (4 rows — HH through white) ---
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 16  24px
+  '...WWWWWWWWWWWWHHWWWWWWWWWWWW...',  // 17  26px
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 18  28px
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 19  28px
+  // --- Face: eye patches (6 rows — HH splits nose bridge) ---
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 20  rounded top (5K)
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 21  full patch (6K)
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 22  eyes + glint
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 23  eyes + glint
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 24  full patch (6K)
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 25  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — HH through nose/center) ---
+  '...WWWWWWWWWWWKHHKWWWWWWWWWWW...',  // 26  26px
+  '....WWWWWWWWWWKHHKWWWWWWWWWW....',  // 27  24px
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 28  24px
+  '.....WWWWWWWWWWHHWWWWWWWWWW.....',  // 29  22px
+  '......WWWWWWWWWHHWWWWWWWWW......',  // 30  20px
+  '......WWWWWWWWWHHWWWWWWWWW......',  // 31  20px
+  // --- Band (5 rows — compressed, HH through center) ---
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 32  26K
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 33  28K
+  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',  // 34  30K
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 35  32K
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 36  32K
+  // --- Body (12 rows — HH through shoulder/chest, stops at belly) ---
+  'KKKKKKKKKWWWWWWHHWWWWWWKKKKKKKKK',  // 37  shoulder (6W+HH+6W)
+  'KKKKKKKKWWWWWWWHHWWWWWWWKKKKKKKK',  // 38  shoulder (7W+HH+7W)
+  'KKKKKKKKWWWWWWGHHGWWWWWWKKKKKKKK',  // 39  chest (G flanks HH)
+  'KKKKKKKKWWWWWGGHHGGWWWWWKKKKKKKK',  // 40  belly grows around HH
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 41  belly (HH stops here)
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 42  belly taper
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',  // 43  arm taper
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',  // 44  wrist
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKK....',  // 45  hips
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.....',  // 46  taper
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 47  taper
+  '.....KKKKKKKWWWWWWWWKKKKKKK.....',  // 48  taper
+  // --- Legs (6 rows — standard stance) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
+  '......KKKKKKKK....KKKKKKKK......',  // 50  8px
+  '......KKKKKKKK....KKKKKKKK......',  // 51  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
+  // --- Padding (10 rows) ---
+  '................................',  // 55
+  '................................',  // 56
+  '................................',  // 57
+  '................................',  // 58
+  '................................',  // 59
+  '................................',  // 60
+  '................................',  // 61
+  '................................',  // 62
+  '................................',  // 63
+  '................................',  // 64
+]
+
+// ============================================================
 // ATTENTION (32×64) — needs-attention waving animation
 // Not a ChoreId — exported as standalone constants.
 // ============================================================
@@ -1631,6 +1810,7 @@ export const CHORE_SPRITES_BIG: Partial<Record<ChoreId, [SpriteData, SpriteData]
   build: [toSpriteBig(BUILD_BIG_1, BUILD_BIG_PAL), toSpriteBig(BUILD_BIG_2, BUILD_BIG_PAL)],
   water: [toSpriteBig(WATER_BIG_1, WATER_BIG_PAL), toSpriteBig(WATER_BIG_2, WATER_BIG_PAL)],
   bamboo: [toSpriteBig(BAMBOO_BIG_1, BAMBOO_BIG_PAL), toSpriteBig(BAMBOO_BIG_2, BAMBOO_BIG_PAL)],
+  dig: [toSpriteBig(DIG_BIG_1, DIG_BIG_PAL), toSpriteBig(DIG_BIG_2, DIG_BIG_PAL)],
 }
 
 export const CHORE_PLACEMENTS: Record<ChoreId, Array<{ col: number; row: number; dy?: number }>> = {
