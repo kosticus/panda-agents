@@ -242,11 +242,11 @@ const CHOP_BIG_PAL: Record<string, string> = {
   H: '#785032',  // axe handle
 }
 
-// Frame 1: wind-up — axe overhead, handle (HH) at cols 15-16
-// runs through head/face/band/body (DIG_BIG_2 pattern).
-// Compressed ears (4 rows), compressed band (5 rows).
+// Frame 1: wind-up — axe overhead, arms cover face.
+// Handle (HH) at cols 15-16 from blade through ears/head/face/muzzle/band.
+// Arms appear as solid K blocks covering the face (eyes peek through).
+// Handle terminates at band; body below is bare belly (canonical BASE_32).
 // Shortened legs for wind-up stance, stump at rows 53-54 (matches frame 2).
-// Body anatomy matches canonical BASE_32 template.
 const CHOP_BIG_1: string[] = [
   // --- Axe blade overhead (4 rows — wide cutting edge at top) ---
   '........AAAAAAAAAAAAAAAA........',  //  1  16A cutting edge
@@ -265,42 +265,42 @@ const CHOP_BIG_1: string[] = [
   '....KKKKKKKKWWWHHWWWKKKKKKKK....',  // 11  bridge
   '....KKKKKKWWWWWHHWWWWWKKKKKK....',  // 12  20px
   '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 13  22px
-  // --- Head (4 rows — HH through white) ---
-  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 14  24px
-  '...WWWWWWWWWWWWHHWWWWWWWWWWWW...',  // 15  26px
-  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 16  28px
-  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 17  28px
-  // --- Face: eye patches (6 rows — HH splits nose bridge) ---
-  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 18  rounded top (5K)
-  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 19  full patch (6K)
-  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 20  eyes + glint
-  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 21  eyes + glint
-  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 22  full patch (6K)
-  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 23  rounded bottom (5K)
-  // --- Muzzle / Jaw (6 rows — HH through nose/center) ---
-  '...WWWWWWWWWWWKHHKWWWWWWWWWWW...',  // 24  26px
-  '....WWWWWWWWWWKHHKWWWWWWWWWW....',  // 25  24px
-  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 26  24px
-  '.....WWWWWWWWWWHHWWWWWWWWWW.....',  // 27  22px
+  // --- Head (4 rows — arms emerge as K blocks at edges) ---
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 14  24px, no arms yet
+  '...KWWWWWWWWWWWHHWWWWWWWWWWWK...',  // 15  arms appear (1K each edge)
+  '..KKWWWWWWWWWWWHHWWWWWWWWWWWKK..',  // 16  arms widen (2K)
+  '..KKKWWWWWWWWWWHHWWWWWWWWWWKKK..',  // 17  arms wider (3K)
+  // --- Face (6 rows — arms cover face, eyes peek through) ---
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 18  arms fully cover (13K+HH+13K)
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 19  solid K
+  '..KKKKKKKKEEKKKHH KKKEEKKKKKKK..',  // 20  eyes peek through arm gaps
+  '..KKKKKKKKEEKKKHH KKKEEKKKKKKK..',  // 21  eyes
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 22  solid K
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 23  solid K
+  // --- Muzzle / Jaw (6 rows — arms taper off) ---
+  '..KKKWWWWWWWWWKHHKWWWWWWWWWKKK..',  // 24  3K arm remnants at edges
+  '...KKWWWWWWWWWKHHKWWWWWWWWWKK...',  // 25  2K tapering
+  '....KWWWWWWWWWWHHWWWWWWWWWWK....',  // 26  1K
+  '.....WWWWWWWWWWHHWWWWWWWWWW.....',  // 27  arms gone, 22px
   '......WWWWWWWWWHHWWWWWWWWW......',  // 28  20px
   '......WWWWWWWWWHHWWWWWWWWW......',  // 29  20px
-  // --- Band (5 rows — compressed, HH through center) ---
-  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 30  26K
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 31  28K
-  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',  // 32  30K
-  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 33  32K
-  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 34  32K
-  // --- Body (12 rows — arms grip HH at shoulder, release at belly) ---
-  'KKKKKKKKKKKWWWWHHWWWWKKKKKKKKKKK',  // 35  grip start (11K+4W+HH)
-  'KKKKKKKKKKKKWWWHHWWWKKKKKKKKKKKK',  // 36  tight grip (12K+3W+HH)
-  'KKKKKKKKKKKKWWGHHGWWKKKKKKKKKKKK',  // 37  grip + belly hint
-  'KKKKKKKKKKKWWGGHHGGWWKKKKKKKKKKK',  // 38  releasing
-  'KKKKKKKKKKWWWGGGGGGWWWKKKKKKKKKK',  // 39  transition
-  'KKKKKKKKKWWWWGGGGGGWWWWKKKKKKKKK',  // 40  belly
-  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  arm taper
-  'KKKKKKKWWWWWWWWGGWWWWWWWWKKKKKKK',  // 42  wrist
-  '..KKKKKKKKKKWWWWWWWWKKKKKKKK....',  // 43  hips
-  '...KKKKKKKKKWWWWWWWWKKKKKKK.....',  // 44  taper
+  // --- Band (5 rows — compressed, HH terminates at bottom) ---
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 30  26K + HH
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 31  28K + HH
+  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',  // 32  30K + HH
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 33  32K + HH (arms grip here)
+  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 34  full K, no handle below
+  // --- Body (12 rows — canonical BASE_32 bare belly, no handle) ---
+  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 35  shoulder (9K+14W+9K)
+  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 36  shoulder (8K+16W+8K)
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 37  chest (8K+6W+4G+6W+8K)
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 38  gradient (8K+5W+6G+5W+8K)
+  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 39  belly (8K+4W+8G+4W+8K)
+  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  belly taper
+  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',  // 41  arm taper (7K+7W+4G+7W+7K)
+  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',  // 42  wrist (6K+20W+6K)
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 43  hips
+  '...KKKKKKKKKWWWWWWWWKKKKKKKKK...',  // 44  taper
   '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 45  taper
   '.....KKKKKKKWWWWWWWWKKKKKKK.....',  // 46  taper
   // --- Legs (4 rows — shortened for wind-up stance) ---
@@ -312,7 +312,7 @@ const CHOP_BIG_1: string[] = [
   '................................',  // 51
   '................................',  // 52
   // --- Stump (2 rows — same rows as frame 2) ---
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 53  stump (no blade — axe is overhead)
+  '......DDTTTTTTRRRRTTTTTTDD......',  // 53  stump (no blade — axe overhead)
   '......DDTTTTTTRRRRTTTTTTDD......',  // 54  stump
   // --- Padding (10 rows) ---
   '................................',  // 55
