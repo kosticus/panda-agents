@@ -33,3 +33,7 @@ Started by Kimberly Kost
 **2026-04-06T17:23:14Z**
 
 Approved approach: Follow dig-sibling pattern exactly. (1) Create CHOP_BIG_PAL, CHOP_BIG_1, CHOP_BIG_2 in choreSprites.ts after CHOP_2 (~line 226). Pixel-double 16x32 frames then refine using canonical BASE_32 body template. Frame 1: axe wind-up. Frame 2: chopping stump. (2) Register in CHORE_SPRITES_BIG with toSpriteBig. (3) Create scripts/generate-chore-chop-32x64-preview.mjs following dig preview pattern (32x64 frames, 8x scale). Keep inline stump rows.
+
+**2026-04-06T17:38:49Z**
+
+Implementation complete. CHOP_BIG_PAL + CHOP_BIG_1 (wind-up) + CHOP_BIG_2 (chop-down) added to choreSprites.ts after CHOP_2. Registered in CHORE_SPRITES_BIG. Created scripts/generate-chore-chop-32x64-preview.mjs. Verification: both frames 64 rows x 32 chars, all palette chars valid, TypeScript compiles clean, preview script frame data matches choreSprites.ts exactly.

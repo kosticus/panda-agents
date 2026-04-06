@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Generates chop animation preview: 2 frames side by side at 8× scale.
 // 32×64 scaled version — pixel-doubled and refined from 16×32 originals.
-// Frame 1 (left): wind-up — axe above head, arms branch /\ from handle, bare belly
+// Frame 1 (left): wind-up — axe overhead, handle through head/body (DIG_BIG_2 pattern)
 // Frame 2 (right): chopping down — canonical body, axe handle through belly/legs to stump
 // Body anatomy matches the canonical BASE_32 template.
 
@@ -38,82 +38,78 @@ function n(frame) {
   });
 }
 
-// === CHOP FRAME 1: Wind-up — axe above head, arms /\ branch from handle ===
-// HH at cols 15-16, axe blade at top, arms diverge through head/face,
-// bare belly exposed (no arms wrapping), legs, stump at bottom.
+// === CHOP FRAME 1: Wind-up — axe overhead, handle through head/body ===
+// HH at cols 15-16, axe blade at top, handle runs through head/face/band/body.
+// Compressed ears (4 rows), compressed band (5 rows).
+// Shortened legs for wind-up stance, stump at rows 53-54 (matches frame 2).
 const chop1 = n([
-  // --- Axe blade overhead (4 rows) ---
-  '........AAAAAAHH................',  //  1  blade fans left of handle
-  '.........AAAAHH.................',  //  2  taper
-  '...............HH...............',  //  3  bare handle
-  '...............HH...............',  //  4  bare handle
-  // --- Padding (2 rows) ---
-  '...............HH...............',  //  5  handle continues
-  '...............HH...............',  //  6  handle continues
-  // --- Ears (5 rows — HH through center gap between ears) ---
-  '......KKKK.....HH.....KKKK......',  //  7  4px dome tip
-  '.....KKKKKK....HH....KKKKKK.....',  //  8  6px
-  '....KKKKKKKK...HH...KKKKKKKK....',  //  9  8px
-  '...KKKKKKKKKK..HH..KKKKKKKKKK...',  // 10  10px (max)
-  '...KKKKKKKKKK..HH..KKKKKKKKKK...',  // 11  10px
-  // --- Forehead (3 rows — HH through center, ears bridge to head) ---
-  '....KKKKKKKKWWHHWWWWKKKKKKKK....',  // 12  ear-head bridge
-  '....KKKKKKWWWWHHWWWWWWKKKKKK....',  // 13
-  '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 14
-  // --- Head (4 rows — arms diverge from handle through white) ---
-  '....WWWWWWWWWWHHWWWWWWWWWWWW....',  // 15  24px
-  '...WWWWWWWWKWWHHWWKWWWWWWWWW....',  // 16  arms emerge as K
-  '..WWWWWWWKKWWWHHWWWKKWWWWWWWW...',  // 17  arms /\ spread
-  '..WWWWWWKKWWWWHHWWWWKKWWWWWWW...',  // 18  arms spread wider
-  // --- Face: eye patches (6 rows — arms at sides of face) ---
-  '..WWWWWKKKKKKWHHWKKKKKWWWWWWK...',  // 19  arm K at edges
-  '.KWWWWWKKKKKKWHHWKKKKKKWWWWWWK..',  // 20  arms outside face
-  '.KWWWWKKKKEEKKHHKKEEKKWWWWWWWK..',  // 21  eyes + arms at sides
-  'KKWWWWKKKKEEKKHHKKEEKKWWWWWWKK..',  // 22  eyes + arms further out
-  'KKWWWWWWKKKKKKHHKKKKKKWWWWWWKK..',  // 23  patch bottom
-  '.KWWWWWWWKKKKKHHKKKKKWWWWWWWK...',  // 24  arms starting to descend
-  // --- Muzzle / Jaw (6 rows — arms alongside muzzle, descending) ---
-  'KK.WWWWWWWWWWKKKKWWWWWWWWWW.KK..',  // 25
-  'KK..WWWWWWWWWKKKKWWWWWWWWW..KK..',  // 26
-  '.K..WWWWWWWWWWWWWWWWWWWWWW..K...',  // 27
-  '.K...WWWWWWWWWWWWWWWWWWWW...K...',  // 28
-  '......WWWWWWWWWWWWWWWWWWWW......',  // 29
-  '......WWWWWWWWWWWWWWWWWWWW......',  // 30
-  // --- Band (6 rows — BASE_32, narrower since arms are out) ---
-  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 31  24K
-  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 32  26K
-  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 33  28K
-  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 34  30K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  32K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  32K
-  // --- Body (12 rows — bare belly, no arms wrapping) ---
-  '....KKKKKWWWWWWWWWWWWWWKKKKK....',  // 37  shoulder stub
-  '.....KKKKWWWWWWWWWWWWWWKKKK.....',  // 38
-  '.....KKKKWWWWWGGGGGWWWWKKKK.....',  // 39  belly gradient
-  '......KKKWWWWGGGGGGWWWWKKK......',  // 40
-  '......KKKWWWGGGGGGGGWWWKKK......',  // 41  belly max
-  '......KKKWWWWGGGGGGWWWWKKK......',  // 42  belly taper
-  '.......KKWWWWWGGGGGWWWWKK.......',  // 43
-  '.......KKWWWWWWWWWWWWWWKK.......',  // 44  wrist — white break
-  '........KKKKWWWWWWWWKKKK........',  // 45  hips
-  '.........KKKWWWWWWWWKKK.........',  // 46  taper
-  '..........KKWWWWWWWWKK..........',  // 47  taper
-  '..........KKWWWWWWWWKK..........',  // 48  taper
-  // --- Legs (6 rows — standard stance, 4px center gap) ---
-  '......KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
-  '......KKKKKKKK....KKKKKKKK......',  // 50  8px
-  '......KKKKKKKK....KKKKKKKK......',  // 51  8px
-  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
-  // --- Gap (2 rows) ---
-  E,  // 55
-  E,  // 56
-  // --- Stump (2 rows) ---
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 57  stump wide
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 58  stump wide
-  // --- Padding (6 rows) ---
-  E,E,E,E,E,E,
+  // --- Axe blade overhead (4 rows — wide cutting edge at top) ---
+  '........AAAAAAAAAAAAAAAA........',
+  '........AAAAAAAAAAAAAAAA........',
+  '..........AAAAAAAAAAAA..........',
+  '............AAAAAAAA............',
+  // --- Handle gap (2 rows) ---
+  '...............HH...............',
+  '...............HH...............',
+  // --- Ears (4 rows — compressed, grow inward to meet handle) ---
+  '.....KKKKKKKK..HH..KKKKKKKK.....',
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  // --- Forehead (3 rows — HH through center) ---
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',
+  '....KKKKKKWWWWWHHWWWWWKKKKKK....',
+  '.....KKWWWWWWWWHHWWWWWWWWKK.....',
+  // --- Head (4 rows — HH through white) ---
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',
+  '...WWWWWWWWWWWWHHWWWWWWWWWWWW...',
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',
+  // --- Face: eye patches (6 rows — HH splits nose bridge) ---
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',
+  // --- Muzzle / Jaw (6 rows — HH through nose/center) ---
+  '...WWWWWWWWWWWKHHKWWWWWWWWWWW...',
+  '....WWWWWWWWWWKHHKWWWWWWWWWW....',
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',
+  '.....WWWWWWWWWWHHWWWWWWWWWW.....',
+  '......WWWWWWWWWHHWWWWWWWWW......',
+  '......WWWWWWWWWHHWWWWWWWWW......',
+  // --- Band (5 rows — compressed, HH through center) ---
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',
+  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',
+  // --- Body (12 rows — arms grip HH at shoulder, release at belly) ---
+  'KKKKKKKKKKKWWWWHHWWWWKKKKKKKKKKK',
+  'KKKKKKKKKKKKWWWHHWWWKKKKKKKKKKKK',
+  'KKKKKKKKKKKKWWGHHGWWKKKKKKKKKKKK',
+  'KKKKKKKKKKKWWGGHHGGWWKKKKKKKKKKK',
+  'KKKKKKKKKKWWWGGGGGGWWWKKKKKKKKKK',
+  'KKKKKKKKKWWWWGGGGGGWWWWKKKKKKKKK',
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',
+  'KKKKKKKWWWWWWWWGGWWWWWWWWKKKKKKK',
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKK....',
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.....',
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',
+  '.....KKKKKKKWWWWWWWWKKKKKKK.....',
+  // --- Legs (4 rows — shortened for wind-up stance) ---
+  '......KKKKKKKK....KKKKKKKK......',
+  '......KKKKKKKK....KKKKKKKK......',
+  '.....KKKKKKKKK....KKKKKKKKK.....',
+  '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Gap (2 rows — panda lifted for wind-up) ---
+  E,E,
+  // --- Stump (2 rows — same rows as frame 2) ---
+  '......DDTTTTTTRRRRTTTTTTDD......',
+  '......DDTTTTTTRRRRTTTTTTDD......',
+  // --- Padding (10 rows) ---
+  E,E,E,E,E,E,E,E,E,E,
 ]);
 
 // === CHOP FRAME 2: Chopping down — canonical body, handle through belly/legs to stump ===
@@ -243,5 +239,5 @@ const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characte
 const outPath = join(outDir, "panda_chop_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
-console.log("Frame 1 (left): wind-up — axe above head, arms /\\ branch from handle, bare belly");
+console.log("Frame 1 (left): wind-up — axe overhead, handle through head/body");
 console.log("Frame 2 (right): chopping down — canonical body, handle through belly/legs to stump");

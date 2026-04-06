@@ -242,82 +242,83 @@ const CHOP_BIG_PAL: Record<string, string> = {
   H: '#785032',  // axe handle
 }
 
-// Frame 1: wind-up — axe above head, handle (HH) at cols 15-16,
-// arms branch from handle outward through head/face in /\ shape.
-// Bare belly exposed (arms not wrapping), legs, stump at bottom.
+// Frame 1: wind-up — axe overhead, handle (HH) at cols 15-16
+// runs through head/face/band/body (DIG_BIG_2 pattern).
+// Compressed ears (4 rows), compressed band (5 rows).
+// Shortened legs for wind-up stance, stump at rows 53-54 (matches frame 2).
 // Body anatomy matches canonical BASE_32 template.
 const CHOP_BIG_1: string[] = [
-  // --- Axe blade overhead (4 rows) ---
-  '........AAAAAAHH................',  //  1  blade fans left of handle
-  '.........AAAAHH.................',  //  2  taper
-  '...............HH...............',  //  3  bare handle
-  '...............HH...............',  //  4  bare handle
-  // --- Padding (2 rows) ---
-  '...............HH...............',  //  5  handle continues
-  '...............HH...............',  //  6  handle continues
-  // --- Ears (5 rows — HH through center gap between ears) ---
-  '......KKKK.....HH.....KKKK......',  //  7  4px dome tip
-  '.....KKKKKK....HH....KKKKKK.....',  //  8  6px
-  '....KKKKKKKK...HH...KKKKKKKK....',  //  9  8px
-  '...KKKKKKKKKK..HH..KKKKKKKKKK...',  // 10  10px (max)
-  '...KKKKKKKKKK..HH..KKKKKKKKKK...',  // 11  10px
-  // --- Forehead (3 rows — HH through center, ears bridge to head) ---
-  '....KKKKKKKKWWHHWWWWKKKKKKKK....',  // 12  ear-head bridge
-  '....KKKKKKWWWWHHWWWWWWKKKKKK....',  // 13
-  '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 14
-  // --- Head (4 rows — arms diverge from handle through white) ---
-  '....WWWWWWWWWWHHWWWWWWWWWWWW....',  // 15  24px
-  '...WWWWWWWWKWWHHWWKWWWWWWWWW....',  // 16  arms emerge as K
-  '..WWWWWWWKKWWWHHWWWKKWWWWWWWW...',  // 17  arms /\ spread
-  '..WWWWWWKKWWWWHHWWWWKKWWWWWWW...',  // 18  arms spread wider
-  // --- Face: eye patches (6 rows — arms at sides of face) ---
-  '..WWWWWKKKKKKWHHWKKKKKWWWWWWK...',  // 19  arm K at edges
-  '.KWWWWWKKKKKKWHHWKKKKKKWWWWWWK..',  // 20  arms outside face
-  '.KWWWWKKKKEEKKHHKKEEKKWWWWWWWK..',  // 21  eyes + arms at sides
-  'KKWWWWKKKKEEKKHHKKEEKKWWWWWWKK..',  // 22  eyes + arms further out
-  'KKWWWWWWKKKKKKHHKKKKKKWWWWWWKK..',  // 23  patch bottom
-  '.KWWWWWWWKKKKKHHKKKKKWWWWWWWK...',  // 24  arms starting to descend
-  // --- Muzzle / Jaw (6 rows — arms alongside muzzle, descending) ---
-  'KK.WWWWWWWWWWKKKKWWWWWWWWWW.KK..',  // 25
-  'KK..WWWWWWWWWKKKKWWWWWWWWW..KK..',  // 26
-  '.K..WWWWWWWWWWWWWWWWWWWWWW..K...',  // 27
-  '.K...WWWWWWWWWWWWWWWWWWWW...K...',  // 28
-  '......WWWWWWWWWWWWWWWWWWWW......',  // 29
-  '......WWWWWWWWWWWWWWWWWWWW......',  // 30
-  // --- Band (6 rows — BASE_32, narrower since arms are out) ---
-  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 31  24K
-  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 32  26K
-  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 33  28K
-  '.KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.',  // 34  30K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 35  32K
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 36  32K
-  // --- Body (12 rows — bare belly, no arms wrapping) ---
-  '....KKKKKWWWWWWWWWWWWWWKKKKK....',  // 37  shoulder stub
-  '.....KKKKWWWWWWWWWWWWWWKKKK.....',  // 38
-  '.....KKKKWWWWWGGGGGWWWWKKKK.....',  // 39  belly gradient
-  '......KKKWWWWGGGGGGWWWWKKK......',  // 40
-  '......KKKWWWGGGGGGGGWWWKKK......',  // 41  belly max
-  '......KKKWWWWGGGGGGWWWWKKK......',  // 42  belly taper
-  '.......KKWWWWWGGGGGWWWWKK.......',  // 43
-  '.......KKWWWWWWWWWWWWWWKK.......',  // 44  wrist — white break
-  '........KKKKWWWWWWWWKKKK........',  // 45  hips
-  '.........KKKWWWWWWWWKKK.........',  // 46  taper
-  '..........KKWWWWWWWWKK..........',  // 47  taper
-  '..........KKWWWWWWWWKK..........',  // 48  taper
-  // --- Legs (6 rows — standard stance, 4px center gap) ---
-  '......KKKKKKKK....KKKKKKKK......',  // 49  8px per leg
-  '......KKKKKKKK....KKKKKKKK......',  // 50  8px
-  '......KKKKKKKK....KKKKKKKK......',  // 51  8px
-  '.....KKKKKKKKK....KKKKKKKKK.....',  // 52  9px smooth step
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 53  10px feet
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 54  10px feet
-  // --- Gap (2 rows) ---
+  // --- Axe blade overhead (4 rows — wide cutting edge at top) ---
+  '........AAAAAAAAAAAAAAAA........',  //  1  16A cutting edge
+  '........AAAAAAAAAAAAAAAA........',  //  2  16A
+  '..........AAAAAAAAAAAA..........',  //  3  12A taper
+  '............AAAAAAAA............',  //  4  8A near handle
+  // --- Handle gap (2 rows) ---
+  '...............HH...............',  //  5  bare handle
+  '...............HH...............',  //  6  bare handle
+  // --- Ears (4 rows — compressed, grow inward to meet handle) ---
+  '.....KKKKKKKK..HH..KKKKKKKK.....',  //  7  8K ears
+  '....KKKKKKKKKK.HH.KKKKKKKKKK....',  //  8  10K
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  //  9  ears meet handle (12K)
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 10  ears meet handle
+  // --- Forehead (3 rows — HH through center) ---
+  '....KKKKKKKKWWWHHWWWKKKKKKKK....',  // 11  bridge
+  '....KKKKKKWWWWWHHWWWWWKKKKKK....',  // 12  20px
+  '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 13  22px
+  // --- Head (4 rows — HH through white) ---
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 14  24px
+  '...WWWWWWWWWWWWHHWWWWWWWWWWWW...',  // 15  26px
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 16  28px
+  '..WWWWWWWWWWWWWHHWWWWWWWWWWWWW..',  // 17  28px
+  // --- Face: eye patches (6 rows — HH splits nose bridge) ---
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 18  rounded top (5K)
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 19  full patch (6K)
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 20  eyes + glint
+  '..WWWWKKKKEEKKWHHWKKEEKKWWWWWW..',  // 21  eyes + glint
+  '..WWWWWWKKKKKKWHHWKKKKKKWWWWWW..',  // 22  full patch (6K)
+  '..WWWWWWWKKKKKWHHWKKKKKWWWWWWW..',  // 23  rounded bottom (5K)
+  // --- Muzzle / Jaw (6 rows — HH through nose/center) ---
+  '...WWWWWWWWWWWKHHKWWWWWWWWWWW...',  // 24  26px
+  '....WWWWWWWWWWKHHKWWWWWWWWWW....',  // 25  24px
+  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 26  24px
+  '.....WWWWWWWWWWHHWWWWWWWWWW.....',  // 27  22px
+  '......WWWWWWWWWHHWWWWWWWWW......',  // 28  20px
+  '......WWWWWWWWWHHWWWWWWWWW......',  // 29  20px
+  // --- Band (5 rows — compressed, HH through center) ---
+  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 30  26K
+  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 31  28K
+  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',  // 32  30K
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 33  32K
+  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 34  32K
+  // --- Body (12 rows — arms grip HH at shoulder, release at belly) ---
+  'KKKKKKKKKKKWWWWHHWWWWKKKKKKKKKKK',  // 35  grip start (11K+4W+HH)
+  'KKKKKKKKKKKKWWWHHWWWKKKKKKKKKKKK',  // 36  tight grip (12K+3W+HH)
+  'KKKKKKKKKKKKWWGHHGWWKKKKKKKKKKKK',  // 37  grip + belly hint
+  'KKKKKKKKKKKWWGGHHGGWWKKKKKKKKKKK',  // 38  releasing
+  'KKKKKKKKKKWWWGGGGGGWWWKKKKKKKKKK',  // 39  transition
+  'KKKKKKKKKWWWWGGGGGGWWWWKKKKKKKKK',  // 40  belly
+  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 41  arm taper
+  'KKKKKKKWWWWWWWWGGWWWWWWWWKKKKKKK',  // 42  wrist
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKK....',  // 43  hips
+  '...KKKKKKKKKWWWWWWWWKKKKKKK.....',  // 44  taper
+  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 45  taper
+  '.....KKKKKKKWWWWWWWWKKKKKKK.....',  // 46  taper
+  // --- Legs (4 rows — shortened for wind-up stance) ---
+  '......KKKKKKKK....KKKKKKKK......',  // 47  8px per leg
+  '......KKKKKKKK....KKKKKKKK......',  // 48  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 49  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 50  10px feet
+  // --- Gap (2 rows — panda lifted for wind-up) ---
+  '................................',  // 51
+  '................................',  // 52
+  // --- Stump (2 rows — same rows as frame 2) ---
+  '......DDTTTTTTRRRRTTTTTTDD......',  // 53  stump (no blade — axe is overhead)
+  '......DDTTTTTTRRRRTTTTTTDD......',  // 54  stump
+  // --- Padding (10 rows) ---
   '................................',  // 55
   '................................',  // 56
-  // --- Stump (2 rows) ---
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 57  stump wide
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 58  stump wide
-  // --- Padding (6 rows) ---
+  '................................',  // 57
+  '................................',  // 58
   '................................',  // 59
   '................................',  // 60
   '................................',  // 61
