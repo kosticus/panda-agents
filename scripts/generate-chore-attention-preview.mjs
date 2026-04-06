@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Generates needs-attention (waving paw + blinking !) preview: 2 frames at 8× scale.
 // Frame 1: red ! visible, right paw raised high (head level)
-// Frame 2: ! gone, right paw dropped to waist
-// Body stays centered. Arm extends to the right with clear gap from body.
+// Frame 2: ! gone, right paw pulled inward (side-to-side wave)
+// Body anatomy matches canonical BASE_32 template. Arm extends to the right.
 
 import { PNG } from "pngjs";
 import { writeFileSync } from "fs";
@@ -20,9 +20,9 @@ const C = {
   R: [230, 50, 50],       // red ! mark
 };
 
-const FRAME_W = 16;
-const FRAME_H = 32;
-const EMPTY = "................";
+const FRAME_W = 32;
+const FRAME_H = 64;
+const EMPTY = "................................";
 
 function n(frame) {
   while (frame.length < FRAME_H) frame.push(EMPTY);
@@ -34,81 +34,145 @@ function n(frame) {
 }
 
 // === WAVE FRAME 1: ! visible, paw raised to head level ===
-// ! on the left above head. Arm on the right, thick, separated from body.
+// Red ! above head. Right arm extends outward with paw at face level.
+// Body/head anatomy matches canonical BASE_32 template.
 const wave1 = n([
-  // Red ! (slightly left of center)
-  "......RR........",  // ! top
-  "......RR........",  // ! shaft
-  "......RR........",  // ! shaft
-  "................",  // gap
-  "......RR........",  // ! dot
-  // Head (normal centered position)
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — paw raised to face level on right
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWW..",  // eyes (right side cut short for arm)
-  ".WWWKKKWWKKKW.KK",  // eye patches + arm (KK at cols 14-15)
-  "..WWWWWKKWWWW.KK",  // nose + arm
-  "..WWWWWWWWWWWKKK",  // lower face + paw (KKK thick)
-  "...WWWWWWWWW.KKK",  // chin + paw waving (KKK)
-  // Band — right side thin (arm has left the body)
-  "..KKKKKKKKKKKK..",  // band 1
-  ".KKKKKKKKKKKKK..",  // band 2 (no K at far right)
-  "KKKKKKKKKKKKKK..",  // band 3
-  // Body — no K on right side (arm is out waving)
-  "KKKKWWWGGWWWWW..",  // body (white to right edge)
-  "KKKKWWGGGGWWWW..",  // belly
-  ".KKKWWGGGGWWW...",  // belly narrows
-  "..KKWWWGGWWW....",  // body narrows
-  "..WWWWWWWWWW....",  // hips
-  // Legs
-  "...KKKK..KKKK...",  // legs
-  "...KKKK..KKKK...",  // legs
-  "..KKKKK..KKKKK..",  // feet
+  // --- Red ! exclamation (rows 1-8) ---
+  "............RRRR................",  //  1  ! shaft
+  "............RRRR................",  //  2  ! shaft
+  "............RRRR................",  //  3  ! shaft
+  "............RRRR................",  //  4  ! shaft
+  "................................",  //  5  gap
+  "................................",  //  6  gap
+  "............RRRR................",  //  7  ! dot
+  "............RRRR................",  //  8  ! dot
+  // --- Ears (5 rows — BASE_32 anatomy) ---
+  "......KKKK............KKKK......",  //  9  4px dome tip
+  ".....KKKKKK..........KKKKKK.....",  // 10  6px
+  "....KKKKKKKK........KKKKKKKK....",  // 11  8px
+  "...KKKKKKKKKK......KKKKKKKKKK...",  // 12  10px (max)
+  "...KKKKKKKKKK......KKKKKKKKKK...",  // 13  10px
+  // --- Forehead (3 rows — BASE_32) ---
+  "....KKKKKKKKWWWWWWWWKKKKKKKK....",  // 14  ear-head bridge
+  "....KKKKKKWWWWWWWWWWWWKKKKKK....",  // 15  20px
+  ".....KKWWWWWWWWWWWWWWWWWWKK.....",  // 16  22px
+  // --- Head (4 rows — BASE_32) ---
+  "....WWWWWWWWWWWWWWWWWWWWWWWW....",  // 17  24px
+  "...WWWWWWWWWWWWWWWWWWWWWWWWWW...",  // 18  26px
+  "..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..",  // 19  28px
+  "..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..",  // 20  28px
+  // --- Face: eye patches top (2 rows — BASE_32) ---
+  "..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..",  // 21  rounded top (5K)
+  "..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..",  // 22  full patch (6K)
+  // --- Eyes + paw tip (rows 23-24) ---
+  "..WWWWKKKKEEKKWWWWKKEEKKWWWW....",  // 23  eyes — light right trim
+  "..WWWWKKKKEEKKWWWWKKEEKKWW..KKKK",  // 24  eyes + paw tip 4K (28-31)
+  // --- Eye patches bottom + big rounded paw (2 rows) ---
+  "..WWWWWWKKKKKKWWWWKKKKKKW.KKKKKK",  // 25  patch(6K) + paw 6K (26-31)
+  "..WWWWWWWKKKKKWWWWKKKKK.KKKKKKKK",  // 26  patch(5K) + paw 8K (24-31)
+  // --- Muzzle + paw tapering to thick forearm (6 rows) ---
+  "...WWWWWWWWWWWKKKKWWWWW.KKKKKKKK",  // 27  nose + paw 8K (24-31)
+  "....WWWWWWWWWWKKKKWWWWWW.KKKKKKK",  // 28  nose + paw 7K (25-31)
+  "....WWWWWWWWWWWWWWWWWWWWW.KKKKKK",  // 29  face + forearm 6K (26-31)
+  ".....WWWWWWWWWWWWWWWWWWWW.KKKKKK",  // 30  face + forearm 6K (26-31)
+  "......WWWWWWWWWWWWWWWWWWW.KKKKKK",  // 31  chin + forearm 6K (26-31)
+  "......WWWWWWWWWWWWWWWWWWW.KKKKKK",  // 32  chin + forearm 6K (26-31)
+  // --- Band (6 rows — right side open, arm is away) ---
+  "....KKKKKKKKKKKKKKKKKKKKKKKK....",  // 33  24K
+  "...KKKKKKKKKKKKKKKKKKKKKKKKKK...",  // 34  26K
+  "..KKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 35  28K (right 2 less)
+  ".KKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 36  27K (right open)
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 37  28K (right open)
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 38  28K (right open)
+  // --- Body (12 rows — right arm absent, no K on right) ---
+  "KKKKKKKKKWWWWWWWWWWWWWWWWWWW....",  // 39  shoulder (9K + W to right)
+  "KKKKKKKKWWWWWWWWWWWWWWWWWWWW....",  // 40  shoulder (8K + W to right)
+  "KKKKKKKKWWWWWWGGGGWWWWWWWWWW....",  // 41  chest
+  "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 42  belly gradient
+  "KKKKKKKKWWWWGGGGGGGGWWWWWWWW....",  // 43  belly max
+  "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 44  belly taper
+  "KKKKKKKWWWWWWWGGGGWWWWWWWWWW....",  // 45  arm taper
+  "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 46  wrist — white break
+  "..KKKKKKKKKKWWWWWWWWKKKKKK......",  // 47  hips
+  "...KKKKKKKKKWWWWWWWWKKKKK.......",  // 48  hips taper
+  "....KKKKKKKKWWWWWWWWKKKK........",  // 49  taper
+  ".....KKKKKKKWWWWWWWWKKK.........",  // 50  taper
+  // --- Legs (6 rows) ---
+  "......KKKKKKKK....KKKKKKKK......",  // 51  8px per leg
+  "......KKKKKKKK....KKKKKKKK......",  // 52  8px
+  "......KKKKKKKK....KKKKKKKK......",  // 53  8px
+  ".....KKKKKKKKK....KKKKKKKKK.....",  // 54  9px smooth step
+  "....KKKKKKKKKK....KKKKKKKKKK....",  // 55  10px feet
+  "....KKKKKKKKKK....KKKKKKKKKK....",  // 56  10px feet
+  // --- Padding (8 rows) ---
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
 ]);
 
-// === WAVE FRAME 2: no !, paw pulled inward (same height, side-to-side wave) ===
+// === WAVE FRAME 2: no !, paw pulled inward (side-to-side wave) ===
 // ! gone (blink). Paw stays at head level but swings closer to body.
 const wave2 = n([
-  // No ! (blinked off)
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  EMPTY,
-  // Head (normal)
-  "..KKKK..KKKK....",  // ear top
-  ".KKKKK..KKKKK...",  // ear widens
-  ".KKKKK..KKKKK...",  // ear holds
-  "..KKWWWWWWKK....",  // ear base
-  "..WWWWWWWWWWWW..",  // head
-  ".WWWWWWWWWWWWWW.",  // head widest
-  // Face — paw at same height but pulled in (cols 12-14 instead of 14-15)
-  ".WWWKKKWWKKKWWW.",  // eye patches
-  ".WWKKEKWWKEKWW..",  // eyes (right trimmed for arm)
-  ".WWWKKKWWKKKKK..",  // eye patches + arm pulled in (KK at cols 12-13)
-  "..WWWWWKKWWWKK..",  // nose + arm
-  "..WWWWWWWWWKKK..",  // lower face + paw in (KKK at cols 11-13)
-  "...WWWWWWWW.KKK.",  // chin + paw
-  // Band
-  "..KKKKKKKKKKKK..",  // band 1
-  ".KKKKKKKKKKKKK..",  // band 2
-  "KKKKKKKKKKKKKK..",  // band 3
-  // Body — no K on right (arm is still raised, just closer)
-  "KKKKWWWGGWWWWW..",  // body
-  "KKKKWWGGGGWWWW..",  // belly
-  ".KKKWWGGGGWWW...",  // belly narrows
-  "..KKWWWGGWWW....",  // body narrows
-  "..WWWWWWWWWW....",  // hips
-  // Legs
-  "...KKKK..KKKK...",  // legs
-  "...KKKK..KKKK...",  // legs
-  "..KKKKK..KKKKK..",  // feet
+  // --- No ! (blinked off) — 8 rows padding ---
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  // --- Ears (5 rows — BASE_32 anatomy) ---
+  "......KKKK............KKKK......",  //  9  4px dome tip
+  ".....KKKKKK..........KKKKKK.....",  // 10  6px
+  "....KKKKKKKK........KKKKKKKK....",  // 11  8px
+  "...KKKKKKKKKK......KKKKKKKKKK...",  // 12  10px (max)
+  "...KKKKKKKKKK......KKKKKKKKKK...",  // 13  10px
+  // --- Forehead (3 rows — BASE_32) ---
+  "....KKKKKKKKWWWWWWWWKKKKKKKK....",  // 14  ear-head bridge
+  "....KKKKKKWWWWWWWWWWWWKKKKKK....",  // 15  20px
+  ".....KKWWWWWWWWWWWWWWWWWWKK.....",  // 16  22px
+  // --- Head (4 rows — BASE_32) ---
+  "....WWWWWWWWWWWWWWWWWWWWWWWW....",  // 17  24px
+  "...WWWWWWWWWWWWWWWWWWWWWWWWWW...",  // 18  26px
+  "..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..",  // 19  28px
+  "..WWWWWWWWWWWWWWWWWWWWWWWWWWWW..",  // 20  28px
+  // --- Face: eye patches top (2 rows — BASE_32) ---
+  "..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..",  // 21  rounded top (5K)
+  "..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..",  // 22  full patch (6K)
+  // --- Eyes + paw tip pulled in (rows 23-24) ---
+  "..WWWWKKKKEEKKWWWWKKEEKKWWWW....",  // 23  eyes — light right trim
+  "..WWWWKKKKEEKKWWWWKKEEKKW.KKKK..",  // 24  eyes + paw tip 4K (26-29)
+  // --- Eye patches bottom + big rounded paw pulled in (2 rows) ---
+  "..WWWWWWKKKKKKWWWWKKKKK.KKKKKK..",  // 25  patch(5K) + paw 6K (24-29)
+  "..WWWWWWWKKKKKWWWWKKKK.KKKKKKK..",  // 26  patch(4K) + paw 7K (23-29)
+  // --- Muzzle + paw tapering to thick forearm — pulled in (6 rows) ---
+  "...WWWWWWWWWWWKKKKWWWW.KKKKKKK..",  // 27  nose + paw 7K (23-29)
+  "....WWWWWWWWWWKKKKWWWWW.KKKKKK..",  // 28  nose + paw 6K (24-29)
+  "....WWWWWWWWWWWWWWWWWWWW.KKKKK..",  // 29  face + forearm 5K (25-29)
+  ".....WWWWWWWWWWWWWWWWWWW.KKKKK..",  // 30  face + forearm 5K (25-29)
+  "......WWWWWWWWWWWWWWWWWW.KKKKK..",  // 31  chin + forearm 5K (25-29)
+  "......WWWWWWWWWWWWWWWWWW.KKKKK..",  // 32  chin + forearm 5K (25-29)
+  // --- Band (6 rows — right side open) ---
+  "....KKKKKKKKKKKKKKKKKKKKKKKK....",  // 33  24K
+  "...KKKKKKKKKKKKKKKKKKKKKKKKKK...",  // 34  26K
+  "..KKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 35  28K (right 2 less)
+  ".KKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 36  27K (right open)
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 37  28K (right open)
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKK....",  // 38  28K (right open)
+  // --- Body (12 rows — right arm absent) ---
+  "KKKKKKKKKWWWWWWWWWWWWWWWWWWW....",  // 39  shoulder
+  "KKKKKKKKWWWWWWWWWWWWWWWWWWWW....",  // 40  shoulder
+  "KKKKKKKKWWWWWWGGGGWWWWWWWWWW....",  // 41  chest
+  "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 42  belly gradient
+  "KKKKKKKKWWWWGGGGGGGGWWWWWWWW....",  // 43  belly max
+  "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 44  belly taper
+  "KKKKKKKWWWWWWWGGGGWWWWWWWWWW....",  // 45  arm taper
+  "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 46  wrist — white break
+  "..KKKKKKKKKKWWWWWWWWKKKKKK......",  // 47  hips
+  "...KKKKKKKKKWWWWWWWWKKKKK.......",  // 48  hips taper
+  "....KKKKKKKKWWWWWWWWKKKK........",  // 49  taper
+  ".....KKKKKKKWWWWWWWWKKK.........",  // 50  taper
+  // --- Legs (6 rows) ---
+  "......KKKKKKKK....KKKKKKKK......",  // 51  8px per leg
+  "......KKKKKKKK....KKKKKKKK......",  // 52  8px
+  "......KKKKKKKK....KKKKKKKK......",  // 53  8px
+  ".....KKKKKKKKK....KKKKKKKKK.....",  // 54  9px smooth step
+  "....KKKKKKKKKK....KKKKKKKKKK....",  // 55  10px feet
+  "....KKKKKKKKKK....KKKKKKKKKK....",  // 56  10px feet
+  // --- Padding (8 rows) ---
+  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
 ]);
 
 // === Render: 2 frames side by side ===
@@ -166,8 +230,8 @@ for (let y = 0; y < IMG_H; y++) {
 }
 
 const outDir = join(__dirname, "..", "webview-ui", "public", "assets", "characters");
-const outPath = join(outDir, "panda_attention_preview_8x.png");
+const outPath = join(outDir, "panda_attention_32x64_preview_8x.png");
 writeFileSync(outPath, PNG.sync.write(big));
 console.log(`Wrote ${outPath}`);
 console.log("Frame 1 (left): red ! visible + paw raised to head level (right side)");
-console.log("Frame 2 (right): ! gone (blink) + paw dropped to waist (right side)");
+console.log("Frame 2 (right): ! gone (blink) + paw pulled inward (right side)");

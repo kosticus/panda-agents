@@ -1,6 +1,6 @@
 ---
 id: pa-yilb
-status: open
+status: in_progress
 deps: [pa-x4zj]
 links: []
 created: 2026-04-04T15:58:11Z
@@ -23,3 +23,17 @@ Approach:
 - Add to choreSprites.ts or appropriate location
 - Update scripts/generate-chore-attention-preview.mjs for visual validation
 
+
+## Notes
+
+**2026-04-05T22:57:52Z**
+
+Started by Kimberly Kost
+
+**2026-04-05T23:06:09Z**
+
+Approved approach: Pixel-double 16x32 wave1/wave2 to 32x64, refine using BASE_32 body. Add ATTENTION_BIG_PAL/1/2 as standalone exports in choreSprites.ts (not in CHORE_SPRITES_BIG since attention isn't a ChoreId). Update generate-chore-attention-preview.mjs in-place to 32x64.
+
+**2026-04-06T00:09:51Z**
+
+Session feedback on v2 arm design (2026-04-05): 1) Gap between arm and face looks like a hole cut in the face — arm should overlap/connect smoothly. 2) Body is too angular, needs more rounding. 3) Stray pixel on shoulder area. 4) Arm still too narrow at shoulder attachment — something visually off about the connection. 5) Forearm/paw proportions improved (8K paw, 6K forearm) but integration with body needs work. User wants to iterate in next session.
