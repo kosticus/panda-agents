@@ -243,79 +243,82 @@ const CHOP_BIG_PAL: Record<string, string> = {
 }
 
 // Frame 1: wind-up — axe overhead, arms cover face.
-// Handle (HH) at cols 15-16 from blade through ears/head/face/muzzle/band.
-// Arms appear as solid K blocks covering the face (eyes peek through).
-// Handle terminates at band; body below is bare belly (canonical BASE_32).
+// Handle (HH) at cols 15-16 from blade through arms; stops at shoulder close.
+// Below shoulders: ears with white gap, then arm K mass covers face
+// (nose bridge + eye glints peek through). No handle below shoulders.
+// Bare belly (canonical BASE_32) below band.
 // Shortened legs for wind-up stance, stump at rows 53-54 (matches frame 2).
 const CHOP_BIG_1: string[] = [
-  // --- Axe blade overhead (4 rows — wide cutting edge at top) ---
-  '........AAAAAAAAAAAAAAAA........',  //  1  16A cutting edge
-  '........AAAAAAAAAAAAAAAA........',  //  2  16A
-  '..........AAAAAAAAAAAA..........',  //  3  12A taper
-  '............AAAAAAAA............',  //  4  8A near handle
+  // --- Axe blade overhead (4 rows — asymmetric wedge, blade left of handle) ---
+  '........AAAAAAAHH...............',  //  1  7A cutting edge
+  '..........AAAAAHH...............',  //  2  5A body
+  '............AAAHH...............',  //  3  3A taper
+  '.............AAHH...............',  //  4  2A socket
   // --- Handle gap (2 rows) ---
   '...............HH...............',  //  5  bare handle
   '...............HH...............',  //  6  bare handle
-  // --- Ears (4 rows — compressed, grow inward to meet handle) ---
-  '.....KKKKKKKK..HH..KKKKKKKK.....',  //  7  8K ears
-  '....KKKKKKKKKK.HH.KKKKKKKKKK....',  //  8  10K
-  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  //  9  ears meet handle (12K)
-  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 10  ears meet handle
-  // --- Forehead (3 rows — HH through center) ---
-  '....KKKKKKKKWWWHHWWWKKKKKKKK....',  // 11  bridge
-  '....KKKKKKWWWWWHHWWWWWKKKKKK....',  // 12  20px
-  '.....KKWWWWWWWWHHWWWWWWWWKK.....',  // 13  22px
-  // --- Head (4 rows — arms emerge as K blocks at edges) ---
-  '....WWWWWWWWWWWHHWWWWWWWWWWW....',  // 14  24px, no arms yet
-  '...KWWWWWWWWWWWHHWWWWWWWWWWWK...',  // 15  arms appear (1K each edge)
-  '..KKWWWWWWWWWWWHHWWWWWWWWWWWKK..',  // 16  arms widen (2K)
-  '..KKKWWWWWWWWWWHHWWWWWWWWWWKKK..',  // 17  arms wider (3K)
-  // --- Face (6 rows — arms cover face, eyes peek through) ---
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 18  arms fully cover (13K+HH+13K)
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 19  solid K
-  '..KKKKKKKKEEKKKHH KKKEEKKKKKKK..',  // 20  eyes peek through arm gaps
-  '..KKKKKKKKEEKKKHH KKKEEKKKKKKK..',  // 21  eyes
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 22  solid K
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 23  solid K
-  // --- Muzzle / Jaw (6 rows — arms taper off) ---
-  '..KKKWWWWWWWWWKHHKWWWWWWWWWKKK..',  // 24  3K arm remnants at edges
-  '...KKWWWWWWWWWKHHKWWWWWWWWWKK...',  // 25  2K tapering
-  '....KWWWWWWWWWWHHWWWWWWWWWWK....',  // 26  1K
-  '.....WWWWWWWWWWHHWWWWWWWWWW.....',  // 27  arms gone, 22px
-  '......WWWWWWWWWHHWWWWWWWWW......',  // 28  20px
-  '......WWWWWWWWWHHWWWWWWWWW......',  // 29  20px
-  // --- Band (5 rows — compressed, HH terminates at bottom) ---
-  '...KKKKKKKKKKKKHHKKKKKKKKKKKK...',  // 30  26K + HH
-  '..KKKKKKKKKKKKKHHKKKKKKKKKKKKK..',  // 31  28K + HH
-  '.KKKKKKKKKKKKKKHHKKKKKKKKKKKKKK.',  // 32  30K + HH
-  'KKKKKKKKKKKKKKKHHKKKKKKKKKKKKKKK',  // 33  32K + HH (arms grip here)
-  'KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',  // 34  full K, no handle below
-  // --- Body (12 rows — canonical BASE_32 bare belly, no handle) ---
-  'KKKKKKKKKWWWWWWWWWWWWWWKKKKKKKKK',  // 35  shoulder (9K+14W+9K)
-  'KKKKKKKKWWWWWWWWWWWWWWWWKKKKKKKK',  // 36  shoulder (8K+16W+8K)
-  'KKKKKKKKWWWWWWGGGGWWWWWWKKKKKKKK',  // 37  chest (8K+6W+4G+6W+8K)
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 38  gradient (8K+5W+6G+5W+8K)
-  'KKKKKKKKWWWWGGGGGGGGWWWWKKKKKKKK',  // 39  belly (8K+4W+8G+4W+8K)
-  'KKKKKKKKWWWWWGGGGGGWWWWWKKKKKKKK',  // 40  belly taper
-  'KKKKKKKWWWWWWWGGGGWWWWWWWKKKKKKK',  // 41  arm taper (7K+7W+4G+7W+7K)
-  'KKKKKKWWWWWWWWWWWWWWWWWWWWKKKKKK',  // 42  wrist (6K+20W+6K)
-  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 43  hips
-  '...KKKKKKKKKWWWWWWWWKKKKKKKKK...',  // 44  taper
-  '....KKKKKKKKWWWWWWWWKKKKKKKK....',  // 45  taper
-  '.....KKKKKKKWWWWWWWWKKKKKKK.....',  // 46  taper
-  // --- Legs (4 rows — shortened for wind-up stance) ---
+  // --- Arms grip handle, widen to ears (6 rows — HH visible throughout) ---
+  '..........KKKK.HH.KKKK..........',  //  7  4K hands grip (12px)
+  '.........KKKKKKHHKKKKKK.........',  //  8  6K forearms on handle (14px)
+  '........KKKKKKKHHKKKKKKK........',  //  9  7K upper arms (16px)
+  '.......KKKKKKKKHHKKKKKKKK.......',  // 10  8K arms widen (18px)
+  '......KKKKKKKKKHHKKKKKKKKK......',  // 11  9K near shoulders (20px)
+  '.....KKKKKKKKKKHHKKKKKKKKKK.....',  // 12  10K shoulders (22px, HH→WW next)
+  // --- Ears (4 rows — W-filled gap, no handle) ---
+  '....KKKKKKKKKKWWWWKKKKKKKKKK....',  // 13  10K+4W+10K (24px)
+  '...KKKKKKKKKKWWWWWWKKKKKKKKKK...',  // 14  10K+6W+10K ear gap widens
+  '...KKKKKKKKKKWWWWWWKKKKKKKKKK...',  // 15  10K+6W+10K max ear
+  '...KKKKKKKKKKWWWWWWKKKKKKKKKK...',  // 16  10K+6W+10K
+  // --- Transition: ear gap contracts to nose bridge (1 row) ---
+  '..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..',  // 17  10K+8W+10K face begins (28px)
+  // --- Face: arm K mass + nose bridge (3 rows — last row has eyes) ---
+  '..KKKKKKKKKKKKWWWWKKKKKKKKKKKK..',  // 18  12K+4W+12K symmetric
+  '..KKKKKKKKKKKKWWWWKKKKKKKKKKKK..',  // 19  12K+4W+12K arm K covers face
+  '..KKKKKKKKEEKKWWWWKKEEKKKKKKKK..',  // 20  EE at cols 10-11, 20-21
+  // --- Eyes peek through arm K (1 row) ---
+  '..KKKKKKKKEEKKWWWWKKEEKKKKKKKK..',  // 21  second eye row
+  // --- Below eyes (1 row — arm K solid, no window) ---
+  '..KKKKKKKKKKKKWWWWKKKKKKKKKKKK..',  // 22  12K+4W+12K
+  // --- Muzzle: arm K tapers, cheeks open (5 rows) ---
+  '..KKKKKWWWWWWWKKKKWWWWWWWKKKKK..',  // 23  5K+7W+4K+7W+5K
+  '..KKKKKWWWWWWWKKKKWWWWWWWKKKKK..',  // 24  5K+7W+4K+7W+5K muzzle (28px)
+  // --- Jaw (4 rows — 5K per side, consistent arm K like 16x32) ---
+  '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',  // 25  5K+18W+5K jaw
+  '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',  // 26  5K+18W+5K
+  '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',  // 27  5K+18W+5K
+  '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',  // 28  5K+18W+5K
+  // --- Band (6 rows — arm K fills to solid, then narrows to body) ---
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 29  28K band
+  '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',  // 30  28K
+  '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',  // 31  26K
+  '....KKKKKKKKKKKKKKKKKKKKKKKK....',  // 32  24K
+  '.....KKKKKKKKKKKKKKKKKKKKKK.....',  // 33  22K
+  '......KKKKKKKKKKKKKKKKKKKK......',  // 34  20K matches body
+  // --- Body (12 rows — 20W throughout, centered diamond belly) ---
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 35  20W chest
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 36  20W
+  '......WWWWWWWWGGGGWWWWWWWW......',  // 37  20W+4G belly begins
+  '......WWWWWWWGGGGGGWWWWWWW......',  // 38  20W+6G
+  '......WWWWWWGGGGGGGGWWWWWW......',  // 39  20W+8G peak
+  '......WWWWWWWGGGGGGWWWWWWW......',  // 40  20W+6G
+  '......WWWWWWWWGGGGWWWWWWWW......',  // 41  20W+4G
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 42  20W
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 43  20W
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 44  20W
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 45  20W
+  '......WWWWWWWWWWWWWWWWWWWW......',  // 46  20W
+  // --- Legs (6 rows — standard stance, feet planted same as frame 2) ---
   '......KKKKKKKK....KKKKKKKK......',  // 47  8px per leg
   '......KKKKKKKK....KKKKKKKK......',  // 48  8px
-  '.....KKKKKKKKK....KKKKKKKKK.....',  // 49  9px smooth step
-  '....KKKKKKKKKK....KKKKKKKKKK....',  // 50  10px feet
-  // --- Gap (2 rows — panda lifted for wind-up) ---
-  '................................',  // 51
-  '................................',  // 52
-  // --- Stump (2 rows — same rows as frame 2) ---
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 53  stump (no blade — axe overhead)
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 54  stump
-  // --- Padding (10 rows) ---
-  '................................',  // 55
+  '......KKKKKKKK....KKKKKKKK......',  // 49  8px
+  '.....KKKKKKKKK....KKKKKKKKK.....',  // 50  9px smooth step
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 51  10px feet
+  '....KKKKKKKKKK....KKKKKKKKKK....',  // 52  10px feet
+  // --- Stump (3 rows — taller, R-dominant wood vs dig's dirt) ---
+  '......DDRRRRRRRRRRRRRRRRDD......',  // 53  flat cut face (light interior)
+  '......DDRRRRTTTTTTTTRRRRDD......',  // 54  visible ring
+  '......DDDDDDDDDDDDDDDDDDDD......',  // 55  bark base
+  // --- Padding (9 rows) ---
   '................................',  // 56
   '................................',  // 57
   '................................',  // 58
@@ -392,11 +395,11 @@ const CHOP_BIG_2: string[] = [
   '.....KKKKKKKKK.HH.KKKKKKKKK.....',  // 50  9px smooth step
   '....KKKKKKKKKK.HH.KKKKKKKKKK....',  // 51  10px feet
   '....KKKKKKKKKK.HH.KKKKKKKKKK....',  // 52  10px feet
-  // --- Axe blade in stump (2 rows) ---
-  '.....DDDAAAAAAHHAAAAADDDD.......',  // 53  axe blade fans in stump
-  '......DDTTTTTTRRRRTTTTTTDD......',  // 54  stump
-  // --- Padding (10 rows) ---
-  '................................',  // 55
+  // --- Axe blade in stump + stump (3 rows — matches frame 1 stump) ---
+  '......DDAAAAAAAAHHRRRRRRDD......',  // 53  blade into cut face, wood on right
+  '......DDRRRRTTTTTTTTRRRRDD......',  // 54  visible ring
+  '......DDDDDDDDDDDDDDDDDDDD......',  // 55  bark base
+  // --- Padding (9 rows) ---
   '................................',  // 56
   '................................',  // 57
   '................................',  // 58
