@@ -98,11 +98,11 @@ const wave1 = n([
   "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 44
   "KKKKKKKWWWWWWWGGGGWWWWWWWWWW....",  // 45
   "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 46  6K+22W
-  // --- Hips (rows 47-50, BASE_32) ---
-  "..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..",  // 47
-  "...KKKKKKKKKWWWWWWWWKKKKKKKKK...",  // 48
-  "....KKKKKKKKWWWWWWWWKKKKKKKK....",  // 49
-  ".....KKKKKKKWWWWWWWWKKKKKKK.....",  // 50
+  // --- Body taper (rows 47-50, no hip flare — arm K tapers toward legs) ---
+  "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 47
+  ".KKKKKWWWWWWWWWWWWWWWWWWWWW.....",  // 48
+  "..KKKKWWWWWWWWWWWWWWWWWWWW......",  // 49
+  "...KKKWWWWWWWWWWWWWWWWWWWW......",  // 50
   // --- Legs (rows 51-56, BASE_32) ---
   "......KKKKKKKK....KKKKKKKK......",  // 51
   "......KKKKKKKK....KKKKKKKK......",  // 52
@@ -138,18 +138,18 @@ const wave2 = n([
   // --- Eye patches (rows 21-22, BASE_32 — no arm) ---
   "..WWWWWWWKKKKKWWWWKKKKKWWWWWWW..",  // 21
   "..WWWWWWKKKKKKWWWWKKKKKKWWWWWW..",  // 22
-  // --- Eyes + paw tip IN (rows 23-24, 4K at cols 24-27) ---
-  "..WWWWKKKKEEKKWWWWKKEEKKKKKK....",  // 23  adjacent to eye
-  "..WWWWKKKKEEKKWWWWKKEEKKKKKK....",  // 24
-  // --- Lower patches + arm IN (rows 25-26, 5K at cols 24-28) ---
-  "..WWWWWWKKKKKKWWWWKKKKKKKKKKK...",  // 25  patch merges with arm
-  "..WWWWWWWKKKKKWWWWKKKKKWKKKKK...",  // 26  1W gap patch-to-arm
-  // --- Nose + forearm IN (rows 27-28, 5K at cols 24-28) ---
-  "...WWWWWWWWWWWKKKKWWWWWWKKKKK...",  // 27  6W gap nose-to-arm
-  "....WWWWWWWWWWKKKKWWWWWWKKKKK...",  // 28
-  // --- Chin + upper arm IN (rows 29-30, 5K at cols 24-28) ---
-  "....WWWWWWWWWWWWWWWWWWWWKKKKK...",  // 29
-  ".....WWWWWWWWWWWWWWWWWWWKKKKK...",  // 30
+  // --- Eyes + paw tip IN (rows 23-24, 4K at cols 25-28) ---
+  "..WWWWKKKKEEKKWWWWKKEEKKWKKKKW..",  // 23  1W cheek gap
+  "..WWWWKKKKEEKKWWWWKKEEKKWKKKKW..",  // 24
+  // --- Lower patches + arm IN (rows 25-26, 5K at cols 25-29) ---
+  "..WWWWWWKKKKKKWWWWKKKKKKWKKKKK..",  // 25  1W gap patch-to-arm
+  "..WWWWWWWKKKKKWWWWKKKKKWWKKKKK..",  // 26  2W gap patch-to-arm
+  // --- Nose + forearm IN (rows 27-28, 5K at cols 25-29) ---
+  "...WWWWWWWWWWWKKKKWWWWWWWKKKKK..",  // 27  7W gap nose-to-arm
+  "....WWWWWWWWWWKKKKWWWWWWWKKKKK..",  // 28
+  // --- Chin + upper arm IN (rows 29-30, 5K at cols 25-29) ---
+  "....WWWWWWWWWWWWWWWWWWWWWKKKKK..",  // 29
+  ".....WWWWWWWWWWWWWWWWWWWWKKKKK..",  // 30
   // --- Shoulder (rows 31-32, 4K at cols 25-28, same as frame 1) ---
   "......WWWWWWWWWWWWWWWWWWWKKKK...",  // 31
   "......WWWWWWWWWWWWWWWWWWWKKKK...",  // 32
@@ -168,10 +168,10 @@ const wave2 = n([
   "KKKKKKKKWWWWWGGGGGGWWWWWWWWW....",  // 44
   "KKKKKKKWWWWWWWGGGGWWWWWWWWWW....",  // 45
   "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 46
-  "..KKKKKKKKKKWWWWWWWWKKKKKKKKKK..",  // 47
-  "...KKKKKKKKKWWWWWWWWKKKKKKKKK...",  // 48
-  "....KKKKKKKKWWWWWWWWKKKKKKKK....",  // 49
-  ".....KKKKKKKWWWWWWWWKKKKKKK.....",  // 50
+  "KKKKKKWWWWWWWWWWWWWWWWWWWWWW....",  // 47
+  ".KKKKKWWWWWWWWWWWWWWWWWWWWW.....",  // 48
+  "..KKKKWWWWWWWWWWWWWWWWWWWW......",  // 49
+  "...KKKWWWWWWWWWWWWWWWWWWWW......",  // 50
   "......KKKKKKKK....KKKKKKKK......",  // 51
   "......KKKKKKKK....KKKKKKKK......",  // 52
   "......KKKKKKKK....KKKKKKKK......",  // 53
