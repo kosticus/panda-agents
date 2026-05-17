@@ -81,33 +81,33 @@ const chop1 = n([
   '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',
   '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',
   '..KKKKKWWWWWWWWWWWWWWWWWWKKKKK..',
-  // --- Band (6 rows) ---
+  // --- Band (6 rows — smooth taper from shoulders) ---
   '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
   '..KKKKKKKKKKKKKKKKKKKKKKKKKKKK..',
   '...KKKKKKKKKKKKKKKKKKKKKKKKKK...',
   '....KKKKKKKKKKKKKKKKKKKKKKKK....',
   '.....KKKKKKKKKKKKKKKKKKKKKK.....',
   '......KKKKKKKKKKKKKKKKKKKK......',
-  // --- Body (12 rows — bare belly, widens to pear-shape hips) ---
+  // --- Body (10 rows — 20W at shoulders and hips, 22W belly bulge in middle) ---
   '......WWWWWWWWWWWWWWWWWWWW......',
-  '......WWWWWWWWWWWWWWWWWWWW......',
-  '......WWWWWWWWGGGGWWWWWWWW......',
-  '......WWWWWWWGGGGGGWWWWWWW......',
-  '......WWWWWWGGGGGGGGWWWWWW......',
-  '......WWWWWWWGGGGGGWWWWWWW......',
-  '......WWWWWWWWGGGGWWWWWWWW......',
-  '......WWWWWWWWWWWWWWWWWWWW......',
+  '.....WWWWWWWWWGGGGWWWWWWWWW.....',
+  '.....WWWWWWWWGGGGGGWWWWWWWW.....',
+  '.....WWWWWWWGGGGGGGGWWWWWWW.....',
+  '.....WWWWWWWWGGGGGGWWWWWWWW.....',
+  '.....WWWWWWWWWGGGGWWWWWWWWW.....',
   '......WWWWWWWWWWWWWWWWWWWW......',
   '......WWWWWWWWWWWWWWWWWWWW......',
   '......WWWWWWWWWWWWWWWWWWWW......',
   '......WWWWWWWWWWWWWWWWWWWW......',
-  // --- Legs (6 rows — standard stance, feet planted same as frame 2) ---
+  // --- Legs (6 rows — matches attention panda pattern) ---
   '......KKKKKKKK....KKKKKKKK......',
   '......KKKKKKKK....KKKKKKKK......',
   '......KKKKKKKK....KKKKKKKK......',
   '.....KKKKKKKKK....KKKKKKKKK.....',
   '....KKKKKKKKKK....KKKKKKKKKK....',
   '....KKKKKKKKKK....KKKKKKKKKK....',
+  // --- Gap (2 rows — panda lifted for wind-up) ---
+  E,E,
   // --- Stump (3 rows — taller, R-dominant wood vs dig's dirt) ---
   '......DDRRRRRRRRRRRRRRRRDD......',
   '......DDRRRRTTTTTTTTRRRRDD......',
