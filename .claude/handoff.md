@@ -1,25 +1,27 @@
 ## Session
-- Date: 2026-03-30
-- Branch: setup (main branch: main)
-- Last commit: 1af91da — tk(pa-gs60): add v3 iteration note for session handoff
-- Working tree: clean (untracked: .claude/, panda_dig_preview_8x.png is stale — from v1, not v3)
+- Date: 2026-04-10
+- Branch: setup
+- Last commit: 72fd3d4 attention 32x64: remove hip flare, extend cheek in wave frame 2
+- Working tree: untracked files only (`scripts/plans/`, `.claude/settings.local.json`, `.claude/worktrees/`)
 
 ## Active Work
-- pa-gs60 [in_progress]: Replace carry chore with dig. v3 sprite committed, awaiting user visual check.
-- pa-51zd [open]: Chore panda visual polish — pa-gs60 is the last open child. Closes when pa-gs60 closes.
+- pa-3dgg: chop 32x64 — animation functional, body needs rounding (too angular vs attention)
+- pa-hkbf, pa-j52j, pa-okh6: no work this session
 
 ## Next Steps
-1. User runs `node scripts/generate-chore-dig-preview.mjs` and checks the preview
-2. If approved: commit the preview PNG, `tk close pa-gs60`, then check if pa-51zd can close (all children done)
-3. If needs changes: iterate pixel art in choreSprites.ts lines 625-695 + preview script (must stay in sync)
+1. Try the "belly gap" approach on chop frame 1 body — end the arm K above the legs, show 1-2 rows of belly W, then legs start. See `scripts/plans/panda-lower-body-rework.synth.md` for the two valid designs.
+2. If belly gap looks right on chop, apply same pattern to the base panda template (`generate-base-panda-32-preview.mjs`).
+3. Propagate to remaining sprites with hip shelf (bamboo, build, dig, sweep, water).
+4. Revisit whether attention's current fix (arm taper, commit 72fd3d4) aligns with the chosen approach or needs reworking.
 
 ## Context
-- Three iterations of the dig sprite happened this session (v1→v2→v3). v1 had single-pixel handle alongside the right edge — invisible at 8x. v2 moved to single-pixel H at col 10 through belly — still too thin. v3 adopted the CHOP_2 pattern: HH (2px wide) through belly center at cols 7-8, which is the proven readable approach in this codebase.
-- Frame 1 has the blade at top (6px wide), HH through ear gap, gap through face (handle behind head), HH through belly. Frame 2 has HH continuously from belly through legs to blade in ground (B-AA-HH-AA-B symmetric).
-- User feedback that drove v2→v3: "That did not look much better" after v2. The single-pixel handle was not visible enough at render scale.
+- User wants to try "option 2" (belly gap between arms and legs) before "option 1" (arms reach all the way to legs).
+- The hip shelf originated from 16x32→32x64 scale-up doubling rows. At 16x32 the arms-to-legs was compact; at 32x64 the extra rows created an ambiguous black mass.
+- Chop frame 1 body is 12 identical rows of 20W — a perfect rectangle. Needs organic rounding to match attention's feel. This is separate from the hip issue but should be addressed together.
+- The plan file `scripts/plans/panda-lower-body-rework.synth.md` is untracked — commit it when work begins.
+- Known pre-existing from prior session: chop frame 2 row 53 has HH at cols 16-17 but legs have HH at cols 15-16 (1-col misalignment). User has not flagged as blocking.
 
 ## Files
-- `webview-ui/src/village/choreSprites.ts` — DIG_PAL/DIG_1/DIG_2 at lines ~613-695. ChoreId type, CHORE_SPRITES, CHORE_PLACEMENTS at bottom.
-- `scripts/generate-chore-dig-preview.mjs` — preview script, must match choreSprites.ts frame data exactly
-- `scripts/animation-test.html` — line 128, already updated to dig
-- Deleted: `scripts/generate-chore-carry-preview.mjs`, `webview-ui/public/assets/characters/panda_carry_preview_8x.png`
+- `scripts/generate-chore-attention-preview.mjs` — committed, hip shelf removed + frame 2 cheek fixed
+- `scripts/generate-chore-chop-32x64-preview.mjs` — next target for body rounding + hip fix
+- `scripts/plans/panda-lower-body-rework.synth.md` — new plan doc (untracked)

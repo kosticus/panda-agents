@@ -1,0 +1,13 @@
+- [Village zone tile status](project_village-zone-tiles.md) — zone tiles done, layout redesigned, edge-awareness not yet wired
+- [Don't run build commands](feedback_no-build-commands.md) — user runs builds themselves, token efficiency matters
+- [Village layout style](feedback_layout-style.md) — organic/freeform paths and zones, not grid-like
+- [Token efficiency in subagents](feedback_token-efficiency.md) — minimize redundant file reads in agents
+- [Don't run preview scripts](feedback_no-run-preview-scripts.md) — user runs sprite gen scripts and reports back
+- [Animation design constraints](feedback_animation-design.md) — props below body work, overhead tools fail at 16x32
+- [Commit on ticket close](feedback_commit-on-close.md) — always commit ticket + artifacts immediately after tk close
+- [Plan then tk, don't auto-execute](feedback_plan-then-tk.md) — write plan doc and stop; user runs /plan-to-tk next
+- [Garden sizing for multi-panda](project_garden-sizing.md) — garden zone may need enlarging for n-pandas-per-station
+- [pa-03lk layout awaiting review](project_pa03lk-layout-review.md) — v3 layout committed, user will give visual feedback next session
+- [Fixed ground between frames](feedback_fixed-ground-frames.md) — ground/props must stay at same rows across animation frames
+- [Add sprites to HTML preview](feedback_html-preview-page.md) — new 32x64 sprites must be added to animation-test.html
+- [Panda lower body anatomy](feedback_panda-lower-body.md) — no hip shelf; arms reach legs OR belly gap before legs, never ambiguous K mass
